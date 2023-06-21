@@ -25,45 +25,61 @@ class RenderScreenPlayer extends RenderBox {
     // ref: _ColorFilterRenderObject, and expand source of pushColorFilter
 
     assert(offset == Offset.zero);
-    print('hi paint offset=$offset size=$size');
 
-    layer ??= OffsetLayer();
-
-    _paintToLayer(layer! as OffsetLayer);
-
+    layer ??= ScreenPlayerLayer();
     context.addLayer(layer!);
 
-    assert(() {
-      layer!.debugCreator = debugCreator;
-      return true;
-    }());
+    // layer ??= OffsetLayer();
+    //
+    // _paintToLayer(layer! as OffsetLayer);
+    //
+    // context.addLayer(layer!);
+    //
+    // assert(() {
+    //   layer!.debugCreator = debugCreator;
+    //   return true;
+    // }());
   }
 
-  void _paintToLayer(OffsetLayer layer) {
-    // TODO child layer should be disposed?
-    layer.removeAllChildren();
+// void _paintToLayer(OffsetLayer layer) {
+//   // TODO child layer should be disposed?
+//   layer.removeAllChildren();
+//
+//   final childColorFilterLayer = ColorFilterLayer();
+//   childColorFilterLayer.colorFilter = _simpleColorFilter;
+//   layer.append(childColorFilterLayer);
+//
+//   final grandchildPictureLayer = PictureLayer(Offset.zero & size);
+//   grandchildPictureLayer.picture = _createPicture();
+//   childColorFilterLayer.append(grandchildPictureLayer);
+// }
+//
+}
 
-    final childColorFilterLayer = ColorFilterLayer();
-    childColorFilterLayer.colorFilter = _simpleColorFilter;
-    layer.append(childColorFilterLayer);
-
-    final grandchildPictureLayer = PictureLayer(Offset.zero & size);
-    grandchildPictureLayer.picture = _createPicture();
-    childColorFilterLayer.append(grandchildPictureLayer);
-  }
-
-  Picture _createPicture() {
-    final recorder = PictureRecorder();
-    final canvas = Canvas(recorder);
-    canvas.drawCircle(
-      const Offset(150, 150),
-      150,
-      Paint()
-        ..color = Colors.red
-        ..style = PaintingStyle.fill,
+class ScreenPlayerLayer extends ContainerLayer {
+  @override
+  void addToScene(SceneBuilder builder) {
+    // ref: LeaderLayer
+    engineLayer = builder.pushTransform(
+      Matrix4.translationValues(10, 20, 0).storage,
+      oldLayer: engineLayer as TransformEngineLayer?,
     );
-    return recorder.endRecording();
+    addChildrenToScene(builder);
+    builder.pop();
   }
+}
+
+Picture _createPicture() {
+  final recorder = PictureRecorder();
+  final canvas = Canvas(recorder);
+  canvas.drawCircle(
+    const Offset(150, 150),
+    150,
+    Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill,
+  );
+  return recorder.endRecording();
 }
 
 const _simpleColorFilter =

@@ -3,7 +3,9 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-class MyCanvas implements Canvas {
+import 'package:screen_recorder/manual/canvas.dart';
+
+class MyCanvas with MyCanvasMixin implements Canvas {
   final Canvas proxy;
 
   MyCanvas(this.proxy);

@@ -2,7 +2,6 @@ import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
 final kConfigSceneBuilder = Config(
   originalClass: 'SceneBuilder',
-  generatedMixinName: 'MySceneBuilder',
   methods: [
     ConfigMethod(
       returnType: 'TransformEngineLayer',

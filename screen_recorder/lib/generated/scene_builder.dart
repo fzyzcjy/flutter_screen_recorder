@@ -3,7 +3,9 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-class MySceneBuilder implements SceneBuilder {
+import 'package:screen_recorder/manual/scene_builder.dart';
+
+class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
   final SceneBuilder proxy;
 
   MySceneBuilder(this.proxy);

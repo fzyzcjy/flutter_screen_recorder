@@ -3,7 +3,9 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-class MyParagraphBuilder implements ParagraphBuilder {
+import 'package:screen_recorder/manual/paragraph_builder.dart';
+
+class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilder {
   final ParagraphBuilder proxy;
 
   MyParagraphBuilder(this.proxy);

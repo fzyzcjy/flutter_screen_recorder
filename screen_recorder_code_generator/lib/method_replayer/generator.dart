@@ -28,10 +28,12 @@ void _generate(Config config, String dirTarget) {
 import 'dart:typed_data';
 import 'dart:ui';
 
-class ${config.generatedMixinName} implements ${config.originalClass} {
+import 'package:screen_recorder/manual/${config.generatedFilename}';
+
+class ${config.generatedClass} with ${config.manualMixin} implements ${config.originalClass} {
   final ${config.originalClass} proxy;
 
-  ${config.generatedMixinName}(this.proxy);
+  ${config.generatedClass}(this.proxy);
 
   ${config.methods.map((configMethod) => _generateMethod(config, configMethod)).join('\n\n')}
 }

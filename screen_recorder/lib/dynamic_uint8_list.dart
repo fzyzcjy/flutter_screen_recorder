@@ -14,7 +14,7 @@ class DynamicUint8List {
 
   int get capacity => _buf.length;
 
-  Uint8List copyGetData() => _buf.sublist(0, _len);
+  Uint8List dataView() => Uint8List.sublistView(_buf, 0, len);
 
   void addAll(List<int> values) {
     if (_len + values.length > _buf.length) {

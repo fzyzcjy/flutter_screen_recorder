@@ -3,10 +3,10 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-class SceneBuilderMixin implements SceneBuilder {
+class MySceneBuilder implements SceneBuilder {
   final SceneBuilder proxy;
 
-  SceneBuilderMixin(this.proxy);
+  MySceneBuilder(this.proxy);
 
   @override
   TransformEngineLayer pushTransform(

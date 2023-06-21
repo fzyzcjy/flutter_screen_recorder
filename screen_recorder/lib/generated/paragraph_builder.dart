@@ -3,10 +3,10 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-class ParagraphBuilderMixin implements ParagraphBuilder {
+class MyParagraphBuilder implements ParagraphBuilder {
   final ParagraphBuilder proxy;
 
-  ParagraphBuilderMixin(this.proxy);
+  MyParagraphBuilder(this.proxy);
 
   @override
   int get placeholderCount {

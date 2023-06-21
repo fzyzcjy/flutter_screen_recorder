@@ -3,7 +3,7 @@ import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
 final _kConfigSceneBuilder = Config(
   originalClass: 'SceneBuilder',
-  generatedMixinName: 'SceneBuilderMixin',
+  generatedMixinName: 'MySceneBuilder',
   methods: [
     ConfigMethod(
       returnType: 'TransformEngineLayer',
@@ -178,7 +178,7 @@ final _kConfigSceneBuilder = Config(
 
 final _kConfigCanvas = Config(
   originalClass: 'Canvas',
-  generatedMixinName: 'CanvasMixin',
+  generatedMixinName: 'MyCanvas',
   methods: [
     ConfigMethod(
       returnType: 'void',
@@ -485,7 +485,7 @@ final _kConfigCanvas = Config(
 
 final _kConfigParagraphBuilder = Config(
   originalClass: 'ParagraphBuilder',
-  generatedMixinName: 'ParagraphBuilderMixin',
+  generatedMixinName: 'MyParagraphBuilder',
   methods: [
     ConfigMethod(
       returnType: 'int',

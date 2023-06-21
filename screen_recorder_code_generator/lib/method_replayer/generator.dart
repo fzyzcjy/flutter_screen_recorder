@@ -15,6 +15,8 @@ void generateAllMethodReplayer(String dirTarget) {
 
 void _generate(Config config, String dirTarget) {
   final text = '''
+import 'dart:ui';
+
 mixin ${config.generatedMixinName} implements ${config.originalClass} {
   ${config.originalClass} get proxy;
 
@@ -29,8 +31,16 @@ String _generateMethod(Config config, ConfigMethod configMethod) {
   return Method(
     (b) => b
       ..name = configMethod.methodName
-      ..annotations.add(refer('override')),
-    // ..returns = todo
-    // ..body = todo,
+      ..annotations.add(refer('override'))
+      ..returns = refer(configMethod.returnType)
+      ..requiredParameters.addAll(configMethod.parameters.map(
+        (p) => Parameter(
+          (b) => b
+            ..name = p.name
+            ..type = refer(p.type)
+            ..named = p.named
+            ..defaultTo = p.defaultTo == null ? null : Code(p.defaultTo!),
+        ),
+      )),
   ).accept(DartEmitter()).toString();
 }

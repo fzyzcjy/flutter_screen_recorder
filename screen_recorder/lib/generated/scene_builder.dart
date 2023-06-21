@@ -1,6 +1,13 @@
+import 'dart:ui';
+
 mixin SceneBuilderMixin implements SceneBuilder {
   SceneBuilder get proxy;
 
   @override
-  addPicture();
+  void addPicture(
+    Offset offset,
+    Picture picture,
+    bool isComplexHint,
+    bool willChangeHint,
+  );
 }

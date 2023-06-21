@@ -30,12 +30,12 @@ class ConfigMethodParameter {
   final String type;
   final String name;
   final bool named;
-  final String? defaultValue;
+  final String? defaultTo;
 
   const ConfigMethodParameter(
     this.type,
     this.name, {
     this.named = false,
-    this.defaultValue,
+    this.defaultTo,
   });
 }

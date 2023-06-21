@@ -6,8 +6,8 @@ mixin SceneBuilderMixin implements SceneBuilder {
   @override
   void addPicture(
     Offset offset,
-    Picture picture,
-    bool isComplexHint,
-    bool willChangeHint,
-  );
+    Picture picture, {
+    bool isComplexHint = false,
+    bool willChangeHint = false,
+  });
 }

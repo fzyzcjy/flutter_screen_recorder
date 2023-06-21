@@ -11,8 +11,8 @@ final kConfigs = [
         parameters: [
           ConfigMethodParameter('Offset', 'offset'),
           ConfigMethodParameter('Picture', 'picture'),
-          ConfigMethodParameter('bool', 'isComplexHint', defaultTo: 'false'),
-          ConfigMethodParameter('bool', 'willChangeHint', defaultTo: 'false'),
+          ConfigMethodParameter('bool', 'isComplexHint', named: true, defaultTo: 'false'),
+          ConfigMethodParameter('bool', 'willChangeHint', named: true, defaultTo: 'false'),
         ],
       ),
     ],

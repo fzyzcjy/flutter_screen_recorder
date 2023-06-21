@@ -33,14 +33,7 @@ String _generateMethod(Config config, ConfigMethod configMethod) {
       ..name = configMethod.methodName
       ..annotations.add(refer('override'))
       ..returns = refer(configMethod.returnType)
-      ..requiredParameters.addAll(configMethod.parameters.map(
-        (p) => Parameter(
-          (b) => b
-            ..name = p.name
-            ..type = refer(p.type)
-            ..named = p.named
-            ..defaultTo = p.defaultTo == null ? null : Code(p.defaultTo!),
-        ),
-      )),
+      ..requiredParameters.addAll(configMethod.requiredParameters)
+      ..optionalParameters.addAll(configMethod.optionalParameters),
   ).accept(DartEmitter()).toString();
 }

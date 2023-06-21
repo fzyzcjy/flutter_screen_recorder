@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/scene_builder_record.dart';
 
 extension ExtEngineLayerExpando on EngineLayer {
@@ -13,9 +14,10 @@ extension ExtEngineLayerExpando on EngineLayer {
 
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
-  final SceneBuilderData data;
 
-  MySceneBuilder(this.builder, this.data);
+  MySceneBuilder(this.builder);
+
+  SceneBuilderData get data => DataPerFrame.instance.sceneBuilderData;
 
   T _pushOp<T extends EngineLayer>(T innerResult, SceneBuilderDataItem dataItem) {
     data.items.add(dataItem);

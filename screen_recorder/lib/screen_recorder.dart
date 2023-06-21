@@ -25,8 +25,8 @@ class ScreenRecorder {
           'compressor=$compressor '
           'dataPerFrame=${DataPerFrame.instance}');
 
-      overallUncompressedBytesLen += DataPerFrame.instance.bytes.length;
-      compressor.add(DataPerFrame.instance.bytes.takeBytes());
+      overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
+      compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
 
       DataPerFrame.instance = DataPerFrame();
     });

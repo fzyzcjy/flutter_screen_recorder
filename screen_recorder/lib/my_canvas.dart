@@ -176,7 +176,7 @@ class MyCanvas implements Canvas {
   void drawParagraph(Paragraph paragraph, Offset offset) {
     CanvasFrameInfo.instance.incrCount('drawParagraph');
 
-    // TODO paragraph
+    // NOTE: `Paragraph` is separately handled by MyParagraphBuilder
     CanvasFrameInfo.instance.bytes.addOffset(offset);
 
     canvas.drawParagraph(paragraph, offset);

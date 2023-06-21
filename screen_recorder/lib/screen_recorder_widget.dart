@@ -20,12 +20,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          showPlayer
-              // use RepaintBoundary to ensure paint() gets offset=zero to ease programming
-              ? const RepaintBoundary(
-                  child: ScreenPlayerInnerWidget(),
-                )
-              : widget.child,
+          showPlayer ? ScreenPlayerWidget() : widget.child,
           Positioned(
             right: 64,
             bottom: 64 * 2,

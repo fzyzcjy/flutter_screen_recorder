@@ -6,8 +6,8 @@ class ScreenRecorder {
   static setup() {
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {
-      print('PersistentFrameCallback stat=${CanvasStat.instance}');
-      CanvasStat.instance = CanvasStat();
+      print('PersistentFrameCallback frameInfo=${CanvasFrameInfo.instance}');
+      CanvasFrameInfo.instance = CanvasFrameInfo();
     });
   }
 }

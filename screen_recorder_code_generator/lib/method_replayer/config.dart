@@ -1,13 +1,24 @@
 import 'package:recase/recase.dart';
 
 class Config {
-  final String originalClassName;
+  final Type originalClass;
+  final String generatedMixinName;
+  final List<ConfigMethod> methods;
 
   const Config({
-    required this.originalClassName,
+    required this.originalClass,
+    required this.generatedMixinName,
+    required this.methods,
   });
 
-  String get delegateClassName => 'My$originalClassName';
- 
-  String get generatedFilename => '${ReCase(originalClassName).snakeCase}.dart';
+  String get generatedFilename => '${ReCase(originalClass.toString()).snakeCase}.dart';
+}
+
+class ConfigMethod {
+  final String methodName;
+  final Type returnType;
+
+  const ConfigMethod({
+    required this.returnType,
+  });
 }

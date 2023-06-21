@@ -25,6 +25,7 @@ class RenderScreenPlayer extends RenderBox {
     // ref: _ColorFilterRenderObject, and expand source of pushColorFilter
 
     assert(offset == Offset.zero);
+    print('hi paint offset=$offset size=$size');
 
     layer ??= OffsetLayer();
 
@@ -42,25 +43,28 @@ class RenderScreenPlayer extends RenderBox {
     // TODO child layer should be disposed?
     layer.removeAllChildren();
 
-    final childPictureLayer = PictureLayer(Offset.zero & size);
+    final childColorFilterLayer = ColorFilterLayer();
+    childColorFilterLayer.colorFilter = _simpleColorFilter;
+    layer.append(childColorFilterLayer);
 
-    // ref: PaintingContext._startRecording
-    layer.append(childPictureLayer);
-
-    // ref: PaintingContext.stopRecordingIfNeeded
-    childPictureLayer.picture = _createPicture();
+    final grandchildPictureLayer = PictureLayer(Offset.zero & size);
+    grandchildPictureLayer.picture = _createPicture();
+    childColorFilterLayer.append(grandchildPictureLayer);
   }
 
   Picture _createPicture() {
     final recorder = PictureRecorder();
     final canvas = Canvas(recorder);
     canvas.drawCircle(
-      const Offset(100, 100),
-      200,
+      const Offset(150, 150),
+      150,
       Paint()
-        ..color = Colors.blue
+        ..color = Colors.red
         ..style = PaintingStyle.fill,
     );
     return recorder.endRecording();
   }
 }
+
+const _simpleColorFilter =
+    ColorFilter.matrix(<double>[-1, 0, 0, 0, 255, 0, -1, 0, 0, 255, 0, 0, -1, 0, 255, 0, 0, 0, 1, 0]);

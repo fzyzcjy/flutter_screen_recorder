@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/data_per_frame.dart';
-import 'package:screen_recorder/dynamic_uint8_list.dart';
 
 class MyCanvas implements Canvas {
   final Canvas canvas;
@@ -87,8 +87,8 @@ class MyCanvas implements Canvas {
   void drawDRRect(RRect outer, RRect inner, Paint paint) {
     DataPerFrame.instance.incrCount('drawDRRect');
 
-    DataPerFrame.instance.bytes.addAll(outer._getValue32().buffer.asUint8List());
-    DataPerFrame.instance.bytes.addAll(inner._getValue32().buffer.asUint8List());
+    DataPerFrame.instance.bytes.add(outer._getValue32().buffer.asUint8List());
+    DataPerFrame.instance.bytes.add(inner._getValue32().buffer.asUint8List());
     DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawDRRect(outer, inner, paint);
@@ -226,7 +226,7 @@ class MyCanvas implements Canvas {
     DataPerFrame.instance.incrCount('drawRawPoints');
 
     DataPerFrame.instance.bytes.addUint8(pointMode.index);
-    DataPerFrame.instance.bytes.addAll(points.buffer.asUint8List());
+    DataPerFrame.instance.bytes.add(points.buffer.asUint8List());
     DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawRawPoints(pointMode, points, paint);
@@ -362,17 +362,27 @@ extension on Rect {
   }
 }
 
-extension ExtDynamicUint8ListCanvas on DynamicUint8List {
-  void addRRect(RRect r) => addAll(r._getValue32().buffer.asUint8List());
+extension ExtBytesBuilderCanvas on BytesBuilder {
+  void addUint8(int value) => add([value]);
 
-  void addRect(Rect r) => addAll(r._getValue32().buffer.asUint8List());
+  void addBool(bool value) => addUint8(value ? 1 : 0);
+
+  void addUint32(int value) => add((Uint32List(1)..[0] = value).buffer.asUint8List());
+
+  void addDouble(double value) => add((Float64List(1)..[0] = value).buffer.asUint8List());
+
+  void addString(String s) => add(utf8.encode(s));
+
+  void addRRect(RRect r) => add(r._getValue32().buffer.asUint8List());
+
+  void addRect(Rect r) => add(r._getValue32().buffer.asUint8List());
 
   void addOffset(Offset offset) {
     addDouble(offset.dx);
     addDouble(offset.dy);
   }
 
-  void addPaint(Paint paint) => addAll(paint.data.buffer.asUint8List());
+  void addPaint(Paint paint) => add(paint.data.buffer.asUint8List());
 
-  void addPath(Path p) => addAll(p.dump());
+  void addPath(Path p) => add(p.dump());
 }

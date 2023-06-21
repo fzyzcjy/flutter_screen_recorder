@@ -4,13 +4,15 @@ import 'dart:ui';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/my_canvas.dart';
 
+ExperimentalData get _data => DataPerFrame.instance.experimentalData;
+
 class MyParagraphBuilder implements ParagraphBuilder {
   final ParagraphBuilder builder;
 
   MyParagraphBuilder(ParagraphStyle style) : builder = ParagraphBuilder(style) {
-    DataPerFrame.instance.incrCount('ParagraphBuilder.new');
+    _data.incrCount('ParagraphBuilder.new');
 
-    DataPerFrame.instance.bytes.addParagraphStyle(style);
+    _data.bytes.addParagraphStyle(style);
   }
 
   @override
@@ -22,14 +24,14 @@ class MyParagraphBuilder implements ParagraphBuilder {
     double? baselineOffset,
     TextBaseline? baseline,
   }) {
-    DataPerFrame.instance.incrCount('addPlaceholder');
+    _data.incrCount('addPlaceholder');
 
-    DataPerFrame.instance.bytes.addDouble(width);
-    DataPerFrame.instance.bytes.addDouble(height);
-    DataPerFrame.instance.bytes.addUint8(alignment.index);
-    DataPerFrame.instance.bytes.addDouble(scale);
-    if (baselineOffset != null) DataPerFrame.instance.bytes.addDouble(baselineOffset);
-    if (baseline != null) DataPerFrame.instance.bytes.addUint8(baseline.index);
+    _data.bytes.addDouble(width);
+    _data.bytes.addDouble(height);
+    _data.bytes.addUint8(alignment.index);
+    _data.bytes.addDouble(scale);
+    if (baselineOffset != null) _data.bytes.addDouble(baselineOffset);
+    if (baseline != null) _data.bytes.addUint8(baseline.index);
 
     builder.addPlaceholder(
       width,
@@ -43,25 +45,25 @@ class MyParagraphBuilder implements ParagraphBuilder {
 
   @override
   void addText(String text) {
-    DataPerFrame.instance.incrCount('addText');
+    _data.incrCount('addText');
 
-    DataPerFrame.instance.bytes.addString(text);
+    _data.bytes.addString(text);
 
     builder.addText(text);
   }
 
   @override
   void pop() {
-    DataPerFrame.instance.incrCount('pop');
+    _data.incrCount('pop');
 
     builder.pop();
   }
 
   @override
   void pushStyle(TextStyle style) {
-    DataPerFrame.instance.incrCount('pushStyle');
+    _data.incrCount('pushStyle');
 
-    DataPerFrame.instance.bytes.addTextStyle(style);
+    _data.bytes.addTextStyle(style);
 
     builder.pushStyle(style);
   }

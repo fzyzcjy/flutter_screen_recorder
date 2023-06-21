@@ -12,20 +12,20 @@ extension ExtEngineLayerExpando on EngineLayer {
   set dataItem(SceneBuilderDataItem? value) => _expando[this] = value;
 }
 
+SceneBuilderData get _data => DataPerFrame.instance.sceneBuilderData;
+
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
 
   MySceneBuilder(this.builder);
 
-  SceneBuilderData get data => DataPerFrame.instance.sceneBuilderData;
-
   void _addOp(SceneBuilderDataAddItem dataItem) {
-    data.items.add(dataItem);
+    _data.items.add(dataItem);
     dataItem.execute(builder);
   }
 
   T _pushOp<T extends EngineLayer>(SceneBuilderDataPushItem<T> dataItem, {required T? oldLayer}) {
-    data.items.add(dataItem);
+    _data.items.add(dataItem);
     final innerResult = dataItem.execute(builder, oldLayer: oldLayer);
 
     innerResult.dataItem = dataItem;
@@ -38,7 +38,7 @@ class MySceneBuilder implements SceneBuilder {
   @override
   void addRetained(EngineLayer retainedLayer) {
     // NOTE use the stored dataItem
-    data.items.add(retainedLayer.dataItem!);
+    _data.items.add(retainedLayer.dataItem!);
     builder.addRetained(retainedLayer);
   }
 

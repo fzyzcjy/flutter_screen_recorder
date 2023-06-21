@@ -132,7 +132,11 @@ class ScreenPlayerLayer extends ContainerLayer {
   void addToScene(SceneBuilder builder) {
     print('$runtimeType.addToScene');
 
-    TODO;
+    final data = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
+
+    for (final item in data.items) {
+      item.execute(builder);
+    }
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

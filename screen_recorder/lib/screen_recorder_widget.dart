@@ -20,7 +20,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          showPlayer ? ScreenPlayerWidget() : widget.child,
+          showPlayer ? const ScreenPlayerWidget() : widget.child,
           Positioned(
             right: 64,
             bottom: 64 * 2,

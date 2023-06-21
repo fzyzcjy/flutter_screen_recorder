@@ -93,7 +93,7 @@ class MySceneBuilder implements SceneBuilder {
       {BlendMode blendMode = BlendMode.srcOver, BackdropFilterEngineLayer? oldLayer}) {
     return _pushOp(
       builder.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer),
-      SBDPushBackdropFilter(blendMode: blendMode),
+      SBDPushBackdropFilter(filter: filter, blendMode: blendMode),
     );
   }
 

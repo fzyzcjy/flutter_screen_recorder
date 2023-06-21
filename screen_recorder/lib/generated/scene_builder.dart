@@ -135,6 +135,11 @@ mixin SceneBuilderMixin implements SceneBuilder {
   }
 
   @override
+  void pop() {
+    return proxy.pop();
+  }
+
+  @override
   void addPerformanceOverlay(
     int enabledOptions,
     Rect bounds,
@@ -192,5 +197,25 @@ mixin SceneBuilderMixin implements SceneBuilder {
       width: width,
       height: height,
     );
+  }
+
+  @override
+  void setRasterizerTracingThreshold(int frameInterval) {
+    return proxy.setRasterizerTracingThreshold(frameInterval);
+  }
+
+  @override
+  void setCheckerboardRasterCacheImages(bool checkerboard) {
+    return proxy.setCheckerboardRasterCacheImages(checkerboard);
+  }
+
+  @override
+  void setCheckerboardOffscreenLayers(bool checkerboard) {
+    return proxy.setCheckerboardOffscreenLayers(checkerboard);
+  }
+
+  @override
+  Scene build() {
+    return proxy.build();
   }
 }

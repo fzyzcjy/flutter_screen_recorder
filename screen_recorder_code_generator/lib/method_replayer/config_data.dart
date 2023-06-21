@@ -4,7 +4,6 @@ final _kConfigSceneBuilder = Config(
   originalClass: 'SceneBuilder',
   generatedMixinName: 'SceneBuilderMixin',
   methods: [
-    // push*
     ConfigMethod(
       returnType: 'TransformEngineLayer',
       methodName: 'pushTransform',
@@ -95,8 +94,11 @@ final _kConfigSceneBuilder = Config(
         ConfigMethodParameter('ShaderMaskEngineLayer? oldLayer', required: false, named: true),
       ],
     ),
-
-    // add*
+    ConfigMethod(
+      returnType: 'void',
+      methodName: 'pop',
+      parameters: [],
+    ),
     ConfigMethod(
       returnType: 'void',
       methodName: 'addPerformanceOverlay',
@@ -136,6 +138,32 @@ final _kConfigSceneBuilder = Config(
         ConfigMethodParameter('double width', defaultTo: '0.0'),
         ConfigMethodParameter('double height', defaultTo: '0.0'),
       ],
+    ),
+    ConfigMethod(
+      returnType: 'void',
+      methodName: 'setRasterizerTracingThreshold',
+      parameters: [
+        ConfigMethodParameter('int frameInterval'),
+      ],
+    ),
+    ConfigMethod(
+      returnType: 'void',
+      methodName: 'setCheckerboardRasterCacheImages',
+      parameters: [
+        ConfigMethodParameter('bool checkerboard'),
+      ],
+    ),
+    ConfigMethod(
+      returnType: 'void',
+      methodName: 'setCheckerboardOffscreenLayers',
+      parameters: [
+        ConfigMethodParameter('bool checkerboard'),
+      ],
+    ),
+    ConfigMethod(
+      returnType: 'Scene',
+      methodName: 'build',
+      parameters: [],
     ),
   ],
 );

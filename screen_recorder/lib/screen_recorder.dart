@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -11,7 +10,7 @@ import 'package:screen_recorder/my_paragraph_builder.dart';
 class ScreenRecorder {
   static setup() {
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));
-    TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(ParagraphBuilder(style));
+    TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
 
     var overallUncompressedBytesLen = 0;
     var overallCompressedBytesLen = 0;

@@ -3,6 +3,14 @@ import 'dart:ui';
 
 import 'package:screen_recorder/scene_builder_record.dart';
 
+extension ExtEngineLayerExpando on EngineLayer {
+  static final _expando = Expando<SceneBuilderDataItem>('EngineLayerDataItem');
+
+  SceneBuilderDataItem? get dataItem => _expando[this];
+
+  set dataItem(SceneBuilderDataItem? value) => _expando[this] = value;
+}
+
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
   final SceneBuilderData data;
@@ -11,6 +19,7 @@ class MySceneBuilder implements SceneBuilder {
 
   T _pushOp<T extends EngineLayer>(T innerResult, SceneBuilderDataItem dataItem) {
     data.items.add(dataItem);
+    innerResult.dataItem = dataItem;
     return innerResult;
   }
 

@@ -7,7 +7,7 @@ class CanvasStat {
   final countMap = <String, int>{};
 
   void incrCount(String name) => countMap[name] = (countMap[name] ?? 0) + 1;
- 
+
   int get totalCount => countMap.values.fold(0, (a, b) => a + b);
 
   @override

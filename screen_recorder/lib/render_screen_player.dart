@@ -115,7 +115,18 @@ class RenderScreenPlayer extends RenderBox {
 }
 
 class ScreenPlayerLayer extends ContainerLayer {
-  late int frameIndex;
+  ScreenPlayerLayer({
+    required int frameIndex,
+  }) : _frameIndex = frameIndex;
+
+  int get frameIndex => _frameIndex;
+  int _frameIndex;
+
+  set frameIndex(int value) {
+    if (_frameIndex == value) return;
+    _frameIndex = value;
+    markNeedsAddToScene();
+  }
 
   @override
   void addToScene(SceneBuilder builder) {

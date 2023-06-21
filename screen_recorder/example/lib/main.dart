@@ -3,6 +3,7 @@ import 'package:screen_recorder/screen_player.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   ScreenRecorder.setup();
   runApp(const MyApp());
 }

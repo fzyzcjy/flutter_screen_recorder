@@ -102,6 +102,13 @@ final _kConfigSceneBuilder = Config(
     ),
     ConfigMethod(
       returnType: 'void',
+      methodName: 'addRetained',
+      parameters: [
+        ConfigMethodParameter('EngineLayer retainedLayer'),
+      ],
+    ),
+    ConfigMethod(
+      returnType: 'void',
       methodName: 'addPerformanceOverlay',
       parameters: [
         ConfigMethodParameter('int enabledOptions'),

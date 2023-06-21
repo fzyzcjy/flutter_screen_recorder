@@ -144,6 +144,11 @@ class SceneBuilderMixin implements SceneBuilder {
   }
 
   @override
+  void addRetained(EngineLayer retainedLayer) {
+    return proxy.addRetained(retainedLayer);
+  }
+
+  @override
   void addPerformanceOverlay(
     int enabledOptions,
     Rect bounds,

@@ -226,28 +226,6 @@ class MySceneBuilder implements SceneBuilder {
   }
 
   @override
-  PhysicalShapeEngineLayer pushPhysicalShape({
-    required Path path,
-    required double elevation,
-    required Color color,
-    Color? shadowColor,
-    Clip clipBehavior = Clip.none,
-    PhysicalShapeEngineLayer? oldLayer,
-  }) {
-    return _pushOp(
-      SBDPushPhysicalShape(
-        // TODO temporarily hack to make it immutable
-        path: Path.from(path),
-        elevation: elevation,
-        color: color,
-        shadowColor: shadowColor,
-        clipBehavior: clipBehavior,
-      ),
-      oldLayer: oldLayer,
-    );
-  }
-
-  @override
   ShaderMaskEngineLayer pushShaderMask(
     Shader shader,
     Rect maskRect,

@@ -261,35 +261,6 @@ class SBDPushOpacity implements SceneBuilderDataPushItem<OpacityEngineLayer> {
   }
 }
 
-class SBDPushPhysicalShape implements SceneBuilderDataPushItem<PhysicalShapeEngineLayer> {
-  final Path path;
-  final double elevation;
-  final Color color;
-  final Color? shadowColor;
-  final Clip clipBehavior;
-
-  SBDPushPhysicalShape({
-    required this.path,
-    required this.elevation,
-    required this.color,
-    required this.shadowColor,
-    required this.clipBehavior,
-  });
-
-  @override
-  PhysicalShapeEngineLayer execute(SceneBuilder builder, {PhysicalShapeEngineLayer? oldLayer}) {
-    // ignore: deprecated_member_use
-    return builder.pushPhysicalShape(
-      path: path,
-      elevation: elevation,
-      color: color,
-      shadowColor: shadowColor,
-      clipBehavior: clipBehavior,
-      oldLayer: oldLayer,
-    );
-  }
-}
-
 class SBDPushShaderMask implements SceneBuilderDataPushItem<ShaderMaskEngineLayer> {
   final Shader shader;
   final Rect maskRect;

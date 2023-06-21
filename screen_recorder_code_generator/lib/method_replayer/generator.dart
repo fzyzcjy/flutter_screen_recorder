@@ -3,9 +3,17 @@ import 'dart:io';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
-import 'package:screen_recorder_code_generator/method_replayer/config_data.dart';
+import 'package:screen_recorder_code_generator/method_replayer/config_data/canvas.dart';
+import 'package:screen_recorder_code_generator/method_replayer/config_data/paragraph_builder.dart';
+import 'package:screen_recorder_code_generator/method_replayer/config_data/scene_builder.dart';
 
 final _dartfmt = DartFormatter(pageWidth: 120);
+
+final kConfigs = [
+  kConfigSceneBuilder,
+  kConfigCanvas,
+  kConfigParagraphBuilder,
+];
 
 void generateAllMethodReplayer(String dirTarget) {
   for (final config in kConfigs) {

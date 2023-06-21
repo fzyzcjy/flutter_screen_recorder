@@ -23,7 +23,7 @@ class ScreenRecorder {
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {
       print('PersistentFrameCallback '
-          'overallUncompressedBytesLen=$overallCompressedBytesLen '
+          'overallUncompressedBytesLen=$overallUncompressedBytesLen '
           'overallCompressedBytesLen=$overallCompressedBytesLen '
           'DataPerFrame=${DataPerFrame.instance}');
 

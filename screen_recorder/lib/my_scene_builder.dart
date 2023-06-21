@@ -5,30 +5,30 @@ import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/scene_builder_record.dart';
 
 extension ExtEngineLayerExpando on EngineLayer {
-  static final _expando = Expando<SceneBuilderDataItem>('EngineLayerDataItem');
+  static final _expando = Expando<SceneBuilderOpRecord>('EngineLayer.opRecord');
 
-  SceneBuilderDataItem? get dataItem => _expando[this];
+  SceneBuilderOpRecord? get opRecord => _expando[this];
 
-  set dataItem(SceneBuilderDataItem? value) => _expando[this] = value;
+  set opRecord(SceneBuilderOpRecord? value) => _expando[this] = value;
 }
 
-SceneBuilderData get _data => DataPerFrame.instance.sceneBuilderData;
+SceneBuilderRecord get _data => DataPerFrame.instance.sceneBuilderData;
 
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
 
   MySceneBuilder(this.builder);
 
-  void _addOp(SceneBuilderDataAddItem dataItem) {
-    _data.items.add(dataItem.safeClone());
-    dataItem.execute(builder);
+  void _addOp(SceneBuilderOpAddRecord opRecord) {
+    _data.ops.add(opRecord.safeClone());
+    opRecord.execute(builder);
   }
 
-  T _pushOp<T extends EngineLayer>(SceneBuilderDataPushItem<T> dataItem, {required T? oldLayer}) {
-    _data.items.add(dataItem.safeClone());
-    final innerResult = dataItem.execute(builder, oldLayer: oldLayer);
+  T _pushOp<T extends EngineLayer>(SceneBuilderOpPushRecord<T> opRecord, {required T? oldLayer}) {
+    _data.ops.add(opRecord.safeClone());
+    final innerResult = opRecord.execute(builder, oldLayer: oldLayer);
 
-    innerResult.dataItem = dataItem;
+    innerResult.opRecord = opRecord;
 
     return innerResult;
   }
@@ -37,8 +37,8 @@ class MySceneBuilder implements SceneBuilder {
 
   @override
   void addRetained(EngineLayer retainedLayer) {
-    // NOTE use the stored dataItem
-    _data.items.add(retainedLayer.dataItem!);
+    // NOTE use the stored opRecord
+    _data.ops.add(retainedLayer.opRecord!);
     builder.addRetained(retainedLayer);
   }
 

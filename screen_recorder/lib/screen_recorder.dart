@@ -21,7 +21,7 @@ class ScreenRecorder {
   var overallUncompressedBytesLen = 0;
   final compressor = SimpleCompressor();
 
-  final sceneBuilderDataArr = <SceneBuilderData>[];
+  final sceneBuilderDataArr = <SceneBuilderRecord>[];
 
   void setup() {
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));

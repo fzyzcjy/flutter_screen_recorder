@@ -134,7 +134,7 @@ class ScreenPlayerLayer extends ContainerLayer {
 
     final data = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
 
-    for (final item in data.items) {
+    for (final item in data.ops) {
       item.execute(builder);
     }
 

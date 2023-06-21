@@ -4,9 +4,9 @@ import 'package:screen_recorder/scene_builder_record.dart';
 
 class DataPerFrame {
   static var instance = DataPerFrame();
- 
+
   final experimentalData = ExperimentalData();
-  final sceneBuilderData = SceneBuilderData();
+  final sceneBuilderData = SceneBuilderRecord();
 }
 
 class ExperimentalData {

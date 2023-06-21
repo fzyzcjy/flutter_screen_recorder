@@ -2,26 +2,26 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 
-class SceneBuilderData {
-  final items = <SceneBuilderDataItem>[];
+class SceneBuilderRecord {
+  final ops = <SceneBuilderOpRecord>[];
 }
 
 @immutable
-sealed class SceneBuilderDataItem {
+sealed class SceneBuilderOpRecord {
   void execute(SceneBuilder builder);
 
   // TODO will be replaced by serialize/deserialize
-  SceneBuilderDataItem safeClone();
+  SceneBuilderOpRecord safeClone();
 }
 
-abstract class SceneBuilderDataAddItem implements SceneBuilderDataItem {}
+abstract class SceneBuilderOpAddRecord implements SceneBuilderOpRecord {}
 
-abstract class SceneBuilderDataPushItem<L extends EngineLayer> implements SceneBuilderDataItem {
+abstract class SceneBuilderOpPushRecord<L extends EngineLayer> implements SceneBuilderOpRecord {
   @override
   L execute(SceneBuilder builder, {L? oldLayer});
 }
 
-class SBDAddPerformanceOverlay implements SceneBuilderDataAddItem {
+class SBDAddPerformanceOverlay implements SceneBuilderOpAddRecord {
   final int enabledOptions;
   final Rect bounds;
 
@@ -45,7 +45,7 @@ class SBDAddPerformanceOverlay implements SceneBuilderDataAddItem {
   }
 }
 
-class SBDAddPicture implements SceneBuilderDataAddItem {
+class SBDAddPicture implements SceneBuilderOpAddRecord {
   final Offset offset;
   final Picture picture;
   final bool isComplexHint;
@@ -77,7 +77,7 @@ class SBDAddPicture implements SceneBuilderDataAddItem {
   }
 }
 
-class SBDAddPlatformView implements SceneBuilderDataAddItem {
+class SBDAddPlatformView implements SceneBuilderOpAddRecord {
   final int viewId;
   final Offset offset;
   final double width;
@@ -109,7 +109,7 @@ class SBDAddPlatformView implements SceneBuilderDataAddItem {
   }
 }
 
-class SBDAddTexture implements SceneBuilderDataAddItem {
+class SBDAddTexture implements SceneBuilderOpAddRecord {
   final int textureId;
   final Offset offset;
   final double width;
@@ -149,7 +149,7 @@ class SBDAddTexture implements SceneBuilderDataAddItem {
   }
 }
 
-class SBDPushBackdropFilter implements SceneBuilderDataPushItem<BackdropFilterEngineLayer> {
+class SBDPushBackdropFilter implements SceneBuilderOpPushRecord<BackdropFilterEngineLayer> {
   final ImageFilter filter;
   final BlendMode blendMode;
 
@@ -174,7 +174,7 @@ class SBDPushBackdropFilter implements SceneBuilderDataPushItem<BackdropFilterEn
   }
 }
 
-class SBDPushClipPath implements SceneBuilderDataPushItem<ClipPathEngineLayer> {
+class SBDPushClipPath implements SceneBuilderOpPushRecord<ClipPathEngineLayer> {
   final Path path;
   final Clip clipBehavior;
 
@@ -200,7 +200,7 @@ class SBDPushClipPath implements SceneBuilderDataPushItem<ClipPathEngineLayer> {
   }
 }
 
-class SBDPushClipRRect implements SceneBuilderDataPushItem<ClipRRectEngineLayer> {
+class SBDPushClipRRect implements SceneBuilderOpPushRecord<ClipRRectEngineLayer> {
   final RRect rrect;
   final Clip clipBehavior;
 
@@ -225,7 +225,7 @@ class SBDPushClipRRect implements SceneBuilderDataPushItem<ClipRRectEngineLayer>
   }
 }
 
-class SBDPushClipRect implements SceneBuilderDataPushItem<ClipRectEngineLayer> {
+class SBDPushClipRect implements SceneBuilderOpPushRecord<ClipRectEngineLayer> {
   final Rect rect;
   final Clip clipBehavior;
 
@@ -250,7 +250,7 @@ class SBDPushClipRect implements SceneBuilderDataPushItem<ClipRectEngineLayer> {
   }
 }
 
-class SBDPushColorFilter implements SceneBuilderDataPushItem<ColorFilterEngineLayer> {
+class SBDPushColorFilter implements SceneBuilderOpPushRecord<ColorFilterEngineLayer> {
   final ColorFilter filter;
 
   const SBDPushColorFilter({
@@ -271,7 +271,7 @@ class SBDPushColorFilter implements SceneBuilderDataPushItem<ColorFilterEngineLa
   }
 }
 
-class SBDPushImageFilter implements SceneBuilderDataPushItem<ImageFilterEngineLayer> {
+class SBDPushImageFilter implements SceneBuilderOpPushRecord<ImageFilterEngineLayer> {
   final ImageFilter filter;
   final Offset offset;
 
@@ -296,7 +296,7 @@ class SBDPushImageFilter implements SceneBuilderDataPushItem<ImageFilterEngineLa
   }
 }
 
-class SBDPushOffset implements SceneBuilderDataPushItem<OffsetEngineLayer> {
+class SBDPushOffset implements SceneBuilderOpPushRecord<OffsetEngineLayer> {
   final double dx;
   final double dy;
 
@@ -321,7 +321,7 @@ class SBDPushOffset implements SceneBuilderDataPushItem<OffsetEngineLayer> {
   }
 }
 
-class SBDPushOpacity implements SceneBuilderDataPushItem<OpacityEngineLayer> {
+class SBDPushOpacity implements SceneBuilderOpPushRecord<OpacityEngineLayer> {
   final int alpha;
   final Offset? offset;
 
@@ -346,7 +346,7 @@ class SBDPushOpacity implements SceneBuilderDataPushItem<OpacityEngineLayer> {
   }
 }
 
-class SBDPushShaderMask implements SceneBuilderDataPushItem<ShaderMaskEngineLayer> {
+class SBDPushShaderMask implements SceneBuilderOpPushRecord<ShaderMaskEngineLayer> {
   final Shader shader;
   final Rect maskRect;
   final BlendMode blendMode;
@@ -379,7 +379,7 @@ class SBDPushShaderMask implements SceneBuilderDataPushItem<ShaderMaskEngineLaye
   }
 }
 
-class SBDPushTransform implements SceneBuilderDataPushItem<TransformEngineLayer> {
+class SBDPushTransform implements SceneBuilderOpPushRecord<TransformEngineLayer> {
   final Float64List matrix4;
 
   const SBDPushTransform({

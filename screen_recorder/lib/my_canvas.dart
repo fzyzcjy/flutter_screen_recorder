@@ -2,13 +2,16 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 class CanvasStat {
-  static var instance = CanvasStat._();
-
-  CanvasStat._();
+  static var instance = CanvasStat();
 
   final countMap = <String, int>{};
 
   void incrCount(String name) => countMap[name] = (countMap[name] ?? 0) + 1;
+ 
+  int get totalCount => countMap.values.fold(0, (a, b) => a + b);
+
+  @override
+  String toString() => 'CanvasStat(countMap: $countMap, totalCount: $totalCount)';
 }
 
 class MyCanvas implements Canvas {

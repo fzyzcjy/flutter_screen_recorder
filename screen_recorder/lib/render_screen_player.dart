@@ -76,12 +76,16 @@ class RenderScreenPlayer extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
+    print('$runtimeType.paint');
+
     // ref: _ColorFilterRenderObject, and expand source of pushColorFilter
 
     assert(offset == Offset.zero);
 
     layer ??= ScreenPlayerLayer();
     context.addLayer(layer!);
+
+    (layer! as ScreenPlayerLayer).frameIndex = frameIndex;
 
     // layer ??= OffsetLayer();
     //
@@ -111,42 +115,48 @@ class RenderScreenPlayer extends RenderBox {
 }
 
 class ScreenPlayerLayer extends ContainerLayer {
+  late int frameIndex;
+
   @override
   void addToScene(SceneBuilder builder) {
-    _addToSceneColorFilterLayer(builder, () {
-      _addToScenePictureLayer(builder);
-    });
+    print('$runtimeType.addToScene');
+
+    TODO;
+
+    // _addToSceneColorFilterLayer(builder, () {
+    //   _addToScenePictureLayer(builder);
+    // });
   }
 
-  void _addToSceneColorFilterLayer(SceneBuilder builder, void Function() childAddToScene) {
-    // ref: ColorFilterLayer
-    engineLayer = builder.pushColorFilter(
-      _simpleColorFilter,
-      oldLayer: engineLayer as ColorFilterEngineLayer?,
-    );
-    childAddToScene();
-    builder.pop();
-  }
-
-  void _addToScenePictureLayer(SceneBuilder builder) {
-    final picture = _createPicture();
-    // ref: PictureLayer
-    builder.addPicture(Offset.zero, picture);
-  }
+// void _addToSceneColorFilterLayer(SceneBuilder builder, void Function() childAddToScene) {
+//   // ref: ColorFilterLayer
+//   engineLayer = builder.pushColorFilter(
+//     _simpleColorFilter,
+//     oldLayer: engineLayer as ColorFilterEngineLayer?,
+//   );
+//   childAddToScene();
+//   builder.pop();
+// }
+//
+// void _addToScenePictureLayer(SceneBuilder builder) {
+//   final picture = _createPicture();
+//   // ref: PictureLayer
+//   builder.addPicture(Offset.zero, picture);
+// }
 }
 
-Picture _createPicture() {
-  final recorder = PictureRecorder();
-  final canvas = Canvas(recorder);
-  canvas.drawCircle(
-    const Offset(150, 150),
-    150,
-    Paint()
-      ..color = Colors.red
-      ..style = PaintingStyle.fill,
-  );
-  return recorder.endRecording();
-}
-
-const _simpleColorFilter =
-    ColorFilter.matrix(<double>[-1, 0, 0, 0, 255, 0, -1, 0, 0, 255, 0, 0, -1, 0, 255, 0, 0, 0, 1, 0]);
+// Picture _createPicture() {
+//   final recorder = PictureRecorder();
+//   final canvas = Canvas(recorder);
+//   canvas.drawCircle(
+//     const Offset(150, 150),
+//     150,
+//     Paint()
+//       ..color = Colors.red
+//       ..style = PaintingStyle.fill,
+//   );
+//   return recorder.endRecording();
+// }
+//
+// const _simpleColorFilter =
+//     ColorFilter.matrix(<double>[-1, 0, 0, 0, 255, 0, -1, 0, 0, 255, 0, 0, -1, 0, 255, 0, 0, 0, 1, 0]);

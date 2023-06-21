@@ -4,7 +4,7 @@ import 'package:screen_recorder/screen_recorder_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  ScreenRecorder.setup();
+  ScreenRecorder.instance.setup();
   runApp(const MyApp());
 }
 

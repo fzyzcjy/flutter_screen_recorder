@@ -6,29 +6,44 @@ import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/my_canvas.dart';
 import 'package:screen_recorder/my_paragraph_builder.dart';
 import 'package:screen_recorder/my_scene_builder.dart';
+import 'package:screen_recorder/scene_builder_record.dart';
 import 'package:screen_recorder/simple_compressor.dart';
 
 class ScreenRecorder {
   static const _kTag = 'ScreenRecorder';
 
-  static setup() {
+  static final instance = ScreenRecorder._();
+
+  ScreenRecorder._();
+
+  var recording = true;
+
+  var overallUncompressedBytesLen = 0;
+  final compressor = SimpleCompressor();
+ 
+  final sceneBuilderDataArr = <SceneBuilderData>[];
+
+  void setup() {
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));
     TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
     RenderView.createSceneBuilder = () => MySceneBuilder(SceneBuilder());
 
-    var overallUncompressedBytesLen = 0;
-    final compressor = SimpleCompressor();
+    SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
+  }
 
-    SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {
-      print('$_kTag PersistentFrameCallback '
-          'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-          'compressor=$compressor '
-          'dataPerFrame=${DataPerFrame.instance}');
+  void _handlePersistentFrameCallback() {
+    print('$_kTag PersistentFrameCallback '
+        'overallUncompressedBytesLen=$overallUncompressedBytesLen '
+        'compressor=$compressor '
+        'dataPerFrame=${DataPerFrame.instance}');
 
-      overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
-      compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
+    overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
+    compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
 
-      DataPerFrame.instance = DataPerFrame();
-    });
+    if (recording) {
+      sceneBuilderDataArr.add(DataPerFrame.instance.sceneBuilderData);
+    }
+
+    DataPerFrame.instance = DataPerFrame();
   }
 }

@@ -11,7 +11,7 @@ sealed class SceneBuilderDataItem {
   void execute(SceneBuilder builder);
 
   // TODO will be replaced by serialize/deserialize
-  void safeClone();
+  SceneBuilderDataItem safeClone();
 }
 
 abstract class SceneBuilderDataAddItem implements SceneBuilderDataItem {}

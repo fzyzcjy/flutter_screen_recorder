@@ -20,12 +20,12 @@ class MySceneBuilder implements SceneBuilder {
   MySceneBuilder(this.builder);
 
   void _addOp(SceneBuilderDataAddItem dataItem) {
-    _data.items.add(dataItem);
+    _data.items.add(dataItem.safeClone());
     dataItem.execute(builder);
   }
 
   T _pushOp<T extends EngineLayer>(SceneBuilderDataPushItem<T> dataItem, {required T? oldLayer}) {
-    _data.items.add(dataItem);
+    _data.items.add(dataItem.safeClone());
     final innerResult = dataItem.execute(builder, oldLayer: oldLayer);
 
     innerResult.dataItem = dataItem;

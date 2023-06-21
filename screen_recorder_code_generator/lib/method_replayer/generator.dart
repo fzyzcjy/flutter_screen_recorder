@@ -15,6 +15,7 @@ void generateAllMethodReplayer(String dirTarget) {
 
 void _generate(Config config, String dirTarget) {
   final text = '''
+import 'dart:typed_data';
 import 'dart:ui';
 
 mixin ${config.generatedMixinName} implements ${config.originalClass} {

@@ -38,13 +38,16 @@ class ConfigMethodParameter {
   final bool named;
   final String? defaultTo;
 
-  const ConfigMethodParameter(
-    this.type,
-    this.name, {
+  ConfigMethodParameter(
+    String typeAndName, {
     bool? required,
-    this.named = false,
+    bool? named,
     this.defaultTo,
-  }) : required = required ?? (defaultTo == null);
+  })  : assert(typeAndName.split(' ').length == 2),
+        type = typeAndName.split(' ')[0],
+        name = typeAndName.split(' ')[1],
+        named = named ?? (defaultTo != null),
+        required = required ?? (defaultTo == null);
 
   Parameter toParameter() => Parameter(
         (b) => b

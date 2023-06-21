@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:screen_recorder/screen_player.dart';
 import 'package:screen_recorder/screen_recorder.dart';
+import 'package:screen_recorder/screen_recorder_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenPlayerWidget(
+    return const ScreenRecorderWidget(
       child: MaterialApp(
         home: MyHomePage(),
       ),

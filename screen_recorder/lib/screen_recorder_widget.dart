@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:screen_recorder/render_screen_player.dart';
 
-class ScreenPlayerWidget extends StatefulWidget {
+class ScreenRecorderWidget extends StatefulWidget {
   final Widget child;
 
-  const ScreenPlayerWidget({super.key, required this.child});
+  const ScreenRecorderWidget({super.key, required this.child});
 
   @override
-  State<ScreenPlayerWidget> createState() => _ScreenPlayerWidgetState();
+  State<ScreenRecorderWidget> createState() => _ScreenRecorderWidgetState();
 }
 
-class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
+class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
   var enable = false;
 
   @override

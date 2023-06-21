@@ -1,7 +1,12 @@
-library screen_recorder_code_generator;
+import 'package:screen_recorder_code_generator/config.dart';
+import 'package:screen_recorder_code_generator/config_data.dart';
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
+void main() {
+  for (final config in kConfigs) {
+    _generate(config);
+  }
+}
+
+void _generate(Config config) {
+  TODO;
 }

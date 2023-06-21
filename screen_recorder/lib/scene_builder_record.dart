@@ -9,7 +9,11 @@ sealed class SceneBuilderDataItem {
   void execute(SceneBuilder builder);
 }
 
-class SBDAddPerformanceOverlay implements SceneBuilderDataItem {
+abstract class SceneBuilderDataAddItem extends SceneBuilderDataItem {}
+
+abstract class SceneBuilderDataPushItem extends SceneBuilderDataItem {}
+
+class SBDAddPerformanceOverlay implements SceneBuilderDataAddItem {
   final int enabledOptions;
   final Rect bounds;
 
@@ -27,7 +31,7 @@ class SBDAddPerformanceOverlay implements SceneBuilderDataItem {
   }
 }
 
-class SBDAddPicture implements SceneBuilderDataItem {
+class SBDAddPicture implements SceneBuilderDataAddItem {
   final Offset offset;
   final Picture picture;
   final bool isComplexHint;
@@ -51,7 +55,7 @@ class SBDAddPicture implements SceneBuilderDataItem {
   }
 }
 
-class SBDAddPlatformView implements SceneBuilderDataItem {
+class SBDAddPlatformView implements SceneBuilderDataAddItem {
   final int viewId;
   final Offset offset;
   final double width;
@@ -75,7 +79,7 @@ class SBDAddPlatformView implements SceneBuilderDataItem {
   }
 }
 
-class SBDAddTexture implements SceneBuilderDataItem {
+class SBDAddTexture implements SceneBuilderDataAddItem {
   final int textureId;
   final Offset offset;
   final double width;
@@ -105,7 +109,7 @@ class SBDAddTexture implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushBackdropFilter implements SceneBuilderDataItem {
+class SBDPushBackdropFilter implements SceneBuilderDataPushItem {
   final ImageFilter filter;
   final BlendMode blendMode;
 
@@ -123,7 +127,7 @@ class SBDPushBackdropFilter implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushClipPath implements SceneBuilderDataItem {
+class SBDPushClipPath implements SceneBuilderDataPushItem {
   final Path path;
   final Clip clipBehavior;
 
@@ -141,7 +145,7 @@ class SBDPushClipPath implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushClipRRect implements SceneBuilderDataItem {
+class SBDPushClipRRect implements SceneBuilderDataPushItem {
   final RRect rrect;
   final Clip clipBehavior;
 
@@ -159,7 +163,7 @@ class SBDPushClipRRect implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushClipRect implements SceneBuilderDataItem {
+class SBDPushClipRect implements SceneBuilderDataPushItem {
   final Rect rect;
   final Clip clipBehavior;
 
@@ -177,7 +181,7 @@ class SBDPushClipRect implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushColorFilter implements SceneBuilderDataItem {
+class SBDPushColorFilter implements SceneBuilderDataPushItem {
   final ColorFilter filter;
 
   SBDPushColorFilter({
@@ -192,7 +196,7 @@ class SBDPushColorFilter implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushImageFilter implements SceneBuilderDataItem {
+class SBDPushImageFilter implements SceneBuilderDataPushItem {
   final ImageFilter filter;
   final Offset offset;
 
@@ -210,7 +214,7 @@ class SBDPushImageFilter implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushOffset implements SceneBuilderDataItem {
+class SBDPushOffset implements SceneBuilderDataPushItem {
   final double dx;
   final double dy;
 
@@ -228,7 +232,7 @@ class SBDPushOffset implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushOpacity implements SceneBuilderDataItem {
+class SBDPushOpacity implements SceneBuilderDataPushItem {
   final int alpha;
   final Offset? offset;
 
@@ -246,7 +250,7 @@ class SBDPushOpacity implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushPhysicalShape implements SceneBuilderDataItem {
+class SBDPushPhysicalShape implements SceneBuilderDataPushItem {
   final Path path;
   final double elevation;
   final Color color;
@@ -273,7 +277,7 @@ class SBDPushPhysicalShape implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushShaderMask implements SceneBuilderDataItem {
+class SBDPushShaderMask implements SceneBuilderDataPushItem {
   final Shader shader;
   final Rect maskRect;
   final BlendMode blendMode;
@@ -297,7 +301,7 @@ class SBDPushShaderMask implements SceneBuilderDataItem {
   }
 }
 
-class SBDPushTransform implements SceneBuilderDataItem {
+class SBDPushTransform implements SceneBuilderDataPushItem {
   final Float64List matrix4;
 
   const SBDPushTransform({

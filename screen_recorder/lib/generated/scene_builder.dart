@@ -9,7 +9,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Float64List matrix4, {
     TransformEngineLayer? oldLayer,
   }) {
-    proxy.pushTransform(
+    return proxy.pushTransform(
       matrix4,
       oldLayer: oldLayer,
     );
@@ -21,7 +21,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     double dy, {
     OffsetEngineLayer? oldLayer,
   }) {
-    proxy.pushOffset(
+    return proxy.pushOffset(
       dx,
       dy,
       oldLayer: oldLayer,
@@ -34,7 +34,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipRectEngineLayer? oldLayer,
   }) {
-    proxy.pushClipRect(
+    return proxy.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
@@ -47,7 +47,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipRRectEngineLayer? oldLayer,
   }) {
-    proxy.pushClipRRect(
+    return proxy.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
@@ -60,7 +60,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipPathEngineLayer? oldLayer,
   }) {
-    proxy.pushClipPath(
+    return proxy.pushClipPath(
       path,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
@@ -73,7 +73,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Offset? offset = Offset.zero,
     OpacityEngineLayer? oldLayer,
   }) {
-    proxy.pushOpacity(
+    return proxy.pushOpacity(
       alpha,
       offset: offset,
       oldLayer: oldLayer,
@@ -85,7 +85,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     ColorFilter filter, {
     ColorFilterEngineLayer? oldLayer,
   }) {
-    proxy.pushColorFilter(
+    return proxy.pushColorFilter(
       filter,
       oldLayer: oldLayer,
     );
@@ -97,7 +97,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Offset offset = Offset.zero,
     ImageFilterEngineLayer? oldLayer,
   }) {
-    proxy.pushImageFilter(
+    return proxy.pushImageFilter(
       filter,
       offset: offset,
       oldLayer: oldLayer,
@@ -110,7 +110,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     BlendMode blendMode = BlendMode.srcOver,
     BackdropFilterEngineLayer? oldLayer,
   }) {
-    proxy.pushBackdropFilter(
+    return proxy.pushBackdropFilter(
       filter,
       blendMode: blendMode,
       oldLayer: oldLayer,
@@ -125,7 +125,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     FilterQuality filterQuality = FilterQuality.low,
     ShaderMaskEngineLayer? oldLayer,
   }) {
-    proxy.pushShaderMask(
+    return proxy.pushShaderMask(
       shader,
       maskRect,
       blendMode,
@@ -139,7 +139,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     int enabledOptions,
     Rect bounds,
   ) {
-    proxy.addPerformanceOverlay(
+    return proxy.addPerformanceOverlay(
       enabledOptions,
       bounds,
     );
@@ -152,7 +152,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     bool isComplexHint = false,
     bool willChangeHint = false,
   }) {
-    proxy.addPicture(
+    return proxy.addPicture(
       offset,
       picture,
       isComplexHint: isComplexHint,
@@ -169,7 +169,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     bool freeze = false,
     FilterQuality filterQuality = FilterQuality.low,
   }) {
-    proxy.addTexture(
+    return proxy.addTexture(
       textureId,
       offset: offset,
       width: width,
@@ -186,7 +186,7 @@ mixin SceneBuilderMixin implements SceneBuilder {
     double width = 0.0,
     double height = 0.0,
   }) {
-    proxy.addPlatformView(
+    return proxy.addPlatformView(
       viewId,
       offset: offset,
       width: width,

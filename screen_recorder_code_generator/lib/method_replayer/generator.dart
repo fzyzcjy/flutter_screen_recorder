@@ -29,6 +29,11 @@ mixin ${config.generatedMixinName} implements ${config.originalClass} {
 }
 
 String _generateMethod(Config config, ConfigMethod configMethod) {
+  final bodyCallProxy = refer('proxy.${configMethod.methodName}')
+      .call(configMethod.positionalArguments, configMethod.namedArguments)
+      .statement;
+  final body = 'return ${bodyCallProxy.dartCode}';
+
   return Method(
     (b) => b
       ..name = configMethod.methodName
@@ -36,8 +41,10 @@ String _generateMethod(Config config, ConfigMethod configMethod) {
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.addAll(configMethod.requiredParameters)
       ..optionalParameters.addAll(configMethod.optionalParameters)
-      ..body = refer('proxy.${configMethod.methodName}')
-          .call(configMethod.positionalArguments, configMethod.namedArguments)
-          .statement,
-  ).accept(DartEmitter()).toString();
+      ..body = Code(body),
+  ).dartCode;
+}
+
+extension on Spec {
+  String get dartCode => accept(DartEmitter()).toString();
 }

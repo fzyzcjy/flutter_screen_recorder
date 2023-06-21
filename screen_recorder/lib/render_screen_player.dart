@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -37,19 +39,28 @@ class RenderScreenPlayer extends RenderBox {
   }
 
   void _paintToLayer(OffsetLayer layer) {
+    // TODO child layer should be disposed?
     layer.removeAllChildren();
 
-    final context = PaintingContext(layer, Offset.zero & size);
+    final childPictureLayer = PictureLayer(Offset.zero & size);
 
-    context.canvas.drawCircle(
+    // ref: PaintingContext._startRecording
+    layer.append(childPictureLayer);
+
+    // ref: PaintingContext.stopRecordingIfNeeded
+    childPictureLayer.picture = _createPicture();
+  }
+
+  Picture _createPicture() {
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+    canvas.drawCircle(
       const Offset(100, 100),
       200,
       Paint()
         ..color = Colors.blue
         ..style = PaintingStyle.fill,
     );
-
-    // ignore: invalid_use_of_protected_member
-    context.stopRecordingIfNeeded();
+    return recorder.endRecording();
   }
 }

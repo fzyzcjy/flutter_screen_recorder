@@ -23,7 +23,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
           showPlayer ? const ScreenPlayerWidget() : widget.child,
           Positioned(
             right: 64,
-            bottom: 64 * 2,
+            bottom: 64 * 3,
             child: FloatingActionButton(
               onPressed: () => ScreenRecorder.instance.recording = true,
               child: const Icon(Icons.fiber_manual_record_outlined),

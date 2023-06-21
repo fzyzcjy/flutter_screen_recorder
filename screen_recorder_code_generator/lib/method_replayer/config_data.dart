@@ -1,5 +1,7 @@
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
 final kConfigs = [
-  Config(),
+  const Config(
+    originalClassName: 'SceneBuilder',
+  ),
 ];

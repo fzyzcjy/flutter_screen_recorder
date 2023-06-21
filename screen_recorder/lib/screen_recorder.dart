@@ -3,7 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/my_canvas.dart';
 
 class ScreenRecorder {
-  ScreenRecorder() {
+  static setup() {
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {
       print('PersistentFrameCallback stat=${CanvasStat.instance}');

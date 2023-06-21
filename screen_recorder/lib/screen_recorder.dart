@@ -20,7 +20,7 @@ class ScreenRecorder {
 
   var overallUncompressedBytesLen = 0;
   final compressor = SimpleCompressor();
- 
+
   final sceneBuilderDataArr = <SceneBuilderData>[];
 
   void setup() {
@@ -35,7 +35,7 @@ class ScreenRecorder {
     print('$_kTag PersistentFrameCallback '
         'overallUncompressedBytesLen=$overallUncompressedBytesLen '
         'compressor=$compressor '
-        'dataPerFrame=${DataPerFrame.instance}');
+        'experimentalData=${DataPerFrame.instance.experimentalData}');
 
     overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
     compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());

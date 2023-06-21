@@ -9,6 +9,11 @@ class MySceneBuilder implements SceneBuilder {
 
   MySceneBuilder(this.builder, this.data);
 
+  T _pushOp<T extends EngineLayer>(T innerResult, SceneBuilderDataItem dataItem) {
+    data.items.add(dataItem);
+    return innerResult;
+  }
+
   @override
   void addPerformanceOverlay(int enabledOptions, Rect bounds) {
     data.items.add(SBDAddPerformanceOverlay(enabledOptions: enabledOptions, bounds: bounds));
@@ -74,56 +79,72 @@ class MySceneBuilder implements SceneBuilder {
   @override
   BackdropFilterEngineLayer pushBackdropFilter(ImageFilter filter,
       {BlendMode blendMode = BlendMode.srcOver, BackdropFilterEngineLayer? oldLayer}) {
-    data.items.add(SBDPushBackdropFilter(blendMode: blendMode));
-    return builder.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer),
+      SBDPushBackdropFilter(blendMode: blendMode),
+    );
   }
 
   @override
   ClipPathEngineLayer pushClipPath(Path path, {Clip clipBehavior = Clip.antiAlias, ClipPathEngineLayer? oldLayer}) {
-    data.items.add(SBDPushClipPath(
-      // TODO temporarily hack to make it immutable
-      path: Path.from(path),
-      clipBehavior: clipBehavior,
-    ));
-    return builder.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer),
+      SBDPushClipPath(
+        // TODO temporarily hack to make it immutable
+        path: Path.from(path),
+        clipBehavior: clipBehavior,
+      ),
+    );
   }
 
   @override
   ClipRRectEngineLayer pushClipRRect(RRect rrect,
       {Clip clipBehavior = Clip.antiAlias, ClipRRectEngineLayer? oldLayer}) {
-    data.items.add(SBDPushClipRRect(rrect: rrect, clipBehavior: clipBehavior));
-    return builder.pushClipRRect(rrect, clipBehavior: clipBehavior, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushClipRRect(rrect, clipBehavior: clipBehavior, oldLayer: oldLayer),
+      SBDPushClipRRect(rrect: rrect, clipBehavior: clipBehavior),
+    );
   }
 
   @override
   ClipRectEngineLayer pushClipRect(Rect rect, {Clip clipBehavior = Clip.antiAlias, ClipRectEngineLayer? oldLayer}) {
-    data.items.add(SBDPushClipRect(rect: rect, clipBehavior: clipBehavior));
-    return builder.pushClipRect(rect, clipBehavior: clipBehavior, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushClipRect(rect, clipBehavior: clipBehavior, oldLayer: oldLayer),
+      SBDPushClipRect(rect: rect, clipBehavior: clipBehavior),
+    );
   }
 
   @override
   ColorFilterEngineLayer pushColorFilter(ColorFilter filter, {ColorFilterEngineLayer? oldLayer}) {
-    data.items.add(SBDPushColorFilter(filter: filter));
-    return builder.pushColorFilter(filter, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushColorFilter(filter, oldLayer: oldLayer),
+      SBDPushColorFilter(filter: filter),
+    );
   }
 
   @override
   ImageFilterEngineLayer pushImageFilter(ImageFilter filter,
       {Offset offset = Offset.zero, ImageFilterEngineLayer? oldLayer}) {
-    data.items.add(SBDPushImageFilter(filter: filter, offset: offset));
-    return builder.pushImageFilter(filter, offset: offset, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushImageFilter(filter, offset: offset, oldLayer: oldLayer),
+      SBDPushImageFilter(filter: filter, offset: offset),
+    );
   }
 
   @override
   OffsetEngineLayer pushOffset(double dx, double dy, {OffsetEngineLayer? oldLayer}) {
-    data.items.add(SBDPushOffset(dx: dx, dy: dy));
-    return builder.pushOffset(dx, dy, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushOffset(dx, dy, oldLayer: oldLayer),
+      SBDPushOffset(dx: dx, dy: dy),
+    );
   }
 
   @override
   OpacityEngineLayer pushOpacity(int alpha, {Offset? offset = Offset.zero, OpacityEngineLayer? oldLayer}) {
-    data.items.add(SBDPushOpacity(alpha: alpha, offset: offset));
-    return builder.pushOpacity(alpha, offset: offset, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushOpacity(alpha, offset: offset, oldLayer: oldLayer),
+      SBDPushOpacity(alpha: alpha, offset: offset),
+    );
   }
 
   @override
@@ -135,22 +156,24 @@ class MySceneBuilder implements SceneBuilder {
     Clip clipBehavior = Clip.none,
     PhysicalShapeEngineLayer? oldLayer,
   }) {
-    data.items.add(SBDPushPhysicalShape(
-      // TODO temporarily hack to make it immutable
-      path: Path.from(path),
-      elevation: elevation,
-      color: color,
-      shadowColor: shadowColor,
-      clipBehavior: clipBehavior,
-    ));
-    // ignore: deprecated_member_use
-    return builder.pushPhysicalShape(
-      path: path,
-      elevation: elevation,
-      color: color,
-      shadowColor: shadowColor,
-      clipBehavior: clipBehavior,
-      oldLayer: oldLayer,
+    return _pushOp(
+      // ignore: deprecated_member_use
+      builder.pushPhysicalShape(
+        path: path,
+        elevation: elevation,
+        color: color,
+        shadowColor: shadowColor,
+        clipBehavior: clipBehavior,
+        oldLayer: oldLayer,
+      ),
+      SBDPushPhysicalShape(
+        // TODO temporarily hack to make it immutable
+        path: Path.from(path),
+        elevation: elevation,
+        color: color,
+        shadowColor: shadowColor,
+        clipBehavior: clipBehavior,
+      ),
     );
   }
 
@@ -162,28 +185,32 @@ class MySceneBuilder implements SceneBuilder {
     ShaderMaskEngineLayer? oldLayer,
     FilterQuality filterQuality = FilterQuality.low,
   }) {
-    data.items.add(SBDPushShaderMask(
-      shader: shader,
-      maskRect: maskRect,
-      blendMode: blendMode,
-      filterQuality: filterQuality,
-    ));
-    return builder.pushShaderMask(
-      shader,
-      maskRect,
-      blendMode,
-      oldLayer: oldLayer,
-      filterQuality: filterQuality,
+    return _pushOp(
+      builder.pushShaderMask(
+        shader,
+        maskRect,
+        blendMode,
+        oldLayer: oldLayer,
+        filterQuality: filterQuality,
+      ),
+      SBDPushShaderMask(
+        shader: shader,
+        maskRect: maskRect,
+        blendMode: blendMode,
+        filterQuality: filterQuality,
+      ),
     );
   }
 
   @override
   TransformEngineLayer pushTransform(Float64List matrix4, {TransformEngineLayer? oldLayer}) {
-    data.items.add(SBDPushTransform(
-      // TODO temporarily hack to make it immutable
-      matrix4: Float64List.fromList(matrix4),
-    ));
-    return builder.pushTransform(matrix4, oldLayer: oldLayer);
+    return _pushOp(
+      builder.pushTransform(matrix4, oldLayer: oldLayer),
+      SBDPushTransform(
+        // TODO temporarily hack to make it immutable
+        matrix4: Float64List.fromList(matrix4),
+      ),
+    );
   }
 
   @override

@@ -19,7 +19,12 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          enable ? const ScreenPlayerInnerWidget() : widget.child,
+          enable
+              // use RepaintBoundary to ensure paint() gets offset=zero to ease programming
+              ? const RepaintBoundary(
+                  child: ScreenPlayerInnerWidget(),
+                )
+              : widget.child,
           Positioned(
             right: 48,
             bottom: 48,

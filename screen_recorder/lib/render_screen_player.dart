@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ScreenPlayerInnerWidget extends LeafRenderObjectWidget {
   const ScreenPlayerInnerWidget({super.key});
@@ -19,6 +20,19 @@ class RenderScreenPlayer extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    TODO;
+    // ref: _ColorFilterRenderObject, and expand source of pushColorFilter
+
+    assert(offset == Offset.zero);
+
+    layer ??= ColorFilterLayer();
+   
+    // TODO play with the layer
+
+    context.addLayer(layer!);
+
+    assert(() {
+      layer!.debugCreator = debugCreator;
+      return true;
+    }());
   }
 }

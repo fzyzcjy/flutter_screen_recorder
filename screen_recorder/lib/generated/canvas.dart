@@ -3,8 +3,10 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-mixin CanvasMixin implements Canvas {
-  Canvas get proxy;
+class CanvasMixin implements Canvas {
+  final Canvas proxy;
+
+  CanvasMixin(this.proxy);
 
   @override
   void save() {

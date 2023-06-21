@@ -20,8 +20,10 @@ void _generate(Config config, String dirTarget) {
 import 'dart:typed_data';
 import 'dart:ui';
 
-mixin ${config.generatedMixinName} implements ${config.originalClass} {
-  ${config.originalClass} get proxy;
+class ${config.generatedMixinName} implements ${config.originalClass} {
+  final ${config.originalClass} proxy;
+
+  ${config.generatedMixinName}(this.proxy);
 
   ${config.methods.map((configMethod) => _generateMethod(config, configMethod)).join('\n\n')}
 }

@@ -35,6 +35,7 @@ String _generateMethod(Config config, ConfigMethod configMethod) {
       ..annotations.add(refer('override'))
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.addAll(configMethod.requiredParameters)
-      ..optionalParameters.addAll(configMethod.optionalParameters),
+      ..optionalParameters.addAll(configMethod.optionalParameters)
+      ..body = refer('proxy').call(configMethod.positionalArguments, configMethod.namedArguments).code,
   ).accept(DartEmitter()).toString();
 }

@@ -29,6 +29,11 @@ class ConfigMethod {
   List<Parameter> get requiredParameters => parameters.where((e) => e.required).map((e) => e.toParameter()).toList();
 
   List<Parameter> get optionalParameters => parameters.where((e) => !e.required).map((e) => e.toParameter()).toList();
+
+  List<Expression> get positionalArguments => parameters.where((e) => !e.named).map((e) => refer(e.name)).toList();
+
+  Map<String, Expression> get namedArguments =>
+      Map.fromEntries(parameters.where((e) => e.named).map((e) => MapEntry(e.name, refer(e.name))));
 }
 
 class ConfigMethodParameter {

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -38,6 +39,10 @@ class DynamicUint8List {
 
   void addDouble(double value) {
     addAll((Float64List(1)..[0] = value).buffer.asUint8List());
+  }
+
+  void addString(String s) {
+    addAll(utf8.encode(s));
   }
 
   void _increaseCapacity(int newSize) {

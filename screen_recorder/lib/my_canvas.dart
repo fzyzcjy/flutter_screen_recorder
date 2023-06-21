@@ -362,7 +362,7 @@ extension on Rect {
   }
 }
 
-extension on DynamicUint8List {
+extension ExtDynamicUint8ListCanvas on DynamicUint8List {
   void addRRect(RRect r) => addAll(r._getValue32().buffer.asUint8List());
 
   void addRect(Rect r) => addAll(r._getValue32().buffer.asUint8List());

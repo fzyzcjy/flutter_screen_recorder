@@ -25,8 +25,8 @@ class RenderScreenPlayer extends RenderBox {
     assert(offset == Offset.zero);
 
     layer ??= OffsetLayer();
-   
-    _paintToLayer(layer);
+
+    _paintToLayer(layer! as OffsetLayer);
 
     context.addLayer(layer!);
 
@@ -37,7 +37,10 @@ class RenderScreenPlayer extends RenderBox {
   }
 
   void _paintToLayer(OffsetLayer layer) {
+    layer.removeAllChildren();
+
     final context = PaintingContext(layer, Offset.zero & size);
+
     context.canvas.drawCircle(
       const Offset(100, 100),
       200,
@@ -45,5 +48,8 @@ class RenderScreenPlayer extends RenderBox {
         ..color = Colors.blue
         ..style = PaintingStyle.fill,
     );
+
+    // ignore: invalid_use_of_protected_member
+    context.stopRecordingIfNeeded();
   }
 }

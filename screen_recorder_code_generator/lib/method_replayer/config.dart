@@ -19,11 +19,13 @@ class ConfigMethod {
   final String methodName;
   final String returnType;
   final List<ConfigMethodParameter> parameters;
+  final MethodType? type;
 
   const ConfigMethod({
     required this.returnType,
     required this.methodName,
     required this.parameters,
+    this.type,
   });
 
   List<Parameter> get requiredParameters => parameters.where((e) => e.required).map((e) => e.toParameter()).toList();

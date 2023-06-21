@@ -29,15 +29,19 @@ mixin ${config.generatedMixinName} implements ${config.originalClass} {
 }
 
 String _generateMethod(Config config, ConfigMethod configMethod) {
-  final bodyCallProxy = refer('proxy.${configMethod.methodName}')
-      .call(configMethod.positionalArguments, configMethod.namedArguments)
-      .statement;
-  final body = 'return ${bodyCallProxy.dartCode}';
+  final bodyCallProxy = () {
+    final callMethodName = 'proxy.${configMethod.methodName}';
+    return configMethod.type == MethodType.getter
+        ? '$callMethodName;'
+        : refer(callMethodName).call(configMethod.positionalArguments, configMethod.namedArguments).statement.dartCode;
+  }();
+  final body = 'return $bodyCallProxy';
 
   return Method(
     (b) => b
       ..name = configMethod.methodName
       ..annotations.add(refer('override'))
+      ..type = configMethod.type
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.addAll(configMethod.requiredParameters)
       ..optionalParameters.addAll(configMethod.optionalParameters)

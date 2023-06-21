@@ -39,7 +39,7 @@ class ${config.generatedClass} with ${config.manualMixin} implements ${config.or
 }
   ''';
 
-  File('$dirTarget/${config.generatedFilename}').writeAsStringSync(_dartfmt.format(text));
+  File('$dirTarget/delegate/${config.generatedFilename}').writeAsStringSync(_dartfmt.format(text));
 }
 
 String _generateMethod(Config config, ConfigMethod configMethod) {

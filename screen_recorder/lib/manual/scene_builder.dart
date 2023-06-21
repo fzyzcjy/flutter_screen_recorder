@@ -11,7 +11,7 @@ mixin MySceneBuilderMixin {
 
   void _addOp(SceneBuilderOpAddRecord opRecord) {
     _data.ops.add(opRecord.safeClone());
-    opRecord.execute(builder);
+    opRecord.execute(proxy);
   }
 
   T _pushOp<T extends EngineLayer>(SceneBuilderOpPushRecord<T> opRecord, {required T? oldLayer}) {

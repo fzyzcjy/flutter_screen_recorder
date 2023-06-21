@@ -185,7 +185,8 @@ class SBDPushClipPath implements SceneBuilderDataPushItem<ClipPathEngineLayer> {
 
   @override
   SBDPushClipPath safeClone() => SBDPushClipPath(
-        path: path,
+        // TODO temporarily hack to make it immutable
+        path: Path.from(path),
         clipBehavior: clipBehavior,
       );
 
@@ -387,7 +388,8 @@ class SBDPushTransform implements SceneBuilderDataPushItem<TransformEngineLayer>
 
   @override
   SBDPushTransform safeClone() => SBDPushTransform(
-        matrix4: matrix4,
+        // TODO temporarily hack to make it immutable
+        matrix4: Float64List.fromList(matrix4),
       );
 
   @override

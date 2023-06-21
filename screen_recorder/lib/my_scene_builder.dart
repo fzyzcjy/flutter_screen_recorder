@@ -129,8 +129,7 @@ class MySceneBuilder implements SceneBuilder {
   }) {
     return _pushOp(
       SBDPushClipPath(
-        // TODO temporarily hack to make it immutable
-        path: Path.from(path),
+        path: path,
         clipBehavior: clipBehavior,
       ),
       oldLayer: oldLayer,
@@ -251,8 +250,7 @@ class MySceneBuilder implements SceneBuilder {
   }) {
     return _pushOp(
       SBDPushTransform(
-        // TODO temporarily hack to make it immutable
-        matrix4: Float64List.fromList(matrix4),
+        matrix4: matrix4,
       ),
       oldLayer: oldLayer,
     );

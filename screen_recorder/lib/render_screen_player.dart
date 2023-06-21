@@ -82,7 +82,7 @@ class RenderScreenPlayer extends RenderBox {
 
     assert(offset == Offset.zero);
 
-    layer ??= ScreenPlayerLayer();
+    layer ??= ScreenPlayerLayer(frameIndex: frameIndex);
     context.addLayer(layer!);
 
     (layer! as ScreenPlayerLayer).frameIndex = frameIndex;

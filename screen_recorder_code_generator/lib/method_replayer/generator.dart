@@ -36,6 +36,8 @@ String _generateMethod(Config config, ConfigMethod configMethod) {
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.addAll(configMethod.requiredParameters)
       ..optionalParameters.addAll(configMethod.optionalParameters)
-      ..body = refer('proxy').call(configMethod.positionalArguments, configMethod.namedArguments).code,
+      ..body = refer('proxy.${configMethod.methodName}')
+          .call(configMethod.positionalArguments, configMethod.namedArguments)
+          .statement,
   ).accept(DartEmitter()).toString();
 }

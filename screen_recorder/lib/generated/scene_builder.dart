@@ -8,62 +8,114 @@ mixin SceneBuilderMixin implements SceneBuilder {
   TransformEngineLayer pushTransform(
     Float64List matrix4, {
     TransformEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushTransform(
+      matrix4,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   OffsetEngineLayer pushOffset(
     double dx,
     double dy, {
     OffsetEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushOffset(
+      dx,
+      dy,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ClipRectEngineLayer pushClipRect(
     Rect rect, {
     Clip clipBehavior = Clip.antiAlias,
     ClipRectEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushClipRect(
+      rect,
+      clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ClipRRectEngineLayer pushClipRRect(
     RRect rrect, {
     Clip clipBehavior = Clip.antiAlias,
     ClipRRectEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushClipRRect(
+      rrect,
+      clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ClipPathEngineLayer pushClipPath(
     Path path, {
     Clip clipBehavior = Clip.antiAlias,
     ClipPathEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushClipPath(
+      path,
+      clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   OpacityEngineLayer pushOpacity(
     int alpha, {
     Offset? offset = Offset.zero,
     OpacityEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushOpacity(
+      alpha,
+      offset: offset,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ColorFilterEngineLayer pushColorFilter(
     ColorFilter filter, {
     ColorFilterEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushColorFilter(
+      filter,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ImageFilterEngineLayer pushImageFilter(
     ImageFilter filter, {
     Offset offset = Offset.zero,
     ImageFilterEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushImageFilter(
+      filter,
+      offset: offset,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   BackdropFilterEngineLayer pushBackdropFilter(
     ImageFilter filter, {
     BlendMode blendMode = BlendMode.srcOver,
     BackdropFilterEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushBackdropFilter(
+      filter,
+      blendMode: blendMode,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   ShaderMaskEngineLayer pushShaderMask(
@@ -72,13 +124,26 @@ mixin SceneBuilderMixin implements SceneBuilder {
     BlendMode blendMode, {
     FilterQuality filterQuality = FilterQuality.low,
     ShaderMaskEngineLayer? oldLayer,
-  });
+  }) {
+    proxy.pushShaderMask(
+      shader,
+      maskRect,
+      blendMode,
+      filterQuality: filterQuality,
+      oldLayer: oldLayer,
+    );
+  }
 
   @override
   void addPerformanceOverlay(
     int enabledOptions,
     Rect bounds,
-  );
+  ) {
+    proxy.addPerformanceOverlay(
+      enabledOptions,
+      bounds,
+    );
+  }
 
   @override
   void addPicture(
@@ -86,7 +151,14 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Picture picture, {
     bool isComplexHint = false,
     bool willChangeHint = false,
-  });
+  }) {
+    proxy.addPicture(
+      offset,
+      picture,
+      isComplexHint: isComplexHint,
+      willChangeHint: willChangeHint,
+    );
+  }
 
   @override
   void addTexture(
@@ -96,7 +168,16 @@ mixin SceneBuilderMixin implements SceneBuilder {
     double height = 0.0,
     bool freeze = false,
     FilterQuality filterQuality = FilterQuality.low,
-  });
+  }) {
+    proxy.addTexture(
+      textureId,
+      offset: offset,
+      width: width,
+      height: height,
+      freeze: freeze,
+      filterQuality: filterQuality,
+    );
+  }
 
   @override
   void addPlatformView(
@@ -104,5 +185,12 @@ mixin SceneBuilderMixin implements SceneBuilder {
     Offset offset = Offset.zero,
     double width = 0.0,
     double height = 0.0,
-  });
+  }) {
+    proxy.addPlatformView(
+      viewId,
+      offset: offset,
+      width: width,
+      height: height,
+    );
+  }
 }

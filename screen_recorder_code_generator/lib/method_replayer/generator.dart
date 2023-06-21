@@ -24,9 +24,17 @@ mixin ${config.generatedMixinName} implements ${config.originalClass} {
 String _generateMethod(Config config, ConfigMethod configMethod) {
   return '''
   @override
-  ${configMethod.returnType} ${configMethod.methodName}($TODO) {
+  ${configMethod.returnType} ${configMethod.methodName}(${_generateParameters(configMethod.parameters)}) {
     $TODO;
-    return $TODO;
+    return proxy.${configMethod.methodName}(${_generateArguments(configMethod.parameters)});
   }
   ''';
+}
+
+String _generateParameters(List<ConfigMethodParameter> parameters) {
+  return TODO;
+}
+
+String _generateArguments(List<ConfigMethodParameter> parameters) {
+  return TODO;
 }

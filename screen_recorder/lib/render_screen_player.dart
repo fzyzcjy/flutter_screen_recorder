@@ -24,9 +24,9 @@ class RenderScreenPlayer extends RenderBox {
 
     assert(offset == Offset.zero);
 
-    layer ??= ColorFilterLayer();
+    layer ??= OffsetLayer();
    
-    // TODO play with the layer
+    _paintToLayer(layer);
 
     context.addLayer(layer!);
 
@@ -34,5 +34,16 @@ class RenderScreenPlayer extends RenderBox {
       layer!.debugCreator = debugCreator;
       return true;
     }());
+  }
+
+  void _paintToLayer(OffsetLayer layer) {
+    final context = PaintingContext(layer, Offset.zero & size);
+    context.canvas.drawCircle(
+      const Offset(100, 100),
+      200,
+      Paint()
+        ..color = Colors.blue
+        ..style = PaintingStyle.fill,
+    );
   }
 }

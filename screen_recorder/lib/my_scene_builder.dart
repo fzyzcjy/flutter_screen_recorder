@@ -80,7 +80,11 @@ class MySceneBuilder implements SceneBuilder {
 
   @override
   ClipPathEngineLayer pushClipPath(Path path, {Clip clipBehavior = Clip.antiAlias, ClipPathEngineLayer? oldLayer}) {
-    data.items.add(SBDPushClipPath(path: path, clipBehavior: clipBehavior));
+    data.items.add(SBDPushClipPath(
+      // TODO temporarily hack to make it immutable
+      path: Path.from(path),
+      clipBehavior: clipBehavior,
+    ));
     return builder.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer);
   }
 
@@ -132,7 +136,8 @@ class MySceneBuilder implements SceneBuilder {
     PhysicalShapeEngineLayer? oldLayer,
   }) {
     data.items.add(SBDPushPhysicalShape(
-      path: path,
+      // TODO temporarily hack to make it immutable
+      path: Path.from(path),
       elevation: elevation,
       color: color,
       shadowColor: shadowColor,
@@ -174,7 +179,10 @@ class MySceneBuilder implements SceneBuilder {
 
   @override
   TransformEngineLayer pushTransform(Float64List matrix4, {TransformEngineLayer? oldLayer}) {
-    data.items.add(SBDPushTransform(matrix4: matrix4));
+    data.items.add(SBDPushTransform(
+      // TODO temporarily hack to make it immutable
+      matrix4: Float64List.fromList(matrix4),
+    ));
     return builder.pushTransform(matrix4, oldLayer: oldLayer);
   }
 

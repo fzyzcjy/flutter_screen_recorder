@@ -59,8 +59,23 @@ class RenderScreenPlayer extends RenderBox {
 class ScreenPlayerLayer extends ContainerLayer {
   @override
   void addToScene(SceneBuilder builder) {
-    final picture = _createPicture();
+    _addToSceneColorFilterLayer(builder, () {
+      _addToScenePictureLayer(builder);
+    });
+  }
 
+  void _addToSceneColorFilterLayer(SceneBuilder builder, void Function() childAddToScene) {
+    // ref: ColorFilterLayer
+    engineLayer = builder.pushColorFilter(
+      _simpleColorFilter,
+      oldLayer: engineLayer as ColorFilterEngineLayer?,
+    );
+    childAddToScene();
+    builder.pop();
+  }
+
+  void _addToScenePictureLayer(SceneBuilder builder) {
+    final picture = _createPicture();
     // ref: PictureLayer
     builder.addPicture(Offset.zero, picture);
   }

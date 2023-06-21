@@ -15,6 +15,8 @@ void generateAllMethodReplayer(String dirTarget) {
 
 void _generate(Config config, String dirTarget) {
   final text = '''
+// ignore_for_file: unused_import
+
 import 'dart:typed_data';
 import 'dart:ui';
 

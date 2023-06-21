@@ -19,36 +19,70 @@ class MySceneBuilder implements SceneBuilder {
 
   SceneBuilderData get data => DataPerFrame.instance.sceneBuilderData;
 
-  T _pushOp<T extends EngineLayer>(T innerResult, SceneBuilderDataItem dataItem) {
+  void _addOp(SceneBuilderDataAddItem dataItem) {
     data.items.add(dataItem);
+    dataItem.execute(builder);
+  }
+
+  T _pushOp<T extends EngineLayer>(SceneBuilderDataPushItem<T> dataItem, {required T? oldLayer}) {
+    data.items.add(dataItem);
+    final innerResult = dataItem.execute(builder, oldLayer: oldLayer);
+
     innerResult.dataItem = dataItem;
+
     return innerResult;
   }
 
-  @override
-  void addPerformanceOverlay(int enabledOptions, Rect bounds) {
-    data.items.add(SBDAddPerformanceOverlay(enabledOptions: enabledOptions, bounds: bounds));
-    builder.addPerformanceOverlay(enabledOptions, bounds);
-  }
-
-  @override
-  void addPicture(Offset offset, Picture picture, {bool isComplexHint = false, bool willChangeHint = false}) {
-    data.items.add(
-        SBDAddPicture(offset: offset, picture: picture, isComplexHint: isComplexHint, willChangeHint: willChangeHint));
-    builder.addPicture(offset, picture, isComplexHint: isComplexHint, willChangeHint: willChangeHint);
-  }
-
-  @override
-  void addPlatformView(int viewId, {Offset offset = Offset.zero, double width = 0.0, double height = 0.0}) {
-    data.items.add(SBDAddPlatformView(viewId: viewId, offset: offset, width: width, height: height));
-    builder.addPlatformView(viewId, offset: offset, width: width, height: height);
-  }
+  // ========= Special =========
 
   @override
   void addRetained(EngineLayer retainedLayer) {
     // NOTE use the stored dataItem
     data.items.add(retainedLayer.dataItem!);
     builder.addRetained(retainedLayer);
+  }
+
+  // ========= Add =========
+
+  @override
+  void addPerformanceOverlay(
+    int enabledOptions,
+    Rect bounds,
+  ) {
+    _addOp(SBDAddPerformanceOverlay(
+      enabledOptions: enabledOptions,
+      bounds: bounds,
+    ));
+  }
+
+  @override
+  void addPicture(
+    Offset offset,
+    Picture picture, {
+    bool isComplexHint = false,
+    bool willChangeHint = false,
+  }) {
+    _addOp(SBDAddPicture(
+      offset: offset,
+      picture: picture,
+      isComplexHint: isComplexHint,
+      willChangeHint: willChangeHint,
+    ));
+  }
+
+  @override
+  void addPlatformView(
+    int viewId, {
+    Offset offset = Offset.zero,
+    double width = 0.0,
+    double height = 0.0,
+  }) {
+    _addOp(SBDAddPlatformView(
+      viewId: viewId,
+      offset: offset,
+      width: width,
+      height: height,
+    ));
   }
 
   @override
@@ -60,7 +94,7 @@ class MySceneBuilder implements SceneBuilder {
     bool freeze = false,
     FilterQuality filterQuality = FilterQuality.low,
   }) {
-    data.items.add(SBDAddTexture(
+    _addOp(SBDAddTexture(
       textureId: textureId,
       offset: offset,
       width: width,
@@ -68,94 +102,126 @@ class MySceneBuilder implements SceneBuilder {
       freeze: freeze,
       filterQuality: filterQuality,
     ));
-    builder.addTexture(
-      textureId,
-      offset: offset,
-      width: width,
-      height: height,
-      freeze: freeze,
-      filterQuality: filterQuality,
+  }
+
+  // ========= Push =========
+
+  @override
+  BackdropFilterEngineLayer pushBackdropFilter(
+    ImageFilter filter, {
+    BlendMode blendMode = BlendMode.srcOver,
+    BackdropFilterEngineLayer? oldLayer,
+  }) {
+    return _pushOp(
+      SBDPushBackdropFilter(
+        filter: filter,
+        blendMode: blendMode,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  Scene build() {
-    return builder.build();
-  }
-
-  @override
-  void pop() {
-    builder.pop();
-  }
-
-  @override
-  BackdropFilterEngineLayer pushBackdropFilter(ImageFilter filter,
-      {BlendMode blendMode = BlendMode.srcOver, BackdropFilterEngineLayer? oldLayer}) {
+  ClipPathEngineLayer pushClipPath(
+    Path path, {
+    Clip clipBehavior = Clip.antiAlias,
+    ClipPathEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushBackdropFilter(filter, blendMode: blendMode, oldLayer: oldLayer),
-      SBDPushBackdropFilter(filter: filter, blendMode: blendMode),
-    );
-  }
-
-  @override
-  ClipPathEngineLayer pushClipPath(Path path, {Clip clipBehavior = Clip.antiAlias, ClipPathEngineLayer? oldLayer}) {
-    return _pushOp(
-      builder.pushClipPath(path, clipBehavior: clipBehavior, oldLayer: oldLayer),
       SBDPushClipPath(
         // TODO temporarily hack to make it immutable
         path: Path.from(path),
         clipBehavior: clipBehavior,
       ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  ClipRRectEngineLayer pushClipRRect(RRect rrect,
-      {Clip clipBehavior = Clip.antiAlias, ClipRRectEngineLayer? oldLayer}) {
+  ClipRRectEngineLayer pushClipRRect(
+    RRect rrect, {
+    Clip clipBehavior = Clip.antiAlias,
+    ClipRRectEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushClipRRect(rrect, clipBehavior: clipBehavior, oldLayer: oldLayer),
-      SBDPushClipRRect(rrect: rrect, clipBehavior: clipBehavior),
+      SBDPushClipRRect(
+        rrect: rrect,
+        clipBehavior: clipBehavior,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  ClipRectEngineLayer pushClipRect(Rect rect, {Clip clipBehavior = Clip.antiAlias, ClipRectEngineLayer? oldLayer}) {
+  ClipRectEngineLayer pushClipRect(
+    Rect rect, {
+    Clip clipBehavior = Clip.antiAlias,
+    ClipRectEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushClipRect(rect, clipBehavior: clipBehavior, oldLayer: oldLayer),
-      SBDPushClipRect(rect: rect, clipBehavior: clipBehavior),
+      SBDPushClipRect(
+        rect: rect,
+        clipBehavior: clipBehavior,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  ColorFilterEngineLayer pushColorFilter(ColorFilter filter, {ColorFilterEngineLayer? oldLayer}) {
+  ColorFilterEngineLayer pushColorFilter(
+    ColorFilter filter, {
+    ColorFilterEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushColorFilter(filter, oldLayer: oldLayer),
-      SBDPushColorFilter(filter: filter),
+      SBDPushColorFilter(
+        filter: filter,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  ImageFilterEngineLayer pushImageFilter(ImageFilter filter,
-      {Offset offset = Offset.zero, ImageFilterEngineLayer? oldLayer}) {
+  ImageFilterEngineLayer pushImageFilter(
+    ImageFilter filter, {
+    Offset offset = Offset.zero,
+    ImageFilterEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushImageFilter(filter, offset: offset, oldLayer: oldLayer),
-      SBDPushImageFilter(filter: filter, offset: offset),
+      SBDPushImageFilter(
+        filter: filter,
+        offset: offset,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  OffsetEngineLayer pushOffset(double dx, double dy, {OffsetEngineLayer? oldLayer}) {
+  OffsetEngineLayer pushOffset(
+    double dx,
+    double dy, {
+    OffsetEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushOffset(dx, dy, oldLayer: oldLayer),
-      SBDPushOffset(dx: dx, dy: dy),
+      SBDPushOffset(
+        dx: dx,
+        dy: dy,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  OpacityEngineLayer pushOpacity(int alpha, {Offset? offset = Offset.zero, OpacityEngineLayer? oldLayer}) {
+  OpacityEngineLayer pushOpacity(
+    int alpha, {
+    Offset? offset = Offset.zero,
+    OpacityEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushOpacity(alpha, offset: offset, oldLayer: oldLayer),
-      SBDPushOpacity(alpha: alpha, offset: offset),
+      SBDPushOpacity(
+        alpha: alpha,
+        offset: offset,
+      ),
+      oldLayer: oldLayer,
     );
   }
 
@@ -169,15 +235,6 @@ class MySceneBuilder implements SceneBuilder {
     PhysicalShapeEngineLayer? oldLayer,
   }) {
     return _pushOp(
-      // ignore: deprecated_member_use
-      builder.pushPhysicalShape(
-        path: path,
-        elevation: elevation,
-        color: color,
-        shadowColor: shadowColor,
-        clipBehavior: clipBehavior,
-        oldLayer: oldLayer,
-      ),
       SBDPushPhysicalShape(
         // TODO temporarily hack to make it immutable
         path: Path.from(path),
@@ -186,6 +243,7 @@ class MySceneBuilder implements SceneBuilder {
         shadowColor: shadowColor,
         clipBehavior: clipBehavior,
       ),
+      oldLayer: oldLayer,
     );
   }
 
@@ -198,31 +256,40 @@ class MySceneBuilder implements SceneBuilder {
     FilterQuality filterQuality = FilterQuality.low,
   }) {
     return _pushOp(
-      builder.pushShaderMask(
-        shader,
-        maskRect,
-        blendMode,
-        oldLayer: oldLayer,
-        filterQuality: filterQuality,
-      ),
       SBDPushShaderMask(
         shader: shader,
         maskRect: maskRect,
         blendMode: blendMode,
         filterQuality: filterQuality,
       ),
+      oldLayer: oldLayer,
     );
   }
 
   @override
-  TransformEngineLayer pushTransform(Float64List matrix4, {TransformEngineLayer? oldLayer}) {
+  TransformEngineLayer pushTransform(
+    Float64List matrix4, {
+    TransformEngineLayer? oldLayer,
+  }) {
     return _pushOp(
-      builder.pushTransform(matrix4, oldLayer: oldLayer),
       SBDPushTransform(
         // TODO temporarily hack to make it immutable
         matrix4: Float64List.fromList(matrix4),
       ),
+      oldLayer: oldLayer,
     );
+  }
+
+  // ========= Misc =========
+
+  @override
+  Scene build() {
+    return builder.build();
+  }
+
+  @override
+  void pop() {
+    builder.pop();
   }
 
   @override

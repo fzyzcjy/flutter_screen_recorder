@@ -24,6 +24,22 @@ class DynamicUint8List {
     _len += values.length;
   }
 
+  void addUint8(int value) {
+    addAll([value]);
+  }
+
+  void addBool(bool value) {
+    addUint8(value ? 1 : 0);
+  }
+
+  void addUint32(int value) {
+    addAll((Uint32List(1)..[0] = value).buffer.asUint8List());
+  }
+
+  void addDouble(double value) {
+    addAll((Float64List(1)..[0] = value).buffer.asUint8List());
+  }
+
   void _increaseCapacity(int newSize) {
     final newBuf = Uint8List(newSize);
     newBuf.setRange(0, _len, _buf);

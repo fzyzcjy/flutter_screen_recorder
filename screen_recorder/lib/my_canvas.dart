@@ -1,21 +1,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/dynamic_uint8_list.dart';
-
-class CanvasFrameInfo {
-  static var instance = CanvasFrameInfo();
-
-  final countMap = <String, int>{};
-  final bytes = DynamicUint8List(4096);
-
-  void incrCount(String name) => countMap[name] = (countMap[name] ?? 0) + 1;
-
-  int get totalCount => countMap.values.fold(0, (a, b) => a + b);
-
-  @override
-  String toString() => 'CanvasFrameInfo(countMap: $countMap, totalCount: $totalCount, bytes.length=${bytes.len})';
-}
 
 class MyCanvas implements Canvas {
   final Canvas canvas;
@@ -24,43 +11,43 @@ class MyCanvas implements Canvas {
 
   @override
   void clipPath(Path path, {bool doAntiAlias = true}) {
-    CanvasFrameInfo.instance.incrCount('clipPath');
+    DataPerFrame.instance.incrCount('clipPath');
 
-    CanvasFrameInfo.instance.bytes.addPath(path);
-    CanvasFrameInfo.instance.bytes.addBool(doAntiAlias);
+    DataPerFrame.instance.bytes.addPath(path);
+    DataPerFrame.instance.bytes.addBool(doAntiAlias);
 
     canvas.clipPath(path, doAntiAlias: doAntiAlias);
   }
 
   @override
   void clipRRect(RRect rrect, {bool doAntiAlias = true}) {
-    CanvasFrameInfo.instance.incrCount('clipRRect');
+    DataPerFrame.instance.incrCount('clipRRect');
 
-    CanvasFrameInfo.instance.bytes.addRRect(rrect);
-    CanvasFrameInfo.instance.bytes.addBool(doAntiAlias);
+    DataPerFrame.instance.bytes.addRRect(rrect);
+    DataPerFrame.instance.bytes.addBool(doAntiAlias);
 
     canvas.clipRRect(rrect, doAntiAlias: doAntiAlias);
   }
 
   @override
   void clipRect(Rect rect, {ClipOp clipOp = ClipOp.intersect, bool doAntiAlias = true}) {
-    CanvasFrameInfo.instance.incrCount('clipRect');
+    DataPerFrame.instance.incrCount('clipRect');
 
-    CanvasFrameInfo.instance.bytes.addRect(rect);
-    CanvasFrameInfo.instance.bytes.addUint8(clipOp.index);
+    DataPerFrame.instance.bytes.addRect(rect);
+    DataPerFrame.instance.bytes.addUint8(clipOp.index);
 
     canvas.clipRect(rect, clipOp: clipOp, doAntiAlias: doAntiAlias);
   }
 
   @override
   void drawArc(Rect rect, double startAngle, double sweepAngle, bool useCenter, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawArc');
+    DataPerFrame.instance.incrCount('drawArc');
 
-    CanvasFrameInfo.instance.bytes.addRect(rect);
-    CanvasFrameInfo.instance.bytes.addDouble(startAngle);
-    CanvasFrameInfo.instance.bytes.addDouble(sweepAngle);
-    CanvasFrameInfo.instance.bytes.addBool(useCenter);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRect(rect);
+    DataPerFrame.instance.bytes.addDouble(startAngle);
+    DataPerFrame.instance.bytes.addDouble(sweepAngle);
+    DataPerFrame.instance.bytes.addBool(useCenter);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, paint);
   }
@@ -68,7 +55,7 @@ class MyCanvas implements Canvas {
   @override
   void drawAtlas(Image atlas, List<RSTransform> transforms, List<Rect> rects, List<Color>? colors, BlendMode? blendMode,
       Rect? cullRect, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawAtlas');
+    DataPerFrame.instance.incrCount('drawAtlas');
 
     // TODO
 
@@ -77,124 +64,124 @@ class MyCanvas implements Canvas {
 
   @override
   void drawCircle(Offset c, double radius, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawCircle');
+    DataPerFrame.instance.incrCount('drawCircle');
 
-    CanvasFrameInfo.instance.bytes.addOffset(c);
-    CanvasFrameInfo.instance.bytes.addDouble(radius);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addOffset(c);
+    DataPerFrame.instance.bytes.addDouble(radius);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawCircle(c, radius, paint);
   }
 
   @override
   void drawColor(Color color, BlendMode blendMode) {
-    CanvasFrameInfo.instance.incrCount('drawColor');
+    DataPerFrame.instance.incrCount('drawColor');
 
-    CanvasFrameInfo.instance.bytes.addUint32(color.value);
-    CanvasFrameInfo.instance.bytes.addUint8(blendMode.index);
+    DataPerFrame.instance.bytes.addUint32(color.value);
+    DataPerFrame.instance.bytes.addUint8(blendMode.index);
 
     canvas.drawColor(color, blendMode);
   }
 
   @override
   void drawDRRect(RRect outer, RRect inner, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawDRRect');
+    DataPerFrame.instance.incrCount('drawDRRect');
 
-    CanvasFrameInfo.instance.bytes.addAll(outer._getValue32().buffer.asUint8List());
-    CanvasFrameInfo.instance.bytes.addAll(inner._getValue32().buffer.asUint8List());
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addAll(outer._getValue32().buffer.asUint8List());
+    DataPerFrame.instance.bytes.addAll(inner._getValue32().buffer.asUint8List());
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawDRRect(outer, inner, paint);
   }
 
   @override
   void drawImage(Image image, Offset offset, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawImage');
+    DataPerFrame.instance.incrCount('drawImage');
 
     // TODO image
-    CanvasFrameInfo.instance.bytes.addOffset(offset);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addOffset(offset);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawImage(image, offset, paint);
   }
 
   @override
   void drawImageNine(Image image, Rect center, Rect dst, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawImageNine');
+    DataPerFrame.instance.incrCount('drawImageNine');
 
     // TODO image
-    CanvasFrameInfo.instance.bytes.addRect(center);
-    CanvasFrameInfo.instance.bytes.addRect(dst);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRect(center);
+    DataPerFrame.instance.bytes.addRect(dst);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawImageNine(image, center, dst, paint);
   }
 
   @override
   void drawImageRect(Image image, Rect src, Rect dst, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawImageRect');
+    DataPerFrame.instance.incrCount('drawImageRect');
 
     // TODO image
-    CanvasFrameInfo.instance.bytes.addRect(src);
-    CanvasFrameInfo.instance.bytes.addRect(dst);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRect(src);
+    DataPerFrame.instance.bytes.addRect(dst);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawImageRect(image, src, dst, paint);
   }
 
   @override
   void drawLine(Offset p1, Offset p2, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawLine');
+    DataPerFrame.instance.incrCount('drawLine');
 
-    CanvasFrameInfo.instance.bytes.addOffset(p1);
-    CanvasFrameInfo.instance.bytes.addOffset(p2);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addOffset(p1);
+    DataPerFrame.instance.bytes.addOffset(p2);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawLine(p1, p2, paint);
   }
 
   @override
   void drawOval(Rect rect, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawOval');
+    DataPerFrame.instance.incrCount('drawOval');
 
-    CanvasFrameInfo.instance.bytes.addRect(rect);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRect(rect);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawOval(rect, paint);
   }
 
   @override
   void drawPaint(Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawPaint');
+    DataPerFrame.instance.incrCount('drawPaint');
 
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawPaint(paint);
   }
 
   @override
   void drawParagraph(Paragraph paragraph, Offset offset) {
-    CanvasFrameInfo.instance.incrCount('drawParagraph');
+    DataPerFrame.instance.incrCount('drawParagraph');
 
     // NOTE: `Paragraph` is separately handled by MyParagraphBuilder
-    CanvasFrameInfo.instance.bytes.addOffset(offset);
+    DataPerFrame.instance.bytes.addOffset(offset);
 
     canvas.drawParagraph(paragraph, offset);
   }
 
   @override
   void drawPath(Path path, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawPath');
+    DataPerFrame.instance.incrCount('drawPath');
 
-    CanvasFrameInfo.instance.bytes.addPath(path);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addPath(path);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawPath(path, paint);
   }
 
   @override
   void drawPicture(Picture picture) {
-    CanvasFrameInfo.instance.incrCount('drawPicture');
+    DataPerFrame.instance.incrCount('drawPicture');
 
     // TODO picture
 
@@ -203,23 +190,23 @@ class MyCanvas implements Canvas {
 
   @override
   void drawPoints(PointMode pointMode, List<Offset> points, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawPoints');
+    DataPerFrame.instance.incrCount('drawPoints');
 
-    CanvasFrameInfo.instance.bytes.addUint8(pointMode.index);
+    DataPerFrame.instance.bytes.addUint8(pointMode.index);
     for (final p in points) {
-      CanvasFrameInfo.instance.bytes.addOffset(p);
+      DataPerFrame.instance.bytes.addOffset(p);
     }
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawPoints(pointMode, points, paint);
   }
 
   @override
   void drawRRect(RRect rrect, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawRRect');
+    DataPerFrame.instance.incrCount('drawRRect');
 
-    CanvasFrameInfo.instance.bytes.addRRect(rrect);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRRect(rrect);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawRRect(rrect, paint);
   }
@@ -227,7 +214,7 @@ class MyCanvas implements Canvas {
   @override
   void drawRawAtlas(Image atlas, Float32List rstTransforms, Float32List rects, Int32List? colors, BlendMode? blendMode,
       Rect? cullRect, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawRawAtlas');
+    DataPerFrame.instance.incrCount('drawRawAtlas');
 
     // TODO image
 
@@ -236,44 +223,44 @@ class MyCanvas implements Canvas {
 
   @override
   void drawRawPoints(PointMode pointMode, Float32List points, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawRawPoints');
+    DataPerFrame.instance.incrCount('drawRawPoints');
 
-    CanvasFrameInfo.instance.bytes.addUint8(pointMode.index);
-    CanvasFrameInfo.instance.bytes.addAll(points.buffer.asUint8List());
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addUint8(pointMode.index);
+    DataPerFrame.instance.bytes.addAll(points.buffer.asUint8List());
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawRawPoints(pointMode, points, paint);
   }
 
   @override
   void drawRect(Rect rect, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawRect');
+    DataPerFrame.instance.incrCount('drawRect');
 
-    CanvasFrameInfo.instance.bytes.addRect(rect);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addRect(rect);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawRect(rect, paint);
   }
 
   @override
   void drawShadow(Path path, Color color, double elevation, bool transparentOccluder) {
-    CanvasFrameInfo.instance.incrCount('drawShadow');
+    DataPerFrame.instance.incrCount('drawShadow');
 
-    CanvasFrameInfo.instance.bytes.addPath(path);
-    CanvasFrameInfo.instance.bytes.addUint32(color.value);
-    CanvasFrameInfo.instance.bytes.addDouble(elevation);
-    CanvasFrameInfo.instance.bytes.addBool(transparentOccluder);
+    DataPerFrame.instance.bytes.addPath(path);
+    DataPerFrame.instance.bytes.addUint32(color.value);
+    DataPerFrame.instance.bytes.addDouble(elevation);
+    DataPerFrame.instance.bytes.addBool(transparentOccluder);
 
     canvas.drawShadow(path, color, elevation, transparentOccluder);
   }
 
   @override
   void drawVertices(Vertices vertices, BlendMode blendMode, Paint paint) {
-    CanvasFrameInfo.instance.incrCount('drawVertices');
+    DataPerFrame.instance.incrCount('drawVertices');
 
     // TODO vertices
-    CanvasFrameInfo.instance.bytes.addUint8(blendMode.index);
-    CanvasFrameInfo.instance.bytes.addPaint(paint);
+    DataPerFrame.instance.bytes.addUint8(blendMode.index);
+    DataPerFrame.instance.bytes.addPaint(paint);
 
     canvas.drawVertices(vertices, blendMode, paint);
   }

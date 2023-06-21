@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/my_canvas.dart';
 import 'package:screen_recorder/my_paragraph_builder.dart';
 
@@ -25,12 +26,12 @@ class ScreenRecorder {
       print('PersistentFrameCallback '
           'overallUncompressedBytesLen=$overallCompressedBytesLen '
           'overallCompressedBytesLen=$overallCompressedBytesLen '
-          'frameInfo=${CanvasFrameInfo.instance}');
+          'DataPerFrame=${DataPerFrame.instance}');
 
-      overallUncompressedBytesLen += CanvasFrameInfo.instance.bytes.len;
-      overallUncompressedBytes.add(CanvasFrameInfo.instance.bytes.dataView());
+      overallUncompressedBytesLen += DataPerFrame.instance.bytes.len;
+      overallUncompressedBytes.add(DataPerFrame.instance.bytes.dataView());
 
-      CanvasFrameInfo.instance = CanvasFrameInfo();
+      DataPerFrame.instance = DataPerFrame();
     });
   }
 }

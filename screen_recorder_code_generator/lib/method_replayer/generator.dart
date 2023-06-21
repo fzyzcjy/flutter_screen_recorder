@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:code_builder/code_builder.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config_data.dart';
 
@@ -21,20 +22,12 @@ mixin ${config.generatedMixinName} implements ${config.originalClass} {
   File('$dirTarget/${config.generatedFilename}').writeAsStringSync(text);
 }
 
-String _generateMethod(Config config, ConfigMethod configMethod) {
-  return '''
-  @override
-  ${configMethod.returnType} ${configMethod.methodName}(${_generateParameters(configMethod.parameters)}) {
-    $TODO;
-    return proxy.${configMethod.methodName}(${_generateArguments(configMethod.parameters)});
-  }
-  ''';
-}
-
-String _generateParameters(List<ConfigMethodParameter> parameters) {
-  return TODO;
-}
-
-String _generateArguments(List<ConfigMethodParameter> parameters) {
-  return TODO;
+Method _generateMethod(Config config, ConfigMethod configMethod) {
+  return Method(
+    (b) => b
+      ..name = configMethod.methodName
+      ..annotations.add(refer('override')),
+    // ..returns = todo
+    // ..body = todo,
+  );
 }

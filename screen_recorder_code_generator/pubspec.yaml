@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.0.1 <4.0.0'
 
 dependencies:
+  code_builder: ^4.5.0
   path: ^1.8.0
   recase: ^4.0.0
 

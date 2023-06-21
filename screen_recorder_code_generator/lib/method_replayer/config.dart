@@ -1,7 +1,7 @@
 import 'package:recase/recase.dart';
 
 class Config {
-  final Type originalClass;
+  final String originalClass;
   final String generatedMixinName;
   final List<ConfigMethod> methods;
 
@@ -16,7 +16,7 @@ class Config {
 
 class ConfigMethod {
   final String methodName;
-  final Type returnType;
+  final String returnType;
   final List<ConfigMethodParameter> parameters;
 
   const ConfigMethod({
@@ -27,15 +27,15 @@ class ConfigMethod {
 }
 
 class ConfigMethodParameter {
-  final Type type;
+  final String type;
   final String name;
-  final bool required;
+  final bool named;
   final String? defaultValue;
 
-  const ConfigMethodParameter({
-    required this.type,
-    required this.name,
-    required this.required,
+  const ConfigMethodParameter(
+    this.type,
+    this.name, {
+    this.named = false,
     this.defaultValue,
   });
 }

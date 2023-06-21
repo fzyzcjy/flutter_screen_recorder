@@ -18,7 +18,7 @@ class ScreenRecorder {
     final overallUncompressedBytes = StreamController<List<int>>();
     overallUncompressedBytes //
         .stream
-        .transform(GZipCodec().encoder)
+        .transform(ZLibEncoder())
         .listen((bytes) => overallCompressedBytesLen += bytes.length);
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) {

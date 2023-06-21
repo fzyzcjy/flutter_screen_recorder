@@ -11,7 +11,10 @@ sealed class SceneBuilderDataItem {
 
 abstract class SceneBuilderDataAddItem extends SceneBuilderDataItem {}
 
-abstract class SceneBuilderDataPushItem extends SceneBuilderDataItem {}
+abstract class SceneBuilderDataPushItem<L extends EngineLayer> extends SceneBuilderDataItem {
+  @override
+  L execute(SceneBuilder builder, {L? oldLayer});
+}
 
 class SBDAddPerformanceOverlay implements SceneBuilderDataAddItem {
   final int enabledOptions;
@@ -109,7 +112,7 @@ class SBDAddTexture implements SceneBuilderDataAddItem {
   }
 }
 
-class SBDPushBackdropFilter implements SceneBuilderDataPushItem {
+class SBDPushBackdropFilter implements SceneBuilderDataPushItem<BackdropFilterEngineLayer> {
   final ImageFilter filter;
   final BlendMode blendMode;
 
@@ -119,15 +122,16 @@ class SBDPushBackdropFilter implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushBackdropFilter(
+  BackdropFilterEngineLayer execute(SceneBuilder builder, {BackdropFilterEngineLayer? oldLayer}) {
+    return builder.pushBackdropFilter(
       filter,
       blendMode: blendMode,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushClipPath implements SceneBuilderDataPushItem {
+class SBDPushClipPath implements SceneBuilderDataPushItem<ClipPathEngineLayer> {
   final Path path;
   final Clip clipBehavior;
 
@@ -137,15 +141,16 @@ class SBDPushClipPath implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushClipPath(
+  ClipPathEngineLayer execute(SceneBuilder builder, {ClipPathEngineLayer? oldLayer}) {
+    return builder.pushClipPath(
       path,
       clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushClipRRect implements SceneBuilderDataPushItem {
+class SBDPushClipRRect implements SceneBuilderDataPushItem<ClipRRectEngineLayer> {
   final RRect rrect;
   final Clip clipBehavior;
 
@@ -155,15 +160,16 @@ class SBDPushClipRRect implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushClipRRect(
+  ClipRRectEngineLayer execute(SceneBuilder builder, {ClipRRectEngineLayer? oldLayer}) {
+    return builder.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushClipRect implements SceneBuilderDataPushItem {
+class SBDPushClipRect implements SceneBuilderDataPushItem<ClipRectEngineLayer> {
   final Rect rect;
   final Clip clipBehavior;
 
@@ -173,15 +179,16 @@ class SBDPushClipRect implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushClipRect(
+  ClipRectEngineLayer execute(SceneBuilder builder, {ClipRectEngineLayer? oldLayer}) {
+    return builder.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushColorFilter implements SceneBuilderDataPushItem {
+class SBDPushColorFilter implements SceneBuilderDataPushItem<ColorFilterEngineLayer> {
   final ColorFilter filter;
 
   SBDPushColorFilter({
@@ -189,14 +196,15 @@ class SBDPushColorFilter implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushColorFilter(
+  ColorFilterEngineLayer execute(SceneBuilder builder, {ColorFilterEngineLayer? oldLayer}) {
+    return builder.pushColorFilter(
       filter,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushImageFilter implements SceneBuilderDataPushItem {
+class SBDPushImageFilter implements SceneBuilderDataPushItem<ImageFilterEngineLayer> {
   final ImageFilter filter;
   final Offset offset;
 
@@ -206,15 +214,16 @@ class SBDPushImageFilter implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushImageFilter(
+  ImageFilterEngineLayer execute(SceneBuilder builder, {ImageFilterEngineLayer? oldLayer}) {
+    return builder.pushImageFilter(
       filter,
       offset: offset,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushOffset implements SceneBuilderDataPushItem {
+class SBDPushOffset implements SceneBuilderDataPushItem<OffsetEngineLayer> {
   final double dx;
   final double dy;
 
@@ -224,15 +233,16 @@ class SBDPushOffset implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushOffset(
+  OffsetEngineLayer execute(SceneBuilder builder, {OffsetEngineLayer? oldLayer}) {
+    return builder.pushOffset(
       dx,
       dy,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushOpacity implements SceneBuilderDataPushItem {
+class SBDPushOpacity implements SceneBuilderDataPushItem<OpacityEngineLayer> {
   final int alpha;
   final Offset? offset;
 
@@ -242,15 +252,16 @@ class SBDPushOpacity implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushOpacity(
+  OpacityEngineLayer execute(SceneBuilder builder, {OpacityEngineLayer? oldLayer}) {
+    return builder.pushOpacity(
       alpha,
       offset: offset,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushPhysicalShape implements SceneBuilderDataPushItem {
+class SBDPushPhysicalShape implements SceneBuilderDataPushItem<PhysicalShapeEngineLayer> {
   final Path path;
   final double elevation;
   final Color color;
@@ -266,18 +277,20 @@ class SBDPushPhysicalShape implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushPhysicalShape(
+  PhysicalShapeEngineLayer execute(SceneBuilder builder, {PhysicalShapeEngineLayer? oldLayer}) {
+    // ignore: deprecated_member_use
+    return builder.pushPhysicalShape(
       path: path,
       elevation: elevation,
       color: color,
       shadowColor: shadowColor,
       clipBehavior: clipBehavior,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushShaderMask implements SceneBuilderDataPushItem {
+class SBDPushShaderMask implements SceneBuilderDataPushItem<ShaderMaskEngineLayer> {
   final Shader shader;
   final Rect maskRect;
   final BlendMode blendMode;
@@ -291,17 +304,18 @@ class SBDPushShaderMask implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushShaderMask(
+  ShaderMaskEngineLayer execute(SceneBuilder builder, {ShaderMaskEngineLayer? oldLayer}) {
+    return builder.pushShaderMask(
       shader,
       maskRect,
       blendMode,
       filterQuality: filterQuality,
+      oldLayer: oldLayer,
     );
   }
 }
 
-class SBDPushTransform implements SceneBuilderDataPushItem {
+class SBDPushTransform implements SceneBuilderDataPushItem<TransformEngineLayer> {
   final Float64List matrix4;
 
   const SBDPushTransform({
@@ -309,9 +323,10 @@ class SBDPushTransform implements SceneBuilderDataPushItem {
   });
 
   @override
-  void execute(SceneBuilder builder) {
-    builder.pushTransform(
+  TransformEngineLayer execute(SceneBuilder builder, {TransformEngineLayer? oldLayer}) {
+    return builder.pushTransform(
       matrix4,
+      oldLayer: oldLayer,
     );
   }
 }

@@ -59,13 +59,10 @@ class RenderScreenPlayer extends RenderBox {
 class ScreenPlayerLayer extends ContainerLayer {
   @override
   void addToScene(SceneBuilder builder) {
-    // ref: LeaderLayer
-    engineLayer = builder.pushTransform(
-      Matrix4.translationValues(10, 20, 0).storage,
-      oldLayer: engineLayer as TransformEngineLayer?,
-    );
-    addChildrenToScene(builder);
-    builder.pop();
+    final picture = _createPicture();
+
+    // ref: PictureLayer
+    builder.addPicture(Offset.zero, picture);
   }
 }
 

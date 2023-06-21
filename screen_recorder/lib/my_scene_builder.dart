@@ -5,26 +5,10 @@ import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/scene_builder_record.dart';
 
-SceneBuilderRecord get _data => DataPerFrame.instance.sceneBuilderData;
-
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
 
   MySceneBuilder(this.builder);
-
-  void _addOp(SceneBuilderOpAddRecord opRecord) {
-    _data.ops.add(opRecord.safeClone());
-    opRecord.execute(builder);
-  }
-
-  T _pushOp<T extends EngineLayer>(SceneBuilderOpPushRecord<T> opRecord, {required T? oldLayer}) {
-    _data.ops.add(opRecord.safeClone());
-    final innerResult = opRecord.execute(builder, oldLayer: oldLayer);
-
-    innerResult.opRecord = opRecord;
-
-    return innerResult;
-  }
 
   // ========= Special =========
 

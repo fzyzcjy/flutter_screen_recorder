@@ -44,7 +44,8 @@ class MySceneBuilder implements SceneBuilder {
 
   @override
   void addRetained(EngineLayer retainedLayer) {
-    // TODO
+    // NOTE use the stored dataItem
+    data.items.add(retainedLayer.dataItem!);
     builder.addRetained(retainedLayer);
   }
 

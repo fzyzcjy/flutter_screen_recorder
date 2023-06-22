@@ -54,25 +54,8 @@ class BytesWriter {
       _grow(required);
     }
     assert(_buffer.length >= required);
-    if (bytes is Uint8List) {
-      _buffer.setRange(_length, required, bytes);
-    } else {
-      for (int i = 0; i < byteCount; i++) {
-        _buffer[_length + i] = bytes[i];
-      }
-    }
+    _buffer.setRange(_length, required, bytes);
     _length = required;
-  }
-
-  void addByte(int byte) {
-    if (_buffer.length == _length) {
-      // The grow algorithm always at least doubles.
-      // If we added one to _length it would quadruple unnecessarily.
-      _grow(_length);
-    }
-    assert(_buffer.length > _length);
-    _buffer[_length] = byte;
-    _length++;
   }
 
   void _grow(int required) {
@@ -96,16 +79,7 @@ class BytesWriter {
     return buffer;
   }
 
-  Uint8List toBytes() {
-    if (_length == 0) return _emptyList;
-    return Uint8List.fromList(Uint8List.view(_buffer.buffer, _buffer.offsetInBytes, _length));
-  }
-
   int get length => _length;
-
-  bool get isEmpty => _length == 0;
-
-  bool get isNotEmpty => _length != 0;
 
   void clear() {
     _clear();

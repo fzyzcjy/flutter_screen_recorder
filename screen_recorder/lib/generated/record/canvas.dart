@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
 abstract class Canvas_RecordBase<Ret> {
@@ -61,8 +62,8 @@ class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    bounds.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRect(builder, bounds);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -108,7 +109,7 @@ class Canvas_RestoreToCount_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    count.toBytes(builder);
+    toBytesInt(builder, count);
   }
 
   @override
@@ -143,8 +144,8 @@ class Canvas_Translate_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    dx.toBytes(builder);
-    dy.toBytes(builder);
+    toBytesDouble(builder, dx);
+    toBytesDouble(builder, dy);
   }
 
   @override
@@ -182,8 +183,8 @@ class Canvas_Scale_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    sx.toBytes(builder);
-    sy.toBytes(builder);
+    toBytesDouble(builder, sx);
+    toBytesDouble(builder, sy);
   }
 
   @override
@@ -210,7 +211,7 @@ class Canvas_Rotate_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    radians.toBytes(builder);
+    toBytesDouble(builder, radians);
   }
 
   @override
@@ -245,8 +246,8 @@ class Canvas_Skew_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    sx.toBytes(builder);
-    sy.toBytes(builder);
+    toBytesDouble(builder, sx);
+    toBytesDouble(builder, sy);
   }
 
   @override
@@ -273,7 +274,7 @@ class Canvas_Transform_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    matrix4.toBytes(builder);
+    toBytesFloat64List(builder, matrix4);
   }
 
   @override
@@ -313,9 +314,9 @@ class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rect.toBytes(builder);
-    clipOp.toBytes(builder);
-    doAntiAlias.toBytes(builder);
+    toBytesRect(builder, rect);
+    toBytesClipOp(builder, clipOp);
+    toBytesBool(builder, doAntiAlias);
   }
 
   @override
@@ -354,8 +355,8 @@ class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rrect.toBytes(builder);
-    doAntiAlias.toBytes(builder);
+    toBytesRRect(builder, rrect);
+    toBytesBool(builder, doAntiAlias);
   }
 
   @override
@@ -393,8 +394,8 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    path.toBytes(builder);
-    doAntiAlias.toBytes(builder);
+    toBytesPath(builder, path);
+    toBytesBool(builder, doAntiAlias);
   }
 
   @override
@@ -432,8 +433,8 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    color.toBytes(builder);
-    blendMode.toBytes(builder);
+    toBytesColor(builder, color);
+    toBytesBlendMode(builder, blendMode);
   }
 
   @override
@@ -476,9 +477,9 @@ class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    p1.toBytes(builder);
-    p2.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesOffset(builder, p1);
+    toBytesOffset(builder, p2);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -506,7 +507,7 @@ class Canvas_DrawPaint_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    paint.toBytes(builder);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -541,8 +542,8 @@ class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rect.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRect(builder, rect);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -580,8 +581,8 @@ class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rrect.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRRect(builder, rrect);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -624,9 +625,9 @@ class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    outer.toBytes(builder);
-    inner.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRRect(builder, outer);
+    toBytesRRect(builder, inner);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -665,8 +666,8 @@ class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rect.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRect(builder, rect);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -709,9 +710,9 @@ class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    c.toBytes(builder);
-    radius.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesOffset(builder, c);
+    toBytesDouble(builder, radius);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -765,11 +766,11 @@ class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    rect.toBytes(builder);
-    startAngle.toBytes(builder);
-    sweepAngle.toBytes(builder);
-    useCenter.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesRect(builder, rect);
+    toBytesDouble(builder, startAngle);
+    toBytesDouble(builder, sweepAngle);
+    toBytesBool(builder, useCenter);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -810,8 +811,8 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    path.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesPath(builder, path);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -854,9 +855,9 @@ class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    image.toBytes(builder);
-    offset.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesImage(builder, image);
+    toBytesOffset(builder, offset);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -905,10 +906,10 @@ class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    image.toBytes(builder);
-    src.toBytes(builder);
-    dst.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesImage(builder, image);
+    toBytesRect(builder, src);
+    toBytesRect(builder, dst);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -958,10 +959,10 @@ class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    image.toBytes(builder);
-    center.toBytes(builder);
-    dst.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesImage(builder, image);
+    toBytesRect(builder, center);
+    toBytesRect(builder, dst);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -990,7 +991,7 @@ class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    picture.toBytes(builder);
+    toBytesPicture(builder, picture);
   }
 
   @override
@@ -1025,8 +1026,8 @@ class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    paragraph.toBytes(builder);
-    offset.toBytes(builder);
+    toBytesParagraph(builder, paragraph);
+    toBytesOffset(builder, offset);
   }
 
   @override
@@ -1069,9 +1070,9 @@ class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    pointMode.toBytes(builder);
-    points.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesPointMode(builder, pointMode);
+    toBytesListOffset(builder, points);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -1115,9 +1116,9 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    pointMode.toBytes(builder);
-    points.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesPointMode(builder, pointMode);
+    toBytesFloat32List(builder, points);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -1161,9 +1162,9 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    vertices.toBytes(builder);
-    blendMode.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesVertices(builder, vertices);
+    toBytesBlendMode(builder, blendMode);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -1227,13 +1228,13 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    atlas.toBytes(builder);
-    transforms.toBytes(builder);
-    rects.toBytes(builder);
-    colors.toBytes(builder);
-    blendMode.toBytes(builder);
-    cullRect.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesImage(builder, atlas);
+    toBytesListRSTransform(builder, transforms);
+    toBytesListRect(builder, rects);
+    toBytesListColor(builder, colors);
+    toBytesBlendMode(builder, blendMode);
+    toBytesRect(builder, cullRect);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -1301,13 +1302,13 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    atlas.toBytes(builder);
-    rstTransforms.toBytes(builder);
-    rects.toBytes(builder);
-    colors.toBytes(builder);
-    blendMode.toBytes(builder);
-    cullRect.toBytes(builder);
-    paint.toBytes(builder);
+    toBytesImage(builder, atlas);
+    toBytesFloat32List(builder, rstTransforms);
+    toBytesFloat32List(builder, rects);
+    toBytesInt32List(builder, colors);
+    toBytesBlendMode(builder, blendMode);
+    toBytesRect(builder, cullRect);
+    toBytesPaint(builder, paint);
   }
 
   @override
@@ -1360,10 +1361,10 @@ class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    path.toBytes(builder);
-    color.toBytes(builder);
-    elevation.toBytes(builder);
-    transparentOccluder.toBytes(builder);
+    toBytesPath(builder, path);
+    toBytesColor(builder, color);
+    toBytesDouble(builder, elevation);
+    toBytesBool(builder, transparentOccluder);
   }
 
   @override

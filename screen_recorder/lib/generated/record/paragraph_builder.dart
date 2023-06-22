@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
 abstract class ParagraphBuilder_RecordBase<Ret> {
@@ -31,7 +32,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
   }
 
   void toBytes(BytesBuilder builder) {
-    style.toBytes(builder);
+    toBytesTextStyle(builder, style);
   }
 
   @override
@@ -74,7 +75,7 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
   }
 
   void toBytes(BytesBuilder builder) {
-    text.toBytes(builder);
+    toBytesString(builder, text);
   }
 
   @override
@@ -129,12 +130,12 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
   }
 
   void toBytes(BytesBuilder builder) {
-    width.toBytes(builder);
-    height.toBytes(builder);
-    alignment.toBytes(builder);
-    scale.toBytes(builder);
-    baselineOffset.toBytes(builder);
-    baseline.toBytes(builder);
+    toBytesDouble(builder, width);
+    toBytesDouble(builder, height);
+    toBytesPlaceholderAlignment(builder, alignment);
+    toBytesDouble(builder, scale);
+    toBytesDouble(builder, baselineOffset);
+    toBytesTextBaseline(builder, baseline);
   }
 
   @override

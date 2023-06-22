@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
 abstract class SceneBuilder_RecordBase<Ret> {
@@ -31,7 +32,7 @@ class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<Trans
   }
 
   void toBytes(BytesBuilder builder) {
-    matrix4.toBytes(builder);
+    toBytesFloat64List(builder, matrix4);
   }
 
   @override
@@ -66,8 +67,8 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
   }
 
   void toBytes(BytesBuilder builder) {
-    dx.toBytes(builder);
-    dy.toBytes(builder);
+    toBytesDouble(builder, dx);
+    toBytesDouble(builder, dy);
   }
 
   @override
@@ -105,8 +106,8 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
   }
 
   void toBytes(BytesBuilder builder) {
-    rect.toBytes(builder);
-    clipBehavior.toBytes(builder);
+    toBytesRect(builder, rect);
+    toBytesClip(builder, clipBehavior);
   }
 
   @override
@@ -144,8 +145,8 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
   }
 
   void toBytes(BytesBuilder builder) {
-    rrect.toBytes(builder);
-    clipBehavior.toBytes(builder);
+    toBytesRRect(builder, rrect);
+    toBytesClip(builder, clipBehavior);
   }
 
   @override
@@ -183,8 +184,8 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
   }
 
   void toBytes(BytesBuilder builder) {
-    path.toBytes(builder);
-    clipBehavior.toBytes(builder);
+    toBytesPath(builder, path);
+    toBytesClip(builder, clipBehavior);
   }
 
   @override
@@ -222,8 +223,8 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
   }
 
   void toBytes(BytesBuilder builder) {
-    alpha.toBytes(builder);
-    offset.toBytes(builder);
+    toBytesInt(builder, alpha);
+    toBytesOffset(builder, offset);
   }
 
   @override
@@ -250,7 +251,7 @@ class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<Col
   }
 
   void toBytes(BytesBuilder builder) {
-    filter.toBytes(builder);
+    toBytesColorFilter(builder, filter);
   }
 
   @override
@@ -285,8 +286,8 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
   }
 
   void toBytes(BytesBuilder builder) {
-    filter.toBytes(builder);
-    offset.toBytes(builder);
+    toBytesImageFilter(builder, filter);
+    toBytesOffset(builder, offset);
   }
 
   @override
@@ -324,8 +325,8 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
   }
 
   void toBytes(BytesBuilder builder) {
-    filter.toBytes(builder);
-    blendMode.toBytes(builder);
+    toBytesImageFilter(builder, filter);
+    toBytesBlendMode(builder, blendMode);
   }
 
   @override
@@ -373,10 +374,10 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
   }
 
   void toBytes(BytesBuilder builder) {
-    shader.toBytes(builder);
-    maskRect.toBytes(builder);
-    blendMode.toBytes(builder);
-    filterQuality.toBytes(builder);
+    toBytesShader(builder, shader);
+    toBytesRect(builder, maskRect);
+    toBytesBlendMode(builder, blendMode);
+    toBytesFilterQuality(builder, filterQuality);
   }
 
   @override
@@ -435,8 +436,8 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
   }
 
   void toBytes(BytesBuilder builder) {
-    enabledOptions.toBytes(builder);
-    bounds.toBytes(builder);
+    toBytesInt(builder, enabledOptions);
+    toBytesRect(builder, bounds);
   }
 
   @override
@@ -484,10 +485,10 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    offset.toBytes(builder);
-    picture.toBytes(builder);
-    isComplexHint.toBytes(builder);
-    willChangeHint.toBytes(builder);
+    toBytesOffset(builder, offset);
+    toBytesPicture(builder, picture);
+    toBytesBool(builder, isComplexHint);
+    toBytesBool(builder, willChangeHint);
   }
 
   @override
@@ -547,12 +548,12 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    textureId.toBytes(builder);
-    offset.toBytes(builder);
-    width.toBytes(builder);
-    height.toBytes(builder);
-    freeze.toBytes(builder);
-    filterQuality.toBytes(builder);
+    toBytesInt(builder, textureId);
+    toBytesOffset(builder, offset);
+    toBytesDouble(builder, width);
+    toBytesDouble(builder, height);
+    toBytesBool(builder, freeze);
+    toBytesFilterQuality(builder, filterQuality);
   }
 
   @override
@@ -604,10 +605,10 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
   }
 
   void toBytes(BytesBuilder builder) {
-    viewId.toBytes(builder);
-    offset.toBytes(builder);
-    width.toBytes(builder);
-    height.toBytes(builder);
+    toBytesInt(builder, viewId);
+    toBytesOffset(builder, offset);
+    toBytesDouble(builder, width);
+    toBytesDouble(builder, height);
   }
 
   @override

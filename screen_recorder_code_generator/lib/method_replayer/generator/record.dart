@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
+import 'package:recase/recase.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
@@ -14,6 +15,7 @@ $kCommentHeader
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
 abstract class ${config.recordBaseClass}<Ret> {
@@ -105,7 +107,9 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
 }
 
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
-  final body = configMethod.parametersForRecord.map((param) => '${param.name}.toBytes(builder);').join('\n');
+  final body = configMethod.parametersForRecord //
+      .map((param) => 'toBytes${getSerializationPartialName(param.type)}(builder, ${param.name});')
+      .join('\n');
 
   return Method.returnsVoid(
     (b) => b
@@ -117,6 +121,11 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
       ))
       ..body = Code(body),
   );
+}
+
+String getSerializationPartialName(String type) {
+  // TODO e.g. enum, int, ...
+  return ReCase(type.replaceAll('?', '').replaceAll('<', '').replaceAll('>', '')).pascalCase;
 }
 
 Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod) {

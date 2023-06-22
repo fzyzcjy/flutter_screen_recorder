@@ -16,6 +16,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
@@ -94,7 +95,7 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
           ..name = 'reader'
           ..type = refer('BytesReader'),
       ))
-      ..body = Code('fromBytes${getSerializationPartialName(configMethod.methodName)}(reader)'),
+      ..body = Code('fromBytes${getSerializationPartialName(configMethod.recordClassName(config))}(reader)'),
   );
 }
 
@@ -108,7 +109,7 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
           ..name = 'writer'
           ..type = refer('BytesBuilder'),
       ))
-      ..body = Code('toBytes${getSerializationPartialName(configMethod.methodName)}(writer)'),
+      ..body = Code('toBytes${getSerializationPartialName(configMethod.recordClassName(config))}(writer)'),
   );
 }
 

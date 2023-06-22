@@ -15,25 +15,19 @@ import 'package:screen_recorder/temporary_clone.dart';
 sealed class ParagraphBuilder_RecordBase<Ret> {
   ParagraphBuilder_RecordBase();
 
-  factory ParagraphBuilder_RecordBase.fromBytes(BytesReader reader) {
-    final index = fromBytesUint8(reader);
-    switch (index) {
+  static ParagraphBuilder_RecordBase fromBytes(BytesReader reader) {
+    final tag = fromBytesUint8(reader);
+    switch (tag) {
       case 0:
-        return fromBytesParagraphBuilderPlaceholderCountRecord(reader);
+        return ParagraphBuilder_PushStyle_Record.fromBytes(reader);
       case 1:
-        return fromBytesParagraphBuilderPlaceholderScalesRecord(reader);
+        return ParagraphBuilder_Pop_Record.fromBytes(reader);
       case 2:
-        return fromBytesParagraphBuilderPushStyleRecord(reader);
+        return ParagraphBuilder_AddText_Record.fromBytes(reader);
       case 3:
-        return fromBytesParagraphBuilderPopRecord(reader);
-      case 4:
-        return fromBytesParagraphBuilderAddTextRecord(reader);
-      case 5:
-        return fromBytesParagraphBuilderAddPlaceholderRecord(reader);
-      case 6:
-        return fromBytesParagraphBuilderBuildRecord(reader);
+        return ParagraphBuilder_AddPlaceholder_Record.fromBytes(reader);
       default:
-        throw UnimplementedError('unknown index=$index');
+        throw UnimplementedError('unknown tag=$tag');
     }
   }
 
@@ -42,10 +36,17 @@ sealed class ParagraphBuilder_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   ParagraphBuilder_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesBuilder writer);
+  void toBytes(BytesBuilder writer) {
+    toBytesUint8(writer, tag);
+    toBytesWithoutTag(writer);
+  }
+
+  int get tag;
+
+  void toBytesWithoutTag(BytesBuilder writer);
 }
 
-class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {
+class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_PushStyle_Record({required this.style});
 
   factory ParagraphBuilder_PushStyle_Record.fromBytes(BytesReader reader) =>
@@ -58,14 +59,17 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
     return proxy.pushStyle(style);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
+  @override
+  int get tag => 0;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
     return ParagraphBuilder_PushStyle_Record(style: style);
   }
 }
 
-class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
+class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
   factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesParagraphBuilderPopRecord(reader);
@@ -75,14 +79,17 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPopRecord(writer, this);
+  @override
+  int get tag => 1;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderPopRecord(writer, this);
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
   }
 }
 
-class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<void> {
+class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddText_Record({required this.text});
 
   factory ParagraphBuilder_AddText_Record.fromBytes(BytesReader reader) =>
@@ -95,14 +102,17 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
     return proxy.addText(text);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
+  @override
+  int get tag => 2;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
     return ParagraphBuilder_AddText_Record(text: text);
   }
 }
 
-class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordBase<void> {
+class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddPlaceholder_Record({
     required this.width,
     required this.height,
@@ -139,7 +149,10 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
+  @override
+  int get tag => 3;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
     return ParagraphBuilder_AddPlaceholder_Record(

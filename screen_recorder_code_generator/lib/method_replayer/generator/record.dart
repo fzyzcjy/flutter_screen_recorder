@@ -23,7 +23,7 @@ import 'package:screen_recorder/temporary_clone.dart';
 
 ${_generateBaseClass(config)}
 
-${config.methods.mapIndexed((index, configMethod) => _generateRecordClass(config, configMethod, index)).join('\n\n')}
+${config.methodsForRecord.mapIndexed((index, configMethod) => _generateRecordClass(config, configMethod, index)).join('\n\n')}
   ''';
 
   File('$dirTarget/record/${config.generatedFilename}').writeAsStringSync(dartfmt.format(text));
@@ -42,7 +42,7 @@ sealed class ${config.recordBaseClass}<Ret> {
   ${config.recordBaseClass}<Ret> temporaryClone();
   
   void toBytes(BytesBuilder writer) {
-    toBytesUint8(tag);
+    toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
   
@@ -58,24 +58,22 @@ String _generateBaseClassFromBytes(Config config) {
   static ${config.recordBaseClass} fromBytes(BytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
-      ${config.methods.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
-      default: throw UnimplementedError('unknown index=\$index');
+      ${config.methodsForRecord.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
+      default: throw UnimplementedError('unknown tag=\$tag');
     }
   }
   ''';
 }
 
 String _generateBaseClassFromBytesCase(Config config, ConfigMethod configMethod, int index) {
-  return 'case $index: return fromBytes${getSerializationPartialName(configMethod.recordClassName(config))}(reader);';
+  return 'case $index: return ${configMethod.recordClassName(config)}.fromBytes(reader);';
 }
 
 String _generateRecordClass(Config config, ConfigMethod configMethod, int index) {
-  if (!configMethod.enableRecord) return '';
-
   return Class(
     (b) => b
       ..name = configMethod.recordClassName(config)
-      ..implements.add(refer('${config.recordBaseClass}<${configMethod.returnType}>'))
+      ..extend = refer('${config.recordBaseClass}<${configMethod.returnType}>')
       ..fields.addAll(configMethod.parametersForRecord.map((e) => Field(
             (b) => b
               ..name = e.name
@@ -97,8 +95,10 @@ String _generateRecordClass(Config config, ConfigMethod configMethod, int index)
       ..methods.add(Method(
         (b) => b
           ..name = 'tag'
+          ..returns = refer('int')
           ..type = MethodType.getter
           ..lambda = true
+          ..annotations.add(refer('override'))
           ..body = Code('$index'),
       ))
       ..methods.add(_generateRecordClassMethodToBytes(config, configMethod))
@@ -147,6 +147,7 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
     (b) => b
       ..name = 'toBytesWithoutTag'
       ..lambda = true
+      ..annotations.add(refer('override'))
       ..requiredParameters.add(Parameter(
         (b) => b
           ..name = 'writer'
@@ -183,6 +184,10 @@ bool _shouldTemporaryClone(String type) {
     'Float32List',
     'Float64List',
   }.contains(type);
+}
+
+extension on Config {
+  List<ConfigMethod> get methodsForRecord => methods.where((e) => e.enableRecord).toList();
 }
 
 extension ExtConfigMethodRecord on ConfigMethod {

@@ -15,85 +15,77 @@ import 'package:screen_recorder/temporary_clone.dart';
 sealed class Canvas_RecordBase<Ret> {
   Canvas_RecordBase();
 
-  factory Canvas_RecordBase.fromBytes(BytesReader reader) {
-    final index = fromBytesUint8(reader);
-    switch (index) {
+  static Canvas_RecordBase fromBytes(BytesReader reader) {
+    final tag = fromBytesUint8(reader);
+    switch (tag) {
       case 0:
-        return fromBytesCanvasSaveRecord(reader);
+        return Canvas_Save_Record.fromBytes(reader);
       case 1:
-        return fromBytesCanvasSaveLayerRecord(reader);
+        return Canvas_SaveLayer_Record.fromBytes(reader);
       case 2:
-        return fromBytesCanvasRestoreRecord(reader);
+        return Canvas_Restore_Record.fromBytes(reader);
       case 3:
-        return fromBytesCanvasRestoreToCountRecord(reader);
+        return Canvas_RestoreToCount_Record.fromBytes(reader);
       case 4:
-        return fromBytesCanvasGetSaveCountRecord(reader);
+        return Canvas_Translate_Record.fromBytes(reader);
       case 5:
-        return fromBytesCanvasTranslateRecord(reader);
+        return Canvas_Scale_Record.fromBytes(reader);
       case 6:
-        return fromBytesCanvasScaleRecord(reader);
+        return Canvas_Rotate_Record.fromBytes(reader);
       case 7:
-        return fromBytesCanvasRotateRecord(reader);
+        return Canvas_Skew_Record.fromBytes(reader);
       case 8:
-        return fromBytesCanvasSkewRecord(reader);
+        return Canvas_Transform_Record.fromBytes(reader);
       case 9:
-        return fromBytesCanvasTransformRecord(reader);
+        return Canvas_ClipRect_Record.fromBytes(reader);
       case 10:
-        return fromBytesCanvasGetTransformRecord(reader);
+        return Canvas_ClipRRect_Record.fromBytes(reader);
       case 11:
-        return fromBytesCanvasClipRectRecord(reader);
+        return Canvas_ClipPath_Record.fromBytes(reader);
       case 12:
-        return fromBytesCanvasClipRRectRecord(reader);
+        return Canvas_DrawColor_Record.fromBytes(reader);
       case 13:
-        return fromBytesCanvasClipPathRecord(reader);
+        return Canvas_DrawLine_Record.fromBytes(reader);
       case 14:
-        return fromBytesCanvasGetLocalClipBoundsRecord(reader);
+        return Canvas_DrawPaint_Record.fromBytes(reader);
       case 15:
-        return fromBytesCanvasGetDestinationClipBoundsRecord(reader);
+        return Canvas_DrawRect_Record.fromBytes(reader);
       case 16:
-        return fromBytesCanvasDrawColorRecord(reader);
+        return Canvas_DrawRRect_Record.fromBytes(reader);
       case 17:
-        return fromBytesCanvasDrawLineRecord(reader);
+        return Canvas_DrawDRRect_Record.fromBytes(reader);
       case 18:
-        return fromBytesCanvasDrawPaintRecord(reader);
+        return Canvas_DrawOval_Record.fromBytes(reader);
       case 19:
-        return fromBytesCanvasDrawRectRecord(reader);
+        return Canvas_DrawCircle_Record.fromBytes(reader);
       case 20:
-        return fromBytesCanvasDrawRRectRecord(reader);
+        return Canvas_DrawArc_Record.fromBytes(reader);
       case 21:
-        return fromBytesCanvasDrawDRRectRecord(reader);
+        return Canvas_DrawPath_Record.fromBytes(reader);
       case 22:
-        return fromBytesCanvasDrawOvalRecord(reader);
+        return Canvas_DrawImage_Record.fromBytes(reader);
       case 23:
-        return fromBytesCanvasDrawCircleRecord(reader);
+        return Canvas_DrawImageRect_Record.fromBytes(reader);
       case 24:
-        return fromBytesCanvasDrawArcRecord(reader);
+        return Canvas_DrawImageNine_Record.fromBytes(reader);
       case 25:
-        return fromBytesCanvasDrawPathRecord(reader);
+        return Canvas_DrawPicture_Record.fromBytes(reader);
       case 26:
-        return fromBytesCanvasDrawImageRecord(reader);
+        return Canvas_DrawParagraph_Record.fromBytes(reader);
       case 27:
-        return fromBytesCanvasDrawImageRectRecord(reader);
+        return Canvas_DrawPoints_Record.fromBytes(reader);
       case 28:
-        return fromBytesCanvasDrawImageNineRecord(reader);
+        return Canvas_DrawRawPoints_Record.fromBytes(reader);
       case 29:
-        return fromBytesCanvasDrawPictureRecord(reader);
+        return Canvas_DrawVertices_Record.fromBytes(reader);
       case 30:
-        return fromBytesCanvasDrawParagraphRecord(reader);
+        return Canvas_DrawAtlas_Record.fromBytes(reader);
       case 31:
-        return fromBytesCanvasDrawPointsRecord(reader);
+        return Canvas_DrawRawAtlas_Record.fromBytes(reader);
       case 32:
-        return fromBytesCanvasDrawRawPointsRecord(reader);
-      case 33:
-        return fromBytesCanvasDrawVerticesRecord(reader);
-      case 34:
-        return fromBytesCanvasDrawAtlasRecord(reader);
-      case 35:
-        return fromBytesCanvasDrawRawAtlasRecord(reader);
-      case 36:
-        return fromBytesCanvasDrawShadowRecord(reader);
+        return Canvas_DrawShadow_Record.fromBytes(reader);
       default:
-        throw UnimplementedError('unknown index=$index');
+        throw UnimplementedError('unknown tag=$tag');
     }
   }
 
@@ -102,10 +94,17 @@ sealed class Canvas_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   Canvas_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesBuilder writer);
+  void toBytes(BytesBuilder writer) {
+    toBytesUint8(writer, tag);
+    toBytesWithoutTag(writer);
+  }
+
+  int get tag;
+
+  void toBytesWithoutTag(BytesBuilder writer);
 }
 
-class Canvas_Save_Record implements Canvas_RecordBase<void> {
+class Canvas_Save_Record extends Canvas_RecordBase<void> {
   Canvas_Save_Record();
 
   factory Canvas_Save_Record.fromBytes(BytesReader reader) => fromBytesCanvasSaveRecord(reader);
@@ -115,14 +114,17 @@ class Canvas_Save_Record implements Canvas_RecordBase<void> {
     return proxy.save();
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasSaveRecord(writer, this);
+  @override
+  int get tag => 0;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSaveRecord(writer, this);
   @override
   Canvas_Save_Record temporaryClone() {
     return Canvas_Save_Record();
   }
 }
 
-class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
+class Canvas_SaveLayer_Record extends Canvas_RecordBase<void> {
   Canvas_SaveLayer_Record({
     required this.bounds,
     required this.paint,
@@ -142,7 +144,10 @@ class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasSaveLayerRecord(writer, this);
+  @override
+  int get tag => 1;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSaveLayerRecord(writer, this);
   @override
   Canvas_SaveLayer_Record temporaryClone() {
     return Canvas_SaveLayer_Record(
@@ -152,7 +157,7 @@ class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_Restore_Record implements Canvas_RecordBase<void> {
+class Canvas_Restore_Record extends Canvas_RecordBase<void> {
   Canvas_Restore_Record();
 
   factory Canvas_Restore_Record.fromBytes(BytesReader reader) => fromBytesCanvasRestoreRecord(reader);
@@ -162,14 +167,17 @@ class Canvas_Restore_Record implements Canvas_RecordBase<void> {
     return proxy.restore();
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasRestoreRecord(writer, this);
+  @override
+  int get tag => 2;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRestoreRecord(writer, this);
   @override
   Canvas_Restore_Record temporaryClone() {
     return Canvas_Restore_Record();
   }
 }
 
-class Canvas_RestoreToCount_Record implements Canvas_RecordBase<void> {
+class Canvas_RestoreToCount_Record extends Canvas_RecordBase<void> {
   Canvas_RestoreToCount_Record({required this.count});
 
   factory Canvas_RestoreToCount_Record.fromBytes(BytesReader reader) => fromBytesCanvasRestoreToCountRecord(reader);
@@ -181,14 +189,17 @@ class Canvas_RestoreToCount_Record implements Canvas_RecordBase<void> {
     return proxy.restoreToCount(count);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasRestoreToCountRecord(writer, this);
+  @override
+  int get tag => 3;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRestoreToCountRecord(writer, this);
   @override
   Canvas_RestoreToCount_Record temporaryClone() {
     return Canvas_RestoreToCount_Record(count: count);
   }
 }
 
-class Canvas_Translate_Record implements Canvas_RecordBase<void> {
+class Canvas_Translate_Record extends Canvas_RecordBase<void> {
   Canvas_Translate_Record({
     required this.dx,
     required this.dy,
@@ -208,7 +219,10 @@ class Canvas_Translate_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasTranslateRecord(writer, this);
+  @override
+  int get tag => 4;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasTranslateRecord(writer, this);
   @override
   Canvas_Translate_Record temporaryClone() {
     return Canvas_Translate_Record(
@@ -218,7 +232,7 @@ class Canvas_Translate_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_Scale_Record implements Canvas_RecordBase<void> {
+class Canvas_Scale_Record extends Canvas_RecordBase<void> {
   Canvas_Scale_Record({
     required this.sx,
     required this.sy,
@@ -238,7 +252,10 @@ class Canvas_Scale_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasScaleRecord(writer, this);
+  @override
+  int get tag => 5;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasScaleRecord(writer, this);
   @override
   Canvas_Scale_Record temporaryClone() {
     return Canvas_Scale_Record(
@@ -248,7 +265,7 @@ class Canvas_Scale_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_Rotate_Record implements Canvas_RecordBase<void> {
+class Canvas_Rotate_Record extends Canvas_RecordBase<void> {
   Canvas_Rotate_Record({required this.radians});
 
   factory Canvas_Rotate_Record.fromBytes(BytesReader reader) => fromBytesCanvasRotateRecord(reader);
@@ -260,14 +277,17 @@ class Canvas_Rotate_Record implements Canvas_RecordBase<void> {
     return proxy.rotate(radians);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasRotateRecord(writer, this);
+  @override
+  int get tag => 6;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRotateRecord(writer, this);
   @override
   Canvas_Rotate_Record temporaryClone() {
     return Canvas_Rotate_Record(radians: radians);
   }
 }
 
-class Canvas_Skew_Record implements Canvas_RecordBase<void> {
+class Canvas_Skew_Record extends Canvas_RecordBase<void> {
   Canvas_Skew_Record({
     required this.sx,
     required this.sy,
@@ -287,7 +307,10 @@ class Canvas_Skew_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasSkewRecord(writer, this);
+  @override
+  int get tag => 7;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSkewRecord(writer, this);
   @override
   Canvas_Skew_Record temporaryClone() {
     return Canvas_Skew_Record(
@@ -297,7 +320,7 @@ class Canvas_Skew_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_Transform_Record implements Canvas_RecordBase<void> {
+class Canvas_Transform_Record extends Canvas_RecordBase<void> {
   Canvas_Transform_Record({required this.matrix4});
 
   factory Canvas_Transform_Record.fromBytes(BytesReader reader) => fromBytesCanvasTransformRecord(reader);
@@ -309,14 +332,17 @@ class Canvas_Transform_Record implements Canvas_RecordBase<void> {
     return proxy.transform(matrix4);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasTransformRecord(writer, this);
+  @override
+  int get tag => 8;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasTransformRecord(writer, this);
   @override
   Canvas_Transform_Record temporaryClone() {
     return Canvas_Transform_Record(matrix4: matrix4.temporaryClone());
   }
 }
 
-class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
+class Canvas_ClipRect_Record extends Canvas_RecordBase<void> {
   Canvas_ClipRect_Record({
     required this.rect,
     required this.clipOp,
@@ -340,7 +366,10 @@ class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasClipRectRecord(writer, this);
+  @override
+  int get tag => 9;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipRectRecord(writer, this);
   @override
   Canvas_ClipRect_Record temporaryClone() {
     return Canvas_ClipRect_Record(
@@ -351,7 +380,7 @@ class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
+class Canvas_ClipRRect_Record extends Canvas_RecordBase<void> {
   Canvas_ClipRRect_Record({
     required this.rrect,
     required this.doAntiAlias,
@@ -371,7 +400,10 @@ class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasClipRRectRecord(writer, this);
+  @override
+  int get tag => 10;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipRRectRecord(writer, this);
   @override
   Canvas_ClipRRect_Record temporaryClone() {
     return Canvas_ClipRRect_Record(
@@ -381,7 +413,7 @@ class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
+class Canvas_ClipPath_Record extends Canvas_RecordBase<void> {
   Canvas_ClipPath_Record({
     required this.path,
     required this.doAntiAlias,
@@ -401,7 +433,10 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasClipPathRecord(writer, this);
+  @override
+  int get tag => 11;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipPathRecord(writer, this);
   @override
   Canvas_ClipPath_Record temporaryClone() {
     return Canvas_ClipPath_Record(
@@ -411,7 +446,7 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawColor_Record extends Canvas_RecordBase<void> {
   Canvas_DrawColor_Record({
     required this.color,
     required this.blendMode,
@@ -431,7 +466,10 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawColorRecord(writer, this);
+  @override
+  int get tag => 12;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawColorRecord(writer, this);
   @override
   Canvas_DrawColor_Record temporaryClone() {
     return Canvas_DrawColor_Record(
@@ -441,7 +479,7 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawLine_Record extends Canvas_RecordBase<void> {
   Canvas_DrawLine_Record({
     required this.p1,
     required this.p2,
@@ -465,7 +503,10 @@ class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawLineRecord(writer, this);
+  @override
+  int get tag => 13;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawLineRecord(writer, this);
   @override
   Canvas_DrawLine_Record temporaryClone() {
     return Canvas_DrawLine_Record(
@@ -476,7 +517,7 @@ class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawPaint_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawPaint_Record extends Canvas_RecordBase<void> {
   Canvas_DrawPaint_Record({required this.paint});
 
   factory Canvas_DrawPaint_Record.fromBytes(BytesReader reader) => fromBytesCanvasDrawPaintRecord(reader);
@@ -488,14 +529,17 @@ class Canvas_DrawPaint_Record implements Canvas_RecordBase<void> {
     return proxy.drawPaint(paint);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawPaintRecord(writer, this);
+  @override
+  int get tag => 14;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPaintRecord(writer, this);
   @override
   Canvas_DrawPaint_Record temporaryClone() {
     return Canvas_DrawPaint_Record(paint: paint);
   }
 }
 
-class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawRect_Record extends Canvas_RecordBase<void> {
   Canvas_DrawRect_Record({
     required this.rect,
     required this.paint,
@@ -515,7 +559,10 @@ class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawRectRecord(writer, this);
+  @override
+  int get tag => 15;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRectRecord(writer, this);
   @override
   Canvas_DrawRect_Record temporaryClone() {
     return Canvas_DrawRect_Record(
@@ -525,7 +572,7 @@ class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawRRect_Record extends Canvas_RecordBase<void> {
   Canvas_DrawRRect_Record({
     required this.rrect,
     required this.paint,
@@ -545,7 +592,10 @@ class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawRRectRecord(writer, this);
+  @override
+  int get tag => 16;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRRectRecord(writer, this);
   @override
   Canvas_DrawRRect_Record temporaryClone() {
     return Canvas_DrawRRect_Record(
@@ -555,7 +605,7 @@ class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawDRRect_Record extends Canvas_RecordBase<void> {
   Canvas_DrawDRRect_Record({
     required this.outer,
     required this.inner,
@@ -579,7 +629,10 @@ class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawDRRectRecord(writer, this);
+  @override
+  int get tag => 17;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawDRRectRecord(writer, this);
   @override
   Canvas_DrawDRRect_Record temporaryClone() {
     return Canvas_DrawDRRect_Record(
@@ -590,7 +643,7 @@ class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawOval_Record extends Canvas_RecordBase<void> {
   Canvas_DrawOval_Record({
     required this.rect,
     required this.paint,
@@ -610,7 +663,10 @@ class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawOvalRecord(writer, this);
+  @override
+  int get tag => 18;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawOvalRecord(writer, this);
   @override
   Canvas_DrawOval_Record temporaryClone() {
     return Canvas_DrawOval_Record(
@@ -620,7 +676,7 @@ class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawCircle_Record extends Canvas_RecordBase<void> {
   Canvas_DrawCircle_Record({
     required this.c,
     required this.radius,
@@ -644,7 +700,10 @@ class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawCircleRecord(writer, this);
+  @override
+  int get tag => 19;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawCircleRecord(writer, this);
   @override
   Canvas_DrawCircle_Record temporaryClone() {
     return Canvas_DrawCircle_Record(
@@ -655,7 +714,7 @@ class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawArc_Record extends Canvas_RecordBase<void> {
   Canvas_DrawArc_Record({
     required this.rect,
     required this.startAngle,
@@ -687,7 +746,10 @@ class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawArcRecord(writer, this);
+  @override
+  int get tag => 20;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawArcRecord(writer, this);
   @override
   Canvas_DrawArc_Record temporaryClone() {
     return Canvas_DrawArc_Record(
@@ -700,7 +762,7 @@ class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawPath_Record extends Canvas_RecordBase<void> {
   Canvas_DrawPath_Record({
     required this.path,
     required this.paint,
@@ -720,7 +782,10 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawPathRecord(writer, this);
+  @override
+  int get tag => 21;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPathRecord(writer, this);
   @override
   Canvas_DrawPath_Record temporaryClone() {
     return Canvas_DrawPath_Record(
@@ -730,7 +795,7 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawImage_Record extends Canvas_RecordBase<void> {
   Canvas_DrawImage_Record({
     required this.image,
     required this.offset,
@@ -754,7 +819,10 @@ class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawImageRecord(writer, this);
+  @override
+  int get tag => 22;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageRecord(writer, this);
   @override
   Canvas_DrawImage_Record temporaryClone() {
     return Canvas_DrawImage_Record(
@@ -765,7 +833,7 @@ class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawImageRect_Record extends Canvas_RecordBase<void> {
   Canvas_DrawImageRect_Record({
     required this.image,
     required this.src,
@@ -793,7 +861,10 @@ class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawImageRectRecord(writer, this);
+  @override
+  int get tag => 23;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageRectRecord(writer, this);
   @override
   Canvas_DrawImageRect_Record temporaryClone() {
     return Canvas_DrawImageRect_Record(
@@ -805,7 +876,7 @@ class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawImageNine_Record extends Canvas_RecordBase<void> {
   Canvas_DrawImageNine_Record({
     required this.image,
     required this.center,
@@ -833,7 +904,10 @@ class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawImageNineRecord(writer, this);
+  @override
+  int get tag => 24;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageNineRecord(writer, this);
   @override
   Canvas_DrawImageNine_Record temporaryClone() {
     return Canvas_DrawImageNine_Record(
@@ -845,7 +919,7 @@ class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
   Canvas_DrawPicture_Record({required this.picture});
 
   factory Canvas_DrawPicture_Record.fromBytes(BytesReader reader) => fromBytesCanvasDrawPictureRecord(reader);
@@ -857,14 +931,17 @@ class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
     return proxy.drawPicture(picture);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawPictureRecord(writer, this);
+  @override
+  int get tag => 25;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPictureRecord(writer, this);
   @override
   Canvas_DrawPicture_Record temporaryClone() {
     return Canvas_DrawPicture_Record(picture: picture.temporaryClone());
   }
 }
 
-class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawParagraph_Record extends Canvas_RecordBase<void> {
   Canvas_DrawParagraph_Record({
     required this.paragraph,
     required this.offset,
@@ -884,7 +961,10 @@ class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawParagraphRecord(writer, this);
+  @override
+  int get tag => 26;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawParagraphRecord(writer, this);
   @override
   Canvas_DrawParagraph_Record temporaryClone() {
     return Canvas_DrawParagraph_Record(
@@ -894,7 +974,7 @@ class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawPoints_Record extends Canvas_RecordBase<void> {
   Canvas_DrawPoints_Record({
     required this.pointMode,
     required this.points,
@@ -918,7 +998,10 @@ class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawPointsRecord(writer, this);
+  @override
+  int get tag => 27;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPointsRecord(writer, this);
   @override
   Canvas_DrawPoints_Record temporaryClone() {
     return Canvas_DrawPoints_Record(
@@ -929,7 +1012,7 @@ class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawRawPoints_Record extends Canvas_RecordBase<void> {
   Canvas_DrawRawPoints_Record({
     required this.pointMode,
     required this.points,
@@ -953,7 +1036,10 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawRawPointsRecord(writer, this);
+  @override
+  int get tag => 28;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRawPointsRecord(writer, this);
   @override
   Canvas_DrawRawPoints_Record temporaryClone() {
     return Canvas_DrawRawPoints_Record(
@@ -964,7 +1050,7 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawVertices_Record extends Canvas_RecordBase<void> {
   Canvas_DrawVertices_Record({
     required this.vertices,
     required this.blendMode,
@@ -988,7 +1074,10 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawVerticesRecord(writer, this);
+  @override
+  int get tag => 29;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawVerticesRecord(writer, this);
   @override
   Canvas_DrawVertices_Record temporaryClone() {
     return Canvas_DrawVertices_Record(
@@ -999,7 +1088,7 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
   Canvas_DrawAtlas_Record({
     required this.atlas,
     required this.transforms,
@@ -1039,7 +1128,10 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawAtlasRecord(writer, this);
+  @override
+  int get tag => 30;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawAtlasRecord(writer, this);
   @override
   Canvas_DrawAtlas_Record temporaryClone() {
     return Canvas_DrawAtlas_Record(
@@ -1054,7 +1146,7 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
   Canvas_DrawRawAtlas_Record({
     required this.atlas,
     required this.rstTransforms,
@@ -1094,7 +1186,10 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawRawAtlasRecord(writer, this);
+  @override
+  int get tag => 31;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRawAtlasRecord(writer, this);
   @override
   Canvas_DrawRawAtlas_Record temporaryClone() {
     return Canvas_DrawRawAtlas_Record(
@@ -1109,7 +1204,7 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
   }
 }
 
-class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
+class Canvas_DrawShadow_Record extends Canvas_RecordBase<void> {
   Canvas_DrawShadow_Record({
     required this.path,
     required this.color,
@@ -1137,7 +1232,10 @@ class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesCanvasDrawShadowRecord(writer, this);
+  @override
+  int get tag => 32;
+  @override
+  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawShadowRecord(writer, this);
   @override
   Canvas_DrawShadow_Record temporaryClone() {
     return Canvas_DrawShadow_Record(

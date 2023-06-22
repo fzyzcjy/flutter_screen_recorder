@@ -15,14 +15,12 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   @override
   int get placeholderCount {
     final result = proxy.placeholderCount;
-    handleOp(result);
     return result;
   }
 
   @override
   List<double> get placeholderScales {
     final result = proxy.placeholderScales;
-    handleOp(result);
     return result;
   }
 
@@ -82,7 +80,6 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   @override
   Paragraph build() {
     final result = proxy.build();
-    handleOp(result);
     return result;
   }
 }

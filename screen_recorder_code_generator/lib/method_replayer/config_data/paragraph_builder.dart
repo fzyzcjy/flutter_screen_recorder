@@ -7,12 +7,14 @@ final kConfigParagraphBuilder = Config(
     ConfigMethod(
       returnType: 'int',
       methodName: 'placeholderCount',
+      handlerName: null,
       enableRecord: false,
       parameters: [],
       type: MethodType.getter,
     ),
     ConfigMethod(
       returnType: 'List<double>',
+      handlerName: null,
       enableRecord: false,
       methodName: 'placeholderScales',
       parameters: [],
@@ -52,6 +54,7 @@ final kConfigParagraphBuilder = Config(
     ConfigMethod(
       returnType: 'Paragraph',
       methodName: 'build',
+      handlerName: null,
       enableRecord: false,
       parameters: [],
     ),

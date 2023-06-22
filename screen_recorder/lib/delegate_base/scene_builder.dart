@@ -40,4 +40,8 @@ class SceneBuilder_RecordExecuteContext {
     assert(!nextEngineLayerIdMap.containsKey(layerId));
     nextEngineLayerIdMap[layerId] = engineLayer;
   }
+
+  void putRetainedEngineLayerId(int layerId) {
+    putEngineLayerId(layerId, getEngineLayerById(layerId));
+  }
 }

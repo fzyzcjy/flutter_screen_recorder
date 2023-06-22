@@ -119,10 +119,9 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
       )
       .statement
       .dartCode;
-  final body = '''
-  final result = proxy.$bodyCallProxy
-  return result;
-  ''';
+  final body = 'final result = proxy.$bodyCallProxy'
+      '${configMethod.recordExecuteExtraBody}'
+      'return result;';
 
   return Method(
     (b) => b

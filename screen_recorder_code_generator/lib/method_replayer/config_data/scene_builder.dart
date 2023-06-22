@@ -11,6 +11,7 @@ ConfigMethod _createMethodPush({
     returnType: '${stem}EngineLayer',
     methodName: methodName,
     handlerName: 'handlePushOp',
+    recordExecuteExtraBody: 'executeContext.putEngineLayerId(layerId, result);',
     parameters: [
       ...partialParameters,
       ConfigMethodParameter('${stem}EngineLayer? oldLayer', required: false, named: true, enableRecord: false),
@@ -107,6 +108,7 @@ final kConfigSceneBuilder = Config(
       returnType: 'void',
       methodName: 'addRetained',
       handlerName: 'handleAddRetainedOp',
+      recordExecuteExtraBody: 'executeContext.putRetainedEngineLayerId(retainedLayerId);',
       parameters: [
         ConfigMethodParameter('EngineLayer retainedLayer',
             enableRecord: false, recordExecuteArgument: 'executeContext.getEngineLayerById(retainedLayerId)'),

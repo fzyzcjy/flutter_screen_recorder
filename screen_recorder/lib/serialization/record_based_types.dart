@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader_writer.dart';
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
@@ -24,8 +25,9 @@ Paragraph fromBytesParagraph(BytesReader reader) {
 }
 
 void toBytesParagraph(BytesWriter writer, Paragraph value) {
-  toBytesParagraphBuilderRecordList(writer, value.paragraphBuilderRecordList!);
-  toBytesParagraphRecord(writer, value.paragraphRecord!);
+  final nativeParagraph = value.nativeParagraph;
+  toBytesParagraphBuilderRecordList(writer, nativeParagraph.paragraphBuilderRecordList!);
+  toBytesParagraphRecord(writer, nativeParagraph.paragraphRecord!);
 }
 
 const fromBytesParagraphBuilderRecordBase = ParagraphBuilder_RecordBase.fromBytes;

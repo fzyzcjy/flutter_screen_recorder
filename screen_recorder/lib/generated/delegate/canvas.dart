@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/canvas.dart';
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 
 class MyCanvas extends MyCanvasBase implements Canvas {
@@ -458,7 +459,8 @@ class MyCanvas extends MyCanvasBase implements Canvas {
     Offset offset,
   ) {
     final result = proxy.drawParagraph(
-      paragraph,
+      // need to use _NativeParagraph, otherwise it errors
+      paragraph.nativeParagraph,
       offset,
     );
     final record = Canvas_DrawParagraph_Record(

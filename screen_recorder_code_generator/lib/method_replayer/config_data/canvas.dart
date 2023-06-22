@@ -244,6 +244,9 @@ final kConfigCanvas = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'drawParagraph',
+      proxyCallParams: '// need to use _NativeParagraph, otherwise it errors\n'
+          'paragraph.nativeParagraph,\n'
+          'offset,',
       parameters: [
         ConfigMethodParameter('Paragraph paragraph'),
         ConfigMethodParameter('Offset offset'),

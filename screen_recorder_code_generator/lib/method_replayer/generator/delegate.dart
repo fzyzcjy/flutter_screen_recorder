@@ -15,6 +15,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/${config.generatedFilename}';
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/generated/record/${config.generatedFilename}';
 
 class ${config.generatedClass} extends ${config.superClass} implements ${config.originalClass} {
@@ -37,6 +38,9 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
 
   final bodyCallProxy = () {
     final callMethodName = 'proxy.${configMethod.methodName}';
+    if (configMethod.proxyCallParams != null) {
+      return '$callMethodName(${configMethod.proxyCallParams});';
+    }
     return configMethod.type == MethodType.getter
         ? '$callMethodName;'
         : refer(callMethodName)

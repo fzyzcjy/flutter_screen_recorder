@@ -8,6 +8,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/scene_builder.dart';
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 
 class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {

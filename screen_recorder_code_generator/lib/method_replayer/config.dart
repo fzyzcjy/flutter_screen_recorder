@@ -32,6 +32,8 @@ class ConfigMethod {
   final bool handlerReturn;
   final bool enableRecord;
 
+  final String? proxyCallParams;
+
   const ConfigMethod({
     required this.returnType,
     required this.methodName,
@@ -41,6 +43,7 @@ class ConfigMethod {
     this.handlerParams,
     this.handlerReturn = false,
     this.enableRecord = true,
+    this.proxyCallParams,
   });
 
   String recordClassName(Config config) => '${config.originalClass}_${ReCase(methodName).pascalCase}_Record';

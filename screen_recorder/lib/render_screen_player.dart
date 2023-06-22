@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/replayer/scene_builder.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -160,7 +162,13 @@ class ScreenPlayerLayer extends ContainerLayer {
   void addToScene(SceneBuilder builder) {
     print('$runtimeType.addToScene');
 
-    SceneBuilderReplayer.replay(ScreenRecorder.instance.sceneBuilderDataArr[frameIndex], builder);
+    final bytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
+
+    final reader = BytesReader(bytes);
+    final data = fromBytesSceneBuilderRecordList(reader);
+    assert(reader.eof);
+
+    SceneBuilderReplayer.replay(data, builder);
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

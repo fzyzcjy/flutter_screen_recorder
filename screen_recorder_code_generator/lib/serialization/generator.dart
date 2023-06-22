@@ -6,7 +6,6 @@ import 'package:screen_recorder_code_generator/method_replayer/generator.dart' a
 import 'package:screen_recorder_code_generator/serialization/config.dart';
 import 'package:screen_recorder_code_generator/serialization/config_data/from_method_replayer.dart';
 import 'package:screen_recorder_code_generator/serialization/config_data/manual.dart';
-import 'package:screen_recorder_code_generator/types.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
 final kConfigs = [
@@ -73,7 +72,5 @@ String _generateToBytesField(Config config, ConfigField configField) {
 }
 
 String getSerializationPartialName(String type) {
-  final info = getTypeInfo(type);
-  if (info.isEnum) return 'Enum';
   return ReCase(type.replaceAll('?', '').replaceAll('<', '').replaceAll('>', '')).pascalCase;
 }

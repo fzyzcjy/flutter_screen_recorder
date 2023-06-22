@@ -49,7 +49,7 @@ void toBytesSceneBuilderPushOffsetRecord(BytesBuilder writer, SceneBuilder_PushO
 
 SceneBuilder_PushClipRect_Record fromBytesSceneBuilderPushClipRectRecord(BytesReader reader) {
   final rect = fromBytesRect(reader);
-  final clipBehavior = fromBytesEnum(reader);
+  final clipBehavior = fromBytesClip(reader);
   return SceneBuilder_PushClipRect_Record(
     rect: rect,
     clipBehavior: clipBehavior,
@@ -58,12 +58,12 @@ SceneBuilder_PushClipRect_Record fromBytesSceneBuilderPushClipRectRecord(BytesRe
 
 void toBytesSceneBuilderPushClipRectRecord(BytesBuilder writer, SceneBuilder_PushClipRect_Record value) {
   toBytesRect(writer, value.rect);
-  toBytesEnum(writer, value.clipBehavior);
+  toBytesClip(writer, value.clipBehavior);
 }
 
 SceneBuilder_PushClipRRect_Record fromBytesSceneBuilderPushClipRRectRecord(BytesReader reader) {
   final rrect = fromBytesRRect(reader);
-  final clipBehavior = fromBytesEnum(reader);
+  final clipBehavior = fromBytesClip(reader);
   return SceneBuilder_PushClipRRect_Record(
     rrect: rrect,
     clipBehavior: clipBehavior,
@@ -72,12 +72,12 @@ SceneBuilder_PushClipRRect_Record fromBytesSceneBuilderPushClipRRectRecord(Bytes
 
 void toBytesSceneBuilderPushClipRRectRecord(BytesBuilder writer, SceneBuilder_PushClipRRect_Record value) {
   toBytesRRect(writer, value.rrect);
-  toBytesEnum(writer, value.clipBehavior);
+  toBytesClip(writer, value.clipBehavior);
 }
 
 SceneBuilder_PushClipPath_Record fromBytesSceneBuilderPushClipPathRecord(BytesReader reader) {
   final path = fromBytesPath(reader);
-  final clipBehavior = fromBytesEnum(reader);
+  final clipBehavior = fromBytesClip(reader);
   return SceneBuilder_PushClipPath_Record(
     path: path,
     clipBehavior: clipBehavior,
@@ -86,7 +86,7 @@ SceneBuilder_PushClipPath_Record fromBytesSceneBuilderPushClipPathRecord(BytesRe
 
 void toBytesSceneBuilderPushClipPathRecord(BytesBuilder writer, SceneBuilder_PushClipPath_Record value) {
   toBytesPath(writer, value.path);
-  toBytesEnum(writer, value.clipBehavior);
+  toBytesClip(writer, value.clipBehavior);
 }
 
 SceneBuilder_PushOpacity_Record fromBytesSceneBuilderPushOpacityRecord(BytesReader reader) {
@@ -128,7 +128,7 @@ void toBytesSceneBuilderPushImageFilterRecord(BytesBuilder writer, SceneBuilder_
 
 SceneBuilder_PushBackdropFilter_Record fromBytesSceneBuilderPushBackdropFilterRecord(BytesReader reader) {
   final filter = fromBytesImageFilter(reader);
-  final blendMode = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
   return SceneBuilder_PushBackdropFilter_Record(
     filter: filter,
     blendMode: blendMode,
@@ -137,14 +137,14 @@ SceneBuilder_PushBackdropFilter_Record fromBytesSceneBuilderPushBackdropFilterRe
 
 void toBytesSceneBuilderPushBackdropFilterRecord(BytesBuilder writer, SceneBuilder_PushBackdropFilter_Record value) {
   toBytesImageFilter(writer, value.filter);
-  toBytesEnum(writer, value.blendMode);
+  toBytesBlendMode(writer, value.blendMode);
 }
 
 SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(BytesReader reader) {
   final shader = fromBytesShader(reader);
   final maskRect = fromBytesRect(reader);
-  final blendMode = fromBytesEnum(reader);
-  final filterQuality = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
+  final filterQuality = fromBytesFilterQuality(reader);
   return SceneBuilder_PushShaderMask_Record(
     shader: shader,
     maskRect: maskRect,
@@ -156,8 +156,8 @@ SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(Byt
 void toBytesSceneBuilderPushShaderMaskRecord(BytesBuilder writer, SceneBuilder_PushShaderMask_Record value) {
   toBytesShader(writer, value.shader);
   toBytesRect(writer, value.maskRect);
-  toBytesEnum(writer, value.blendMode);
-  toBytesEnum(writer, value.filterQuality);
+  toBytesBlendMode(writer, value.blendMode);
+  toBytesFilterQuality(writer, value.filterQuality);
 }
 
 SceneBuilder_Pop_Record fromBytesSceneBuilderPopRecord(BytesReader reader) {
@@ -207,7 +207,7 @@ SceneBuilder_AddTexture_Record fromBytesSceneBuilderAddTextureRecord(BytesReader
   final width = fromBytesDouble(reader);
   final height = fromBytesDouble(reader);
   final freeze = fromBytesBool(reader);
-  final filterQuality = fromBytesEnum(reader);
+  final filterQuality = fromBytesFilterQuality(reader);
   return SceneBuilder_AddTexture_Record(
     textureId: textureId,
     offset: offset,
@@ -224,7 +224,7 @@ void toBytesSceneBuilderAddTextureRecord(BytesBuilder writer, SceneBuilder_AddTe
   toBytesDouble(writer, value.width);
   toBytesDouble(writer, value.height);
   toBytesBool(writer, value.freeze);
-  toBytesEnum(writer, value.filterQuality);
+  toBytesFilterQuality(writer, value.filterQuality);
 }
 
 SceneBuilder_AddPlatformView_Record fromBytesSceneBuilderAddPlatformViewRecord(BytesReader reader) {
@@ -389,7 +389,7 @@ void toBytesCanvasClipPathRecord(BytesBuilder writer, Canvas_ClipPath_Record val
 
 Canvas_DrawColor_Record fromBytesCanvasDrawColorRecord(BytesReader reader) {
   final color = fromBytesColor(reader);
-  final blendMode = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
   return Canvas_DrawColor_Record(
     color: color,
     blendMode: blendMode,
@@ -398,7 +398,7 @@ Canvas_DrawColor_Record fromBytesCanvasDrawColorRecord(BytesReader reader) {
 
 void toBytesCanvasDrawColorRecord(BytesBuilder writer, Canvas_DrawColor_Record value) {
   toBytesColor(writer, value.color);
-  toBytesEnum(writer, value.blendMode);
+  toBytesBlendMode(writer, value.blendMode);
 }
 
 Canvas_DrawLine_Record fromBytesCanvasDrawLineRecord(BytesReader reader) {
@@ -656,7 +656,7 @@ void toBytesCanvasDrawRawPointsRecord(BytesBuilder writer, Canvas_DrawRawPoints_
 
 Canvas_DrawVertices_Record fromBytesCanvasDrawVerticesRecord(BytesReader reader) {
   final vertices = fromBytesVertices(reader);
-  final blendMode = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
   final paint = fromBytesPaint(reader);
   return Canvas_DrawVertices_Record(
     vertices: vertices,
@@ -667,7 +667,7 @@ Canvas_DrawVertices_Record fromBytesCanvasDrawVerticesRecord(BytesReader reader)
 
 void toBytesCanvasDrawVerticesRecord(BytesBuilder writer, Canvas_DrawVertices_Record value) {
   toBytesVertices(writer, value.vertices);
-  toBytesEnum(writer, value.blendMode);
+  toBytesBlendMode(writer, value.blendMode);
   toBytesPaint(writer, value.paint);
 }
 
@@ -676,7 +676,7 @@ Canvas_DrawAtlas_Record fromBytesCanvasDrawAtlasRecord(BytesReader reader) {
   final transforms = fromBytesListRSTransform(reader);
   final rects = fromBytesListRect(reader);
   final colors = fromBytesListColor(reader);
-  final blendMode = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
   final cullRect = fromBytesRect(reader);
   final paint = fromBytesPaint(reader);
   return Canvas_DrawAtlas_Record(
@@ -695,7 +695,7 @@ void toBytesCanvasDrawAtlasRecord(BytesBuilder writer, Canvas_DrawAtlas_Record v
   toBytesListRSTransform(writer, value.transforms);
   toBytesListRect(writer, value.rects);
   toBytesListColor(writer, value.colors);
-  toBytesEnum(writer, value.blendMode);
+  toBytesBlendMode(writer, value.blendMode);
   toBytesRect(writer, value.cullRect);
   toBytesPaint(writer, value.paint);
 }
@@ -705,7 +705,7 @@ Canvas_DrawRawAtlas_Record fromBytesCanvasDrawRawAtlasRecord(BytesReader reader)
   final rstTransforms = fromBytesFloat32List(reader);
   final rects = fromBytesFloat32List(reader);
   final colors = fromBytesInt32List(reader);
-  final blendMode = fromBytesEnum(reader);
+  final blendMode = fromBytesBlendMode(reader);
   final cullRect = fromBytesRect(reader);
   final paint = fromBytesPaint(reader);
   return Canvas_DrawRawAtlas_Record(
@@ -724,7 +724,7 @@ void toBytesCanvasDrawRawAtlasRecord(BytesBuilder writer, Canvas_DrawRawAtlas_Re
   toBytesFloat32List(writer, value.rstTransforms);
   toBytesFloat32List(writer, value.rects);
   toBytesInt32List(writer, value.colors);
-  toBytesEnum(writer, value.blendMode);
+  toBytesBlendMode(writer, value.blendMode);
   toBytesRect(writer, value.cullRect);
   toBytesPaint(writer, value.paint);
 }

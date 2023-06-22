@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:screen_recorder/expandos.dart';
+import 'package:screen_recorder/generated/delegate/paragraph.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/record_list.dart';
 
@@ -18,8 +19,9 @@ abstract class MyParagraphBuilderBase {
     _data.methodCallRecords.add(record.temporaryClone());
   }
 
-  void handleBuildOp(Paragraph result) {
+  Paragraph handleBuildOp(Paragraph result) {
     result.paragraphBuilderRecordList = _data;
+    return MyParagraph(result);
   }
 }
 

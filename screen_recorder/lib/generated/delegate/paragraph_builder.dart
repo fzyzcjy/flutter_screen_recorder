@@ -81,7 +81,6 @@ class MyParagraphBuilder extends MyParagraphBuilderBase implements ParagraphBuil
   @override
   Paragraph build() {
     final result = proxy.build();
-    handleBuildOp(result);
-    return result;
+    return handleBuildOp(result);
   }
 }

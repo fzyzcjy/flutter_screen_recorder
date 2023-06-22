@@ -53,9 +53,9 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
       'final record = $bodyConstructRecord',
     ],
     if (configMethod.handlerName != null) ...[
-      '${configMethod.handlerName}($handlerParams);',
+      '${configMethod.handlerReturn ? "return " : ""}${configMethod.handlerName}($handlerParams);',
     ],
-    'return result;',
+    if (!configMethod.handlerReturn) 'return result;',
   ];
 
   return Method(

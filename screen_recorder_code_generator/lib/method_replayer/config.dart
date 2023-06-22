@@ -29,6 +29,7 @@ class ConfigMethod {
 
   final String? handlerName;
   final String? handlerParams;
+  final bool handlerReturn;
   final bool enableRecord;
 
   const ConfigMethod({
@@ -38,6 +39,7 @@ class ConfigMethod {
     this.type,
     this.handlerName = 'handleOp',
     this.handlerParams,
+    this.handlerReturn = false,
     this.enableRecord = true,
   });
 

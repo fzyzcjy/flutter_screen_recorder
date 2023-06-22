@@ -67,6 +67,38 @@ void toBytesTextBaseline(BytesBuilder writer, TextBaseline value) {
   writer.addByte(value.index);
 }
 
+TextAlign fromBytesTextAlign(BytesReader reader) {
+  return TextAlign.values[reader.readByte()];
+}
+
+void toBytesTextAlign(BytesBuilder writer, TextAlign value) {
+  writer.addByte(value.index);
+}
+
+TextDirection fromBytesTextDirection(BytesReader reader) {
+  return TextDirection.values[reader.readByte()];
+}
+
+void toBytesTextDirection(BytesBuilder writer, TextDirection value) {
+  writer.addByte(value.index);
+}
+
+TextLeadingDistribution fromBytesTextLeadingDistribution(BytesReader reader) {
+  return TextLeadingDistribution.values[reader.readByte()];
+}
+
+void toBytesTextLeadingDistribution(BytesBuilder writer, TextLeadingDistribution value) {
+  writer.addByte(value.index);
+}
+
+FontStyle fromBytesFontStyle(BytesReader reader) {
+  return FontStyle.values[reader.readByte()];
+}
+
+void toBytesFontStyle(BytesBuilder writer, FontStyle value) {
+  writer.addByte(value.index);
+}
+
 Offset fromBytesOffset(BytesReader reader) {
   final dx = fromBytesDouble(reader);
   final dy = fromBytesDouble(reader);
@@ -139,6 +171,141 @@ void toBytesRRect(BytesBuilder writer, RRect value) {
   toBytesDouble(writer, value.brRadiusY);
   toBytesDouble(writer, value.blRadiusX);
   toBytesDouble(writer, value.blRadiusY);
+}
+
+ParagraphStyle fromBytesParagraphStyle(BytesReader reader) {
+  final textAlign = fromBytesTextAlign(reader);
+  final textDirection = fromBytesTextDirection(reader);
+  final maxLines = fromBytesInt(reader);
+  final fontFamily = fromBytesString(reader);
+  final fontSize = fromBytesDouble(reader);
+  final height = fromBytesDouble(reader);
+  final textHeightBehavior = fromBytesTextHeightBehavior(reader);
+  final fontWeight = fromBytesFontWeight(reader);
+  final fontStyle = fromBytesFontStyle(reader);
+  final strutStyle = fromBytesStrutStyle(reader);
+  final ellipsis = fromBytesString(reader);
+  final locale = fromBytesLocale(reader);
+  return ParagraphStyle(
+    textAlign: textAlign,
+    textDirection: textDirection,
+    maxLines: maxLines,
+    fontFamily: fontFamily,
+    fontSize: fontSize,
+    height: height,
+    textHeightBehavior: textHeightBehavior,
+    fontWeight: fontWeight,
+    fontStyle: fontStyle,
+    strutStyle: strutStyle,
+    ellipsis: ellipsis,
+    locale: locale,
+  );
+}
+
+void toBytesParagraphStyle(BytesBuilder writer, ParagraphStyle value) {
+  toBytesTextAlign(writer, value.textAlign);
+  toBytesTextDirection(writer, value.textDirection);
+  toBytesInt(writer, value.maxLines);
+  toBytesString(writer, value.fontFamily);
+  toBytesDouble(writer, value.fontSize);
+  toBytesDouble(writer, value.height);
+  toBytesTextHeightBehavior(writer, value.textHeightBehavior);
+  toBytesFontWeight(writer, value.fontWeight);
+  toBytesFontStyle(writer, value.fontStyle);
+  toBytesStrutStyle(writer, value.strutStyle);
+  toBytesString(writer, value.ellipsis);
+  toBytesLocale(writer, value.locale);
+}
+
+TextStyle fromBytesTextStyle(BytesReader reader) {
+  final color = fromBytesColor(reader);
+  final decoration = fromBytesTextDecoration(reader);
+  final decorationColor = fromBytesColor(reader);
+  final decorationStyle = fromBytesTextDecorationStyle(reader);
+  final decorationThickness = fromBytesDouble(reader);
+  final fontWeight = fromBytesFontWeight(reader);
+  final fontStyle = fromBytesFontStyle(reader);
+  final textBaseline = fromBytesTextBaseline(reader);
+  final fontFamily = fromBytesString(reader);
+  final fontFamilyFallback = fromBytesListString(reader);
+  final fontSize = fromBytesDouble(reader);
+  final letterSpacing = fromBytesDouble(reader);
+  final wordSpacing = fromBytesDouble(reader);
+  final height = fromBytesDouble(reader);
+  final leadingDistribution = fromBytesTextLeadingDistribution(reader);
+  final locale = fromBytesLocale(reader);
+  final background = fromBytesPaint(reader);
+  final foreground = fromBytesPaint(reader);
+  final shadows = fromBytesListShadow(reader);
+  final fontFeatures = fromBytesListFontFeature(reader);
+  final fontVariations = fromBytesListFontVariation(reader);
+  return TextStyle(
+    color: color,
+    decoration: decoration,
+    decorationColor: decorationColor,
+    decorationStyle: decorationStyle,
+    decorationThickness: decorationThickness,
+    fontWeight: fontWeight,
+    fontStyle: fontStyle,
+    textBaseline: textBaseline,
+    fontFamily: fontFamily,
+    fontFamilyFallback: fontFamilyFallback,
+    fontSize: fontSize,
+    letterSpacing: letterSpacing,
+    wordSpacing: wordSpacing,
+    height: height,
+    leadingDistribution: leadingDistribution,
+    locale: locale,
+    background: background,
+    foreground: foreground,
+    shadows: shadows,
+    fontFeatures: fontFeatures,
+    fontVariations: fontVariations,
+  );
+}
+
+void toBytesTextStyle(BytesBuilder writer, TextStyle value) {
+  toBytesColor(writer, value.color);
+  toBytesTextDecoration(writer, value.decoration);
+  toBytesColor(writer, value.decorationColor);
+  toBytesTextDecorationStyle(writer, value.decorationStyle);
+  toBytesDouble(writer, value.decorationThickness);
+  toBytesFontWeight(writer, value.fontWeight);
+  toBytesFontStyle(writer, value.fontStyle);
+  toBytesTextBaseline(writer, value.textBaseline);
+  toBytesString(writer, value.fontFamily);
+  toBytesListString(writer, value.fontFamilyFallback);
+  toBytesDouble(writer, value.fontSize);
+  toBytesDouble(writer, value.letterSpacing);
+  toBytesDouble(writer, value.wordSpacing);
+  toBytesDouble(writer, value.height);
+  toBytesTextLeadingDistribution(writer, value.leadingDistribution);
+  toBytesLocale(writer, value.locale);
+  toBytesPaint(writer, value.background);
+  toBytesPaint(writer, value.foreground);
+  toBytesListShadow(writer, value.shadows);
+  toBytesListFontFeature(writer, value.fontFeatures);
+  toBytesListFontVariation(writer, value.fontVariations);
+}
+
+StrutStyle fromBytesStrutStyle(BytesReader reader) {
+  final encoded = fromBytesByteData(reader);
+  final leadingDistribution = fromBytesTextLeadingDistribution(reader);
+  final fontFamily = fromBytesString(reader);
+  final fontFamilyFallback = fromBytesListString(reader);
+  return StrutStyle(
+    encoded: encoded,
+    leadingDistribution: leadingDistribution,
+    fontFamily: fontFamily,
+    fontFamilyFallback: fontFamilyFallback,
+  );
+}
+
+void toBytesStrutStyle(BytesBuilder writer, StrutStyle value) {
+  toBytesByteData(writer, value.encoded);
+  toBytesTextLeadingDistribution(writer, value.leadingDistribution);
+  toBytesString(writer, value.fontFamily);
+  toBytesListString(writer, value.fontFamilyFallback);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {

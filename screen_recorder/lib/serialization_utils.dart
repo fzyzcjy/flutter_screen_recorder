@@ -75,6 +75,14 @@ void toBytesFloat64List(BytesBuilder writer, Float64List value) {
   TODO;
 }
 
+ByteData fromBytesByteData(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesByteData(BytesBuilder writer, ByteData value) {
+  TODO;
+}
+
 String fromBytesString(BytesReader reader) {
   return TODO;
 }

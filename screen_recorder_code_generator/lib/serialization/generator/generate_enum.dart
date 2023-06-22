@@ -8,6 +8,10 @@ const kEnumNames = [
   'PointMode',
   'PlaceholderAlignment',
   'TextBaseline',
+  'TextAlign',
+  'TextDirection',
+  'TextLeadingDistribution',
+  'FontStyle',
 ];
 
 String generateAllEnum() {

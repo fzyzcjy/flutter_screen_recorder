@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -45,6 +46,8 @@ class ScreenRecorder {
         'compressor=$compressor');
 
     if (recording) {
+      Timeline.startSync('ScreenRecorder.PostFrame');
+
       final sceneBuilderData = DataPerFrame.instance.sceneBuilderData;
       final bytesBuilder = BytesWriter();
       toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderData);
@@ -59,6 +62,8 @@ class ScreenRecorder {
         _sanityCheckSerialization(bytes);
         return true;
       }());
+     
+      Timeline.finishSync();
     }
 
     DataPerFrame.instance = DataPerFrame();

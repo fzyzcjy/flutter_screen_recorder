@@ -42,17 +42,15 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.green.shade300, width: 4),
           ),
-          child: RepaintBoundary(
-            child: Transform.scale(
-              // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
-              // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
-              scale: 1 / View.of(context).devicePixelRatio,
-              alignment: Alignment.topLeft,
-              origin: Offset.zero,
-              child: RepaintBoundary(
-                child: _ScreenPlayerInnerWidget(
-                  frameIndex: frameIndex,
-                ),
+          child: Transform.scale(
+            // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
+            // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
+            scale: 1 / View.of(context).devicePixelRatio,
+            alignment: Alignment.topLeft,
+            origin: Offset.zero,
+            child: RepaintBoundary(
+              child: _ScreenPlayerInnerWidget(
+                frameIndex: frameIndex,
               ),
             ),
           ),

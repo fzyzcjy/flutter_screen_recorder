@@ -5,23 +5,27 @@ import 'dart:ui';
 import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/expandos.dart';
 
-void toBytesUint8(BytesBuilder writer, int value) {
-  assert(value >= 0 && value <= 255);
-  writer.addByte(value);
-}
-
 int fromBytesUint8(BytesReader reader) {
   return reader.readByte();
 }
 
-void toBytesBool(BytesBuilder writer, bool value) {
-  writer.addByte(value ? 1 : 0);
+void toBytesUint8(BytesBuilder writer, int value) {
+  assert(value >= 0 && value <= 255);
+  writer.addByte(value);
 }
 
 bool fromBytesBool(BytesReader reader) {
   final byte = reader.readByte();
   assert(byte == 0 || byte == 1);
   return byte != 0;
+}
+
+void toBytesBool(BytesBuilder writer, bool value) {
+  writer.addByte(value ? 1 : 0);
+}
+
+int fromBytesInt(BytesReader reader) {
+  return TODO;
 }
 
 // TODO improve, do not create a brand new list?
@@ -31,7 +35,7 @@ void toBytesInt(BytesBuilder writer, int value) {
   writer.add((Int64List(1)..[0] = value).buffer.asUint8List());
 }
 
-int fromBytesInt(BytesReader reader) {
+double fromBytesFloat(BytesReader reader) {
   return TODO;
 }
 
@@ -39,7 +43,7 @@ void toBytesFloat(BytesBuilder writer, double value) {
   writer.add((Float32List(1)..[0] = value).buffer.asUint8List());
 }
 
-double fromBytesFloat(BytesReader reader) {
+double fromBytesDouble(BytesReader reader) {
   return TODO;
 }
 
@@ -47,7 +51,7 @@ void toBytesDouble(BytesBuilder writer, double value) {
   writer.add((Float64List(1)..[0] = value).buffer.asUint8List());
 }
 
-double fromBytesDouble(BytesReader reader) {
+String fromBytesString(BytesReader reader) {
   return TODO;
 }
 
@@ -56,7 +60,7 @@ void toBytesString(BytesBuilder writer, String value) {
   writer.add(utf8.encode(value));
 }
 
-String fromBytesString(BytesReader reader) {
+Path fromBytesPath(BytesReader reader) {
   return TODO;
 }
 
@@ -64,14 +68,10 @@ void toBytesPath(BytesBuilder writer, Path value) {
   writer.add(value.dump());
 }
 
-Path fromBytesPath(BytesReader reader) {
+Picture fromBytesPicture(BytesReader reader) {
   return TODO;
 }
 
 void toBytesPicture(BytesBuilder writer, Picture value) {
   value.record!.toBytes(writer);
-}
-
-Picture fromBytesPicture(BytesReader reader) {
-  return TODO;
 }

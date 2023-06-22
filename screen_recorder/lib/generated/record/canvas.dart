@@ -5,6 +5,10 @@ import 'dart:ui';
 
 class Canvas_Save_Record {
   Canvas_Save_Record();
+
+  void execute(Canvas proxy) {
+    return proxy.save();
+  }
 }
 
 class Canvas_SaveLayer_Record {
@@ -16,20 +20,39 @@ class Canvas_SaveLayer_Record {
   final Rect? bounds;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.saveLayer(
+      bounds,
+      paint,
+    );
+  }
 }
 
 class Canvas_Restore_Record {
   Canvas_Restore_Record();
+
+  void execute(Canvas proxy) {
+    return proxy.restore();
+  }
 }
 
 class Canvas_RestoreToCount_Record {
   Canvas_RestoreToCount_Record({required this.count});
 
   final int count;
+
+  void execute(Canvas proxy) {
+    return proxy.restoreToCount(count);
+  }
 }
 
 class Canvas_GetSaveCount_Record {
   Canvas_GetSaveCount_Record();
+
+  int execute(Canvas proxy) {
+    return proxy.getSaveCount();
+  }
 }
 
 class Canvas_Translate_Record {
@@ -41,6 +64,13 @@ class Canvas_Translate_Record {
   final double dx;
 
   final double dy;
+
+  void execute(Canvas proxy) {
+    return proxy.translate(
+      dx,
+      dy,
+    );
+  }
 }
 
 class Canvas_Scale_Record {
@@ -52,12 +82,23 @@ class Canvas_Scale_Record {
   final double sx;
 
   final double? sy;
+
+  void execute(Canvas proxy) {
+    return proxy.scale(
+      sx,
+      sy,
+    );
+  }
 }
 
 class Canvas_Rotate_Record {
   Canvas_Rotate_Record({required this.radians});
 
   final double radians;
+
+  void execute(Canvas proxy) {
+    return proxy.rotate(radians);
+  }
 }
 
 class Canvas_Skew_Record {
@@ -69,16 +110,31 @@ class Canvas_Skew_Record {
   final double sx;
 
   final double sy;
+
+  void execute(Canvas proxy) {
+    return proxy.skew(
+      sx,
+      sy,
+    );
+  }
 }
 
 class Canvas_Transform_Record {
   Canvas_Transform_Record({required this.matrix4});
 
   final Float64List matrix4;
+
+  void execute(Canvas proxy) {
+    return proxy.transform(matrix4);
+  }
 }
 
 class Canvas_GetTransform_Record {
   Canvas_GetTransform_Record();
+
+  Float64List execute(Canvas proxy) {
+    return proxy.getTransform();
+  }
 }
 
 class Canvas_ClipRect_Record {
@@ -93,6 +149,14 @@ class Canvas_ClipRect_Record {
   final ClipOp clipOp;
 
   final bool doAntiAlias;
+
+  void execute(Canvas proxy) {
+    return proxy.clipRect(
+      rect,
+      clipOp: clipOp,
+      doAntiAlias: doAntiAlias,
+    );
+  }
 }
 
 class Canvas_ClipRRect_Record {
@@ -104,6 +168,13 @@ class Canvas_ClipRRect_Record {
   final RRect rrect;
 
   final bool doAntiAlias;
+
+  void execute(Canvas proxy) {
+    return proxy.clipRRect(
+      rrect,
+      doAntiAlias: doAntiAlias,
+    );
+  }
 }
 
 class Canvas_ClipPath_Record {
@@ -115,14 +186,29 @@ class Canvas_ClipPath_Record {
   final Path path;
 
   final bool doAntiAlias;
+
+  void execute(Canvas proxy) {
+    return proxy.clipPath(
+      path,
+      doAntiAlias: doAntiAlias,
+    );
+  }
 }
 
 class Canvas_GetLocalClipBounds_Record {
   Canvas_GetLocalClipBounds_Record();
+
+  Rect execute(Canvas proxy) {
+    return proxy.getLocalClipBounds();
+  }
 }
 
 class Canvas_GetDestinationClipBounds_Record {
   Canvas_GetDestinationClipBounds_Record();
+
+  Rect execute(Canvas proxy) {
+    return proxy.getDestinationClipBounds();
+  }
 }
 
 class Canvas_DrawColor_Record {
@@ -134,6 +220,13 @@ class Canvas_DrawColor_Record {
   final Color color;
 
   final BlendMode blendMode;
+
+  void execute(Canvas proxy) {
+    return proxy.drawColor(
+      color,
+      blendMode,
+    );
+  }
 }
 
 class Canvas_DrawLine_Record {
@@ -148,12 +241,24 @@ class Canvas_DrawLine_Record {
   final Offset p2;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawLine(
+      p1,
+      p2,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawPaint_Record {
   Canvas_DrawPaint_Record({required this.paint});
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawPaint(paint);
+  }
 }
 
 class Canvas_DrawRect_Record {
@@ -165,6 +270,13 @@ class Canvas_DrawRect_Record {
   final Rect rect;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawRect(
+      rect,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawRRect_Record {
@@ -176,6 +288,13 @@ class Canvas_DrawRRect_Record {
   final RRect rrect;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawRRect(
+      rrect,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawDRRect_Record {
@@ -190,6 +309,14 @@ class Canvas_DrawDRRect_Record {
   final RRect inner;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawDRRect(
+      outer,
+      inner,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawOval_Record {
@@ -201,6 +328,13 @@ class Canvas_DrawOval_Record {
   final Rect rect;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawOval(
+      rect,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawCircle_Record {
@@ -215,6 +349,14 @@ class Canvas_DrawCircle_Record {
   final double radius;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawCircle(
+      c,
+      radius,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawArc_Record {
@@ -235,6 +377,16 @@ class Canvas_DrawArc_Record {
   final bool useCenter;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawArc(
+      rect,
+      startAngle,
+      sweepAngle,
+      useCenter,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawPath_Record {
@@ -246,6 +398,13 @@ class Canvas_DrawPath_Record {
   final Path path;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawPath(
+      path,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawImage_Record {
@@ -260,6 +419,14 @@ class Canvas_DrawImage_Record {
   final Offset offset;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawImage(
+      image,
+      offset,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawImageRect_Record {
@@ -277,6 +444,15 @@ class Canvas_DrawImageRect_Record {
   final Rect dst;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawImageRect(
+      image,
+      src,
+      dst,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawImageNine_Record {
@@ -294,12 +470,25 @@ class Canvas_DrawImageNine_Record {
   final Rect dst;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawImageNine(
+      image,
+      center,
+      dst,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawPicture_Record {
   Canvas_DrawPicture_Record({required this.picture});
 
   final Picture picture;
+
+  void execute(Canvas proxy) {
+    return proxy.drawPicture(picture);
+  }
 }
 
 class Canvas_DrawParagraph_Record {
@@ -311,6 +500,13 @@ class Canvas_DrawParagraph_Record {
   final Paragraph paragraph;
 
   final Offset offset;
+
+  void execute(Canvas proxy) {
+    return proxy.drawParagraph(
+      paragraph,
+      offset,
+    );
+  }
 }
 
 class Canvas_DrawPoints_Record {
@@ -325,6 +521,14 @@ class Canvas_DrawPoints_Record {
   final List<Offset> points;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawPoints(
+      pointMode,
+      points,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawRawPoints_Record {
@@ -339,6 +543,14 @@ class Canvas_DrawRawPoints_Record {
   final Float32List points;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawRawPoints(
+      pointMode,
+      points,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawVertices_Record {
@@ -353,6 +565,14 @@ class Canvas_DrawVertices_Record {
   final BlendMode blendMode;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawVertices(
+      vertices,
+      blendMode,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawAtlas_Record {
@@ -379,6 +599,18 @@ class Canvas_DrawAtlas_Record {
   final Rect? cullRect;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawAtlas(
+      atlas,
+      transforms,
+      rects,
+      colors,
+      blendMode,
+      cullRect,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawRawAtlas_Record {
@@ -405,6 +637,18 @@ class Canvas_DrawRawAtlas_Record {
   final Rect? cullRect;
 
   final Paint paint;
+
+  void execute(Canvas proxy) {
+    return proxy.drawRawAtlas(
+      atlas,
+      rstTransforms,
+      rects,
+      colors,
+      blendMode,
+      cullRect,
+      paint,
+    );
+  }
 }
 
 class Canvas_DrawShadow_Record {
@@ -422,4 +666,13 @@ class Canvas_DrawShadow_Record {
   final double elevation;
 
   final bool transparentOccluder;
+
+  void execute(Canvas proxy) {
+    return proxy.drawShadow(
+      path,
+      color,
+      elevation,
+      transparentOccluder,
+    );
+  }
 }

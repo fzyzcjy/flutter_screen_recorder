@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:code_builder/code_builder.dart';
 import 'package:recase/recase.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
+import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
 void generateRecord(Config config, String dirTarget) {
@@ -37,6 +38,27 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
                   ..named = true
                   ..required = true,
               ))),
-      )),
+      ))
+      ..methods.add(_generateRecordClassMethodExecute(config, configMethod)),
   ).dartCode;
+}
+
+Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMethod) {
+  final bodyCallProxy = refer(configMethod.methodName)
+      .call(configMethod.positionalArguments, configMethod.namedArguments)
+      .statement
+      .dartCode;
+  final body = 'return proxy.$bodyCallProxy';
+
+  return Method(
+    (b) => b
+      ..name = 'execute'
+      ..returns = refer(configMethod.returnType)
+      ..requiredParameters.add(Parameter(
+        (b) => b
+          ..name = 'proxy'
+          ..type = refer(config.originalClass),
+      ))
+      ..body = Code(body),
+  );
 }

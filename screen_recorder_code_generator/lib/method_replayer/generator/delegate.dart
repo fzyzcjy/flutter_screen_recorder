@@ -46,7 +46,7 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
   ).dartCode;
 }
 
-extension on ConfigMethod {
+extension ExtConfigMethod on ConfigMethod {
   List<Parameter> get requiredParameters => parameters.where((e) => e.required).map((e) => e.toParameter()).toList();
 
   List<Parameter> get optionalParameters => parameters.where((e) => !e.required).map((e) => e.toParameter()).toList();

@@ -26,7 +26,7 @@ class ScreenRecorder {
 
   void setup() {
     PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
-    PaintingContext.createCanvas = (recorder) => MyCanvas(recorder);
+    PaintingContext.createCanvas = (recorder) => MyCanvas(recorder as MyPictureRecorder);
     TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
     RenderView.createSceneBuilder = () => MySceneBuilder(SceneBuilder());
 

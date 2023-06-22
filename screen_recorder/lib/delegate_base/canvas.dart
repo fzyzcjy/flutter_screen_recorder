@@ -10,8 +10,8 @@ abstract class MyCanvasBase {
   final Canvas proxy;
   final data = CanvasRecordList();
 
-  MyCanvasBase(PictureRecorder recorder) : proxy = Canvas(recorder) {
-    (recorder as MyPictureRecorder).myCanvas = this;
+  MyCanvasBase(MyPictureRecorder recorder) : proxy = Canvas(recorder.proxy) {
+    recorder.myCanvas = this;
   }
 
   void handleOp<T>(T result, Canvas_RecordBase<Object?> record) {

@@ -507,7 +507,7 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
     final result = proxy.pop();
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -570,7 +570,7 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
       enabledOptions,
       bounds,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -615,7 +615,7 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -670,7 +670,7 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
       freeze: freeze,
       filterQuality: filterQuality,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -720,7 +720,7 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
       width: width,
       height: height,
     );
-    nullreturn result;
+    return result;
   }
 
   @override

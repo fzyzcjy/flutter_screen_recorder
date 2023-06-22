@@ -116,7 +116,7 @@ class Canvas_Save_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.save();
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -150,7 +150,7 @@ class Canvas_SaveLayer_Record extends Canvas_RecordBase<void> {
       bounds,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -177,7 +177,7 @@ class Canvas_Restore_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.restore();
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -203,7 +203,7 @@ class Canvas_RestoreToCount_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.restoreToCount(count);
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -237,7 +237,7 @@ class Canvas_Translate_Record extends Canvas_RecordBase<void> {
       dx,
       dy,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -274,7 +274,7 @@ class Canvas_Scale_Record extends Canvas_RecordBase<void> {
       sx,
       sy,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -303,7 +303,7 @@ class Canvas_Rotate_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.rotate(radians);
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -337,7 +337,7 @@ class Canvas_Skew_Record extends Canvas_RecordBase<void> {
       sx,
       sy,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -366,7 +366,7 @@ class Canvas_Transform_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.transform(matrix4);
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -404,7 +404,7 @@ class Canvas_ClipRect_Record extends Canvas_RecordBase<void> {
       clipOp: clipOp,
       doAntiAlias: doAntiAlias,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -442,7 +442,7 @@ class Canvas_ClipRRect_Record extends Canvas_RecordBase<void> {
       rrect,
       doAntiAlias: doAntiAlias,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -479,7 +479,7 @@ class Canvas_ClipPath_Record extends Canvas_RecordBase<void> {
       path,
       doAntiAlias: doAntiAlias,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -516,7 +516,7 @@ class Canvas_DrawColor_Record extends Canvas_RecordBase<void> {
       color,
       blendMode,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -557,7 +557,7 @@ class Canvas_DrawLine_Record extends Canvas_RecordBase<void> {
       p2,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -587,7 +587,7 @@ class Canvas_DrawPaint_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.drawPaint(paint);
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -621,7 +621,7 @@ class Canvas_DrawRect_Record extends Canvas_RecordBase<void> {
       rect,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -658,7 +658,7 @@ class Canvas_DrawRRect_Record extends Canvas_RecordBase<void> {
       rrect,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -699,7 +699,7 @@ class Canvas_DrawDRRect_Record extends Canvas_RecordBase<void> {
       inner,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -737,7 +737,7 @@ class Canvas_DrawOval_Record extends Canvas_RecordBase<void> {
       rect,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -778,7 +778,7 @@ class Canvas_DrawCircle_Record extends Canvas_RecordBase<void> {
       radius,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -828,7 +828,7 @@ class Canvas_DrawArc_Record extends Canvas_RecordBase<void> {
       useCenter,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -868,7 +868,7 @@ class Canvas_DrawPath_Record extends Canvas_RecordBase<void> {
       path,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -909,7 +909,7 @@ class Canvas_DrawImage_Record extends Canvas_RecordBase<void> {
       offset,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -955,7 +955,7 @@ class Canvas_DrawImageRect_Record extends Canvas_RecordBase<void> {
       dst,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1002,7 +1002,7 @@ class Canvas_DrawImageNine_Record extends Canvas_RecordBase<void> {
       dst,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1033,7 +1033,7 @@ class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
     Canvas_RecordExecuteContext executeContext,
   ) {
     final result = proxy.drawPicture(picture);
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1067,7 +1067,7 @@ class Canvas_DrawParagraph_Record extends Canvas_RecordBase<void> {
       paragraph,
       offset,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1108,7 +1108,7 @@ class Canvas_DrawPoints_Record extends Canvas_RecordBase<void> {
       points,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1150,7 +1150,7 @@ class Canvas_DrawRawPoints_Record extends Canvas_RecordBase<void> {
       points,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1192,7 +1192,7 @@ class Canvas_DrawVertices_Record extends Canvas_RecordBase<void> {
       blendMode,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1250,7 +1250,7 @@ class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
       cullRect,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1312,7 +1312,7 @@ class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
       cullRect,
       paint,
     );
-    nullreturn result;
+    return result;
   }
 
   @override
@@ -1362,7 +1362,7 @@ class Canvas_DrawShadow_Record extends Canvas_RecordBase<void> {
       elevation,
       transparentOccluder,
     );
-    nullreturn result;
+    return result;
   }
 
   @override

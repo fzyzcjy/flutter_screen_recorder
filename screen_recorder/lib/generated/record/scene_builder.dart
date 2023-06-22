@@ -485,7 +485,7 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
       offset: offset,
-      picture: picture.temporaryClone(),
+      picture: picture,
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );

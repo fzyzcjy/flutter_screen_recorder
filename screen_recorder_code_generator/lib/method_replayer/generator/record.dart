@@ -180,7 +180,8 @@ Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod)
 bool _shouldTemporaryClone(String type) {
   return const {
     'Path',
-    'Picture',
+    // https://github.com/fzyzcjy/yplusplus/issues/9604#issuecomment-1602260628
+    // 'Picture',
     'Float32List',
     'Float64List',
   }.contains(type);

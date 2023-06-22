@@ -937,7 +937,7 @@ class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
   void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPictureRecord(writer, this);
   @override
   Canvas_DrawPicture_Record temporaryClone() {
-    return Canvas_DrawPicture_Record(picture: picture.temporaryClone());
+    return Canvas_DrawPicture_Record(picture: picture);
   }
 }
 

@@ -10,7 +10,7 @@ void main() {
           _body(
             toBytes: toBytesInt,
             fromBytes: fromBytesInt,
-            value: 42,
+            value: value,
           );
         });
       }

@@ -502,6 +502,15 @@ void toBytesParagraphConstraints(BytesWriter writer, ParagraphConstraints value)
   toBytesDouble(writer, value.width);
 }
 
+ParagraphRecord fromBytesParagraphRecord(BytesReader reader) {
+  final constraints = fromBytesNullable(reader, fromBytesParagraphConstraints);
+  return ParagraphRecord(constraints: constraints);
+}
+
+void toBytesParagraphRecord(BytesWriter writer, ParagraphRecord value) {
+  toBytesNullable(writer, value.constraints, toBytesParagraphConstraints);
+}
+
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
   final matrix4 = fromBytesFloat64List(reader);
   return SceneBuilder_PushTransform_Record(matrix4: matrix4);

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/record_list.dart';
 
@@ -17,6 +18,14 @@ extension ExtParagraphBuilderRecordListExpando on Paragraph {
   ParagraphBuilderRecordList? get paragraphBuilderRecordList => _expando[this];
 
   set paragraphBuilderRecordList(ParagraphBuilderRecordList? value) => _expando[this] = value;
+}
+
+extension ExtParagraphRecordExpando on Paragraph {
+  static final _expando = Expando<ParagraphRecord>('Paragraph.paragraphRecord');
+
+  ParagraphRecord? get paragraphRecord => _expando[this];
+
+  set paragraphRecord(ParagraphRecord? value) => _expando[this] = value;
 }
 
 extension ExtPictureExpando on Picture {

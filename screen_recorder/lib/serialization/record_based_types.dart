@@ -18,11 +18,14 @@ void toBytesPicture(BytesWriter writer, Picture value) {
 }
 
 Paragraph fromBytesParagraph(BytesReader reader) {
-  return ParagraphBuilderReplayer.replay(fromBytesParagraphBuilderRecordList(reader));
+  final paragraphBuilderRecordList = fromBytesParagraphBuilderRecordList(reader);
+  final paragraphRecord = fromBytesParagraphRecord(reader);
+  return ParagraphBuilderReplayer.replay(paragraphBuilderRecordList, paragraphRecord);
 }
 
 void toBytesParagraph(BytesWriter writer, Paragraph value) {
   toBytesParagraphBuilderRecordList(writer, value.paragraphBuilderRecordList!);
+  toBytesParagraphRecord(writer, value.paragraphRecord!);
 }
 
 const fromBytesParagraphBuilderRecordBase = ParagraphBuilder_RecordBase.fromBytes;

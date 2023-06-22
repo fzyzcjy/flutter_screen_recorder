@@ -14,8 +14,8 @@ $kCommentHeader
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/delegate_base/${config.generatedFilename}';
 import 'package:screen_recorder/generated/record/${config.generatedFilename}';
-import 'package:screen_recorder/manual/${config.generatedFilename}';
 
 class ${config.generatedClass} extends ${config.superClass} implements ${config.originalClass} {
   ${config.generatedClass}(${config.constructorParams});

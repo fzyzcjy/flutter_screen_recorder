@@ -7,8 +7,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/delegate_base/canvas.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
-import 'package:screen_recorder/manual/canvas.dart';
 
 class MyCanvas extends MyCanvasBase implements Canvas {
   MyCanvas(super.recorder);

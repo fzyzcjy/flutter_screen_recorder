@@ -95,6 +95,7 @@ final kManualConfigs = [
   ),
   Config(
     className: 'StrutStyle',
+    constructorName: 'raw',
     fields: [
       ConfigField(type: 'ByteData', name: 'encoded', named: true),
       ConfigField(type: 'TextLeadingDistribution?', name: 'leadingDistribution', named: true),

@@ -315,7 +315,7 @@ StrutStyle fromBytesStrutStyle(BytesReader reader) {
   final leadingDistribution = fromBytesNullable(reader, fromBytesTextLeadingDistribution);
   final fontFamily = fromBytesNullable(reader, fromBytesString);
   final fontFamilyFallback = fromBytesNullableList(reader, fromBytesString);
-  return StrutStyle(
+  return StrutStyle.raw(
     encoded: encoded,
     leadingDistribution: leadingDistribution,
     fontFamily: fontFamily,

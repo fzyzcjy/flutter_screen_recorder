@@ -50,42 +50,51 @@ void toBytesDouble(BytesBuilder writer, double value) {
 }
 
 Int32List fromBytesInt32List(BytesReader reader) {
-  return TODO;
+  return fromBytesByteData(reader).buffer.asInt32List();
 }
 
 void toBytesInt32List(BytesBuilder writer, Int32List value) {
-  TODO;
+  toBytesByteData(writer, value.buffer.asByteData());
 }
 
 Float32List fromBytesFloat32List(BytesReader reader) {
-  return TODO;
+  return fromBytesByteData(reader).buffer.asFloat32List();
 }
 
 void toBytesFloat32List(BytesBuilder writer, Float32List value) {
-  TODO;
+  toBytesByteData(writer, value.buffer.asByteData());
 }
 
 Float64List fromBytesFloat64List(BytesReader reader) {
-  return TODO;
+  return fromBytesByteData(reader).buffer.asFloat64List();
 }
 
 void toBytesFloat64List(BytesBuilder writer, Float64List value) {
-  TODO;
+  toBytesByteData(writer, value.buffer.asByteData());
 }
 
 ByteData fromBytesByteData(BytesReader reader) {
-  return TODO;
+  return Uint8List.fromList(fromBytesBytes(reader)).buffer.asByteData();
 }
 
 void toBytesByteData(BytesBuilder writer, ByteData value) {
-  TODO;
+  toBytesBytes(writer, value.buffer.asUint8List());
 }
 
 String fromBytesString(BytesReader reader) {
-  return TODO;
+  return utf8.decode(fromBytesBytes(reader));
 }
 
 void toBytesString(BytesBuilder writer, String value) {
-  // TODO add string length information
-  writer.add(utf8.encode(value));
+  toBytesBytes(writer, utf8.encode(value));
+}
+
+List<int> fromBytesBytes(BytesReader reader) {
+  final length = fromBytesInt(reader);
+  return reader.readBytes(length);
+}
+
+void toBytesBytes(BytesBuilder writer, List<int> value) {
+  toBytesInt(writer, value.length); // TODO use 128-variant encoding, or use 4 bytes?
+  writer.add(value);
 }

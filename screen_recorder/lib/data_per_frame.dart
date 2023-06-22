@@ -1,4 +1,4 @@
-import 'package:screen_recorder/delegate_base/scene_builder.dart';
+import 'package:screen_recorder/record_list.dart';
 
 class DataPerFrame {
   static var instance = DataPerFrame();
@@ -6,7 +6,7 @@ class DataPerFrame {
   // final experimentalData = ExperimentalData();
 
   // TODO will be better to use epxando to bind to Scene, and then extract it in window.render()
-  final sceneBuilderData = SceneBuilderRecordList();
+  final sceneBuilderData = SceneBuilderRecordList(methodCallRecords: []);
 }
 
 // class ExperimentalData {

@@ -9,5 +9,5 @@ Path fromBytesPath(BytesReader reader) {
 }
 
 void toBytesPath(BytesBuilder writer, Path value) {
-  toBytesUint8List(value.serialize());
+  toBytesUint8List(writer, value.serialize());
 }

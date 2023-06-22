@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/data_per_frame.dart';
-import 'package:screen_recorder/delegate_base/scene_builder.dart';
 import 'package:screen_recorder/generated/delegate/canvas.dart';
 import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/generated/delegate/scene_builder.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
+import 'package:screen_recorder/record_list.dart';
 
 class ScreenRecorder {
   static const _kTag = 'ScreenRecorder';

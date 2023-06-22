@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/expandos.dart';
+import 'package:screen_recorder/serialization/primitives.dart';
 
 Path fromBytesPath(BytesReader reader) {
   return TODO;
@@ -11,14 +12,6 @@ Path fromBytesPath(BytesReader reader) {
 
 void toBytesPath(BytesBuilder writer, Path value) {
   writer.add(value.dump());
-}
-
-Picture fromBytesPicture(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesPicture(BytesBuilder writer, Picture value) {
-  value.record!.toBytes(writer);
 }
 
 ColorFilter fromBytesColorFilter(BytesReader reader) {
@@ -69,18 +62,82 @@ void toBytesVertices(BytesBuilder writer, Vertices value) {
   TODO;
 }
 
-Paragraph fromBytesParagraph(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesParagraph(BytesBuilder writer, Paragraph value) {
-  TODO;
-}
-
 Color fromBytesColor(BytesReader reader) {
   return Color(fromBytesInt(reader));
 }
 
 void toBytesColor(BytesBuilder writer, Color value) {
   toBytesInt(writer, value.value);
+}
+
+TextHeightBehavior fromBytesTextHeightBehavior(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesTextHeightBehavior(BytesBuilder writer, TextHeightBehavior value) {
+  TODO;
+}
+
+FontWeight fromBytesFontWeight(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesFontWeight(BytesBuilder writer, FontWeight value) {
+  TODO;
+}
+
+Locale fromBytesLocale(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesLocale(BytesBuilder writer, Locale value) {
+  TODO;
+}
+
+TextDecoration fromBytesTextDecoration(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesTextDecoration(BytesBuilder writer, TextDecoration value) {
+  TODO;
+}
+
+TextDecorationStyle fromBytesTextDecorationStyle(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesTextDecorationStyle(BytesBuilder writer, TextDecorationStyle value) {
+  TODO;
+}
+
+Shadow fromBytesShadow(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesShadow(BytesBuilder writer, Shadow value) {
+  TODO;
+}
+
+FontFeature fromBytesFontFeature(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesFontFeature(BytesBuilder writer, FontFeature value) {
+  TODO;
+}
+
+FontVariation fromBytesFontVariation(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesFontVariation(BytesBuilder writer, FontVariation value) {
+  TODO;
+}
+
+X fromBytesX(BytesReader reader) {
+  return TODO;
+}
+
+void toBytesX(BytesBuilder writer, X value) {
+  TODO;
 }

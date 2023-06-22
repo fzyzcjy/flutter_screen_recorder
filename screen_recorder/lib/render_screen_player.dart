@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/replayer/scene_builder.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
@@ -17,14 +17,24 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
   var frameIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+  void initState() {
+    super.initState();
+
+    // deliberately make it super slow for easy debuggign
+    Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+
       setState(() {
         frameIndex = (frameIndex + 1) % ScreenRecorder.instance.sceneBuilderDataArr.length;
       });
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     // use RepaintBoundary to ensure paint() gets offset=zero to ease programming
     return Stack(
       children: [
@@ -40,10 +50,13 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
             ),
           ),
         ),
-        Center(
+        Positioned(
+          top: 64,
+          left: 0,
+          right: 0,
           child: Text(
             'Play frame #$frameIndex',
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20, color: Colors.black),
           ),
         ),
       ],

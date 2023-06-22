@@ -8,11 +8,34 @@ void main() {
     group('int', () {
       for (final value in [0, 42, -42, 9223372036854775807, -9223372036854775808]) {
         test('value=$value', () {
-          _body(
-            toBytes: toBytesInt,
-            fromBytes: fromBytesInt,
-            value: value,
-          );
+          _body(toBytes: toBytesInt, fromBytes: fromBytesInt, value: value);
+        });
+      }
+    });
+
+    group('float32', () {
+      for (final value in [0.0, 42.0, -42.0, 3.4028230607370965e+38]) {
+        test('value=$value', () {
+          _body(toBytes: toBytesFloat, fromBytes: fromBytesFloat, value: value);
+        });
+      }
+    });
+
+    group('float64', () {
+      for (final value in [0.0, 42.0, -42.0, double.maxFinite, -double.maxFinite, double.minPositive]) {
+        test('value=$value', () {
+          _body(toBytes: toBytesDouble, fromBytes: fromBytesDouble, value: value);
+        });
+      }
+    });
+
+    group('bytes', () {
+      for (final value in [
+        <int>[],
+        [0, 127, 255]
+      ]) {
+        test('value=$value', () {
+          _body(toBytes: toBytesBytes, fromBytes: fromBytesBytes, value: value);
         });
       }
     });

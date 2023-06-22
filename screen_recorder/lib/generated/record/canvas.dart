@@ -7,6 +7,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/temporary_clone.dart';
+
 abstract class Canvas_RecordBase<Ret> {
   Ret execute(Canvas proxy);
 
@@ -194,7 +196,7 @@ class Canvas_Transform_Record implements Canvas_RecordBase<void> {
 
   @override
   Canvas_Transform_Record temporaryClone() {
-    return Canvas_Transform_Record(matrix4: matrix4);
+    return Canvas_Transform_Record(matrix4: matrix4.temporaryClone());
   }
 }
 
@@ -278,7 +280,7 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
   @override
   Canvas_ClipPath_Record temporaryClone() {
     return Canvas_ClipPath_Record(
-      path: path,
+      path: path.temporaryClone(),
       doAntiAlias: doAntiAlias,
     );
   }
@@ -567,7 +569,7 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
   @override
   Canvas_DrawPath_Record temporaryClone() {
     return Canvas_DrawPath_Record(
-      path: path,
+      path: path.temporaryClone(),
       paint: paint,
     );
   }
@@ -691,7 +693,7 @@ class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
 
   @override
   Canvas_DrawPicture_Record temporaryClone() {
-    return Canvas_DrawPicture_Record(picture: picture);
+    return Canvas_DrawPicture_Record(picture: picture.temporaryClone());
   }
 }
 
@@ -780,7 +782,7 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
   Canvas_DrawRawPoints_Record temporaryClone() {
     return Canvas_DrawRawPoints_Record(
       pointMode: pointMode,
-      points: points,
+      points: points.temporaryClone(),
       paint: paint,
     );
   }
@@ -912,8 +914,8 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
   Canvas_DrawRawAtlas_Record temporaryClone() {
     return Canvas_DrawRawAtlas_Record(
       atlas: atlas,
-      rstTransforms: rstTransforms,
-      rects: rects,
+      rstTransforms: rstTransforms.temporaryClone(),
+      rects: rects.temporaryClone(),
       colors: colors,
       blendMode: blendMode,
       cullRect: cullRect,
@@ -951,7 +953,7 @@ class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
   @override
   Canvas_DrawShadow_Record temporaryClone() {
     return Canvas_DrawShadow_Record(
-      path: path,
+      path: path.temporaryClone(),
       color: color,
       elevation: elevation,
       transparentOccluder: transparentOccluder,

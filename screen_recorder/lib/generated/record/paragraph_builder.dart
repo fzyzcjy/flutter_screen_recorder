@@ -7,6 +7,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/temporary_clone.dart';
+
 abstract class ParagraphBuilder_RecordBase<Ret> {
   Ret execute(ParagraphBuilder proxy);
 

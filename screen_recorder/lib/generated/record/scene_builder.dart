@@ -7,6 +7,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/temporary_clone.dart';
+
 abstract class SceneBuilder_RecordBase<Ret> {
   Ret execute(SceneBuilder proxy);
 
@@ -26,7 +28,7 @@ class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<Trans
 
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
-    return SceneBuilder_PushTransform_Record(matrix4: matrix4);
+    return SceneBuilder_PushTransform_Record(matrix4: matrix4.temporaryClone());
   }
 }
 
@@ -132,7 +134,7 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
   @override
   SceneBuilder_PushClipPath_Record temporaryClone() {
     return SceneBuilder_PushClipPath_Record(
-      path: path,
+      path: path.temporaryClone(),
       clipBehavior: clipBehavior,
     );
   }
@@ -343,7 +345,7 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
       offset: offset,
-      picture: picture,
+      picture: picture.temporaryClone(),
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );

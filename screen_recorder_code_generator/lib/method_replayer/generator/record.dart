@@ -14,6 +14,8 @@ $kCommentHeader
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/temporary_clone.dart';
+
 abstract class ${config.recordBaseClass}<Ret> {
   Ret execute(${config.originalClass} proxy);
   
@@ -78,7 +80,11 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
 
 Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod) {
   final bodyCall = refer(configMethod.recordClassName(config))
-      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
+      .call(
+          [],
+          Map.fromEntries(configMethod.parametersForRecord.map(
+            (e) => MapEntry(e.name, refer(e.name + (_shouldTemporaryClone(e.type) ? '.temporaryClone()' : ''))),
+          )))
       .statement
       .dartCode;
   final body = 'return $bodyCall';
@@ -90,6 +96,15 @@ Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod)
       ..annotations.add(refer('override'))
       ..body = Code(body),
   );
+}
+
+bool _shouldTemporaryClone(String type) {
+  return const {
+    'Path',
+    'Picture',
+    'Float32List',
+    'Float64List',
+  }.contains(type);
 }
 
 extension ExtConfigMethodRecord on ConfigMethod {

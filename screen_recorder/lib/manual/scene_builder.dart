@@ -13,11 +13,11 @@ abstract class MySceneBuilderBase {
   MySceneBuilderBase(this.proxy);
 
   void handleMiscOp<T>(T result, SceneBuilder_RecordBase<Object?> record) {
-    _data.records.add(record.safeClone());
+    _data.methodCallRecords.add(record.safeClone());
   }
 
   void handlePushOp(EngineLayer result, SceneBuilder_RecordBase<Object?> record) {
-    _data.records.add(record.safeClone());
+    _data.methodCallRecords.add(record.safeClone());
     result.opRecord = record;
   }
 

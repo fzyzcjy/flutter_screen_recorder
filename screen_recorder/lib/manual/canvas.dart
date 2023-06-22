@@ -12,6 +12,6 @@ abstract class MyCanvasBase {
   MyCanvasBase(PictureRecorder recorder) : proxy = Canvas(recorder);
 
   void handleOp<T>(T result, Canvas_RecordBase<Object?> record) {
-    _data.records.add(record.safeClone());
+    _data.methodCallRecords.add(record.safeClone());
   }
 }

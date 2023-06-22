@@ -12,6 +12,6 @@ abstract class MyParagraphBuilderBase {
   MyParagraphBuilderBase(ParagraphStyle style) : proxy = ParagraphBuilder(style);
 
   void handleOp<T>(T result, ParagraphBuilder_RecordBase<Object?> record) {
-    _data.records.add(record.safeClone());
+    _data.methodCallRecords.add(record.safeClone());
   }
 }

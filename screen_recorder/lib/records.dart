@@ -1,3 +1,3 @@
 class RecordList<R> {
-  final records = <R>[];
+  final methodCallRecords = <R>[];
 }

@@ -49,6 +49,66 @@ void toBytesOffset(BytesBuilder writer, Offset value) {
   toBytesDouble(writer, value.dy);
 }
 
+Rect fromBytesRect(BytesReader reader) {
+  final left = fromBytesDouble(reader);
+  final top = fromBytesDouble(reader);
+  final right = fromBytesDouble(reader);
+  final bottom = fromBytesDouble(reader);
+  return Rect.fromLTRB(
+    left,
+    top,
+    right,
+    bottom,
+  );
+}
+
+void toBytesRect(BytesBuilder writer, Rect value) {
+  toBytesDouble(writer, value.left);
+  toBytesDouble(writer, value.top);
+  toBytesDouble(writer, value.right);
+  toBytesDouble(writer, value.bottom);
+}
+
+RRect fromBytesRRect(BytesReader reader) {
+  final left = fromBytesDouble(reader);
+  final top = fromBytesDouble(reader);
+  final right = fromBytesDouble(reader);
+  final bottom = fromBytesDouble(reader);
+  final tlRadiusX = fromBytesDouble(reader);
+  final tlRadiusY = fromBytesDouble(reader);
+  final trRadiusX = fromBytesDouble(reader);
+  final trRadiusY = fromBytesDouble(reader);
+  final brRadiusX = fromBytesDouble(reader);
+  final brRadiusY = fromBytesDouble(reader);
+  final blRadiusX = fromBytesDouble(reader);
+  final blRadiusY = fromBytesDouble(reader);
+  return RRect.fromLTRBAndCorners(
+    left,
+    top,
+    right,
+    bottom,
+    topLeft: Radius.elliptical(tlRadiusX, tlRadiusY),
+    topRight: Radius.elliptical(trRadiusX, trRadiusY),
+    bottomLeft: Radius.elliptical(blRadiusX, blRadiusY),
+    bottomRight: Radius.elliptical(brRadiusX, brRadiusY),
+  );
+}
+
+void toBytesRRect(BytesBuilder writer, RRect value) {
+  toBytesDouble(writer, value.left);
+  toBytesDouble(writer, value.top);
+  toBytesDouble(writer, value.right);
+  toBytesDouble(writer, value.bottom);
+  toBytesDouble(writer, value.tlRadiusX);
+  toBytesDouble(writer, value.tlRadiusY);
+  toBytesDouble(writer, value.trRadiusX);
+  toBytesDouble(writer, value.trRadiusY);
+  toBytesDouble(writer, value.brRadiusX);
+  toBytesDouble(writer, value.brRadiusY);
+  toBytesDouble(writer, value.blRadiusX);
+  toBytesDouble(writer, value.blRadiusY);
+}
+
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
   final matrix4 = fromBytesFloat64List(reader);
   return SceneBuilder_PushTransform_Record(matrix4: matrix4);

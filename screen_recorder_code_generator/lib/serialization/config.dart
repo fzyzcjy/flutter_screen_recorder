@@ -1,9 +1,13 @@
 class Config {
   final String className;
+  final String? constructorName;
+  final String? constructorParams;
   final List<ConfigField> fields;
 
   Config({
     required this.className,
+    this.constructorName,
+    this.constructorParams,
     required this.fields,
   });
 

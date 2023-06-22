@@ -23,13 +23,16 @@ String generateAllClass() {
 }
 
 String _generateFromBytes(Config config) {
-  final constructorCall = refer(config.className)
-      .call(
-        config.nonNamedFields.map((e) => refer(e.name)),
-        Map.fromEntries(config.namedFields.map((e) => MapEntry(e.name, refer(e.name)))),
-      )
-      .statement
-      .dartCode;
+  final constructorName = '${config.className}${config.constructorName != null ? '.${config.constructorName}' : ''}';
+  final constructorCall = config.constructorParams != null
+      ? '$constructorName(${config.constructorParams});'
+      : refer(constructorName)
+          .call(
+            config.nonNamedFields.map((e) => refer(e.name)),
+            Map.fromEntries(config.namedFields.map((e) => MapEntry(e.name, refer(e.name)))),
+          )
+          .statement
+          .dartCode;
 
   return '''
 ${config.className} fromBytes${getSerializationPartialName(config.className)}(BytesReader reader) {

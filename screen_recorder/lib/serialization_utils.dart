@@ -60,40 +60,6 @@ String fromBytesString(BytesReader reader) {
   return TODO;
 }
 
-// TODO maybe we can auto generate this as well?
-void toBytesRect(BytesBuilder writer, Rect value) {
-  // ref: Rect._getValue32
-  toBytesFloat(writer, value.left);
-  toBytesFloat(writer, value.top);
-  toBytesFloat(writer, value.right);
-  toBytesFloat(writer, value.bottom);
-}
-
-Rect fromBytesRect(BytesReader reader) {
-  return TODO;
-}
-
-// TODO maybe we can auto generate this as well?
-void toBytesRRect(BytesBuilder writer, RRect value) {
-  // ref: RRect._getValue32
-  toBytesFloat(writer, value.left);
-  toBytesFloat(writer, value.top);
-  toBytesFloat(writer, value.right);
-  toBytesFloat(writer, value.bottom);
-  toBytesFloat(writer, value.tlRadiusX);
-  toBytesFloat(writer, value.tlRadiusY);
-  toBytesFloat(writer, value.trRadiusX);
-  toBytesFloat(writer, value.trRadiusY);
-  toBytesFloat(writer, value.brRadiusX);
-  toBytesFloat(writer, value.brRadiusY);
-  toBytesFloat(writer, value.blRadiusX);
-  toBytesFloat(writer, value.blRadiusY);
-}
-
-RRect fromBytesRRect(BytesReader reader) {
-  return TODO;
-}
-
 void toBytesPath(BytesBuilder writer, Path value) {
   writer.add(value.dump());
 }

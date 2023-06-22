@@ -687,6 +687,15 @@ SceneBuilder_Pop_Record fromBytesSceneBuilderPopRecord(BytesReader reader) {
 
 void toBytesSceneBuilderPopRecord(BytesWriter writer, SceneBuilder_Pop_Record value) {}
 
+SceneBuilder_AddRetained_Record fromBytesSceneBuilderAddRetainedRecord(BytesReader reader) {
+  final retainedLayerId = fromBytesInt(reader);
+  return SceneBuilder_AddRetained_Record(retainedLayerId: retainedLayerId);
+}
+
+void toBytesSceneBuilderAddRetainedRecord(BytesWriter writer, SceneBuilder_AddRetained_Record value) {
+  toBytesInt(writer, value.retainedLayerId);
+}
+
 SceneBuilder_AddPerformanceOverlay_Record fromBytesSceneBuilderAddPerformanceOverlayRecord(BytesReader reader) {
   final enabledOptions = fromBytesInt(reader);
   final bounds = fromBytesRect(reader);

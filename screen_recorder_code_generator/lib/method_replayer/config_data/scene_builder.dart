@@ -130,10 +130,10 @@ final kConfigSceneBuilder = Config(
       returnType: 'void',
       methodName: 'addRetained',
       handlerName: 'handleAddRetainedOp',
-      handlerParams: 'retainedLayer',
-      enableRecord: false,
       parameters: [
-        ConfigMethodParameter('EngineLayer retainedLayer'),
+        ConfigMethodParameter('EngineLayer retainedLayer', enableRecord: false),
+        ConfigMethodParameter('int retainedLayerId',
+            synthesizedInRecord: true, recordConstructorArgument: 'retainedLayer.layerId!'),
       ],
     ),
     ConfigMethod(

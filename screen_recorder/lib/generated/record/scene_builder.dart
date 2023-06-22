@@ -41,12 +41,14 @@ sealed class SceneBuilder_RecordBase<Ret> {
       case 10:
         return SceneBuilder_Pop_Record.fromBytes(reader);
       case 11:
-        return SceneBuilder_AddPerformanceOverlay_Record.fromBytes(reader);
+        return SceneBuilder_AddRetained_Record.fromBytes(reader);
       case 12:
-        return SceneBuilder_AddPicture_Record.fromBytes(reader);
+        return SceneBuilder_AddPerformanceOverlay_Record.fromBytes(reader);
       case 13:
-        return SceneBuilder_AddTexture_Record.fromBytes(reader);
+        return SceneBuilder_AddPicture_Record.fromBytes(reader);
       case 14:
+        return SceneBuilder_AddTexture_Record.fromBytes(reader);
+      case 15:
         return SceneBuilder_AddPlatformView_Record.fromBytes(reader);
       default:
         throw UnimplementedError('unknown tag=$tag');
@@ -463,6 +465,29 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
   }
 }
 
+class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
+  SceneBuilder_AddRetained_Record({required this.retainedLayerId});
+
+  factory SceneBuilder_AddRetained_Record.fromBytes(BytesReader reader) =>
+      fromBytesSceneBuilderAddRetainedRecord(reader);
+
+  final int retainedLayerId;
+
+  @override
+  void execute(SceneBuilder proxy) {
+    return proxy.addRetained();
+  }
+
+  @override
+  int get tag => 11;
+  @override
+  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddRetainedRecord(writer, this);
+  @override
+  SceneBuilder_AddRetained_Record temporaryClone() {
+    return SceneBuilder_AddRetained_Record(retainedLayerId: retainedLayerId);
+  }
+}
+
 class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<void> {
   SceneBuilder_AddPerformanceOverlay_Record({
     required this.enabledOptions,
@@ -485,7 +510,7 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
   }
 
   @override
-  int get tag => 11;
+  int get tag => 12;
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer, this);
   @override
@@ -526,7 +551,7 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
   }
 
   @override
-  int get tag => 12;
+  int get tag => 13;
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPictureRecord(writer, this);
   @override
@@ -577,7 +602,7 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
   }
 
   @override
-  int get tag => 13;
+  int get tag => 14;
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddTextureRecord(writer, this);
   @override
@@ -623,7 +648,7 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
   }
 
   @override
-  int get tag => 14;
+  int get tag => 15;
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPlatformViewRecord(writer, this);
   @override

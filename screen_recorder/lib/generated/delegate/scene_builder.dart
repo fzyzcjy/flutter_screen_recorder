@@ -226,7 +226,8 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
   @override
   void addRetained(EngineLayer retainedLayer) {
     final result = proxy.addRetained(retainedLayer);
-    handleAddRetainedOp(retainedLayer);
+    final record = SceneBuilder_AddRetained_Record(retainedLayerId: retainedLayer.layerId!);
+    handleAddRetainedOp(result, record);
     return result;
   }
 

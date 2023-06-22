@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:screen_recorder/data_per_frame.dart';
-import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/record_list.dart';
 
@@ -18,14 +17,10 @@ abstract class MySceneBuilderBase {
 
   void handlePushOp(EngineLayer result, SceneBuilder_RecordBase<Object?> record) {
     _data.methodCallRecords.add(record.temporaryClone());
-    result.sceneBuilderRecord = record;
+    // result.sceneBuilderRecord = record;
   }
 
-  void handleAddRetainedOp(EngineLayer retainedLayer) {
-    // NOTE use the stored opRecord
-    // TODO no need to do this, it can be large to store
-    _data.methodCallRecords.add(retainedLayer.sceneBuilderRecord!);
-    // https://github.com/fzyzcjy/yplusplus/issues/9599#issuecomment-1601937669
-    _data.methodCallRecords.add(SceneBuilder_Pop_Record());
+  void handleAddRetainedOp(void result, SceneBuilder_AddRetained_Record record) {
+    _data.methodCallRecords.add(record.temporaryClone());
   }
 }

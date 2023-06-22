@@ -11,6 +11,7 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
+import 'package:screen_recorder/delegate_base/scene_builder.dart';
 
 sealed class SceneBuilder_RecordBase<Ret> {
   SceneBuilder_RecordBase();
@@ -55,7 +56,7 @@ sealed class SceneBuilder_RecordBase<Ret> {
     }
   }
 
-  Ret execute(SceneBuilder proxy);
+  Ret execute(SceneBuilder proxy, SceneBuilder_RecordExecuteContext executeContext);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   SceneBuilder_RecordBase<Ret> temporaryClone();
@@ -84,7 +85,10 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
   final int layerId;
 
   @override
-  TransformEngineLayer execute(SceneBuilder proxy) {
+  TransformEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushTransform(matrix4);
   }
 
@@ -117,7 +121,10 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
   final int layerId;
 
   @override
-  OffsetEngineLayer execute(SceneBuilder proxy) {
+  OffsetEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushOffset(
       dx,
       dy,
@@ -155,7 +162,10 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
   final int layerId;
 
   @override
-  ClipRectEngineLayer execute(SceneBuilder proxy) {
+  ClipRectEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
@@ -193,7 +203,10 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
   final int layerId;
 
   @override
-  ClipRRectEngineLayer execute(SceneBuilder proxy) {
+  ClipRRectEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
@@ -231,7 +244,10 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
   final int layerId;
 
   @override
-  ClipPathEngineLayer execute(SceneBuilder proxy) {
+  ClipPathEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushClipPath(
       path,
       clipBehavior: clipBehavior,
@@ -269,7 +285,10 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
   final int layerId;
 
   @override
-  OpacityEngineLayer execute(SceneBuilder proxy) {
+  OpacityEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushOpacity(
       alpha,
       offset: offset,
@@ -304,7 +323,10 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
   final int layerId;
 
   @override
-  ColorFilterEngineLayer execute(SceneBuilder proxy) {
+  ColorFilterEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushColorFilter(filter);
   }
 
@@ -338,7 +360,10 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
   final int layerId;
 
   @override
-  ImageFilterEngineLayer execute(SceneBuilder proxy) {
+  ImageFilterEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushImageFilter(
       filter,
       offset: offset,
@@ -376,7 +401,10 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
   final int layerId;
 
   @override
-  BackdropFilterEngineLayer execute(SceneBuilder proxy) {
+  BackdropFilterEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushBackdropFilter(
       filter,
       blendMode: blendMode,
@@ -420,7 +448,10 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
   final int layerId;
 
   @override
-  ShaderMaskEngineLayer execute(SceneBuilder proxy) {
+  ShaderMaskEngineLayer execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushShaderMask(
       shader,
       maskRect,
@@ -451,7 +482,10 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
   factory SceneBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderPopRecord(reader);
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pop();
   }
 
@@ -474,7 +508,10 @@ class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
   final int retainedLayerId;
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addRetained();
   }
 
@@ -502,7 +539,10 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
   final Rect bounds;
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addPerformanceOverlay(
       enabledOptions,
       bounds,
@@ -541,7 +581,10 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
   final bool willChangeHint;
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addPicture(
       offset,
       picture,
@@ -590,7 +633,10 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
   final FilterQuality filterQuality;
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addTexture(
       textureId,
       offset: offset,
@@ -638,7 +684,10 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
   final double height;
 
   @override
-  void execute(SceneBuilder proxy) {
+  void execute(
+    SceneBuilder proxy,
+    SceneBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addPlatformView(
       viewId,
       offset: offset,

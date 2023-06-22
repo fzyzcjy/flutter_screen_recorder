@@ -11,6 +11,7 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
+import 'package:screen_recorder/delegate_base/paragraph.dart';
 
 sealed class Paragraph_RecordBase<Ret> {
   Paragraph_RecordBase();
@@ -23,7 +24,7 @@ sealed class Paragraph_RecordBase<Ret> {
     }
   }
 
-  Ret execute(Paragraph proxy);
+  Ret execute(Paragraph proxy, Paragraph_RecordExecuteContext executeContext);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   Paragraph_RecordBase<Ret> temporaryClone();

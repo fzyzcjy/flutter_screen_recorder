@@ -19,6 +19,8 @@ class Config {
   String get generatedFilename => '${ReCase(originalClass.toString()).snakeCase}.dart';
 
   String get recordBaseClass => '${originalClass}_RecordBase';
+
+  String get recordExecuteContextClass => '${originalClass}_RecordExecuteContext';
 }
 
 class ConfigMethod {

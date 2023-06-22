@@ -11,6 +11,7 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
+import 'package:screen_recorder/delegate_base/paragraph_builder.dart';
 
 sealed class ParagraphBuilder_RecordBase<Ret> {
   ParagraphBuilder_RecordBase();
@@ -31,7 +32,7 @@ sealed class ParagraphBuilder_RecordBase<Ret> {
     }
   }
 
-  Ret execute(ParagraphBuilder proxy);
+  Ret execute(ParagraphBuilder proxy, ParagraphBuilder_RecordExecuteContext executeContext);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   ParagraphBuilder_RecordBase<Ret> temporaryClone();
@@ -55,7 +56,10 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
   final TextStyle style;
 
   @override
-  void execute(ParagraphBuilder proxy) {
+  void execute(
+    ParagraphBuilder proxy,
+    ParagraphBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pushStyle(style);
   }
 
@@ -75,7 +79,10 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
   factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesParagraphBuilderPopRecord(reader);
 
   @override
-  void execute(ParagraphBuilder proxy) {
+  void execute(
+    ParagraphBuilder proxy,
+    ParagraphBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.pop();
   }
 
@@ -98,7 +105,10 @@ class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> 
   final String text;
 
   @override
-  void execute(ParagraphBuilder proxy) {
+  void execute(
+    ParagraphBuilder proxy,
+    ParagraphBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addText(text);
   }
 
@@ -138,7 +148,10 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
   final TextBaseline? baseline;
 
   @override
-  void execute(ParagraphBuilder proxy) {
+  void execute(
+    ParagraphBuilder proxy,
+    ParagraphBuilder_RecordExecuteContext executeContext,
+  ) {
     return proxy.addPlaceholder(
       width,
       height,

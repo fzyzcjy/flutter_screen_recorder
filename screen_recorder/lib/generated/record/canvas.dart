@@ -11,6 +11,7 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
+import 'package:screen_recorder/delegate_base/canvas.dart';
 
 sealed class Canvas_RecordBase<Ret> {
   Canvas_RecordBase();
@@ -89,7 +90,7 @@ sealed class Canvas_RecordBase<Ret> {
     }
   }
 
-  Ret execute(Canvas proxy);
+  Ret execute(Canvas proxy, Canvas_RecordExecuteContext executeContext);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   Canvas_RecordBase<Ret> temporaryClone();
@@ -110,7 +111,10 @@ class Canvas_Save_Record extends Canvas_RecordBase<void> {
   factory Canvas_Save_Record.fromBytes(BytesReader reader) => fromBytesCanvasSaveRecord(reader);
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.save();
   }
 
@@ -137,7 +141,10 @@ class Canvas_SaveLayer_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.saveLayer(
       bounds,
       paint,
@@ -163,7 +170,10 @@ class Canvas_Restore_Record extends Canvas_RecordBase<void> {
   factory Canvas_Restore_Record.fromBytes(BytesReader reader) => fromBytesCanvasRestoreRecord(reader);
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.restore();
   }
 
@@ -185,7 +195,10 @@ class Canvas_RestoreToCount_Record extends Canvas_RecordBase<void> {
   final int count;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.restoreToCount(count);
   }
 
@@ -212,7 +225,10 @@ class Canvas_Translate_Record extends Canvas_RecordBase<void> {
   final double dy;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.translate(
       dx,
       dy,
@@ -245,7 +261,10 @@ class Canvas_Scale_Record extends Canvas_RecordBase<void> {
   final double? sy;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.scale(
       sx,
       sy,
@@ -273,7 +292,10 @@ class Canvas_Rotate_Record extends Canvas_RecordBase<void> {
   final double radians;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.rotate(radians);
   }
 
@@ -300,7 +322,10 @@ class Canvas_Skew_Record extends Canvas_RecordBase<void> {
   final double sy;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.skew(
       sx,
       sy,
@@ -328,7 +353,10 @@ class Canvas_Transform_Record extends Canvas_RecordBase<void> {
   final Float64List matrix4;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.transform(matrix4);
   }
 
@@ -358,7 +386,10 @@ class Canvas_ClipRect_Record extends Canvas_RecordBase<void> {
   final bool doAntiAlias;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.clipRect(
       rect,
       clipOp: clipOp,
@@ -393,7 +424,10 @@ class Canvas_ClipRRect_Record extends Canvas_RecordBase<void> {
   final bool doAntiAlias;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.clipRRect(
       rrect,
       doAntiAlias: doAntiAlias,
@@ -426,7 +460,10 @@ class Canvas_ClipPath_Record extends Canvas_RecordBase<void> {
   final bool doAntiAlias;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.clipPath(
       path,
       doAntiAlias: doAntiAlias,
@@ -459,7 +496,10 @@ class Canvas_DrawColor_Record extends Canvas_RecordBase<void> {
   final BlendMode blendMode;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawColor(
       color,
       blendMode,
@@ -495,7 +535,10 @@ class Canvas_DrawLine_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawLine(
       p1,
       p2,
@@ -525,7 +568,10 @@ class Canvas_DrawPaint_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawPaint(paint);
   }
 
@@ -552,7 +598,10 @@ class Canvas_DrawRect_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawRect(
       rect,
       paint,
@@ -585,7 +634,10 @@ class Canvas_DrawRRect_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawRRect(
       rrect,
       paint,
@@ -621,7 +673,10 @@ class Canvas_DrawDRRect_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawDRRect(
       outer,
       inner,
@@ -656,7 +711,10 @@ class Canvas_DrawOval_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawOval(
       rect,
       paint,
@@ -692,7 +750,10 @@ class Canvas_DrawCircle_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawCircle(
       c,
       radius,
@@ -736,7 +797,10 @@ class Canvas_DrawArc_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawArc(
       rect,
       startAngle,
@@ -775,7 +839,10 @@ class Canvas_DrawPath_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawPath(
       path,
       paint,
@@ -811,7 +878,10 @@ class Canvas_DrawImage_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawImage(
       image,
       offset,
@@ -852,7 +922,10 @@ class Canvas_DrawImageRect_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawImageRect(
       image,
       src,
@@ -895,7 +968,10 @@ class Canvas_DrawImageNine_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawImageNine(
       image,
       center,
@@ -927,7 +1003,10 @@ class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
   final Picture picture;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawPicture(picture);
   }
 
@@ -954,7 +1033,10 @@ class Canvas_DrawParagraph_Record extends Canvas_RecordBase<void> {
   final Offset offset;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawParagraph(
       paragraph,
       offset,
@@ -990,7 +1072,10 @@ class Canvas_DrawPoints_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawPoints(
       pointMode,
       points,
@@ -1028,7 +1113,10 @@ class Canvas_DrawRawPoints_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawRawPoints(
       pointMode,
       points,
@@ -1066,7 +1154,10 @@ class Canvas_DrawVertices_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawVertices(
       vertices,
       blendMode,
@@ -1116,7 +1207,10 @@ class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawAtlas(
       atlas,
       transforms,
@@ -1174,7 +1268,10 @@ class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
   final Paint paint;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawRawAtlas(
       atlas,
       rstTransforms,
@@ -1223,7 +1320,10 @@ class Canvas_DrawShadow_Record extends Canvas_RecordBase<void> {
   final bool transparentOccluder;
 
   @override
-  void execute(Canvas proxy) {
+  void execute(
+    Canvas proxy,
+    Canvas_RecordExecuteContext executeContext,
+  ) {
     return proxy.drawShadow(
       path,
       color,

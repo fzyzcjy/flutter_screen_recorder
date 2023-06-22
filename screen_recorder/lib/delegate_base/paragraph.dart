@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:ui';
 
 import 'package:screen_recorder/expandos.dart';
@@ -30,3 +32,5 @@ extension ExtParagraph on Paragraph {
     return that;
   }
 }
+
+class Paragraph_RecordExecuteContext {}

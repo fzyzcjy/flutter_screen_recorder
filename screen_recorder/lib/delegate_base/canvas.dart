@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:ui';
 
 import 'package:screen_recorder/generated/record/canvas.dart';
@@ -16,3 +18,5 @@ abstract class MyCanvasBase {
     data.methodCallRecords.add(record.temporaryClone());
   }
 }
+
+class Canvas_RecordExecuteContext {}

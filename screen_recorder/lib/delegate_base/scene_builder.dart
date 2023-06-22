@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'dart:ui';
 
 import 'package:screen_recorder/data_per_frame.dart';
@@ -24,3 +26,5 @@ abstract class MySceneBuilderBase {
     _data.methodCallRecords.add(record.temporaryClone());
   }
 }
+
+class SceneBuilder_RecordExecuteContext {}

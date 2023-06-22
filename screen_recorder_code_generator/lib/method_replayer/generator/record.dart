@@ -20,6 +20,7 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
+import 'package:screen_recorder/delegate_base/${config.generatedFilename}';
 
 ${_generateBaseClass(config)}
 
@@ -36,7 +37,7 @@ sealed class ${config.recordBaseClass}<Ret> {
   
   ${_generateBaseClassFromBytes(config)}
   
-  Ret execute(${config.originalClass} proxy);
+  Ret execute(${config.originalClass} proxy, ${config.recordExecuteContextClass} executeContext);
   
   // TODO only a temporary workaround, should remove after implementing serialization
   ${config.recordBaseClass}<Ret> temporaryClone();
@@ -118,11 +119,12 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
     (b) => b
       ..name = 'execute'
       ..returns = refer(configMethod.returnType)
-      ..requiredParameters.add(Parameter(
-        (b) => b
-          ..name = 'proxy'
-          ..type = refer(config.originalClass),
-      ))
+      ..requiredParameters.add(Parameter((b) => b
+        ..name = 'proxy'
+        ..type = refer(config.originalClass)))
+      ..requiredParameters.add(Parameter((b) => b
+        ..name = 'executeContext'
+        ..type = refer(config.recordExecuteContextClass)))
       ..annotations.add(refer('override'))
       ..body = Code(body),
   );

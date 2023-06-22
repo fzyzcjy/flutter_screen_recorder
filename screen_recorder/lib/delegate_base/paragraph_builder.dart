@@ -30,3 +30,5 @@ class ParagraphBuilder_Constructor_Record {
 
   final ParagraphStyle style;
 }
+
+class ParagraphBuilder_RecordExecuteContext {}

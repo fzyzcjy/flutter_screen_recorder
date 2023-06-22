@@ -27,7 +27,7 @@ class ScreenRecorder {
     PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
     PaintingContext.createCanvas = (recorder) => MyCanvas(recorder as MyPictureRecorder);
     TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
-    RenderView.createSceneBuilder = () => MySceneBuilder(SceneBuilder());
+    RenderView.createSceneBuilder = () => recording ? MySceneBuilder(SceneBuilder()) : SceneBuilder();
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
   }

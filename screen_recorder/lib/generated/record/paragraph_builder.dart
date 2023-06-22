@@ -15,7 +15,7 @@ import 'package:screen_recorder/temporary_clone.dart';
 sealed class ParagraphBuilder_RecordBase<Ret> {
   ParagraphBuilder_RecordBase();
 
-  ParagraphBuilder_RecordBase.fromBytes(BytesReader reader) {
+  factory ParagraphBuilder_RecordBase.fromBytes(BytesReader reader) {
     final index = fromBytesUint8(reader);
     switch (index) {
       case 0:

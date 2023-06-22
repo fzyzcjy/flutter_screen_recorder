@@ -23,7 +23,7 @@ import 'package:screen_recorder/temporary_clone.dart';
 
 ${_generateBaseClass(config)}
 
-${config.methods.map((configMethod) => _generateRecordClass(config, configMethod)).join('\n\n')}
+${config.methods.mapIndexed((index, configMethod) => _generateRecordClass(config, configMethod, index)).join('\n\n')}
   ''';
 
   File('$dirTarget/record/${config.generatedFilename}').writeAsStringSync(dartfmt.format(text));
@@ -40,17 +40,24 @@ sealed class ${config.recordBaseClass}<Ret> {
   
   // TODO only a temporary workaround, should remove after implementing serialization
   ${config.recordBaseClass}<Ret> temporaryClone();
+  
+  void toBytes(BytesBuilder writer) {
+    toBytesUint8(tag);
+    toBytesWithoutTag(writer);
+  }
+  
+  int get tag;
 
-  void toBytes(BytesBuilder writer);
+  void toBytesWithoutTag(BytesBuilder writer);
 }
   ''';
 }
 
 String _generateBaseClassFromBytes(Config config) {
   return '''
-  ${config.recordBaseClass}.fromBytes(BytesReader reader) {
-    final index = fromBytesUint8(reader);
-    switch (index) {
+  static ${config.recordBaseClass} fromBytes(BytesReader reader) {
+    final tag = fromBytesUint8(reader);
+    switch (tag) {
       ${config.methods.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
       default: throw UnimplementedError('unknown index=\$index');
     }
@@ -62,7 +69,7 @@ String _generateBaseClassFromBytesCase(Config config, ConfigMethod configMethod,
   return 'case $index: return fromBytes${getSerializationPartialName(configMethod.recordClassName(config))}(reader);';
 }
 
-String _generateRecordClass(Config config, ConfigMethod configMethod) {
+String _generateRecordClass(Config config, ConfigMethod configMethod, int index) {
   if (!configMethod.enableRecord) return '';
 
   return Class(
@@ -87,6 +94,13 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
       ))
       ..methods.add(_generateRecordClassMethodExecute(config, configMethod))
       ..constructors.add(_generateRecordClassMethodFromBytes(config, configMethod))
+      ..methods.add(Method(
+        (b) => b
+          ..name = 'tag'
+          ..type = MethodType.getter
+          ..lambda = true
+          ..body = Code('$index'),
+      ))
       ..methods.add(_generateRecordClassMethodToBytes(config, configMethod))
       ..methods.add(_generateRecordClassMethodClone(config, configMethod)),
   ).dartCode;
@@ -131,7 +145,7 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
   return Method.returnsVoid(
     (b) => b
-      ..name = 'toBytes'
+      ..name = 'toBytesWithoutTag'
       ..lambda = true
       ..requiredParameters.add(Parameter(
         (b) => b

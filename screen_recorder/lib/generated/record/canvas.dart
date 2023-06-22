@@ -15,7 +15,7 @@ import 'package:screen_recorder/temporary_clone.dart';
 sealed class Canvas_RecordBase<Ret> {
   Canvas_RecordBase();
 
-  Canvas_RecordBase.fromBytes(BytesReader reader) {
+  factory Canvas_RecordBase.fromBytes(BytesReader reader) {
     final index = fromBytesUint8(reader);
     switch (index) {
       case 0:

@@ -49,6 +49,14 @@ void toBytesDouble(BytesBuilder writer, double value) {
   writer.add((Float64List(1)..[0] = value).buffer.asUint8List());
 }
 
+Uint8List fromBytesUint8List(BytesReader reader) {
+  return fromBytesByteData(reader).buffer.asUint8List();
+}
+
+void toBytesUint8List(BytesBuilder writer, Uint8List value) {
+  toBytesByteData(writer, value.buffer.asByteData());
+}
+
 Int32List fromBytesInt32List(BytesReader reader) {
   return fromBytesByteData(reader).buffer.asInt32List();
 }

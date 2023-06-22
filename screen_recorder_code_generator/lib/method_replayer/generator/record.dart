@@ -84,44 +84,31 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
 }
 
 Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod configMethod) {
-  final constructorCall = refer(configMethod.recordClassName(config))
-      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
-      .statement
-      .dartCode;
-  final body = [
-    for (final param in configMethod.parametersForRecord)
-      'final ${param.name} = fromBytes${getSerializationPartialName(param.type)}(reader);',
-    'return $constructorCall',
-  ].join('\n');
-
   return Constructor(
     (b) => b
       ..name = 'fromBytes'
       ..factory = true
+      ..lambda = true
       ..requiredParameters.add(Parameter(
         (b) => b
           ..name = 'reader'
           ..type = refer('BytesReader'),
       ))
-      ..body = Code(body),
+      ..body = Code('fromBytes${getSerializationPartialName(configMethod.methodName)}(reader)'),
   );
 }
 
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
-  final body = [
-    for (final param in configMethod.parametersForRecord)
-      'toBytes${getSerializationPartialName(param.type)}(writer, ${param.name});'
-  ].join('\n');
-
   return Method.returnsVoid(
     (b) => b
       ..name = 'toBytes'
+      ..lambda = true
       ..requiredParameters.add(Parameter(
         (b) => b
           ..name = 'writer'
           ..type = refer('BytesBuilder'),
       ))
-      ..body = Code(body),
+      ..body = Code('toBytes${getSerializationPartialName(configMethod.methodName)}(writer)'),
   );
 }
 

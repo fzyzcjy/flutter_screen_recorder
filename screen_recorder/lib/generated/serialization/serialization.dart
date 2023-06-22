@@ -18,6 +18,5 @@ Offset fromBytesOffset(BytesReader reader) {
 
 void toBytesOffset(BytesBuilder writer, Offset value) {
   toBytesDouble(writer, value.dx);
-
   toBytesDouble(writer, value.dy);
 }

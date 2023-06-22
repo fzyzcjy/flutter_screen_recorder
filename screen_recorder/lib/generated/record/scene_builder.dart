@@ -21,10 +21,7 @@ abstract class SceneBuilder_RecordBase<Ret> {
 class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<TransformEngineLayer> {
   SceneBuilder_PushTransform_Record({required this.matrix4});
 
-  factory SceneBuilder_PushTransform_Record.fromBytes(BytesReader reader) {
-    final matrix4 = fromBytesFloat64List(reader);
-    return SceneBuilder_PushTransform_Record(matrix4: matrix4);
-  }
+  factory SceneBuilder_PushTransform_Record.fromBytes(BytesReader reader) => fromBytesPushTransform(reader);
 
   final Float64List matrix4;
 
@@ -33,10 +30,7 @@ class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<Trans
     return proxy.pushTransform(matrix4);
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesFloat64List(writer, matrix4);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushTransform(writer);
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
     return SceneBuilder_PushTransform_Record(matrix4: matrix4.temporaryClone());
@@ -49,14 +43,7 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
     required this.dy,
   });
 
-  factory SceneBuilder_PushOffset_Record.fromBytes(BytesReader reader) {
-    final dx = fromBytesDouble(reader);
-    final dy = fromBytesDouble(reader);
-    return SceneBuilder_PushOffset_Record(
-      dx: dx,
-      dy: dy,
-    );
-  }
+  factory SceneBuilder_PushOffset_Record.fromBytes(BytesReader reader) => fromBytesPushOffset(reader);
 
   final double dx;
 
@@ -70,11 +57,7 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesDouble(writer, dx);
-    toBytesDouble(writer, dy);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushOffset(writer);
   @override
   SceneBuilder_PushOffset_Record temporaryClone() {
     return SceneBuilder_PushOffset_Record(
@@ -90,14 +73,7 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
     required this.clipBehavior,
   });
 
-  factory SceneBuilder_PushClipRect_Record.fromBytes(BytesReader reader) {
-    final rect = fromBytesRect(reader);
-    final clipBehavior = fromBytesEnum(reader);
-    return SceneBuilder_PushClipRect_Record(
-      rect: rect,
-      clipBehavior: clipBehavior,
-    );
-  }
+  factory SceneBuilder_PushClipRect_Record.fromBytes(BytesReader reader) => fromBytesPushClipRect(reader);
 
   final Rect rect;
 
@@ -111,11 +87,7 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesRect(writer, rect);
-    toBytesEnum(writer, clipBehavior);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushClipRect(writer);
   @override
   SceneBuilder_PushClipRect_Record temporaryClone() {
     return SceneBuilder_PushClipRect_Record(
@@ -131,14 +103,7 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
     required this.clipBehavior,
   });
 
-  factory SceneBuilder_PushClipRRect_Record.fromBytes(BytesReader reader) {
-    final rrect = fromBytesRRect(reader);
-    final clipBehavior = fromBytesEnum(reader);
-    return SceneBuilder_PushClipRRect_Record(
-      rrect: rrect,
-      clipBehavior: clipBehavior,
-    );
-  }
+  factory SceneBuilder_PushClipRRect_Record.fromBytes(BytesReader reader) => fromBytesPushClipRRect(reader);
 
   final RRect rrect;
 
@@ -152,11 +117,7 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesRRect(writer, rrect);
-    toBytesEnum(writer, clipBehavior);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushClipRRect(writer);
   @override
   SceneBuilder_PushClipRRect_Record temporaryClone() {
     return SceneBuilder_PushClipRRect_Record(
@@ -172,14 +133,7 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
     required this.clipBehavior,
   });
 
-  factory SceneBuilder_PushClipPath_Record.fromBytes(BytesReader reader) {
-    final path = fromBytesPath(reader);
-    final clipBehavior = fromBytesEnum(reader);
-    return SceneBuilder_PushClipPath_Record(
-      path: path,
-      clipBehavior: clipBehavior,
-    );
-  }
+  factory SceneBuilder_PushClipPath_Record.fromBytes(BytesReader reader) => fromBytesPushClipPath(reader);
 
   final Path path;
 
@@ -193,11 +147,7 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesPath(writer, path);
-    toBytesEnum(writer, clipBehavior);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushClipPath(writer);
   @override
   SceneBuilder_PushClipPath_Record temporaryClone() {
     return SceneBuilder_PushClipPath_Record(
@@ -213,14 +163,7 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
     required this.offset,
   });
 
-  factory SceneBuilder_PushOpacity_Record.fromBytes(BytesReader reader) {
-    final alpha = fromBytesInt(reader);
-    final offset = fromBytesOffset(reader);
-    return SceneBuilder_PushOpacity_Record(
-      alpha: alpha,
-      offset: offset,
-    );
-  }
+  factory SceneBuilder_PushOpacity_Record.fromBytes(BytesReader reader) => fromBytesPushOpacity(reader);
 
   final int alpha;
 
@@ -234,11 +177,7 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesInt(writer, alpha);
-    toBytesOffset(writer, offset);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushOpacity(writer);
   @override
   SceneBuilder_PushOpacity_Record temporaryClone() {
     return SceneBuilder_PushOpacity_Record(
@@ -251,10 +190,7 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
 class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<ColorFilterEngineLayer> {
   SceneBuilder_PushColorFilter_Record({required this.filter});
 
-  factory SceneBuilder_PushColorFilter_Record.fromBytes(BytesReader reader) {
-    final filter = fromBytesColorFilter(reader);
-    return SceneBuilder_PushColorFilter_Record(filter: filter);
-  }
+  factory SceneBuilder_PushColorFilter_Record.fromBytes(BytesReader reader) => fromBytesPushColorFilter(reader);
 
   final ColorFilter filter;
 
@@ -263,10 +199,7 @@ class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<Col
     return proxy.pushColorFilter(filter);
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesColorFilter(writer, filter);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushColorFilter(writer);
   @override
   SceneBuilder_PushColorFilter_Record temporaryClone() {
     return SceneBuilder_PushColorFilter_Record(filter: filter);
@@ -279,14 +212,7 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
     required this.offset,
   });
 
-  factory SceneBuilder_PushImageFilter_Record.fromBytes(BytesReader reader) {
-    final filter = fromBytesImageFilter(reader);
-    final offset = fromBytesOffset(reader);
-    return SceneBuilder_PushImageFilter_Record(
-      filter: filter,
-      offset: offset,
-    );
-  }
+  factory SceneBuilder_PushImageFilter_Record.fromBytes(BytesReader reader) => fromBytesPushImageFilter(reader);
 
   final ImageFilter filter;
 
@@ -300,11 +226,7 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesImageFilter(writer, filter);
-    toBytesOffset(writer, offset);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushImageFilter(writer);
   @override
   SceneBuilder_PushImageFilter_Record temporaryClone() {
     return SceneBuilder_PushImageFilter_Record(
@@ -320,14 +242,7 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
     required this.blendMode,
   });
 
-  factory SceneBuilder_PushBackdropFilter_Record.fromBytes(BytesReader reader) {
-    final filter = fromBytesImageFilter(reader);
-    final blendMode = fromBytesEnum(reader);
-    return SceneBuilder_PushBackdropFilter_Record(
-      filter: filter,
-      blendMode: blendMode,
-    );
-  }
+  factory SceneBuilder_PushBackdropFilter_Record.fromBytes(BytesReader reader) => fromBytesPushBackdropFilter(reader);
 
   final ImageFilter filter;
 
@@ -341,11 +256,7 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesImageFilter(writer, filter);
-    toBytesEnum(writer, blendMode);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushBackdropFilter(writer);
   @override
   SceneBuilder_PushBackdropFilter_Record temporaryClone() {
     return SceneBuilder_PushBackdropFilter_Record(
@@ -363,18 +274,7 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
     required this.filterQuality,
   });
 
-  factory SceneBuilder_PushShaderMask_Record.fromBytes(BytesReader reader) {
-    final shader = fromBytesShader(reader);
-    final maskRect = fromBytesRect(reader);
-    final blendMode = fromBytesEnum(reader);
-    final filterQuality = fromBytesEnum(reader);
-    return SceneBuilder_PushShaderMask_Record(
-      shader: shader,
-      maskRect: maskRect,
-      blendMode: blendMode,
-      filterQuality: filterQuality,
-    );
-  }
+  factory SceneBuilder_PushShaderMask_Record.fromBytes(BytesReader reader) => fromBytesPushShaderMask(reader);
 
   final Shader shader;
 
@@ -394,13 +294,7 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesShader(writer, shader);
-    toBytesRect(writer, maskRect);
-    toBytesEnum(writer, blendMode);
-    toBytesEnum(writer, filterQuality);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushShaderMask(writer);
   @override
   SceneBuilder_PushShaderMask_Record temporaryClone() {
     return SceneBuilder_PushShaderMask_Record(
@@ -415,16 +309,14 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
 class SceneBuilder_Pop_Record implements SceneBuilder_RecordBase<void> {
   SceneBuilder_Pop_Record();
 
-  factory SceneBuilder_Pop_Record.fromBytes(BytesReader reader) {
-    return SceneBuilder_Pop_Record();
-  }
+  factory SceneBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesPop(reader);
 
   @override
   void execute(SceneBuilder proxy) {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder writer) {}
+  void toBytes(BytesBuilder writer) => toBytesPop(writer);
   @override
   SceneBuilder_Pop_Record temporaryClone() {
     return SceneBuilder_Pop_Record();
@@ -437,14 +329,8 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
     required this.bounds,
   });
 
-  factory SceneBuilder_AddPerformanceOverlay_Record.fromBytes(BytesReader reader) {
-    final enabledOptions = fromBytesInt(reader);
-    final bounds = fromBytesRect(reader);
-    return SceneBuilder_AddPerformanceOverlay_Record(
-      enabledOptions: enabledOptions,
-      bounds: bounds,
-    );
-  }
+  factory SceneBuilder_AddPerformanceOverlay_Record.fromBytes(BytesReader reader) =>
+      fromBytesAddPerformanceOverlay(reader);
 
   final int enabledOptions;
 
@@ -458,11 +344,7 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesInt(writer, enabledOptions);
-    toBytesRect(writer, bounds);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddPerformanceOverlay(writer);
   @override
   SceneBuilder_AddPerformanceOverlay_Record temporaryClone() {
     return SceneBuilder_AddPerformanceOverlay_Record(
@@ -480,18 +362,7 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
     required this.willChangeHint,
   });
 
-  factory SceneBuilder_AddPicture_Record.fromBytes(BytesReader reader) {
-    final offset = fromBytesOffset(reader);
-    final picture = fromBytesPicture(reader);
-    final isComplexHint = fromBytesBool(reader);
-    final willChangeHint = fromBytesBool(reader);
-    return SceneBuilder_AddPicture_Record(
-      offset: offset,
-      picture: picture,
-      isComplexHint: isComplexHint,
-      willChangeHint: willChangeHint,
-    );
-  }
+  factory SceneBuilder_AddPicture_Record.fromBytes(BytesReader reader) => fromBytesAddPicture(reader);
 
   final Offset offset;
 
@@ -511,13 +382,7 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesOffset(writer, offset);
-    toBytesPicture(writer, picture);
-    toBytesBool(writer, isComplexHint);
-    toBytesBool(writer, willChangeHint);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddPicture(writer);
   @override
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
@@ -539,22 +404,7 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     required this.filterQuality,
   });
 
-  factory SceneBuilder_AddTexture_Record.fromBytes(BytesReader reader) {
-    final textureId = fromBytesInt(reader);
-    final offset = fromBytesOffset(reader);
-    final width = fromBytesDouble(reader);
-    final height = fromBytesDouble(reader);
-    final freeze = fromBytesBool(reader);
-    final filterQuality = fromBytesEnum(reader);
-    return SceneBuilder_AddTexture_Record(
-      textureId: textureId,
-      offset: offset,
-      width: width,
-      height: height,
-      freeze: freeze,
-      filterQuality: filterQuality,
-    );
-  }
+  factory SceneBuilder_AddTexture_Record.fromBytes(BytesReader reader) => fromBytesAddTexture(reader);
 
   final int textureId;
 
@@ -580,15 +430,7 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesInt(writer, textureId);
-    toBytesOffset(writer, offset);
-    toBytesDouble(writer, width);
-    toBytesDouble(writer, height);
-    toBytesBool(writer, freeze);
-    toBytesEnum(writer, filterQuality);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddTexture(writer);
   @override
   SceneBuilder_AddTexture_Record temporaryClone() {
     return SceneBuilder_AddTexture_Record(
@@ -610,18 +452,7 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
     required this.height,
   });
 
-  factory SceneBuilder_AddPlatformView_Record.fromBytes(BytesReader reader) {
-    final viewId = fromBytesInt(reader);
-    final offset = fromBytesOffset(reader);
-    final width = fromBytesDouble(reader);
-    final height = fromBytesDouble(reader);
-    return SceneBuilder_AddPlatformView_Record(
-      viewId: viewId,
-      offset: offset,
-      width: width,
-      height: height,
-    );
-  }
+  factory SceneBuilder_AddPlatformView_Record.fromBytes(BytesReader reader) => fromBytesAddPlatformView(reader);
 
   final int viewId;
 
@@ -641,13 +472,7 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesInt(writer, viewId);
-    toBytesOffset(writer, offset);
-    toBytesDouble(writer, width);
-    toBytesDouble(writer, height);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddPlatformView(writer);
   @override
   SceneBuilder_AddPlatformView_Record temporaryClone() {
     return SceneBuilder_AddPlatformView_Record(

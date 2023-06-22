@@ -21,10 +21,7 @@ abstract class ParagraphBuilder_RecordBase<Ret> {
 class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_PushStyle_Record({required this.style});
 
-  factory ParagraphBuilder_PushStyle_Record.fromBytes(BytesReader reader) {
-    final style = fromBytesTextStyle(reader);
-    return ParagraphBuilder_PushStyle_Record(style: style);
-  }
+  factory ParagraphBuilder_PushStyle_Record.fromBytes(BytesReader reader) => fromBytesPushStyle(reader);
 
   final TextStyle style;
 
@@ -33,10 +30,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
     return proxy.pushStyle(style);
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesTextStyle(writer, style);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesPushStyle(writer);
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
     return ParagraphBuilder_PushStyle_Record(style: style);
@@ -46,16 +40,14 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
 class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
-  factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) {
-    return ParagraphBuilder_Pop_Record();
-  }
+  factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesPop(reader);
 
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder writer) {}
+  void toBytes(BytesBuilder writer) => toBytesPop(writer);
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -65,10 +57,7 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
 class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddText_Record({required this.text});
 
-  factory ParagraphBuilder_AddText_Record.fromBytes(BytesReader reader) {
-    final text = fromBytesString(reader);
-    return ParagraphBuilder_AddText_Record(text: text);
-  }
+  factory ParagraphBuilder_AddText_Record.fromBytes(BytesReader reader) => fromBytesAddText(reader);
 
   final String text;
 
@@ -77,10 +66,7 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
     return proxy.addText(text);
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesString(writer, text);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddText(writer);
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
     return ParagraphBuilder_AddText_Record(text: text);
@@ -97,22 +83,7 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     required this.baseline,
   });
 
-  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(BytesReader reader) {
-    final width = fromBytesDouble(reader);
-    final height = fromBytesDouble(reader);
-    final alignment = fromBytesPlaceholderAlignment(reader);
-    final scale = fromBytesDouble(reader);
-    final baselineOffset = fromBytesDouble(reader);
-    final baseline = fromBytesTextBaseline(reader);
-    return ParagraphBuilder_AddPlaceholder_Record(
-      width: width,
-      height: height,
-      alignment: alignment,
-      scale: scale,
-      baselineOffset: baselineOffset,
-      baseline: baseline,
-    );
-  }
+  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(BytesReader reader) => fromBytesAddPlaceholder(reader);
 
   final double width;
 
@@ -138,15 +109,7 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     );
   }
 
-  void toBytes(BytesBuilder writer) {
-    toBytesDouble(writer, width);
-    toBytesDouble(writer, height);
-    toBytesPlaceholderAlignment(writer, alignment);
-    toBytesDouble(writer, scale);
-    toBytesDouble(writer, baselineOffset);
-    toBytesTextBaseline(writer, baseline);
-  }
-
+  void toBytes(BytesBuilder writer) => toBytesAddPlaceholder(writer);
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
     return ParagraphBuilder_AddPlaceholder_Record(

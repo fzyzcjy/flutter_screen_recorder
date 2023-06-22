@@ -9,6 +9,9 @@ import 'dart:ui';
 
 abstract class ParagraphBuilder_RecordBase<Ret> {
   Ret execute(ParagraphBuilder proxy);
+
+  // TODO only a temporary workaround, should remove after implementing serialization
+  ParagraphBuilder_RecordBase<Ret> temporaryClone();
 }
 
 class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {
@@ -20,6 +23,11 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
   void execute(ParagraphBuilder proxy) {
     return proxy.pushStyle(style);
   }
+
+  @override
+  ParagraphBuilder_PushStyle_Record temporaryClone() {
+    return ParagraphBuilder_PushStyle_Record(style: style);
+  }
 }
 
 class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
@@ -28,6 +36,11 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.pop();
+  }
+
+  @override
+  ParagraphBuilder_Pop_Record temporaryClone() {
+    return ParagraphBuilder_Pop_Record();
   }
 }
 
@@ -39,6 +52,11 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.addText(text);
+  }
+
+  @override
+  ParagraphBuilder_AddText_Record temporaryClone() {
+    return ParagraphBuilder_AddText_Record(text: text);
   }
 }
 
@@ -70,6 +88,18 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
       width,
       height,
       alignment,
+      scale: scale,
+      baselineOffset: baselineOffset,
+      baseline: baseline,
+    );
+  }
+
+  @override
+  ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
+    return ParagraphBuilder_AddPlaceholder_Record(
+      width: width,
+      height: height,
+      alignment: alignment,
       scale: scale,
       baselineOffset: baselineOffset,
       baseline: baseline,

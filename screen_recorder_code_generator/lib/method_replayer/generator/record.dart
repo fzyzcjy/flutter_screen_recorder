@@ -16,6 +16,9 @@ import 'dart:ui';
 
 abstract class ${config.recordBaseClass}<Ret> {
   Ret execute(${config.originalClass} proxy);
+  
+  // TODO only a temporary workaround, should remove after implementing serialization
+  ${config.recordBaseClass}<Ret> temporaryClone();
 }
 
 ${config.methods.map((configMethod) => _generateRecordClass(config, configMethod)).join('\n\n')}
@@ -47,7 +50,8 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
                   ..required = true,
               ))),
       ))
-      ..methods.add(_generateRecordClassMethodExecute(config, configMethod)),
+      ..methods.add(_generateRecordClassMethodExecute(config, configMethod))
+      ..methods.add(_generateRecordClassMethodClone(config, configMethod)),
   ).dartCode;
 }
 
@@ -67,6 +71,22 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
           ..name = 'proxy'
           ..type = refer(config.originalClass),
       ))
+      ..annotations.add(refer('override'))
+      ..body = Code(body),
+  );
+}
+
+Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod) {
+  final bodyCall = refer(configMethod.recordClassName(config))
+      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
+      .statement
+      .dartCode;
+  final body = 'return $bodyCall';
+
+  return Method(
+    (b) => b
+      ..name = 'temporaryClone'
+      ..returns = refer(configMethod.recordClassName(config))
       ..annotations.add(refer('override'))
       ..body = Code(body),
   );

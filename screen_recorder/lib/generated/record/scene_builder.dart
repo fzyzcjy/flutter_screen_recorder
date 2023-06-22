@@ -9,6 +9,9 @@ import 'dart:ui';
 
 abstract class SceneBuilder_RecordBase<Ret> {
   Ret execute(SceneBuilder proxy);
+
+  // TODO only a temporary workaround, should remove after implementing serialization
+  SceneBuilder_RecordBase<Ret> temporaryClone();
 }
 
 class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<TransformEngineLayer> {
@@ -19,6 +22,11 @@ class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<Trans
   @override
   TransformEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushTransform(matrix4);
+  }
+
+  @override
+  SceneBuilder_PushTransform_Record temporaryClone() {
+    return SceneBuilder_PushTransform_Record(matrix4: matrix4);
   }
 }
 
@@ -39,6 +47,14 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
       dy,
     );
   }
+
+  @override
+  SceneBuilder_PushOffset_Record temporaryClone() {
+    return SceneBuilder_PushOffset_Record(
+      dx: dx,
+      dy: dy,
+    );
+  }
 }
 
 class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRectEngineLayer> {
@@ -55,6 +71,14 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
   ClipRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRect(
       rect,
+      clipBehavior: clipBehavior,
+    );
+  }
+
+  @override
+  SceneBuilder_PushClipRect_Record temporaryClone() {
+    return SceneBuilder_PushClipRect_Record(
+      rect: rect,
       clipBehavior: clipBehavior,
     );
   }
@@ -77,6 +101,14 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
       clipBehavior: clipBehavior,
     );
   }
+
+  @override
+  SceneBuilder_PushClipRRect_Record temporaryClone() {
+    return SceneBuilder_PushClipRRect_Record(
+      rrect: rrect,
+      clipBehavior: clipBehavior,
+    );
+  }
 }
 
 class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPathEngineLayer> {
@@ -93,6 +125,14 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
   ClipPathEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipPath(
       path,
+      clipBehavior: clipBehavior,
+    );
+  }
+
+  @override
+  SceneBuilder_PushClipPath_Record temporaryClone() {
+    return SceneBuilder_PushClipPath_Record(
+      path: path,
       clipBehavior: clipBehavior,
     );
   }
@@ -115,6 +155,14 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
       offset: offset,
     );
   }
+
+  @override
+  SceneBuilder_PushOpacity_Record temporaryClone() {
+    return SceneBuilder_PushOpacity_Record(
+      alpha: alpha,
+      offset: offset,
+    );
+  }
 }
 
 class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<ColorFilterEngineLayer> {
@@ -125,6 +173,11 @@ class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<Col
   @override
   ColorFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushColorFilter(filter);
+  }
+
+  @override
+  SceneBuilder_PushColorFilter_Record temporaryClone() {
+    return SceneBuilder_PushColorFilter_Record(filter: filter);
   }
 }
 
@@ -145,6 +198,14 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
       offset: offset,
     );
   }
+
+  @override
+  SceneBuilder_PushImageFilter_Record temporaryClone() {
+    return SceneBuilder_PushImageFilter_Record(
+      filter: filter,
+      offset: offset,
+    );
+  }
 }
 
 class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<BackdropFilterEngineLayer> {
@@ -161,6 +222,14 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
   BackdropFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushBackdropFilter(
       filter,
+      blendMode: blendMode,
+    );
+  }
+
+  @override
+  SceneBuilder_PushBackdropFilter_Record temporaryClone() {
+    return SceneBuilder_PushBackdropFilter_Record(
+      filter: filter,
       blendMode: blendMode,
     );
   }
@@ -191,6 +260,16 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
       filterQuality: filterQuality,
     );
   }
+
+  @override
+  SceneBuilder_PushShaderMask_Record temporaryClone() {
+    return SceneBuilder_PushShaderMask_Record(
+      shader: shader,
+      maskRect: maskRect,
+      blendMode: blendMode,
+      filterQuality: filterQuality,
+    );
+  }
 }
 
 class SceneBuilder_Pop_Record implements SceneBuilder_RecordBase<void> {
@@ -199,6 +278,11 @@ class SceneBuilder_Pop_Record implements SceneBuilder_RecordBase<void> {
   @override
   void execute(SceneBuilder proxy) {
     return proxy.pop();
+  }
+
+  @override
+  SceneBuilder_Pop_Record temporaryClone() {
+    return SceneBuilder_Pop_Record();
   }
 }
 
@@ -217,6 +301,14 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
     return proxy.addPerformanceOverlay(
       enabledOptions,
       bounds,
+    );
+  }
+
+  @override
+  SceneBuilder_AddPerformanceOverlay_Record temporaryClone() {
+    return SceneBuilder_AddPerformanceOverlay_Record(
+      enabledOptions: enabledOptions,
+      bounds: bounds,
     );
   }
 }
@@ -242,6 +334,16 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
     return proxy.addPicture(
       offset,
       picture,
+      isComplexHint: isComplexHint,
+      willChangeHint: willChangeHint,
+    );
+  }
+
+  @override
+  SceneBuilder_AddPicture_Record temporaryClone() {
+    return SceneBuilder_AddPicture_Record(
+      offset: offset,
+      picture: picture,
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
@@ -281,6 +383,18 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
       filterQuality: filterQuality,
     );
   }
+
+  @override
+  SceneBuilder_AddTexture_Record temporaryClone() {
+    return SceneBuilder_AddTexture_Record(
+      textureId: textureId,
+      offset: offset,
+      width: width,
+      height: height,
+      freeze: freeze,
+      filterQuality: filterQuality,
+    );
+  }
 }
 
 class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<void> {
@@ -303,6 +417,16 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
   void execute(SceneBuilder proxy) {
     return proxy.addPlatformView(
       viewId,
+      offset: offset,
+      width: width,
+      height: height,
+    );
+  }
+
+  @override
+  SceneBuilder_AddPlatformView_Record temporaryClone() {
+    return SceneBuilder_AddPlatformView_Record(
+      viewId: viewId,
       offset: offset,
       width: width,
       height: height,

@@ -9,6 +9,31 @@ import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
+import 'package:screen_recorder/serialization_utils.dart';
+
+Clip fromBytesClip(BytesReader reader) {
+  return Clip.values[reader.readByte()];
+}
+
+void toBytesClip(BytesBuilder writer, Clip value) {
+  writer.addByte(value.index);
+}
+
+BlendMode fromBytesBlendMode(BytesReader reader) {
+  return BlendMode.values[reader.readByte()];
+}
+
+void toBytesBlendMode(BytesBuilder writer, BlendMode value) {
+  writer.addByte(value.index);
+}
+
+FilterQuality fromBytesFilterQuality(BytesReader reader) {
+  return FilterQuality.values[reader.readByte()];
+}
+
+void toBytesFilterQuality(BytesBuilder writer, FilterQuality value) {
+  writer.addByte(value.index);
+}
 
 Offset fromBytesOffset(BytesReader reader) {
   final dx = fromBytesDouble(reader);

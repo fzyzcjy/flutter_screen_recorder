@@ -107,7 +107,7 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
 
   void toBytes(BytesBuilder builder) {
     toBytesRect(builder, rect);
-    toBytesClip(builder, clipBehavior);
+    toBytesEnum(builder, clipBehavior);
   }
 
   @override
@@ -146,7 +146,7 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
 
   void toBytes(BytesBuilder builder) {
     toBytesRRect(builder, rrect);
-    toBytesClip(builder, clipBehavior);
+    toBytesEnum(builder, clipBehavior);
   }
 
   @override
@@ -185,7 +185,7 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
 
   void toBytes(BytesBuilder builder) {
     toBytesPath(builder, path);
-    toBytesClip(builder, clipBehavior);
+    toBytesEnum(builder, clipBehavior);
   }
 
   @override
@@ -326,7 +326,7 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
 
   void toBytes(BytesBuilder builder) {
     toBytesImageFilter(builder, filter);
-    toBytesBlendMode(builder, blendMode);
+    toBytesEnum(builder, blendMode);
   }
 
   @override
@@ -376,8 +376,8 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
   void toBytes(BytesBuilder builder) {
     toBytesShader(builder, shader);
     toBytesRect(builder, maskRect);
-    toBytesBlendMode(builder, blendMode);
-    toBytesFilterQuality(builder, filterQuality);
+    toBytesEnum(builder, blendMode);
+    toBytesEnum(builder, filterQuality);
   }
 
   @override
@@ -553,7 +553,7 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     toBytesDouble(builder, width);
     toBytesDouble(builder, height);
     toBytesBool(builder, freeze);
-    toBytesFilterQuality(builder, filterQuality);
+    toBytesEnum(builder, filterQuality);
   }
 
   @override

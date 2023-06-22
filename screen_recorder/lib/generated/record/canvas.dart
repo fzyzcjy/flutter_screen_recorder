@@ -434,7 +434,7 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
 
   void toBytes(BytesBuilder builder) {
     toBytesColor(builder, color);
-    toBytesBlendMode(builder, blendMode);
+    toBytesEnum(builder, blendMode);
   }
 
   @override
@@ -1163,7 +1163,7 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
 
   void toBytes(BytesBuilder builder) {
     toBytesVertices(builder, vertices);
-    toBytesBlendMode(builder, blendMode);
+    toBytesEnum(builder, blendMode);
     toBytesPaint(builder, paint);
   }
 
@@ -1232,7 +1232,7 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
     toBytesListRSTransform(builder, transforms);
     toBytesListRect(builder, rects);
     toBytesListColor(builder, colors);
-    toBytesBlendMode(builder, blendMode);
+    toBytesEnum(builder, blendMode);
     toBytesRect(builder, cullRect);
     toBytesPaint(builder, paint);
   }
@@ -1306,7 +1306,7 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
     toBytesFloat32List(builder, rstTransforms);
     toBytesFloat32List(builder, rects);
     toBytesInt32List(builder, colors);
-    toBytesBlendMode(builder, blendMode);
+    toBytesEnum(builder, blendMode);
     toBytesRect(builder, cullRect);
     toBytesPaint(builder, paint);
   }

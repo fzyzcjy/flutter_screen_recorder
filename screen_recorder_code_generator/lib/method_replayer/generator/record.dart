@@ -4,6 +4,7 @@ import 'package:code_builder/code_builder.dart';
 import 'package:recase/recase.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
+import 'package:screen_recorder_code_generator/types.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
 void generateRecord(Config config, String dirTarget) {
@@ -124,7 +125,8 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
 }
 
 String getSerializationPartialName(String type) {
-  // TODO e.g. enum, int, ...
+  final info = getTypeInfo(type);
+  if (info.isEnum) return 'Enum';
   return ReCase(type.replaceAll('?', '').replaceAll('<', '').replaceAll('>', '')).pascalCase;
 }
 

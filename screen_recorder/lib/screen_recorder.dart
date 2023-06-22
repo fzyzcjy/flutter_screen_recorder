@@ -10,6 +10,7 @@ import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/generated/delegate/scene_builder.dart';
 import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
+import 'package:screen_recorder/placeholder_data.dart';
 import 'package:screen_recorder/simple_compressor.dart';
 
 class ScreenRecorder {
@@ -27,13 +28,15 @@ class ScreenRecorder {
   // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
   final sceneBuilderDataArr = <Uint8List>[];
 
-  void setup() {
+  Future<void> setup() async {
     PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
     PaintingContext.createCanvas = (recorder) => MyCanvas(recorder as MyPictureRecorder);
     TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
     RenderView.createSceneBuilder = () => recording ? MySceneBuilder(SceneBuilder()) : SceneBuilder();
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
+   
+    await PlaceholderData.instance.setup();
   }
 
   void _handlePersistentFrameCallback() {

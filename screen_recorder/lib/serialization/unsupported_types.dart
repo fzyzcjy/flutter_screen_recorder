@@ -1,7 +1,9 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader_writer.dart';
+import 'package:screen_recorder/placeholder_data.dart';
+
+// ======================= types with throw error =========================
 
 // TODO implement these
 
@@ -17,10 +19,12 @@ Shader fromBytesShader(BytesReader reader) => throw UnimplementedError();
 
 void toBytesShader(BytesWriter writer, Shader value) {}
 
-Image fromBytesImage(BytesReader reader) => throw UnimplementedError();
-
-void toBytesImage(BytesWriter writer, Image value) {}
-
 Vertices fromBytesVertices(BytesReader reader) => throw UnimplementedError();
 
 void toBytesVertices(BytesWriter writer, Vertices value) {}
+
+// ======================= types with placeholder/dummy data =========================
+
+Image fromBytesImage(BytesReader reader) => PlaceholderData.instance.placeholderImage;
+
+void toBytesImage(BytesWriter writer, Image value) {}

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 import 'package:screen_recorder/screen_recorder_widget.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ScreenRecorder.instance.setup();
+  await ScreenRecorder.instance.setup();
   runApp(const MyApp());
 }
 

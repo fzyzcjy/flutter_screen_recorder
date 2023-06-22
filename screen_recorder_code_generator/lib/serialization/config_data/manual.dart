@@ -188,4 +188,10 @@ final kManualConfigs = [
       ConfigField(type: 'ParagraphStyle', name: 'style', named: true),
     ],
   ),
+  Config(
+    className: 'ParagraphConstraints',
+    fields: [
+      ConfigField(type: 'double', name: 'width', named: true),
+    ],
+  ),
 ];

@@ -493,6 +493,15 @@ void toBytesParagraphBuilderConstructorRecord(BytesWriter writer, ParagraphBuild
   toBytesParagraphStyle(writer, value.style);
 }
 
+ParagraphConstraints fromBytesParagraphConstraints(BytesReader reader) {
+  final width = fromBytesDouble(reader);
+  return ParagraphConstraints(width: width);
+}
+
+void toBytesParagraphConstraints(BytesWriter writer, ParagraphConstraints value) {
+  toBytesDouble(writer, value.width);
+}
+
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
   final matrix4 = fromBytesFloat64List(reader);
   return SceneBuilder_PushTransform_Record(matrix4: matrix4);

@@ -22,7 +22,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       oldLayer: oldLayer,
     );
     final record = SceneBuilder_PushTransform_Record(matrix4: matrix4);
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -41,7 +41,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       dx: dx,
       dy: dy,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -60,7 +60,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       rect: rect,
       clipBehavior: clipBehavior,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -79,7 +79,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       rrect: rrect,
       clipBehavior: clipBehavior,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -98,7 +98,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       path: path,
       clipBehavior: clipBehavior,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -117,7 +117,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       alpha: alpha,
       offset: offset,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -131,7 +131,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       oldLayer: oldLayer,
     );
     final record = SceneBuilder_PushColorFilter_Record(filter: filter);
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -150,7 +150,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       filter: filter,
       offset: offset,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -169,7 +169,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       filter: filter,
       blendMode: blendMode,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -194,7 +194,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       blendMode: blendMode,
       filterQuality: filterQuality,
     );
-    handleOp(record, result);
+    handlePushOp(record, result);
     return result;
   }
 
@@ -202,7 +202,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
   void pop() {
     final result = proxy.pop();
     final record = SceneBuilder_Pop_Record();
-    handleOp(record, result);
+    handleMiscOp(record, result);
     return result;
   }
 
@@ -225,7 +225,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       enabledOptions: enabledOptions,
       bounds: bounds,
     );
-    handleOp(record, result);
+    handleMiscOp(record, result);
     return result;
   }
 
@@ -248,7 +248,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
-    handleOp(record, result);
+    handleMiscOp(record, result);
     return result;
   }
 
@@ -277,7 +277,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       freeze: freeze,
       filterQuality: filterQuality,
     );
-    handleOp(record, result);
+    handleMiscOp(record, result);
     return result;
   }
 
@@ -300,7 +300,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       width: width,
       height: height,
     );
-    handleOp(record, result);
+    handleMiscOp(record, result);
     return result;
   }
 

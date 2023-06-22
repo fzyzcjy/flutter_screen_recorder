@@ -6,6 +6,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'TransformEngineLayer',
       methodName: 'pushTransform',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('Float64List matrix4'),
         ConfigMethodParameter('TransformEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
@@ -14,6 +15,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'OffsetEngineLayer',
       methodName: 'pushOffset',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('double dx'),
         ConfigMethodParameter('double dy'),
@@ -23,6 +25,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ClipRectEngineLayer',
       methodName: 'pushClipRect',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('Rect rect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
@@ -32,6 +35,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ClipRRectEngineLayer',
       methodName: 'pushClipRRect',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('RRect rrect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
@@ -41,6 +45,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ClipPathEngineLayer',
       methodName: 'pushClipPath',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('Path path'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
@@ -50,6 +55,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'OpacityEngineLayer',
       methodName: 'pushOpacity',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('int alpha'),
         ConfigMethodParameter('Offset? offset', defaultTo: 'Offset.zero'),
@@ -59,6 +65,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ColorFilterEngineLayer',
       methodName: 'pushColorFilter',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('ColorFilter filter'),
         ConfigMethodParameter('ColorFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
@@ -67,6 +74,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ImageFilterEngineLayer',
       methodName: 'pushImageFilter',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),
@@ -76,6 +84,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'BackdropFilterEngineLayer',
       methodName: 'pushBackdropFilter',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('BlendMode blendMode', defaultTo: 'BlendMode.srcOver'),
@@ -85,6 +94,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'ShaderMaskEngineLayer',
       methodName: 'pushShaderMask',
+      handlerName: 'handlePushOp',
       parameters: [
         ConfigMethodParameter('Shader shader'),
         ConfigMethodParameter('Rect maskRect'),
@@ -96,6 +106,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'pop',
+      handlerName: 'handleMiscOp',
       parameters: [],
     ),
     ConfigMethod(
@@ -109,6 +120,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addPerformanceOverlay',
+      handlerName: 'handleMiscOp',
       parameters: [
         ConfigMethodParameter('int enabledOptions'),
         ConfigMethodParameter('Rect bounds'),
@@ -117,6 +129,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addPicture',
+      handlerName: 'handleMiscOp',
       parameters: [
         ConfigMethodParameter('Offset offset'),
         ConfigMethodParameter('Picture picture'),
@@ -127,6 +140,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addTexture',
+      handlerName: 'handleMiscOp',
       parameters: [
         ConfigMethodParameter('int textureId'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),
@@ -139,6 +153,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addPlatformView',
+      handlerName: 'handleMiscOp',
       parameters: [
         ConfigMethodParameter('int viewId'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),

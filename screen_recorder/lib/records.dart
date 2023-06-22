@@ -1,3 +1,4 @@
-class RecordList<R> {
-  final methodCallRecords = <R>[];
+class RecordList<CR, MR> {
+  CR? constructorRecord;
+  final methodCallRecords = <MR>[];
 }

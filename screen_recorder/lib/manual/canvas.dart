@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/records.dart';
 
+typedef CanvasRecordList = RecordList<void, Canvas_RecordBase>;
+
 // TODO should be an expando to PictureBuilder / Picture / whatever?
-RecordList<Canvas_RecordBase> get _data => TODO;
+CanvasRecordList get _data => TODO;
 
 abstract class MyCanvasBase {
   final Canvas proxy;

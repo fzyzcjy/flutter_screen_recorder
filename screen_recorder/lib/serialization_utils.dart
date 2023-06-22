@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/expandos.dart';
+
 void toBytesUint8(BytesBuilder builder, int value) {
   assert(value >= 0 && value <= 255);
   builder.addByte(value);
@@ -66,4 +68,8 @@ void toBytesRRect(BytesBuilder builder, RRect value) {
 
 void toBytesPath(BytesBuilder builder, Path value) {
   builder.add(value.dump());
+}
+
+void toBytesPicture(BytesBuilder builder, Picture value) {
+  value.record!.toBytes(builder);
 }

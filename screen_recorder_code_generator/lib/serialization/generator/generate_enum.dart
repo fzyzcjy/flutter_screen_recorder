@@ -11,7 +11,9 @@ const kEnumNames = [
   'TextAlign',
   'TextDirection',
   'TextLeadingDistribution',
+  'TextDecorationStyle',
   'FontStyle',
+  'FontWeight',
 ];
 
 String generateAllEnum() {

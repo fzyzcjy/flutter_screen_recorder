@@ -91,11 +91,27 @@ void toBytesTextLeadingDistribution(BytesBuilder writer, TextLeadingDistribution
   writer.addByte(value.index);
 }
 
+TextDecorationStyle fromBytesTextDecorationStyle(BytesReader reader) {
+  return TextDecorationStyle.values[reader.readByte()];
+}
+
+void toBytesTextDecorationStyle(BytesBuilder writer, TextDecorationStyle value) {
+  writer.addByte(value.index);
+}
+
 FontStyle fromBytesFontStyle(BytesReader reader) {
   return FontStyle.values[reader.readByte()];
 }
 
 void toBytesFontStyle(BytesBuilder writer, FontStyle value) {
+  writer.addByte(value.index);
+}
+
+FontWeight fromBytesFontWeight(BytesReader reader) {
+  return FontWeight.values[reader.readByte()];
+}
+
+void toBytesFontWeight(BytesBuilder writer, FontWeight value) {
   writer.addByte(value.index);
 }
 
@@ -326,6 +342,112 @@ void toBytesStrutStyle(BytesBuilder writer, StrutStyle value) {
   toBytesNullable(writer, value.leadingDistribution, toBytesTextLeadingDistribution);
   toBytesNullable(writer, value.fontFamily, toBytesString);
   toBytesNullableList(writer, value.fontFamilyFallback, toBytesString);
+}
+
+TextHeightBehavior fromBytesTextHeightBehavior(BytesReader reader) {
+  final applyHeightToFirstAscent = fromBytesBool(reader);
+  final applyHeightToLastDescent = fromBytesBool(reader);
+  final leadingDistribution = fromBytesTextLeadingDistribution(reader);
+  return TextHeightBehavior(
+    applyHeightToFirstAscent: applyHeightToFirstAscent,
+    applyHeightToLastDescent: applyHeightToLastDescent,
+    leadingDistribution: leadingDistribution,
+  );
+}
+
+void toBytesTextHeightBehavior(BytesBuilder writer, TextHeightBehavior value) {
+  toBytesBool(writer, value.applyHeightToFirstAscent);
+  toBytesBool(writer, value.applyHeightToLastDescent);
+  toBytesTextLeadingDistribution(writer, value.leadingDistribution);
+}
+
+Shadow fromBytesShadow(BytesReader reader) {
+  final color = fromBytesColor(reader);
+  final offset = fromBytesOffset(reader);
+  final blurRadius = fromBytesDouble(reader);
+  return Shadow(
+    color: color,
+    offset: offset,
+    blurRadius: blurRadius,
+  );
+}
+
+void toBytesShadow(BytesBuilder writer, Shadow value) {
+  toBytesColor(writer, value.color);
+  toBytesOffset(writer, value.offset);
+  toBytesDouble(writer, value.blurRadius);
+}
+
+FontVariation fromBytesFontVariation(BytesReader reader) {
+  final axis = fromBytesString(reader);
+  final value = fromBytesDouble(reader);
+  return FontVariation(
+    axis,
+    value,
+  );
+}
+
+void toBytesFontVariation(BytesBuilder writer, FontVariation value) {
+  toBytesString(writer, value.axis);
+  toBytesDouble(writer, value.value);
+}
+
+FontFeature fromBytesFontFeature(BytesReader reader) {
+  final feature = fromBytesString(reader);
+  final value = fromBytesInt(reader);
+  return FontFeature(
+    feature,
+    value,
+  );
+}
+
+void toBytesFontFeature(BytesBuilder writer, FontFeature value) {
+  toBytesString(writer, value.feature);
+  toBytesInt(writer, value.value);
+}
+
+Color fromBytesColor(BytesReader reader) {
+  final value = fromBytesInt(reader);
+  return Color(value);
+}
+
+void toBytesColor(BytesBuilder writer, Color value) {
+  toBytesInt(writer, value.value);
+}
+
+Locale fromBytesLocale(BytesReader reader) {
+  final languageCode = fromBytesString(reader);
+  final scriptCode = fromBytesNullable(reader, fromBytesString);
+  final countryCode = fromBytesNullable(reader, fromBytesString);
+  return Locale.fromSubtags(
+    languageCode: languageCode,
+    scriptCode: scriptCode,
+    countryCode: countryCode,
+  );
+}
+
+void toBytesLocale(BytesBuilder writer, Locale value) {
+  toBytesString(writer, value.languageCode);
+  toBytesNullable(writer, value.scriptCode, toBytesString);
+  toBytesNullable(writer, value.countryCode, toBytesString);
+}
+
+TextDecoration fromBytesTextDecoration(BytesReader reader) {
+  final mask = fromBytesInt(reader);
+  return TextDecoration.raw(mask);
+}
+
+void toBytesTextDecoration(BytesBuilder writer, TextDecoration value) {
+  toBytesInt(writer, value.mask);
+}
+
+Paint fromBytesPaint(BytesReader reader) {
+  final data = fromBytesByteData(reader);
+  return Paint.raw(data);
+}
+
+void toBytesPaint(BytesBuilder writer, Paint value) {
+  toBytesByteData(writer, value.data);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {

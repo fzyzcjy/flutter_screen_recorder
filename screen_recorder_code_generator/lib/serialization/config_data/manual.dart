@@ -103,4 +103,64 @@ final kManualConfigs = [
       ConfigField(type: 'List<String>?', name: 'fontFamilyFallback', named: true),
     ],
   ),
+  Config(
+    className: 'TextHeightBehavior',
+    fields: [
+      ConfigField(type: 'bool', name: 'applyHeightToFirstAscent', named: true),
+      ConfigField(type: 'bool', name: 'applyHeightToLastDescent', named: true),
+      ConfigField(type: 'TextLeadingDistribution', name: 'leadingDistribution', named: true),
+    ],
+  ),
+  Config(
+    className: 'Shadow',
+    fields: [
+      ConfigField(type: 'Color', name: 'color', named: true),
+      ConfigField(type: 'Offset', name: 'offset', named: true),
+      ConfigField(type: 'double', name: 'blurRadius', named: true),
+    ],
+  ),
+  Config(
+    className: 'FontVariation',
+    fields: [
+      ConfigField(type: 'String', name: 'axis', named: false),
+      ConfigField(type: 'double', name: 'value', named: false),
+    ],
+  ),
+  Config(
+    className: 'FontFeature',
+    fields: [
+      ConfigField(type: 'String', name: 'feature', named: false),
+      ConfigField(type: 'int', name: 'value', named: false),
+    ],
+  ),
+  Config(
+    className: 'Color',
+    fields: [
+      ConfigField(type: 'int', name: 'value', named: false),
+    ],
+  ),
+  Config(
+    className: 'Locale',
+    constructorName: 'fromSubtags',
+    fields: [
+      ConfigField(type: 'String', name: 'languageCode', named: true),
+      ConfigField(type: 'String?', name: 'scriptCode', named: true),
+      ConfigField(type: 'String?', name: 'countryCode', named: true),
+    ],
+  ),
+  Config(
+    className: 'TextDecoration',
+    constructorName: 'raw',
+    fields: [
+      ConfigField(type: 'int', name: 'mask', named: false),
+    ],
+  ),
+  Config(
+    className: 'Paint',
+    constructorName: 'raw',
+    fields: [
+      ConfigField(type: 'ByteData', name: 'data', named: false),
+      // TODO handle shaders etc
+    ],
+  ),
 ];

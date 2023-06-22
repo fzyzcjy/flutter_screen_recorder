@@ -1,7 +1,13 @@
 import 'dart:ui';
 
+import 'package:screen_recorder/expandos.dart';
+import 'package:screen_recorder/manual/canvas.dart';
+
 class MyPictureRecorder implements PictureRecorder {
   final PictureRecorder proxy;
+
+  // Indeed, [PictureRecorder] already has [_canvas] field, but we cannot access it
+  MyCanvasBase? myCanvas;
 
   MyPictureRecorder(this.proxy);
 
@@ -10,6 +16,8 @@ class MyPictureRecorder implements PictureRecorder {
 
   @override
   Picture endRecording() {
-    return proxy.endRecording();
+    final result = proxy.endRecording();
+    result.record = myCanvas!.data;
+    return result;
   }
 }

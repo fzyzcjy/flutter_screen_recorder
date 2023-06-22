@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:screen_recorder/generated/record/scene_builder.dart';
+import 'package:screen_recorder/manual/canvas.dart';
 import 'package:screen_recorder/manual/paragraph_builder.dart';
 
 extension ExtEngineLayerExpando on EngineLayer {
@@ -17,4 +18,12 @@ extension ExtParagraphExpando on Paragraph {
   ParagraphBuilderRecordList? get record => _expando[this];
 
   set record(ParagraphBuilderRecordList? value) => _expando[this] = value;
+}
+
+extension ExtPictureExpando on Picture {
+  static final _expando = Expando<CanvasRecordList>('Picture.record');
+
+  CanvasRecordList? get record => _expando[this];
+
+  set record(CanvasRecordList? value) => _expando[this] = value;
 }

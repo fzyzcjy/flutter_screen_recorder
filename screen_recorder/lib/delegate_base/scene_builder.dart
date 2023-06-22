@@ -27,5 +27,7 @@ abstract class MySceneBuilderBase {
     // NOTE use the stored opRecord
     // TODO no need to do this, it can be large to store
     _data.methodCallRecords.add(retainedLayer.record!);
+    // https://github.com/fzyzcjy/yplusplus/issues/9599#issuecomment-1601937669
+    _data.methodCallRecords.add(SceneBuilder_Pop_Record());
   }
 }

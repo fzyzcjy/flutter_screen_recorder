@@ -20,7 +20,9 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      frameIndex = (frameIndex + 1) % ScreenRecorder.instance.sceneBuilderDataArr.length;
+      setState(() {
+        frameIndex = (frameIndex + 1) % ScreenRecorder.instance.sceneBuilderDataArr.length;
+      });
     });
 
     // use RepaintBoundary to ensure paint() gets offset=zero to ease programming

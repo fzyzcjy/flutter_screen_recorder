@@ -15,6 +15,8 @@ class Config {
   String get manualMixin => 'My${originalClass}Mixin';
 
   String get generatedFilename => '${ReCase(originalClass.toString()).snakeCase}.dart';
+
+  String get recordBaseClass => '${originalClass}_RecordBase';
 }
 
 class ConfigMethod {

@@ -12,6 +12,10 @@ void generateRecord(Config config, String dirTarget) {
 import 'dart:typed_data';
 import 'dart:ui';
 
+abstract class ${config.recordBaseClass}<Ret> {
+  Ret execute(${config.originalClass} proxy);
+}
+
 ${config.methods.map((configMethod) => _generateRecordClass(config, configMethod)).join('\n\n')}
   ''';
 
@@ -24,6 +28,7 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
   return Class(
     (b) => b
       ..name = configMethod.recordClassName(config)
+      ..implements.add(refer('${config.recordBaseClass}<${configMethod.returnType}>'))
       ..fields.addAll(configMethod.parametersForRecord.map((e) => Field(
             (b) => b
               ..name = e.name
@@ -60,6 +65,7 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
           ..name = 'proxy'
           ..type = refer(config.originalClass),
       ))
+      ..annotations.add(refer('override'))
       ..body = Code(body),
   );
 }

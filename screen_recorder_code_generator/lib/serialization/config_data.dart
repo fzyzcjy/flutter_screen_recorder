@@ -4,8 +4,8 @@ final kConfigs = [
   Config(
     className: 'Offset',
     fields: [
-      ConfigField(type: 'double', name: 'dx'),
-      ConfigField(type: 'double', name: 'dy'),
+      ConfigField(type: 'double', name: 'dx', named: false),
+      ConfigField(type: 'double', name: 'dy', named: false),
     ],
   ),
 ];

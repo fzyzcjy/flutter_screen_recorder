@@ -29,10 +29,12 @@ class ${config.generatedClass} with ${config.manualMixin} implements ${config.or
 }
 
 String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
-  final bodyConstructRecord = refer(configMethod.recordClassName(config))
-      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
-      .statement
-      .dartCode;
+  final bodyConstructRecord = configMethod.enableRecord
+      ? refer(configMethod.recordClassName(config))
+          .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
+          .statement
+          .dartCode
+      : '';
 
   final bodyCallProxy = () {
     final callMethodName = 'proxy.${configMethod.methodName}';

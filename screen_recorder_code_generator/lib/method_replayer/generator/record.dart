@@ -19,6 +19,8 @@ ${config.methods.map((configMethod) => _generateRecordClass(config, configMethod
 }
 
 String _generateRecordClass(Config config, ConfigMethod configMethod) {
+  if (!configMethod.enableRecord) return '';
+
   return Class(
     (b) => b
       ..name = configMethod.recordClassName(config)

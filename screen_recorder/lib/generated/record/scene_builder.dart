@@ -183,16 +183,6 @@ class SceneBuilder_Pop_Record {
   }
 }
 
-class SceneBuilder_AddRetained_Record {
-  SceneBuilder_AddRetained_Record({required this.retainedLayer});
-
-  final EngineLayer retainedLayer;
-
-  void execute(SceneBuilder proxy) {
-    return proxy.addRetained(retainedLayer);
-  }
-}
-
 class SceneBuilder_AddPerformanceOverlay_Record {
   SceneBuilder_AddPerformanceOverlay_Record({
     required this.enabledOptions,
@@ -294,43 +284,5 @@ class SceneBuilder_AddPlatformView_Record {
       width: width,
       height: height,
     );
-  }
-}
-
-class SceneBuilder_SetRasterizerTracingThreshold_Record {
-  SceneBuilder_SetRasterizerTracingThreshold_Record({required this.frameInterval});
-
-  final int frameInterval;
-
-  void execute(SceneBuilder proxy) {
-    return proxy.setRasterizerTracingThreshold(frameInterval);
-  }
-}
-
-class SceneBuilder_SetCheckerboardRasterCacheImages_Record {
-  SceneBuilder_SetCheckerboardRasterCacheImages_Record({required this.checkerboard});
-
-  final bool checkerboard;
-
-  void execute(SceneBuilder proxy) {
-    return proxy.setCheckerboardRasterCacheImages(checkerboard);
-  }
-}
-
-class SceneBuilder_SetCheckerboardOffscreenLayers_Record {
-  SceneBuilder_SetCheckerboardOffscreenLayers_Record({required this.checkerboard});
-
-  final bool checkerboard;
-
-  void execute(SceneBuilder proxy) {
-    return proxy.setCheckerboardOffscreenLayers(checkerboard);
-  }
-}
-
-class SceneBuilder_Build_Record {
-  SceneBuilder_Build_Record();
-
-  Scene execute(SceneBuilder proxy) {
-    return proxy.build();
   }
 }

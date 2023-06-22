@@ -186,7 +186,6 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
 
   @override
   void addRetained(EngineLayer retainedLayer) {
-    SceneBuilder_AddRetained_Record(retainedLayer: retainedLayer);
     return proxy.addRetained(retainedLayer);
   }
 
@@ -276,25 +275,21 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
 
   @override
   void setRasterizerTracingThreshold(int frameInterval) {
-    SceneBuilder_SetRasterizerTracingThreshold_Record(frameInterval: frameInterval);
     return proxy.setRasterizerTracingThreshold(frameInterval);
   }
 
   @override
   void setCheckerboardRasterCacheImages(bool checkerboard) {
-    SceneBuilder_SetCheckerboardRasterCacheImages_Record(checkerboard: checkerboard);
     return proxy.setCheckerboardRasterCacheImages(checkerboard);
   }
 
   @override
   void setCheckerboardOffscreenLayers(bool checkerboard) {
-    SceneBuilder_SetCheckerboardOffscreenLayers_Record(checkerboard: checkerboard);
     return proxy.setCheckerboardOffscreenLayers(checkerboard);
   }
 
   @override
   Scene build() {
-    SceneBuilder_Build_Record();
     return proxy.build();
   }
 }

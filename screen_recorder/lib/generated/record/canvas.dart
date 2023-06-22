@@ -47,14 +47,6 @@ class Canvas_RestoreToCount_Record {
   }
 }
 
-class Canvas_GetSaveCount_Record {
-  Canvas_GetSaveCount_Record();
-
-  int execute(Canvas proxy) {
-    return proxy.getSaveCount();
-  }
-}
-
 class Canvas_Translate_Record {
   Canvas_Translate_Record({
     required this.dx,
@@ -129,14 +121,6 @@ class Canvas_Transform_Record {
   }
 }
 
-class Canvas_GetTransform_Record {
-  Canvas_GetTransform_Record();
-
-  Float64List execute(Canvas proxy) {
-    return proxy.getTransform();
-  }
-}
-
 class Canvas_ClipRect_Record {
   Canvas_ClipRect_Record({
     required this.rect,
@@ -192,22 +176,6 @@ class Canvas_ClipPath_Record {
       path,
       doAntiAlias: doAntiAlias,
     );
-  }
-}
-
-class Canvas_GetLocalClipBounds_Record {
-  Canvas_GetLocalClipBounds_Record();
-
-  Rect execute(Canvas proxy) {
-    return proxy.getLocalClipBounds();
-  }
-}
-
-class Canvas_GetDestinationClipBounds_Record {
-  Canvas_GetDestinationClipBounds_Record();
-
-  Rect execute(Canvas proxy) {
-    return proxy.getDestinationClipBounds();
   }
 }
 

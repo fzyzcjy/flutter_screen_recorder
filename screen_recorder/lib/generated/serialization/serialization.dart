@@ -9,7 +9,8 @@ import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
-import 'package:screen_recorder/serialization_utils.dart';
+import 'package:screen_recorder/serialization/flutter_types.dart';
+import 'package:screen_recorder/serialization/primitives.dart';
 
 Clip fromBytesClip(BytesReader reader) {
   return Clip.values[reader.readByte()];

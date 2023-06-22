@@ -22,7 +22,18 @@ class RecordListWithConstructor<CR, MR> extends RecordList<MR> {
   }
 }
 
-typedef ParagraphBuilderRecordList
-    = RecordListWithConstructor<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase>;
-typedef CanvasRecordList = RecordList<Canvas_RecordBase>;
-typedef SceneBuilderRecordList = RecordList<SceneBuilder_RecordBase>;
+class ParagraphBuilderRecordList
+    extends RecordListWithConstructor<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase> {
+  ParagraphBuilderRecordList({
+    super.constructorRecord,
+    required super.methodCallRecords,
+  });
+}
+
+class CanvasRecordList extends RecordList<Canvas_RecordBase> {
+  CanvasRecordList({required super.methodCallRecords});
+}
+
+class SceneBuilderRecordList extends RecordList<SceneBuilder_RecordBase> {
+  SceneBuilderRecordList({required super.methodCallRecords});
+}

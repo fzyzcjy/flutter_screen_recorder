@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/serialization.dart';
@@ -26,6 +27,7 @@ void _body<T extends Object>({
   final writer = BytesWriter();
   toBytes(writer, value);
   final bytes = writer.takeBytes();
+  debugPrint('bytes=$bytes');
 
   final reader = BytesReader(bytes);
   final recoveredValue = fromBytes(reader);

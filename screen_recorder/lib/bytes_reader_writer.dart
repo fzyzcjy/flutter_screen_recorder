@@ -21,11 +21,23 @@ class BytesReader {
 
   int readUint8() => bytes[_index++];
 
-  int readInt64() => byteData.getInt64(_index += 8);
+  int readInt64() {
+    final ans = byteData.getInt64(_index);
+    _index += 8;
+    return ans;
+  }
 
-  double readFloat32() => byteData.getFloat32(_index += 4);
+  double readFloat32() {
+    final ans = byteData.getFloat32(_index);
+    _index += 4;
+    return ans;
+  }
 
-  double readFloat64() => byteData.getFloat64(_index += 8);
+  double readFloat64() {
+    final ans = byteData.getFloat64(_index);
+    _index += 8;
+    return ans;
+  }
 
   bool get eof => index == bytes.length;
 }

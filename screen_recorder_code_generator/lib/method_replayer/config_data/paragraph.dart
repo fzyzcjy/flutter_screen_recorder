@@ -16,7 +16,8 @@ final kConfigParagraph = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'layout',
-      handlerName: null,
+      handlerName: 'handleLayoutOp',
+      handlerParams: 'constraints',
       enableRecord: false,
       parameters: [
         ConfigMethodParameter('ParagraphConstraints constraints'),

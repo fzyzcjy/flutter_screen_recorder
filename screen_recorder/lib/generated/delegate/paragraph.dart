@@ -64,6 +64,7 @@ class MyParagraph extends MyParagraphBase implements Paragraph {
   @override
   void layout(ParagraphConstraints constraints) {
     final result = proxy.layout(constraints);
+    handleLayoutOp(constraints);
     return result;
   }
 

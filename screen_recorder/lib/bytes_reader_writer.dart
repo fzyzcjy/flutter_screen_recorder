@@ -46,16 +46,34 @@ class BytesWriter {
 
   BytesWriter() : _buffer = _emptyList;
 
-  void add(List<int> bytes) {
-    int byteCount = bytes.length;
-    if (byteCount == 0) return;
-    int required = _length + byteCount;
+  void writeBytes(List<int> bytes) {
+    _write(bytes.length, () => _buffer.setRange(_length, _length + bytes.length, bytes));
+  }
+
+  void writeInt64(int value) {
+    _write(8, () => ByteData.view(_buffer.buffer).setInt64(_length, value));
+  }
+
+  void writeFloat32(double value) {
+    _write(4, () => ByteData.view(_buffer.buffer).setFloat32(_length, value));
+  }
+
+  void writeFloat64(double value) {
+    _write(8, () => ByteData.view(_buffer.buffer).setFloat64(_length, value));
+  }
+
+  void _write(int writeBytesLength, void Function() act) {
+    final required = _length + writeBytesLength;
+    _growIfNotEnoughSpace(required);
+    act();
+    _length = required;
+  }
+
+  void _growIfNotEnoughSpace(int required) {
     if (_buffer.length < required) {
       _grow(required);
     }
     assert(_buffer.length >= required);
-    _buffer.setRange(_length, required, bytes);
-    _length = required;
   }
 
   void _grow(int required) {

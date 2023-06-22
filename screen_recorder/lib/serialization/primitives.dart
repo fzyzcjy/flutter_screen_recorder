@@ -32,8 +32,7 @@ int fromBytesInt(BytesReader reader) {
 // TODO consider byte order
 // TODO same for toBytesDouble etc
 void toBytesInt(BytesWriter writer, int value) {
-  writer.add((Int64List(1)
-    ..[0] = value).buffer.asUint8List());
+  writer.writeInt64(value);
 }
 
 double fromBytesFloat(BytesReader reader) {
@@ -43,8 +42,7 @@ double fromBytesFloat(BytesReader reader) {
 }
 
 void toBytesFloat(BytesWriter writer, double value) {
-  writer.add((Float32List(1)
-    ..[0] = value).buffer.asUint8List());
+  writer.writeFloat32(value);
 }
 
 double fromBytesDouble(BytesReader reader) {
@@ -54,8 +52,7 @@ double fromBytesDouble(BytesReader reader) {
 }
 
 void toBytesDouble(BytesWriter writer, double value) {
-  writer.add((Float64List(1)
-    ..[0] = value).buffer.asUint8List());
+  writer.writeFloat64(value);
 }
 
 Uint8List fromBytesUint8List(BytesReader reader) {
@@ -91,10 +88,7 @@ void toBytesFloat64List(BytesWriter writer, Float64List value) {
 }
 
 ByteData fromBytesByteData(BytesReader reader) {
-  return Uint8List
-      .fromList(fromBytesBytes(reader))
-      .buffer
-      .asByteData();
+  return Uint8List.fromList(fromBytesBytes(reader)).buffer.asByteData();
 }
 
 void toBytesByteData(BytesWriter writer, ByteData value) {

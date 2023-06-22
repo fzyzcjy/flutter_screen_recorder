@@ -15,12 +15,14 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   @override
   int get placeholderCount {
     final result = proxy.placeholderCount;
+    handleOp(result);
     return result;
   }
 
   @override
   List<double> get placeholderScales {
     final result = proxy.placeholderScales;
+    handleOp(result);
     return result;
   }
 
@@ -28,7 +30,7 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   void pushStyle(TextStyle style) {
     final result = proxy.pushStyle(style);
     final record = ParagraphBuilder_PushStyle_Record(style: style);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -36,7 +38,7 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   void pop() {
     final result = proxy.pop();
     final record = ParagraphBuilder_Pop_Record();
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -44,7 +46,7 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
   void addText(String text) {
     final result = proxy.addText(text);
     final record = ParagraphBuilder_AddText_Record(text: text);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -73,13 +75,14 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
       baselineOffset: baselineOffset,
       baseline: baseline,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
   @override
   Paragraph build() {
     final result = proxy.build();
+    handleOp(result);
     return result;
   }
 }

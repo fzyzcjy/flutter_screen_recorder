@@ -1,23 +1,12 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/data_per_frame.dart';
-import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/scene_builder_record.dart';
 
 class MySceneBuilder implements SceneBuilder {
   final SceneBuilder builder;
 
   MySceneBuilder(this.builder);
-
-  // ========= Special =========
-
-  @override
-  void addRetained(EngineLayer retainedLayer) {
-    // NOTE use the stored opRecord
-    _data.ops.add(retainedLayer.opRecord!);
-    builder.addRetained(retainedLayer);
-  }
 
   // ========= Add =========
 

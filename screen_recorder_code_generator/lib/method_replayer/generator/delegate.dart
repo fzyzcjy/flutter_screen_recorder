@@ -46,11 +46,15 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
             .dartCode;
   }();
 
+  final handlerParams = configMethod.handlerParams ?? 'result${configMethod.enableRecord ? ", record" : ""}';
+
   final bodyLines = [
     'final result = $bodyCallProxy',
     if (configMethod.enableRecord) ...[
       'final record = $bodyConstructRecord',
-      '${configMethod.handlerName}(record, result);',
+    ],
+    if (configMethod.handlerName != null) ...[
+      '${configMethod.handlerName}($handlerParams);',
     ],
     'return result;',
   ];

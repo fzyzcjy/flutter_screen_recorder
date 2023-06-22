@@ -16,7 +16,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void save() {
     final result = proxy.save();
     final record = Canvas_Save_Record();
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -33,7 +33,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       bounds: bounds,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -41,7 +41,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void restore() {
     final result = proxy.restore();
     final record = Canvas_Restore_Record();
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -49,13 +49,14 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void restoreToCount(int count) {
     final result = proxy.restoreToCount(count);
     final record = Canvas_RestoreToCount_Record(count: count);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
   @override
   int getSaveCount() {
     final result = proxy.getSaveCount();
+    handleOp(result);
     return result;
   }
 
@@ -72,7 +73,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       dx: dx,
       dy: dy,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -89,7 +90,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       sx: sx,
       sy: sy,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -97,7 +98,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void rotate(double radians) {
     final result = proxy.rotate(radians);
     final record = Canvas_Rotate_Record(radians: radians);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -114,7 +115,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       sx: sx,
       sy: sy,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -122,13 +123,14 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void transform(Float64List matrix4) {
     final result = proxy.transform(matrix4);
     final record = Canvas_Transform_Record(matrix4: matrix4);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
   @override
   Float64List getTransform() {
     final result = proxy.getTransform();
+    handleOp(result);
     return result;
   }
 
@@ -148,7 +150,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       clipOp: clipOp,
       doAntiAlias: doAntiAlias,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -165,7 +167,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       rrect: rrect,
       doAntiAlias: doAntiAlias,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -182,19 +184,21 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       path: path,
       doAntiAlias: doAntiAlias,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
   @override
   Rect getLocalClipBounds() {
     final result = proxy.getLocalClipBounds();
+    handleOp(result);
     return result;
   }
 
   @override
   Rect getDestinationClipBounds() {
     final result = proxy.getDestinationClipBounds();
+    handleOp(result);
     return result;
   }
 
@@ -211,7 +215,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       color: color,
       blendMode: blendMode,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -231,7 +235,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       p2: p2,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -239,7 +243,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void drawPaint(Paint paint) {
     final result = proxy.drawPaint(paint);
     final record = Canvas_DrawPaint_Record(paint: paint);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -256,7 +260,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       rect: rect,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -273,7 +277,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       rrect: rrect,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -293,7 +297,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       inner: inner,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -310,7 +314,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       rect: rect,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -330,7 +334,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       radius: radius,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -356,7 +360,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       useCenter: useCenter,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -373,7 +377,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       path: path,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -393,7 +397,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       offset: offset,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -416,7 +420,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       dst: dst,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -439,7 +443,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       dst: dst,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -447,7 +451,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   void drawPicture(Picture picture) {
     final result = proxy.drawPicture(picture);
     final record = Canvas_DrawPicture_Record(picture: picture);
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -464,7 +468,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       paragraph: paragraph,
       offset: offset,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -484,7 +488,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       points: points,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -504,7 +508,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       points: points,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -524,7 +528,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       blendMode: blendMode,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -556,7 +560,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       cullRect: cullRect,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -588,7 +592,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       cullRect: cullRect,
       paint: paint,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 
@@ -611,7 +615,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
       elevation: elevation,
       transparentOccluder: transparentOccluder,
     );
-    handleOp(record, result);
+    handleOp(result, record);
     return result;
   }
 }

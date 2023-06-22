@@ -9,7 +9,7 @@ int fromBytesUint8(BytesReader reader) {
 
 void toBytesUint8(BytesWriter writer, int value) {
   assert(value >= 0 && value <= 255);
-  writer.addByte(value);
+  writer.writeUint8(value);
 }
 
 bool fromBytesBool(BytesReader reader) {
@@ -19,7 +19,7 @@ bool fromBytesBool(BytesReader reader) {
 }
 
 void toBytesBool(BytesWriter writer, bool value) {
-  writer.addByte(value ? 1 : 0);
+  writer.writeUint8(value ? 1 : 0);
 }
 
 int fromBytesInt(BytesReader reader) {

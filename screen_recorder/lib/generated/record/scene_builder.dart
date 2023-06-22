@@ -83,10 +83,8 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
 
   @override
   int get tag => 0;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushTransformRecord(writer, this);
-
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
     return SceneBuilder_PushTransform_Record(matrix4: matrix4.temporaryClone());
@@ -115,10 +113,8 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
 
   @override
   int get tag => 1;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushOffsetRecord(writer, this);
-
   @override
   SceneBuilder_PushOffset_Record temporaryClone() {
     return SceneBuilder_PushOffset_Record(
@@ -151,10 +147,8 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
 
   @override
   int get tag => 2;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipRectRecord(writer, this);
-
   @override
   SceneBuilder_PushClipRect_Record temporaryClone() {
     return SceneBuilder_PushClipRect_Record(
@@ -187,10 +181,8 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
 
   @override
   int get tag => 3;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipRRectRecord(writer, this);
-
   @override
   SceneBuilder_PushClipRRect_Record temporaryClone() {
     return SceneBuilder_PushClipRRect_Record(
@@ -223,10 +215,8 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
 
   @override
   int get tag => 4;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipPathRecord(writer, this);
-
   @override
   SceneBuilder_PushClipPath_Record temporaryClone() {
     return SceneBuilder_PushClipPath_Record(
@@ -259,10 +249,8 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
 
   @override
   int get tag => 5;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushOpacityRecord(writer, this);
-
   @override
   SceneBuilder_PushOpacity_Record temporaryClone() {
     return SceneBuilder_PushOpacity_Record(
@@ -287,10 +275,8 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
 
   @override
   int get tag => 6;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushColorFilterRecord(writer, this);
-
   @override
   SceneBuilder_PushColorFilter_Record temporaryClone() {
     return SceneBuilder_PushColorFilter_Record(filter: filter);
@@ -320,10 +306,8 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
 
   @override
   int get tag => 7;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushImageFilterRecord(writer, this);
-
   @override
   SceneBuilder_PushImageFilter_Record temporaryClone() {
     return SceneBuilder_PushImageFilter_Record(
@@ -356,10 +340,8 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
 
   @override
   int get tag => 8;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushBackdropFilterRecord(writer, this);
-
   @override
   SceneBuilder_PushBackdropFilter_Record temporaryClone() {
     return SceneBuilder_PushBackdropFilter_Record(
@@ -400,10 +382,8 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
 
   @override
   int get tag => 9;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushShaderMaskRecord(writer, this);
-
   @override
   SceneBuilder_PushShaderMask_Record temporaryClone() {
     return SceneBuilder_PushShaderMask_Record(
@@ -427,10 +407,8 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 10;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPopRecord(writer, this);
-
   @override
   SceneBuilder_Pop_Record temporaryClone() {
     return SceneBuilder_Pop_Record();
@@ -460,10 +438,8 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
 
   @override
   int get tag => 11;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer, this);
-
   @override
   SceneBuilder_AddPerformanceOverlay_Record temporaryClone() {
     return SceneBuilder_AddPerformanceOverlay_Record(
@@ -503,10 +479,8 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 12;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPictureRecord(writer, this);
-
   @override
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
@@ -556,10 +530,8 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 13;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddTextureRecord(writer, this);
-
   @override
   SceneBuilder_AddTexture_Record temporaryClone() {
     return SceneBuilder_AddTexture_Record(
@@ -604,10 +576,8 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
 
   @override
   int get tag => 14;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPlatformViewRecord(writer, this);
-
   @override
   SceneBuilder_AddPlatformView_Record temporaryClone() {
     return SceneBuilder_AddPlatformView_Record(

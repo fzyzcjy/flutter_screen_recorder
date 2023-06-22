@@ -50,6 +50,10 @@ class BytesWriter {
     _write(bytes.length, () => _buffer.setRange(_length, _length + bytes.length, bytes));
   }
 
+  void writeUint8(int value) {
+    _write(1, () => ByteData.view(_buffer.buffer).setUint8(_length, value));
+  }
+
   void writeInt64(int value) {
     _write(8, () => ByteData.view(_buffer.buffer).setInt64(_length, value));
   }

@@ -14,107 +14,107 @@ import 'package:screen_recorder/record_list.dart';
 import 'package:screen_recorder/serialization.dart';
 
 Clip fromBytesClip(BytesReader reader) {
-  return Clip.values[reader.readByte()];
+  return Clip.values[fromBytesUint8(reader)];
 }
 
 void toBytesClip(BytesWriter writer, Clip value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 ClipOp fromBytesClipOp(BytesReader reader) {
-  return ClipOp.values[reader.readByte()];
+  return ClipOp.values[fromBytesUint8(reader)];
 }
 
 void toBytesClipOp(BytesWriter writer, ClipOp value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 BlendMode fromBytesBlendMode(BytesReader reader) {
-  return BlendMode.values[reader.readByte()];
+  return BlendMode.values[fromBytesUint8(reader)];
 }
 
 void toBytesBlendMode(BytesWriter writer, BlendMode value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 FilterQuality fromBytesFilterQuality(BytesReader reader) {
-  return FilterQuality.values[reader.readByte()];
+  return FilterQuality.values[fromBytesUint8(reader)];
 }
 
 void toBytesFilterQuality(BytesWriter writer, FilterQuality value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 PointMode fromBytesPointMode(BytesReader reader) {
-  return PointMode.values[reader.readByte()];
+  return PointMode.values[fromBytesUint8(reader)];
 }
 
 void toBytesPointMode(BytesWriter writer, PointMode value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 PlaceholderAlignment fromBytesPlaceholderAlignment(BytesReader reader) {
-  return PlaceholderAlignment.values[reader.readByte()];
+  return PlaceholderAlignment.values[fromBytesUint8(reader)];
 }
 
 void toBytesPlaceholderAlignment(BytesWriter writer, PlaceholderAlignment value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 TextBaseline fromBytesTextBaseline(BytesReader reader) {
-  return TextBaseline.values[reader.readByte()];
+  return TextBaseline.values[fromBytesUint8(reader)];
 }
 
 void toBytesTextBaseline(BytesWriter writer, TextBaseline value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 TextAlign fromBytesTextAlign(BytesReader reader) {
-  return TextAlign.values[reader.readByte()];
+  return TextAlign.values[fromBytesUint8(reader)];
 }
 
 void toBytesTextAlign(BytesWriter writer, TextAlign value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 TextDirection fromBytesTextDirection(BytesReader reader) {
-  return TextDirection.values[reader.readByte()];
+  return TextDirection.values[fromBytesUint8(reader)];
 }
 
 void toBytesTextDirection(BytesWriter writer, TextDirection value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 TextLeadingDistribution fromBytesTextLeadingDistribution(BytesReader reader) {
-  return TextLeadingDistribution.values[reader.readByte()];
+  return TextLeadingDistribution.values[fromBytesUint8(reader)];
 }
 
 void toBytesTextLeadingDistribution(BytesWriter writer, TextLeadingDistribution value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 TextDecorationStyle fromBytesTextDecorationStyle(BytesReader reader) {
-  return TextDecorationStyle.values[reader.readByte()];
+  return TextDecorationStyle.values[fromBytesUint8(reader)];
 }
 
 void toBytesTextDecorationStyle(BytesWriter writer, TextDecorationStyle value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 FontStyle fromBytesFontStyle(BytesReader reader) {
-  return FontStyle.values[reader.readByte()];
+  return FontStyle.values[fromBytesUint8(reader)];
 }
 
 void toBytesFontStyle(BytesWriter writer, FontStyle value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 FontWeight fromBytesFontWeight(BytesReader reader) {
-  return FontWeight.values[reader.readByte()];
+  return FontWeight.values[fromBytesUint8(reader)];
 }
 
 void toBytesFontWeight(BytesWriter writer, FontWeight value) {
-  writer.addByte(value.index);
+  toBytesUint8(writer, value.index);
 }
 
 Offset fromBytesOffset(BytesReader reader) {
@@ -644,8 +644,8 @@ SceneBuilder_AddPerformanceOverlay_Record fromBytesSceneBuilderAddPerformanceOve
   );
 }
 
-void toBytesSceneBuilderAddPerformanceOverlayRecord(BytesWriter writer,
-    SceneBuilder_AddPerformanceOverlay_Record value) {
+void toBytesSceneBuilderAddPerformanceOverlayRecord(
+    BytesWriter writer, SceneBuilder_AddPerformanceOverlay_Record value) {
   toBytesInt(writer, value.enabledOptions);
   toBytesRect(writer, value.bounds);
 }

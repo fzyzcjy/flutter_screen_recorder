@@ -61,10 +61,8 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
 
   @override
   int get tag => 0;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
-
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
     return ParagraphBuilder_PushStyle_Record(style: style);
@@ -83,10 +81,8 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
 
   @override
   int get tag => 1;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPopRecord(writer, this);
-
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -108,10 +104,8 @@ class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> 
 
   @override
   int get tag => 2;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
-
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
     return ParagraphBuilder_AddText_Record(text: text);
@@ -157,10 +151,8 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
 
   @override
   int get tag => 3;
-
   @override
   void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
-
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
     return ParagraphBuilder_AddPlaceholder_Record(

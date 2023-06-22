@@ -30,9 +30,9 @@ class ScreenRecorder {
   final sceneBuilderDataArr = <Uint8List>[];
 
   Future<void> setup() async {
-    PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
-    PaintingContext.createCanvas = (recorder) => MyCanvas(recorder as MyPictureRecorder);
-    TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
+    PaintingContext.createPictureRecorder = () => recording ? MyPictureRecorder(PictureRecorder()) : PictureRecorder();
+    PaintingContext.createCanvas = (recorder) => recording ? MyCanvas(recorder as MyPictureRecorder) : Canvas(recorder);
+    TextPainter.createParagraphBuilder = (style) => recording ? MyParagraphBuilder(style) : ParagraphBuilder(style);
     RenderView.createSceneBuilder = () => recording ? MySceneBuilder(SceneBuilder()) : SceneBuilder();
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
@@ -56,13 +56,14 @@ class ScreenRecorder {
       sceneBuilderDataArr.add(bytes);
 
       overallUncompressedBytesLen += bytes.length;
+
       compressor.add(bytes);
 
       assert(() {
         _sanityCheckSerialization(bytes);
         return true;
       }());
-     
+
       Timeline.finishSync();
     }
 

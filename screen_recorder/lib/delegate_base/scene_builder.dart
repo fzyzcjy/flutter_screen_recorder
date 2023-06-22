@@ -27,4 +27,8 @@ abstract class MySceneBuilderBase {
   }
 }
 
-class SceneBuilder_RecordExecuteContext {}
+class SceneBuilder_RecordExecuteContext {
+  EngineLayer getEngineLayerById(int layerId) {
+    return TODO;
+  }
+}

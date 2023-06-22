@@ -512,7 +512,7 @@ class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addRetained();
+    return proxy.addRetained(executeContext.getEngineLayerById(retainedLayerId));
   }
 
   @override

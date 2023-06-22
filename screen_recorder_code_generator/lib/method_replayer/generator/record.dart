@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
-import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
 import 'package:screen_recorder_code_generator/serialization/generator.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
@@ -108,9 +107,16 @@ String _generateRecordClass(Config config, ConfigMethod configMethod, int index)
 }
 
 Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMethod) {
+  final interestParameters = configMethod.parameters
+      .where((e) => (e.enableRecord || e.recordExecuteArgument != null) && !e.synthesizedInRecord)
+      .toList();
   final bodyCallProxy = refer(configMethod.methodName)
-      .call(configMethod.parametersForRecordExceptSynthesized.positionalArguments,
-          configMethod.parametersForRecordExceptSynthesized.namedArguments)
+      .call(
+        interestParameters.where((e) => !e.named).map((e) => refer(e.recordExecuteArgument ?? e.name)).toList(),
+        Map.fromEntries(interestParameters
+            .where((e) => e.named)
+            .map((e) => MapEntry(e.name, refer(e.recordExecuteArgument ?? e.name)))),
+      )
       .statement
       .dartCode;
   final body = 'return proxy.$bodyCallProxy';
@@ -196,7 +202,4 @@ extension on Config {
 
 extension ExtConfigMethodRecord on ConfigMethod {
   List<ConfigMethodParameter> get parametersForRecord => parameters.where((e) => e.enableRecord).toList();
-
-  List<ConfigMethodParameter> get parametersForRecordExceptSynthesized =>
-      parametersForRecord.where((e) => !e.synthesizedInRecord).toList();
 }

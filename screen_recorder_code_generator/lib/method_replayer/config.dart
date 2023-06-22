@@ -62,6 +62,7 @@ class ConfigMethodParameter {
 
   final bool synthesizedInRecord;
   final String? recordConstructorArgument;
+  final String? recordExecuteArgument;
 
   ConfigMethodParameter(
     String typeAndName, {
@@ -71,6 +72,7 @@ class ConfigMethodParameter {
     this.enableRecord = true,
     this.synthesizedInRecord = false,
     this.recordConstructorArgument,
+    this.recordExecuteArgument,
   })  : assert(typeAndName.split(' ').length == 2),
         type = typeAndName.split(' ')[0],
         name = typeAndName.split(' ')[1],

@@ -83,10 +83,7 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
 
   @override
   TransformEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushTransform(
-      matrix4,
-      layerId,
-    );
+    return proxy.pushTransform(matrix4);
   }
 
   @override
@@ -122,7 +119,6 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
     return proxy.pushOffset(
       dx,
       dy,
-      layerId,
     );
   }
 
@@ -160,7 +156,6 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
   ClipRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRect(
       rect,
-      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -199,7 +194,6 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
   ClipRRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRRect(
       rrect,
-      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -238,7 +232,6 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
   ClipPathEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipPath(
       path,
-      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -277,7 +270,6 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
   OpacityEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushOpacity(
       alpha,
-      layerId,
       offset: offset,
     );
   }
@@ -311,10 +303,7 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
 
   @override
   ColorFilterEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushColorFilter(
-      filter,
-      layerId,
-    );
+    return proxy.pushColorFilter(filter);
   }
 
   @override
@@ -350,7 +339,6 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
   ImageFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushImageFilter(
       filter,
-      layerId,
       offset: offset,
     );
   }
@@ -389,7 +377,6 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
   BackdropFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushBackdropFilter(
       filter,
-      layerId,
       blendMode: blendMode,
     );
   }
@@ -436,7 +423,6 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
       shader,
       maskRect,
       blendMode,
-      layerId,
       filterQuality: filterQuality,
     );
   }

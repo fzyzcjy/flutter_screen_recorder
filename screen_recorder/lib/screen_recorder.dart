@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/generated/delegate/canvas.dart';
 import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';

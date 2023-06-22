@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/bytes_reader_writer.dart';
 
 int fromBytesUint8(BytesReader reader) {
   return reader.readByte();

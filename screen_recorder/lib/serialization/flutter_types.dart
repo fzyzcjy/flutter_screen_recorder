@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/serialization/primitives.dart';
 
 Path fromBytesPath(BytesReader reader) {

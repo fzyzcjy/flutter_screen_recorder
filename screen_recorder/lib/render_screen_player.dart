@@ -106,7 +106,7 @@ class RenderScreenPlayer extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    print('$runtimeType.paint');
+    debugPrint('$runtimeType.paint');
 
     // ref: _ColorFilterRenderObject, and expand source of pushColorFilter
 
@@ -163,7 +163,7 @@ class ScreenPlayerLayer extends ContainerLayer {
 
   @override
   void addToScene(SceneBuilder builder) {
-    print('$runtimeType.addToScene start');
+    debugPrint('$runtimeType.addToScene start');
 
     final bytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
 
@@ -174,7 +174,7 @@ class ScreenPlayerLayer extends ContainerLayer {
     final nextEngineLayerIdMap =
         SceneBuilderReplayer.replay(data, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
 
-    // print('$runtimeType.addToScene '
+    // debugPrint('$runtimeType.addToScene '
     //     'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '
     //     '_prevEngineLayerIdMap.keys=${_prevEngineLayerIdMap.keys.toList()}');
     // _prevEngineLayerIdMap = nextEngineLayerIdMap;

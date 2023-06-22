@@ -35,12 +35,12 @@ class ScreenRecorder {
     RenderView.createSceneBuilder = () => recording ? MySceneBuilder(SceneBuilder()) : SceneBuilder();
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
-   
+
     await PlaceholderData.instance.setup();
   }
 
   void _handlePersistentFrameCallback() {
-    print('$_kTag PersistentFrameCallback '
+    debugPrint('$_kTag PersistentFrameCallback '
         'overallUncompressedBytesLen=$overallUncompressedBytesLen '
         'compressor=$compressor');
 

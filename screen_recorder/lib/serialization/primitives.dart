@@ -104,5 +104,5 @@ List<int> fromBytesBytes(BytesReader reader) {
 
 void toBytesBytes(BytesWriter writer, List<int> value) {
   toBytesInt(writer, value.length); // TODO use 128-variant encoding, or use 4 bytes?
-  writer.add(value);
+  writer.writeBytes(value);
 }

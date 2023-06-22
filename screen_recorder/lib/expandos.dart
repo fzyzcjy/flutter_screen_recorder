@@ -15,9 +15,13 @@ extension ExtEngineLayerSceneBuilderRecordExpando on EngineLayer {
 extension ExtEngineLayerLayerIdExpando on EngineLayer {
   static final _expando = Expando<int>('EngineLayer.layerId');
 
-  static var _nextId = 1;
+  int? get layerId => _expando[this];
 
-  int get layerId => _expando[this] ??= _nextId++;
+  set layerId(int? value) => _expando[this] = value;
+
+  static var _nextDefaultId = 1;
+
+  int getOrCreateLayerId() => layerId ??= _nextDefaultId++;
 }
 
 extension ExtParagraphBuilderRecordListExpando on Paragraph {

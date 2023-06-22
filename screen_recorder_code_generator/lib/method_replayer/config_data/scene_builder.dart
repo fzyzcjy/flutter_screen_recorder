@@ -3,7 +3,7 @@ import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 final _parameterSynthesizedLayerId = ConfigMethodParameter(
   'int layerId',
   synthesizedInRecord: true,
-  recordConstructorArgument: 'result.layerId',
+  recordConstructorArgument: 'result.getOrCreateLayerId()',
 );
 
 final kConfigSceneBuilder = Config(

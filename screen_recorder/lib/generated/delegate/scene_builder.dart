@@ -26,7 +26,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     );
     final record = SceneBuilder_PushTransform_Record(
       matrix4: matrix4,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -46,7 +46,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushOffset_Record(
       dx: dx,
       dy: dy,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -66,7 +66,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipRect_Record(
       rect: rect,
       clipBehavior: clipBehavior,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -86,7 +86,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipRRect_Record(
       rrect: rrect,
       clipBehavior: clipBehavior,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -106,7 +106,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipPath_Record(
       path: path,
       clipBehavior: clipBehavior,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -126,7 +126,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushOpacity_Record(
       alpha: alpha,
       offset: offset,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -143,7 +143,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     );
     final record = SceneBuilder_PushColorFilter_Record(
       filter: filter,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -163,7 +163,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushImageFilter_Record(
       filter: filter,
       offset: offset,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -183,7 +183,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushBackdropFilter_Record(
       filter: filter,
       blendMode: blendMode,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;
@@ -209,7 +209,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
       maskRect: maskRect,
       blendMode: blendMode,
       filterQuality: filterQuality,
-      layerId: result.layerId,
+      layerId: result.getOrCreateLayerId(),
     );
     handlePushOp(result, record);
     return result;

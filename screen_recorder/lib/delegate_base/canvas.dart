@@ -4,11 +4,9 @@ import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
 import 'package:screen_recorder/records.dart';
 
-typedef CanvasRecordList = RecordList<void, Canvas_RecordBase>;
-
 abstract class MyCanvasBase {
   final Canvas proxy;
-  final data = CanvasRecordList();
+  final data = CanvasRecordList(methodCallRecords: []);
 
   MyCanvasBase(MyPictureRecorder recorder) : proxy = Canvas(recorder.proxy) {
     recorder.myCanvas = this;

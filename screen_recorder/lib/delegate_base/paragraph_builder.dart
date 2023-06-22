@@ -6,11 +6,9 @@ import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/records.dart';
 
-typedef ParagraphBuilderRecordList = RecordList<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase>;
-
 abstract class MyParagraphBuilderBase {
   final ParagraphBuilder proxy;
-  final _data = ParagraphBuilderRecordList();
+  final _data = ParagraphBuilderRecordList(methodCallRecords: []);
 
   MyParagraphBuilderBase(ParagraphStyle style) : proxy = ParagraphBuilder(style) {
     _data.constructorRecord = ParagraphBuilder_Constructor_Record(style: style);

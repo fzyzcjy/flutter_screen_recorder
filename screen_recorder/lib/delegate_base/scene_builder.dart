@@ -5,8 +5,6 @@ import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/records.dart';
 
-typedef SceneBuilderRecordList = RecordList<void, SceneBuilder_RecordBase>;
-
 SceneBuilderRecordList get _data => DataPerFrame.instance.sceneBuilderData;
 
 abstract class MySceneBuilderBase {

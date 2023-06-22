@@ -12,8 +12,8 @@ class ParagraphBuilderReplayer {
 
     final paragraph = builder.build();
 
-    if (paragraphRecord.constraints != null) {
-      paragraph.layout(paragraphRecord.constraints!);
+    if (paragraphRecord.layoutConstraints != null) {
+      paragraph.layout(paragraphRecord.layoutConstraints!);
     }
 
     return paragraph;

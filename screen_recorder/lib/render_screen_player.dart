@@ -38,15 +38,17 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
     // use RepaintBoundary to ensure paint() gets offset=zero to ease programming
     return Stack(
       children: [
-        Transform.scale(
-          // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
-          // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
-          scale: 1 / View.of(context).devicePixelRatio,
-          alignment: Alignment.topLeft,
-          origin: Offset.zero,
-          child: RepaintBoundary(
-            child: _ScreenPlayerInnerWidget(
-              frameIndex: frameIndex,
+        RepaintBoundary(
+          child: Transform.scale(
+            // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
+            // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
+            scale: 1 / View.of(context).devicePixelRatio,
+            alignment: Alignment.topLeft,
+            origin: Offset.zero,
+            child: RepaintBoundary(
+              child: _ScreenPlayerInnerWidget(
+                frameIndex: frameIndex,
+              ),
             ),
           ),
         ),

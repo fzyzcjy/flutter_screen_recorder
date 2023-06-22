@@ -12,12 +12,12 @@ extension ExtEngineLayerSceneBuilderRecordExpando on EngineLayer {
   set sceneBuilderRecord(SceneBuilder_RecordBase? value) => _expando[this] = value;
 }
 
-extension ExtEngineLayerIdExpando on EngineLayer {
-  static final _expando = Expando<int>('EngineLayer.id');
- 
+extension ExtEngineLayerLayerIdExpando on EngineLayer {
+  static final _expando = Expando<int>('EngineLayer.layerId');
+
   static var _nextId = 1;
 
-  int get id => _expando[this] ??= _nextId++;
+  int get layerId => _expando[this] ??= _nextId++;
 }
 
 extension ExtParagraphBuilderRecordListExpando on Paragraph {

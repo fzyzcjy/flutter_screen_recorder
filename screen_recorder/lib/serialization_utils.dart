@@ -60,24 +60,6 @@ String fromBytesString(BytesReader reader) {
   return TODO;
 }
 
-void toBytesEnum(BytesBuilder writer, Enum value) {
-  toBytesUint8(writer, value.index);
-}
-
-// TODO code-generate this?
-T fromBytesEnum<T>(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesOffset(BytesBuilder writer, Offset value) {
-  toBytesFloat(writer, value.dx);
-  toBytesFloat(writer, value.dy);
-}
-
-Offset fromBytesOffset(BytesReader reader) {
-  return TODO;
-}
-
 // TODO maybe we can auto generate this as well?
 void toBytesRect(BytesBuilder writer, Rect value) {
   // ref: Rect._getValue32

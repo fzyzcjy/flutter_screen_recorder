@@ -42,6 +42,15 @@ final kManualConfigs = [
     ],
   ),
   Config(
+    className: 'RSTransform',
+    fields: [
+      ConfigField(type: 'double', name: 'scos', named: false),
+      ConfigField(type: 'double', name: 'ssin', named: false),
+      ConfigField(type: 'double', name: 'tx', named: false),
+      ConfigField(type: 'double', name: 'ty', named: false),
+    ],
+  ),
+  Config(
     className: 'ParagraphStyle',
     fields: [
       ConfigField(type: 'TextAlign?', name: 'textAlign', named: true),

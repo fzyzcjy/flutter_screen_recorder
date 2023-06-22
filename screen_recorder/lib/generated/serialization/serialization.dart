@@ -175,6 +175,26 @@ void toBytesRRect(BytesBuilder writer, RRect value) {
   toBytesDouble(writer, value.blRadiusY);
 }
 
+RSTransform fromBytesRSTransform(BytesReader reader) {
+  final scos = fromBytesDouble(reader);
+  final ssin = fromBytesDouble(reader);
+  final tx = fromBytesDouble(reader);
+  final ty = fromBytesDouble(reader);
+  return RSTransform(
+    scos,
+    ssin,
+    tx,
+    ty,
+  );
+}
+
+void toBytesRSTransform(BytesBuilder writer, RSTransform value) {
+  toBytesDouble(writer, value.scos);
+  toBytesDouble(writer, value.ssin);
+  toBytesDouble(writer, value.tx);
+  toBytesDouble(writer, value.ty);
+}
+
 ParagraphStyle fromBytesParagraphStyle(BytesReader reader) {
   final textAlign = fromBytesNullable(reader, fromBytesTextAlign);
   final textDirection = fromBytesNullable(reader, fromBytesTextDirection);

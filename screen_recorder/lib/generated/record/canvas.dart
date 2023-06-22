@@ -115,7 +115,8 @@ class Canvas_Save_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.save();
+    final result = proxy.save();
+    return result;
   }
 
   @override
@@ -145,10 +146,11 @@ class Canvas_SaveLayer_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.saveLayer(
+    final result = proxy.saveLayer(
       bounds,
       paint,
     );
+    return result;
   }
 
   @override
@@ -174,7 +176,8 @@ class Canvas_Restore_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.restore();
+    final result = proxy.restore();
+    return result;
   }
 
   @override
@@ -199,7 +202,8 @@ class Canvas_RestoreToCount_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.restoreToCount(count);
+    final result = proxy.restoreToCount(count);
+    return result;
   }
 
   @override
@@ -229,10 +233,11 @@ class Canvas_Translate_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.translate(
+    final result = proxy.translate(
       dx,
       dy,
     );
+    return result;
   }
 
   @override
@@ -265,10 +270,11 @@ class Canvas_Scale_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.scale(
+    final result = proxy.scale(
       sx,
       sy,
     );
+    return result;
   }
 
   @override
@@ -296,7 +302,8 @@ class Canvas_Rotate_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.rotate(radians);
+    final result = proxy.rotate(radians);
+    return result;
   }
 
   @override
@@ -326,10 +333,11 @@ class Canvas_Skew_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.skew(
+    final result = proxy.skew(
       sx,
       sy,
     );
+    return result;
   }
 
   @override
@@ -357,7 +365,8 @@ class Canvas_Transform_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.transform(matrix4);
+    final result = proxy.transform(matrix4);
+    return result;
   }
 
   @override
@@ -390,11 +399,12 @@ class Canvas_ClipRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.clipRect(
+    final result = proxy.clipRect(
       rect,
       clipOp: clipOp,
       doAntiAlias: doAntiAlias,
     );
+    return result;
   }
 
   @override
@@ -428,10 +438,11 @@ class Canvas_ClipRRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.clipRRect(
+    final result = proxy.clipRRect(
       rrect,
       doAntiAlias: doAntiAlias,
     );
+    return result;
   }
 
   @override
@@ -464,10 +475,11 @@ class Canvas_ClipPath_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.clipPath(
+    final result = proxy.clipPath(
       path,
       doAntiAlias: doAntiAlias,
     );
+    return result;
   }
 
   @override
@@ -500,10 +512,11 @@ class Canvas_DrawColor_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawColor(
+    final result = proxy.drawColor(
       color,
       blendMode,
     );
+    return result;
   }
 
   @override
@@ -539,11 +552,12 @@ class Canvas_DrawLine_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawLine(
+    final result = proxy.drawLine(
       p1,
       p2,
       paint,
     );
+    return result;
   }
 
   @override
@@ -572,7 +586,8 @@ class Canvas_DrawPaint_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawPaint(paint);
+    final result = proxy.drawPaint(paint);
+    return result;
   }
 
   @override
@@ -602,10 +617,11 @@ class Canvas_DrawRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawRect(
+    final result = proxy.drawRect(
       rect,
       paint,
     );
+    return result;
   }
 
   @override
@@ -638,10 +654,11 @@ class Canvas_DrawRRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawRRect(
+    final result = proxy.drawRRect(
       rrect,
       paint,
     );
+    return result;
   }
 
   @override
@@ -677,11 +694,12 @@ class Canvas_DrawDRRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawDRRect(
+    final result = proxy.drawDRRect(
       outer,
       inner,
       paint,
     );
+    return result;
   }
 
   @override
@@ -715,10 +733,11 @@ class Canvas_DrawOval_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawOval(
+    final result = proxy.drawOval(
       rect,
       paint,
     );
+    return result;
   }
 
   @override
@@ -754,11 +773,12 @@ class Canvas_DrawCircle_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawCircle(
+    final result = proxy.drawCircle(
       c,
       radius,
       paint,
     );
+    return result;
   }
 
   @override
@@ -801,13 +821,14 @@ class Canvas_DrawArc_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawArc(
+    final result = proxy.drawArc(
       rect,
       startAngle,
       sweepAngle,
       useCenter,
       paint,
     );
+    return result;
   }
 
   @override
@@ -843,10 +864,11 @@ class Canvas_DrawPath_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawPath(
+    final result = proxy.drawPath(
       path,
       paint,
     );
+    return result;
   }
 
   @override
@@ -882,11 +904,12 @@ class Canvas_DrawImage_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawImage(
+    final result = proxy.drawImage(
       image,
       offset,
       paint,
     );
+    return result;
   }
 
   @override
@@ -926,12 +949,13 @@ class Canvas_DrawImageRect_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawImageRect(
+    final result = proxy.drawImageRect(
       image,
       src,
       dst,
       paint,
     );
+    return result;
   }
 
   @override
@@ -972,12 +996,13 @@ class Canvas_DrawImageNine_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawImageNine(
+    final result = proxy.drawImageNine(
       image,
       center,
       dst,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1007,7 +1032,8 @@ class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawPicture(picture);
+    final result = proxy.drawPicture(picture);
+    return result;
   }
 
   @override
@@ -1037,10 +1063,11 @@ class Canvas_DrawParagraph_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawParagraph(
+    final result = proxy.drawParagraph(
       paragraph,
       offset,
     );
+    return result;
   }
 
   @override
@@ -1076,11 +1103,12 @@ class Canvas_DrawPoints_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawPoints(
+    final result = proxy.drawPoints(
       pointMode,
       points,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1117,11 +1145,12 @@ class Canvas_DrawRawPoints_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawRawPoints(
+    final result = proxy.drawRawPoints(
       pointMode,
       points,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1158,11 +1187,12 @@ class Canvas_DrawVertices_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawVertices(
+    final result = proxy.drawVertices(
       vertices,
       blendMode,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1211,7 +1241,7 @@ class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawAtlas(
+    final result = proxy.drawAtlas(
       atlas,
       transforms,
       rects,
@@ -1220,6 +1250,7 @@ class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
       cullRect,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1272,7 +1303,7 @@ class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawRawAtlas(
+    final result = proxy.drawRawAtlas(
       atlas,
       rstTransforms,
       rects,
@@ -1281,6 +1312,7 @@ class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
       cullRect,
       paint,
     );
+    return result;
   }
 
   @override
@@ -1324,12 +1356,13 @@ class Canvas_DrawShadow_Record extends Canvas_RecordBase<void> {
     Canvas proxy,
     Canvas_RecordExecuteContext executeContext,
   ) {
-    return proxy.drawShadow(
+    final result = proxy.drawShadow(
       path,
       color,
       elevation,
       transparentOccluder,
     );
+    return result;
   }
 
   @override

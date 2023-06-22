@@ -89,7 +89,8 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushTransform(matrix4);
+    final result = proxy.pushTransform(matrix4);
+    return result;
   }
 
   @override
@@ -125,10 +126,11 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushOffset(
+    final result = proxy.pushOffset(
       dx,
       dy,
     );
+    return result;
   }
 
   @override
@@ -166,10 +168,11 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushClipRect(
+    final result = proxy.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
     );
+    return result;
   }
 
   @override
@@ -207,10 +210,11 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushClipRRect(
+    final result = proxy.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
     );
+    return result;
   }
 
   @override
@@ -248,10 +252,11 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushClipPath(
+    final result = proxy.pushClipPath(
       path,
       clipBehavior: clipBehavior,
     );
+    return result;
   }
 
   @override
@@ -289,10 +294,11 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushOpacity(
+    final result = proxy.pushOpacity(
       alpha,
       offset: offset,
     );
+    return result;
   }
 
   @override
@@ -327,7 +333,8 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushColorFilter(filter);
+    final result = proxy.pushColorFilter(filter);
+    return result;
   }
 
   @override
@@ -364,10 +371,11 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushImageFilter(
+    final result = proxy.pushImageFilter(
       filter,
       offset: offset,
     );
+    return result;
   }
 
   @override
@@ -405,10 +413,11 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushBackdropFilter(
+    final result = proxy.pushBackdropFilter(
       filter,
       blendMode: blendMode,
     );
+    return result;
   }
 
   @override
@@ -452,12 +461,13 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushShaderMask(
+    final result = proxy.pushShaderMask(
       shader,
       maskRect,
       blendMode,
       filterQuality: filterQuality,
     );
+    return result;
   }
 
   @override
@@ -486,7 +496,8 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pop();
+    final result = proxy.pop();
+    return result;
   }
 
   @override
@@ -512,7 +523,8 @@ class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addRetained(executeContext.getEngineLayerById(retainedLayerId));
+    final result = proxy.addRetained(executeContext.getEngineLayerById(retainedLayerId));
+    return result;
   }
 
   @override
@@ -543,10 +555,11 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addPerformanceOverlay(
+    final result = proxy.addPerformanceOverlay(
       enabledOptions,
       bounds,
     );
+    return result;
   }
 
   @override
@@ -585,12 +598,13 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addPicture(
+    final result = proxy.addPicture(
       offset,
       picture,
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
+    return result;
   }
 
   @override
@@ -637,7 +651,7 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addTexture(
+    final result = proxy.addTexture(
       textureId,
       offset: offset,
       width: width,
@@ -645,6 +659,7 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
       freeze: freeze,
       filterQuality: filterQuality,
     );
+    return result;
   }
 
   @override
@@ -688,12 +703,13 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
     SceneBuilder proxy,
     SceneBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addPlatformView(
+    final result = proxy.addPlatformView(
       viewId,
       offset: offset,
       width: width,
       height: height,
     );
+    return result;
   }
 
   @override

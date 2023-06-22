@@ -60,7 +60,8 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
     ParagraphBuilder proxy,
     ParagraphBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pushStyle(style);
+    final result = proxy.pushStyle(style);
+    return result;
   }
 
   @override
@@ -83,7 +84,8 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
     ParagraphBuilder proxy,
     ParagraphBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.pop();
+    final result = proxy.pop();
+    return result;
   }
 
   @override
@@ -109,7 +111,8 @@ class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> 
     ParagraphBuilder proxy,
     ParagraphBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addText(text);
+    final result = proxy.addText(text);
+    return result;
   }
 
   @override
@@ -152,7 +155,7 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
     ParagraphBuilder proxy,
     ParagraphBuilder_RecordExecuteContext executeContext,
   ) {
-    return proxy.addPlaceholder(
+    final result = proxy.addPlaceholder(
       width,
       height,
       alignment,
@@ -160,6 +163,7 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
       baselineOffset: baselineOffset,
       baseline: baseline,
     );
+    return result;
   }
 
   @override

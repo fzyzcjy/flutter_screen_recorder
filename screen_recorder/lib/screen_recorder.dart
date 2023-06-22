@@ -8,7 +8,6 @@ import 'package:screen_recorder/generated/delegate/canvas.dart';
 import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/generated/delegate/scene_builder.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
-import 'package:screen_recorder/simple_compressor.dart';
 
 class ScreenRecorder {
   static const _kTag = 'ScreenRecorder';
@@ -19,8 +18,8 @@ class ScreenRecorder {
 
   var recording = true;
 
-  var overallUncompressedBytesLen = 0;
-  final compressor = SimpleCompressor();
+  // var overallUncompressedBytesLen = 0;
+  // final compressor = SimpleCompressor();
 
   final sceneBuilderDataArr = <SceneBuilderRecordList>[];
 
@@ -34,13 +33,13 @@ class ScreenRecorder {
   }
 
   void _handlePersistentFrameCallback() {
-    print('$_kTag PersistentFrameCallback '
-        'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-        'compressor=$compressor '
-        'experimentalData=${DataPerFrame.instance.experimentalData}');
-
-    overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
-    compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
+    // print('$_kTag PersistentFrameCallback '
+    //     'overallUncompressedBytesLen=$overallUncompressedBytesLen '
+    //     'compressor=$compressor '
+    //     'experimentalData=${DataPerFrame.instance.experimentalData}');
+    //
+    // overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
+    // compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
 
     if (recording) {
       sceneBuilderDataArr.add(DataPerFrame.instance.sceneBuilderData);

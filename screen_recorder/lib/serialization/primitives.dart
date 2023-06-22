@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:screen_recorder/bytes_reader_writer.dart';
 
 int fromBytesUint8(BytesReader reader) {
-  return reader.readByte();
+  return reader.readUint8();
 }
 
 void toBytesUint8(BytesWriter writer, int value) {
@@ -13,19 +13,17 @@ void toBytesUint8(BytesWriter writer, int value) {
 }
 
 bool fromBytesBool(BytesReader reader) {
-  final byte = reader.readByte();
+  final byte = fromBytesUint8(reader);
   assert(byte == 0 || byte == 1);
   return byte != 0;
 }
 
 void toBytesBool(BytesWriter writer, bool value) {
-  writer.writeUint8(value ? 1 : 0);
+  toBytesUint8(writer, value ? 1 : 0);
 }
 
 int fromBytesInt(BytesReader reader) {
-  final ans = reader.byteData.getInt64(reader.index);
-  reader.advance(8);
-  return ans;
+  return reader.readInt64();
 }
 
 // TODO improve, do not create a brand new list?
@@ -36,9 +34,7 @@ void toBytesInt(BytesWriter writer, int value) {
 }
 
 double fromBytesFloat(BytesReader reader) {
-  final ans = reader.byteData.getFloat32(reader.index);
-  reader.advance(4);
-  return ans;
+  return reader.readFloat32();
 }
 
 void toBytesFloat(BytesWriter writer, double value) {
@@ -46,9 +42,7 @@ void toBytesFloat(BytesWriter writer, double value) {
 }
 
 double fromBytesDouble(BytesReader reader) {
-  final ans = reader.byteData.getFloat64(reader.index);
-  reader.advance(4);
-  return ans;
+  return reader.readFloat64();
 }
 
 void toBytesDouble(BytesWriter writer, double value) {

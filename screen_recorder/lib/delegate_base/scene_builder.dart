@@ -28,7 +28,9 @@ abstract class MySceneBuilderBase {
 }
 
 class SceneBuilder_RecordExecuteContext {
-  EngineLayer getEngineLayerById(int layerId) {
-    return TODO;
-  }
+  final Map<int, EngineLayer> engineLayerIdMap;
+
+  const SceneBuilder_RecordExecuteContext({required this.engineLayerIdMap});
+ 
+  EngineLayer getEngineLayerById(int layerId) => engineLayerIdMap[layerId]!;
 }

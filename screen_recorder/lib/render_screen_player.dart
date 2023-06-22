@@ -168,7 +168,7 @@ class ScreenPlayerLayer extends ContainerLayer {
     final data = fromBytesSceneBuilderRecordList(reader);
     assert(reader.eof);
 
-    SceneBuilderReplayer.replay(data, builder);
+    SceneBuilderReplayer.replay(data, builder, engineLayerIdMap: TODO);
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

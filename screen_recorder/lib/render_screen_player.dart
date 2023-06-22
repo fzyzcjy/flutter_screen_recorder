@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:screen_recorder/replayer/scene_builder.dart';
 import 'package:screen_recorder/screen_recorder.dart';
 
 class ScreenPlayerWidget extends StatefulWidget {
@@ -132,11 +133,7 @@ class ScreenPlayerLayer extends ContainerLayer {
   void addToScene(SceneBuilder builder) {
     print('$runtimeType.addToScene');
 
-    final data = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
-
-    for (final item in data.ops) {
-      item.execute(builder);
-    }
+    SceneBuilderReplayer.replay(ScreenRecorder.instance.sceneBuilderDataArr[frameIndex], builder);
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

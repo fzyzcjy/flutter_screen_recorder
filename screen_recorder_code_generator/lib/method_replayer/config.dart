@@ -29,15 +29,6 @@ class ConfigMethod {
     required this.parameters,
     this.type,
   });
-
-  List<Parameter> get requiredParameters => parameters.where((e) => e.required).map((e) => e.toParameter()).toList();
-
-  List<Parameter> get optionalParameters => parameters.where((e) => !e.required).map((e) => e.toParameter()).toList();
-
-  List<Expression> get positionalArguments => parameters.where((e) => !e.named).map((e) => refer(e.name)).toList();
-
-  Map<String, Expression> get namedArguments =>
-      Map.fromEntries(parameters.where((e) => e.named).map((e) => MapEntry(e.name, refer(e.name))));
 }
 
 class ConfigMethodParameter {
@@ -57,12 +48,4 @@ class ConfigMethodParameter {
         name = typeAndName.split(' ')[1],
         named = named ?? (defaultTo != null),
         required = required ?? (defaultTo == null);
-
-  Parameter toParameter() => Parameter(
-        (b) => b
-          ..name = name
-          ..type = refer(type)
-          ..named = named
-          ..defaultTo = defaultTo == null ? null : Code(defaultTo!),
-      );
 }

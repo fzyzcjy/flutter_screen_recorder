@@ -14,51 +14,11 @@ void toBytesPath(BytesBuilder writer, Path value) {
   writer.add(value.dump());
 }
 
-ColorFilter fromBytesColorFilter(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesColorFilter(BytesBuilder writer, ColorFilter value) {
-  TODO;
-}
-
-ImageFilter fromBytesImageFilter(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesImageFilter(BytesBuilder writer, ImageFilter value) {
-  TODO;
-}
-
-Shader fromBytesShader(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesShader(BytesBuilder writer, Shader value) {
-  TODO;
-}
-
 Paint fromBytesPaint(BytesReader reader) {
   return TODO;
 }
 
 void toBytesPaint(BytesBuilder writer, Paint value) {
-  TODO;
-}
-
-Image fromBytesImage(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesImage(BytesBuilder writer, Image value) {
-  TODO;
-}
-
-Vertices fromBytesVertices(BytesReader reader) {
-  return TODO;
-}
-
-void toBytesVertices(BytesBuilder writer, Vertices value) {
   TODO;
 }
 

@@ -6,6 +6,9 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/generated/record/canvas.dart';
+import 'package:screen_recorder/generated/record/paragraph_builder.dart';
+import 'package:screen_recorder/generated/record/scene_builder.dart';
 
 Offset fromBytesOffset(BytesReader reader) {
   final dx = fromBytesDouble(reader);
@@ -19,4 +22,779 @@ Offset fromBytesOffset(BytesReader reader) {
 void toBytesOffset(BytesBuilder writer, Offset value) {
   toBytesDouble(writer, value.dx);
   toBytesDouble(writer, value.dy);
+}
+
+SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
+  final matrix4 = fromBytesFloat64List(reader);
+  return SceneBuilder_PushTransform_Record(matrix4: matrix4);
+}
+
+void toBytesSceneBuilderPushTransformRecord(BytesBuilder writer, SceneBuilder_PushTransform_Record value) {
+  toBytesFloat64List(writer, value.matrix4);
+}
+
+SceneBuilder_PushOffset_Record fromBytesSceneBuilderPushOffsetRecord(BytesReader reader) {
+  final dx = fromBytesDouble(reader);
+  final dy = fromBytesDouble(reader);
+  return SceneBuilder_PushOffset_Record(
+    dx: dx,
+    dy: dy,
+  );
+}
+
+void toBytesSceneBuilderPushOffsetRecord(BytesBuilder writer, SceneBuilder_PushOffset_Record value) {
+  toBytesDouble(writer, value.dx);
+  toBytesDouble(writer, value.dy);
+}
+
+SceneBuilder_PushClipRect_Record fromBytesSceneBuilderPushClipRectRecord(BytesReader reader) {
+  final rect = fromBytesRect(reader);
+  final clipBehavior = fromBytesEnum(reader);
+  return SceneBuilder_PushClipRect_Record(
+    rect: rect,
+    clipBehavior: clipBehavior,
+  );
+}
+
+void toBytesSceneBuilderPushClipRectRecord(BytesBuilder writer, SceneBuilder_PushClipRect_Record value) {
+  toBytesRect(writer, value.rect);
+  toBytesEnum(writer, value.clipBehavior);
+}
+
+SceneBuilder_PushClipRRect_Record fromBytesSceneBuilderPushClipRRectRecord(BytesReader reader) {
+  final rrect = fromBytesRRect(reader);
+  final clipBehavior = fromBytesEnum(reader);
+  return SceneBuilder_PushClipRRect_Record(
+    rrect: rrect,
+    clipBehavior: clipBehavior,
+  );
+}
+
+void toBytesSceneBuilderPushClipRRectRecord(BytesBuilder writer, SceneBuilder_PushClipRRect_Record value) {
+  toBytesRRect(writer, value.rrect);
+  toBytesEnum(writer, value.clipBehavior);
+}
+
+SceneBuilder_PushClipPath_Record fromBytesSceneBuilderPushClipPathRecord(BytesReader reader) {
+  final path = fromBytesPath(reader);
+  final clipBehavior = fromBytesEnum(reader);
+  return SceneBuilder_PushClipPath_Record(
+    path: path,
+    clipBehavior: clipBehavior,
+  );
+}
+
+void toBytesSceneBuilderPushClipPathRecord(BytesBuilder writer, SceneBuilder_PushClipPath_Record value) {
+  toBytesPath(writer, value.path);
+  toBytesEnum(writer, value.clipBehavior);
+}
+
+SceneBuilder_PushOpacity_Record fromBytesSceneBuilderPushOpacityRecord(BytesReader reader) {
+  final alpha = fromBytesInt(reader);
+  final offset = fromBytesOffset(reader);
+  return SceneBuilder_PushOpacity_Record(
+    alpha: alpha,
+    offset: offset,
+  );
+}
+
+void toBytesSceneBuilderPushOpacityRecord(BytesBuilder writer, SceneBuilder_PushOpacity_Record value) {
+  toBytesInt(writer, value.alpha);
+  toBytesOffset(writer, value.offset);
+}
+
+SceneBuilder_PushColorFilter_Record fromBytesSceneBuilderPushColorFilterRecord(BytesReader reader) {
+  final filter = fromBytesColorFilter(reader);
+  return SceneBuilder_PushColorFilter_Record(filter: filter);
+}
+
+void toBytesSceneBuilderPushColorFilterRecord(BytesBuilder writer, SceneBuilder_PushColorFilter_Record value) {
+  toBytesColorFilter(writer, value.filter);
+}
+
+SceneBuilder_PushImageFilter_Record fromBytesSceneBuilderPushImageFilterRecord(BytesReader reader) {
+  final filter = fromBytesImageFilter(reader);
+  final offset = fromBytesOffset(reader);
+  return SceneBuilder_PushImageFilter_Record(
+    filter: filter,
+    offset: offset,
+  );
+}
+
+void toBytesSceneBuilderPushImageFilterRecord(BytesBuilder writer, SceneBuilder_PushImageFilter_Record value) {
+  toBytesImageFilter(writer, value.filter);
+  toBytesOffset(writer, value.offset);
+}
+
+SceneBuilder_PushBackdropFilter_Record fromBytesSceneBuilderPushBackdropFilterRecord(BytesReader reader) {
+  final filter = fromBytesImageFilter(reader);
+  final blendMode = fromBytesEnum(reader);
+  return SceneBuilder_PushBackdropFilter_Record(
+    filter: filter,
+    blendMode: blendMode,
+  );
+}
+
+void toBytesSceneBuilderPushBackdropFilterRecord(BytesBuilder writer, SceneBuilder_PushBackdropFilter_Record value) {
+  toBytesImageFilter(writer, value.filter);
+  toBytesEnum(writer, value.blendMode);
+}
+
+SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(BytesReader reader) {
+  final shader = fromBytesShader(reader);
+  final maskRect = fromBytesRect(reader);
+  final blendMode = fromBytesEnum(reader);
+  final filterQuality = fromBytesEnum(reader);
+  return SceneBuilder_PushShaderMask_Record(
+    shader: shader,
+    maskRect: maskRect,
+    blendMode: blendMode,
+    filterQuality: filterQuality,
+  );
+}
+
+void toBytesSceneBuilderPushShaderMaskRecord(BytesBuilder writer, SceneBuilder_PushShaderMask_Record value) {
+  toBytesShader(writer, value.shader);
+  toBytesRect(writer, value.maskRect);
+  toBytesEnum(writer, value.blendMode);
+  toBytesEnum(writer, value.filterQuality);
+}
+
+SceneBuilder_Pop_Record fromBytesSceneBuilderPopRecord(BytesReader reader) {
+  return SceneBuilder_Pop_Record();
+}
+
+void toBytesSceneBuilderPopRecord(BytesBuilder writer, SceneBuilder_Pop_Record value) {}
+
+SceneBuilder_AddPerformanceOverlay_Record fromBytesSceneBuilderAddPerformanceOverlayRecord(BytesReader reader) {
+  final enabledOptions = fromBytesInt(reader);
+  final bounds = fromBytesRect(reader);
+  return SceneBuilder_AddPerformanceOverlay_Record(
+    enabledOptions: enabledOptions,
+    bounds: bounds,
+  );
+}
+
+void toBytesSceneBuilderAddPerformanceOverlayRecord(
+    BytesBuilder writer, SceneBuilder_AddPerformanceOverlay_Record value) {
+  toBytesInt(writer, value.enabledOptions);
+  toBytesRect(writer, value.bounds);
+}
+
+SceneBuilder_AddPicture_Record fromBytesSceneBuilderAddPictureRecord(BytesReader reader) {
+  final offset = fromBytesOffset(reader);
+  final picture = fromBytesPicture(reader);
+  final isComplexHint = fromBytesBool(reader);
+  final willChangeHint = fromBytesBool(reader);
+  return SceneBuilder_AddPicture_Record(
+    offset: offset,
+    picture: picture,
+    isComplexHint: isComplexHint,
+    willChangeHint: willChangeHint,
+  );
+}
+
+void toBytesSceneBuilderAddPictureRecord(BytesBuilder writer, SceneBuilder_AddPicture_Record value) {
+  toBytesOffset(writer, value.offset);
+  toBytesPicture(writer, value.picture);
+  toBytesBool(writer, value.isComplexHint);
+  toBytesBool(writer, value.willChangeHint);
+}
+
+SceneBuilder_AddTexture_Record fromBytesSceneBuilderAddTextureRecord(BytesReader reader) {
+  final textureId = fromBytesInt(reader);
+  final offset = fromBytesOffset(reader);
+  final width = fromBytesDouble(reader);
+  final height = fromBytesDouble(reader);
+  final freeze = fromBytesBool(reader);
+  final filterQuality = fromBytesEnum(reader);
+  return SceneBuilder_AddTexture_Record(
+    textureId: textureId,
+    offset: offset,
+    width: width,
+    height: height,
+    freeze: freeze,
+    filterQuality: filterQuality,
+  );
+}
+
+void toBytesSceneBuilderAddTextureRecord(BytesBuilder writer, SceneBuilder_AddTexture_Record value) {
+  toBytesInt(writer, value.textureId);
+  toBytesOffset(writer, value.offset);
+  toBytesDouble(writer, value.width);
+  toBytesDouble(writer, value.height);
+  toBytesBool(writer, value.freeze);
+  toBytesEnum(writer, value.filterQuality);
+}
+
+SceneBuilder_AddPlatformView_Record fromBytesSceneBuilderAddPlatformViewRecord(BytesReader reader) {
+  final viewId = fromBytesInt(reader);
+  final offset = fromBytesOffset(reader);
+  final width = fromBytesDouble(reader);
+  final height = fromBytesDouble(reader);
+  return SceneBuilder_AddPlatformView_Record(
+    viewId: viewId,
+    offset: offset,
+    width: width,
+    height: height,
+  );
+}
+
+void toBytesSceneBuilderAddPlatformViewRecord(BytesBuilder writer, SceneBuilder_AddPlatformView_Record value) {
+  toBytesInt(writer, value.viewId);
+  toBytesOffset(writer, value.offset);
+  toBytesDouble(writer, value.width);
+  toBytesDouble(writer, value.height);
+}
+
+Canvas_Save_Record fromBytesCanvasSaveRecord(BytesReader reader) {
+  return Canvas_Save_Record();
+}
+
+void toBytesCanvasSaveRecord(BytesBuilder writer, Canvas_Save_Record value) {}
+
+Canvas_SaveLayer_Record fromBytesCanvasSaveLayerRecord(BytesReader reader) {
+  final bounds = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_SaveLayer_Record(
+    bounds: bounds,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasSaveLayerRecord(BytesBuilder writer, Canvas_SaveLayer_Record value) {
+  toBytesRect(writer, value.bounds);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_Restore_Record fromBytesCanvasRestoreRecord(BytesReader reader) {
+  return Canvas_Restore_Record();
+}
+
+void toBytesCanvasRestoreRecord(BytesBuilder writer, Canvas_Restore_Record value) {}
+
+Canvas_RestoreToCount_Record fromBytesCanvasRestoreToCountRecord(BytesReader reader) {
+  final count = fromBytesInt(reader);
+  return Canvas_RestoreToCount_Record(count: count);
+}
+
+void toBytesCanvasRestoreToCountRecord(BytesBuilder writer, Canvas_RestoreToCount_Record value) {
+  toBytesInt(writer, value.count);
+}
+
+Canvas_Translate_Record fromBytesCanvasTranslateRecord(BytesReader reader) {
+  final dx = fromBytesDouble(reader);
+  final dy = fromBytesDouble(reader);
+  return Canvas_Translate_Record(
+    dx: dx,
+    dy: dy,
+  );
+}
+
+void toBytesCanvasTranslateRecord(BytesBuilder writer, Canvas_Translate_Record value) {
+  toBytesDouble(writer, value.dx);
+  toBytesDouble(writer, value.dy);
+}
+
+Canvas_Scale_Record fromBytesCanvasScaleRecord(BytesReader reader) {
+  final sx = fromBytesDouble(reader);
+  final sy = fromBytesDouble(reader);
+  return Canvas_Scale_Record(
+    sx: sx,
+    sy: sy,
+  );
+}
+
+void toBytesCanvasScaleRecord(BytesBuilder writer, Canvas_Scale_Record value) {
+  toBytesDouble(writer, value.sx);
+  toBytesDouble(writer, value.sy);
+}
+
+Canvas_Rotate_Record fromBytesCanvasRotateRecord(BytesReader reader) {
+  final radians = fromBytesDouble(reader);
+  return Canvas_Rotate_Record(radians: radians);
+}
+
+void toBytesCanvasRotateRecord(BytesBuilder writer, Canvas_Rotate_Record value) {
+  toBytesDouble(writer, value.radians);
+}
+
+Canvas_Skew_Record fromBytesCanvasSkewRecord(BytesReader reader) {
+  final sx = fromBytesDouble(reader);
+  final sy = fromBytesDouble(reader);
+  return Canvas_Skew_Record(
+    sx: sx,
+    sy: sy,
+  );
+}
+
+void toBytesCanvasSkewRecord(BytesBuilder writer, Canvas_Skew_Record value) {
+  toBytesDouble(writer, value.sx);
+  toBytesDouble(writer, value.sy);
+}
+
+Canvas_Transform_Record fromBytesCanvasTransformRecord(BytesReader reader) {
+  final matrix4 = fromBytesFloat64List(reader);
+  return Canvas_Transform_Record(matrix4: matrix4);
+}
+
+void toBytesCanvasTransformRecord(BytesBuilder writer, Canvas_Transform_Record value) {
+  toBytesFloat64List(writer, value.matrix4);
+}
+
+Canvas_ClipRect_Record fromBytesCanvasClipRectRecord(BytesReader reader) {
+  final rect = fromBytesRect(reader);
+  final clipOp = fromBytesClipOp(reader);
+  final doAntiAlias = fromBytesBool(reader);
+  return Canvas_ClipRect_Record(
+    rect: rect,
+    clipOp: clipOp,
+    doAntiAlias: doAntiAlias,
+  );
+}
+
+void toBytesCanvasClipRectRecord(BytesBuilder writer, Canvas_ClipRect_Record value) {
+  toBytesRect(writer, value.rect);
+  toBytesClipOp(writer, value.clipOp);
+  toBytesBool(writer, value.doAntiAlias);
+}
+
+Canvas_ClipRRect_Record fromBytesCanvasClipRRectRecord(BytesReader reader) {
+  final rrect = fromBytesRRect(reader);
+  final doAntiAlias = fromBytesBool(reader);
+  return Canvas_ClipRRect_Record(
+    rrect: rrect,
+    doAntiAlias: doAntiAlias,
+  );
+}
+
+void toBytesCanvasClipRRectRecord(BytesBuilder writer, Canvas_ClipRRect_Record value) {
+  toBytesRRect(writer, value.rrect);
+  toBytesBool(writer, value.doAntiAlias);
+}
+
+Canvas_ClipPath_Record fromBytesCanvasClipPathRecord(BytesReader reader) {
+  final path = fromBytesPath(reader);
+  final doAntiAlias = fromBytesBool(reader);
+  return Canvas_ClipPath_Record(
+    path: path,
+    doAntiAlias: doAntiAlias,
+  );
+}
+
+void toBytesCanvasClipPathRecord(BytesBuilder writer, Canvas_ClipPath_Record value) {
+  toBytesPath(writer, value.path);
+  toBytesBool(writer, value.doAntiAlias);
+}
+
+Canvas_DrawColor_Record fromBytesCanvasDrawColorRecord(BytesReader reader) {
+  final color = fromBytesColor(reader);
+  final blendMode = fromBytesEnum(reader);
+  return Canvas_DrawColor_Record(
+    color: color,
+    blendMode: blendMode,
+  );
+}
+
+void toBytesCanvasDrawColorRecord(BytesBuilder writer, Canvas_DrawColor_Record value) {
+  toBytesColor(writer, value.color);
+  toBytesEnum(writer, value.blendMode);
+}
+
+Canvas_DrawLine_Record fromBytesCanvasDrawLineRecord(BytesReader reader) {
+  final p1 = fromBytesOffset(reader);
+  final p2 = fromBytesOffset(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawLine_Record(
+    p1: p1,
+    p2: p2,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawLineRecord(BytesBuilder writer, Canvas_DrawLine_Record value) {
+  toBytesOffset(writer, value.p1);
+  toBytesOffset(writer, value.p2);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawPaint_Record fromBytesCanvasDrawPaintRecord(BytesReader reader) {
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawPaint_Record(paint: paint);
+}
+
+void toBytesCanvasDrawPaintRecord(BytesBuilder writer, Canvas_DrawPaint_Record value) {
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawRect_Record fromBytesCanvasDrawRectRecord(BytesReader reader) {
+  final rect = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawRect_Record(
+    rect: rect,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawRectRecord(BytesBuilder writer, Canvas_DrawRect_Record value) {
+  toBytesRect(writer, value.rect);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawRRect_Record fromBytesCanvasDrawRRectRecord(BytesReader reader) {
+  final rrect = fromBytesRRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawRRect_Record(
+    rrect: rrect,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawRRectRecord(BytesBuilder writer, Canvas_DrawRRect_Record value) {
+  toBytesRRect(writer, value.rrect);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawDRRect_Record fromBytesCanvasDrawDRRectRecord(BytesReader reader) {
+  final outer = fromBytesRRect(reader);
+  final inner = fromBytesRRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawDRRect_Record(
+    outer: outer,
+    inner: inner,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawDRRectRecord(BytesBuilder writer, Canvas_DrawDRRect_Record value) {
+  toBytesRRect(writer, value.outer);
+  toBytesRRect(writer, value.inner);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawOval_Record fromBytesCanvasDrawOvalRecord(BytesReader reader) {
+  final rect = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawOval_Record(
+    rect: rect,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawOvalRecord(BytesBuilder writer, Canvas_DrawOval_Record value) {
+  toBytesRect(writer, value.rect);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawCircle_Record fromBytesCanvasDrawCircleRecord(BytesReader reader) {
+  final c = fromBytesOffset(reader);
+  final radius = fromBytesDouble(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawCircle_Record(
+    c: c,
+    radius: radius,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawCircleRecord(BytesBuilder writer, Canvas_DrawCircle_Record value) {
+  toBytesOffset(writer, value.c);
+  toBytesDouble(writer, value.radius);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawArc_Record fromBytesCanvasDrawArcRecord(BytesReader reader) {
+  final rect = fromBytesRect(reader);
+  final startAngle = fromBytesDouble(reader);
+  final sweepAngle = fromBytesDouble(reader);
+  final useCenter = fromBytesBool(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawArc_Record(
+    rect: rect,
+    startAngle: startAngle,
+    sweepAngle: sweepAngle,
+    useCenter: useCenter,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawArcRecord(BytesBuilder writer, Canvas_DrawArc_Record value) {
+  toBytesRect(writer, value.rect);
+  toBytesDouble(writer, value.startAngle);
+  toBytesDouble(writer, value.sweepAngle);
+  toBytesBool(writer, value.useCenter);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawPath_Record fromBytesCanvasDrawPathRecord(BytesReader reader) {
+  final path = fromBytesPath(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawPath_Record(
+    path: path,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawPathRecord(BytesBuilder writer, Canvas_DrawPath_Record value) {
+  toBytesPath(writer, value.path);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawImage_Record fromBytesCanvasDrawImageRecord(BytesReader reader) {
+  final image = fromBytesImage(reader);
+  final offset = fromBytesOffset(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawImage_Record(
+    image: image,
+    offset: offset,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawImageRecord(BytesBuilder writer, Canvas_DrawImage_Record value) {
+  toBytesImage(writer, value.image);
+  toBytesOffset(writer, value.offset);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawImageRect_Record fromBytesCanvasDrawImageRectRecord(BytesReader reader) {
+  final image = fromBytesImage(reader);
+  final src = fromBytesRect(reader);
+  final dst = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawImageRect_Record(
+    image: image,
+    src: src,
+    dst: dst,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawImageRectRecord(BytesBuilder writer, Canvas_DrawImageRect_Record value) {
+  toBytesImage(writer, value.image);
+  toBytesRect(writer, value.src);
+  toBytesRect(writer, value.dst);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawImageNine_Record fromBytesCanvasDrawImageNineRecord(BytesReader reader) {
+  final image = fromBytesImage(reader);
+  final center = fromBytesRect(reader);
+  final dst = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawImageNine_Record(
+    image: image,
+    center: center,
+    dst: dst,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawImageNineRecord(BytesBuilder writer, Canvas_DrawImageNine_Record value) {
+  toBytesImage(writer, value.image);
+  toBytesRect(writer, value.center);
+  toBytesRect(writer, value.dst);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawPicture_Record fromBytesCanvasDrawPictureRecord(BytesReader reader) {
+  final picture = fromBytesPicture(reader);
+  return Canvas_DrawPicture_Record(picture: picture);
+}
+
+void toBytesCanvasDrawPictureRecord(BytesBuilder writer, Canvas_DrawPicture_Record value) {
+  toBytesPicture(writer, value.picture);
+}
+
+Canvas_DrawParagraph_Record fromBytesCanvasDrawParagraphRecord(BytesReader reader) {
+  final paragraph = fromBytesParagraph(reader);
+  final offset = fromBytesOffset(reader);
+  return Canvas_DrawParagraph_Record(
+    paragraph: paragraph,
+    offset: offset,
+  );
+}
+
+void toBytesCanvasDrawParagraphRecord(BytesBuilder writer, Canvas_DrawParagraph_Record value) {
+  toBytesParagraph(writer, value.paragraph);
+  toBytesOffset(writer, value.offset);
+}
+
+Canvas_DrawPoints_Record fromBytesCanvasDrawPointsRecord(BytesReader reader) {
+  final pointMode = fromBytesPointMode(reader);
+  final points = fromBytesListOffset(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawPoints_Record(
+    pointMode: pointMode,
+    points: points,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawPointsRecord(BytesBuilder writer, Canvas_DrawPoints_Record value) {
+  toBytesPointMode(writer, value.pointMode);
+  toBytesListOffset(writer, value.points);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawRawPoints_Record fromBytesCanvasDrawRawPointsRecord(BytesReader reader) {
+  final pointMode = fromBytesPointMode(reader);
+  final points = fromBytesFloat32List(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawRawPoints_Record(
+    pointMode: pointMode,
+    points: points,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawRawPointsRecord(BytesBuilder writer, Canvas_DrawRawPoints_Record value) {
+  toBytesPointMode(writer, value.pointMode);
+  toBytesFloat32List(writer, value.points);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawVertices_Record fromBytesCanvasDrawVerticesRecord(BytesReader reader) {
+  final vertices = fromBytesVertices(reader);
+  final blendMode = fromBytesEnum(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawVertices_Record(
+    vertices: vertices,
+    blendMode: blendMode,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawVerticesRecord(BytesBuilder writer, Canvas_DrawVertices_Record value) {
+  toBytesVertices(writer, value.vertices);
+  toBytesEnum(writer, value.blendMode);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawAtlas_Record fromBytesCanvasDrawAtlasRecord(BytesReader reader) {
+  final atlas = fromBytesImage(reader);
+  final transforms = fromBytesListRSTransform(reader);
+  final rects = fromBytesListRect(reader);
+  final colors = fromBytesListColor(reader);
+  final blendMode = fromBytesEnum(reader);
+  final cullRect = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawAtlas_Record(
+    atlas: atlas,
+    transforms: transforms,
+    rects: rects,
+    colors: colors,
+    blendMode: blendMode,
+    cullRect: cullRect,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawAtlasRecord(BytesBuilder writer, Canvas_DrawAtlas_Record value) {
+  toBytesImage(writer, value.atlas);
+  toBytesListRSTransform(writer, value.transforms);
+  toBytesListRect(writer, value.rects);
+  toBytesListColor(writer, value.colors);
+  toBytesEnum(writer, value.blendMode);
+  toBytesRect(writer, value.cullRect);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawRawAtlas_Record fromBytesCanvasDrawRawAtlasRecord(BytesReader reader) {
+  final atlas = fromBytesImage(reader);
+  final rstTransforms = fromBytesFloat32List(reader);
+  final rects = fromBytesFloat32List(reader);
+  final colors = fromBytesInt32List(reader);
+  final blendMode = fromBytesEnum(reader);
+  final cullRect = fromBytesRect(reader);
+  final paint = fromBytesPaint(reader);
+  return Canvas_DrawRawAtlas_Record(
+    atlas: atlas,
+    rstTransforms: rstTransforms,
+    rects: rects,
+    colors: colors,
+    blendMode: blendMode,
+    cullRect: cullRect,
+    paint: paint,
+  );
+}
+
+void toBytesCanvasDrawRawAtlasRecord(BytesBuilder writer, Canvas_DrawRawAtlas_Record value) {
+  toBytesImage(writer, value.atlas);
+  toBytesFloat32List(writer, value.rstTransforms);
+  toBytesFloat32List(writer, value.rects);
+  toBytesInt32List(writer, value.colors);
+  toBytesEnum(writer, value.blendMode);
+  toBytesRect(writer, value.cullRect);
+  toBytesPaint(writer, value.paint);
+}
+
+Canvas_DrawShadow_Record fromBytesCanvasDrawShadowRecord(BytesReader reader) {
+  final path = fromBytesPath(reader);
+  final color = fromBytesColor(reader);
+  final elevation = fromBytesDouble(reader);
+  final transparentOccluder = fromBytesBool(reader);
+  return Canvas_DrawShadow_Record(
+    path: path,
+    color: color,
+    elevation: elevation,
+    transparentOccluder: transparentOccluder,
+  );
+}
+
+void toBytesCanvasDrawShadowRecord(BytesBuilder writer, Canvas_DrawShadow_Record value) {
+  toBytesPath(writer, value.path);
+  toBytesColor(writer, value.color);
+  toBytesDouble(writer, value.elevation);
+  toBytesBool(writer, value.transparentOccluder);
+}
+
+ParagraphBuilder_PushStyle_Record fromBytesParagraphBuilderPushStyleRecord(BytesReader reader) {
+  final style = fromBytesTextStyle(reader);
+  return ParagraphBuilder_PushStyle_Record(style: style);
+}
+
+void toBytesParagraphBuilderPushStyleRecord(BytesBuilder writer, ParagraphBuilder_PushStyle_Record value) {
+  toBytesTextStyle(writer, value.style);
+}
+
+ParagraphBuilder_Pop_Record fromBytesParagraphBuilderPopRecord(BytesReader reader) {
+  return ParagraphBuilder_Pop_Record();
+}
+
+void toBytesParagraphBuilderPopRecord(BytesBuilder writer, ParagraphBuilder_Pop_Record value) {}
+
+ParagraphBuilder_AddText_Record fromBytesParagraphBuilderAddTextRecord(BytesReader reader) {
+  final text = fromBytesString(reader);
+  return ParagraphBuilder_AddText_Record(text: text);
+}
+
+void toBytesParagraphBuilderAddTextRecord(BytesBuilder writer, ParagraphBuilder_AddText_Record value) {
+  toBytesString(writer, value.text);
+}
+
+ParagraphBuilder_AddPlaceholder_Record fromBytesParagraphBuilderAddPlaceholderRecord(BytesReader reader) {
+  final width = fromBytesDouble(reader);
+  final height = fromBytesDouble(reader);
+  final alignment = fromBytesPlaceholderAlignment(reader);
+  final scale = fromBytesDouble(reader);
+  final baselineOffset = fromBytesDouble(reader);
+  final baseline = fromBytesTextBaseline(reader);
+  return ParagraphBuilder_AddPlaceholder_Record(
+    width: width,
+    height: height,
+    alignment: alignment,
+    scale: scale,
+    baselineOffset: baselineOffset,
+    baseline: baseline,
+  );
+}
+
+void toBytesParagraphBuilderAddPlaceholderRecord(BytesBuilder writer, ParagraphBuilder_AddPlaceholder_Record value) {
+  toBytesDouble(writer, value.width);
+  toBytesDouble(writer, value.height);
+  toBytesPlaceholderAlignment(writer, value.alignment);
+  toBytesDouble(writer, value.scale);
+  toBytesDouble(writer, value.baselineOffset);
+  toBytesTextBaseline(writer, value.baseline);
 }

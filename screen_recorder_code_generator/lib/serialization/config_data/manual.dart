@@ -1,6 +1,6 @@
 import 'package:screen_recorder_code_generator/serialization/config.dart';
 
-final kConfigs = [
+final kManualConfigs = [
   Config(
     className: 'Offset',
     fields: [

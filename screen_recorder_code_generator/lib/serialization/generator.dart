@@ -2,11 +2,17 @@ import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
 import 'package:recase/recase.dart';
+import 'package:screen_recorder_code_generator/method_replayer/generator.dart' as method_replayer;
 import 'package:screen_recorder_code_generator/serialization/config.dart';
+import 'package:screen_recorder_code_generator/serialization/config_data/from_method_replayer.dart';
+import 'package:screen_recorder_code_generator/serialization/config_data/manual.dart';
 import 'package:screen_recorder_code_generator/types.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
-import 'config_data.dart';
+final kConfigs = [
+  ...kManualConfigs,
+  ...createConfigsFromMethodReplayer(method_replayer.kConfigs),
+];
 
 void generateAllSerialization(String dirTarget) {
   final lines = <String>[];
@@ -18,6 +24,9 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/generated/record/canvas.dart';
+import 'package:screen_recorder/generated/record/paragraph_builder.dart';
+import 'package:screen_recorder/generated/record/scene_builder.dart';
   ''');
 
   for (final config in kConfigs) {

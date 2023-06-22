@@ -2,16 +2,15 @@
 
 import 'dart:ui';
 
+import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/records.dart';
 
 typedef ParagraphBuilderRecordList = RecordList<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase>;
 
-// TODO
-ParagraphBuilderRecordList get _data => TODO;
-
 abstract class MyParagraphBuilderBase {
   final ParagraphBuilder proxy;
+  final _data = ParagraphBuilderRecordList();
 
   MyParagraphBuilderBase(ParagraphStyle style) : proxy = ParagraphBuilder(style) {
     _data.constructorRecord = ParagraphBuilder_Constructor_Record(style: style);
@@ -19,6 +18,10 @@ abstract class MyParagraphBuilderBase {
 
   void handleOp<T>(T result, ParagraphBuilder_RecordBase<Object?> record) {
     _data.methodCallRecords.add(record.safeClone());
+  }
+
+  void handleBuildOp(Paragraph result) {
+    result.record = _data;
   }
 }
 

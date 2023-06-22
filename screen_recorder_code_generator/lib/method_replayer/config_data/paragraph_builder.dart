@@ -55,7 +55,7 @@ final kConfigParagraphBuilder = Config(
     ConfigMethod(
       returnType: 'Paragraph',
       methodName: 'build',
-      handlerName: null,
+      handlerName: 'handleBuildOp',
       enableRecord: false,
       parameters: [],
     ),

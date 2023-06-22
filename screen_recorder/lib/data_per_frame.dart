@@ -1,12 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:screen_recorder/scene_builder_record.dart';
+import 'package:screen_recorder/generated/record/scene_builder.dart';
+import 'package:screen_recorder/records.dart';
 
 class DataPerFrame {
   static var instance = DataPerFrame();
 
   final experimentalData = ExperimentalData();
-  final sceneBuilderData = SceneBuilderRecord();
+  final sceneBuilderData = RecordList<SceneBuilder_RecordBase>();
 }
 
 class ExperimentalData {

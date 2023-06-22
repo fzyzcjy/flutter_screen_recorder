@@ -1,7 +1,7 @@
 import 'dart:ui';
 
+import 'package:screen_recorder/delegate_base/canvas.dart';
 import 'package:screen_recorder/expandos.dart';
-import 'package:screen_recorder/manual/canvas.dart';
 
 class MyPictureRecorder implements PictureRecorder {
   final PictureRecorder proxy;

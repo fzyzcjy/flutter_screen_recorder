@@ -1,123 +1,100 @@
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
-final _parameterSynthesizedLayerId = ConfigMethodParameter(
-  'int layerId',
-  synthesizedInRecord: true,
-  recordConstructorArgument: 'result.getOrCreateLayerId()',
-);
+ConfigMethod _createMethodPush({
+  required String methodName,
+  required List<ConfigMethodParameter> partialParameters,
+}) {
+  assert(methodName.startsWith('push'));
+  final stem = methodName.substring('push'.length);
+
+  return ConfigMethod(
+    returnType: '${stem}EngineLayer',
+    methodName: methodName,
+    handlerName: 'handlePushOp',
+    parameters: [
+      ...partialParameters,
+      ConfigMethodParameter('${stem}EngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+      ConfigMethodParameter(
+        'int layerId',
+        synthesizedInRecord: true,
+        recordConstructorArgument: 'result.getOrCreateLayerId()',
+      ),
+    ],
+  );
+}
 
 final kConfigSceneBuilder = Config(
   originalClass: 'SceneBuilder',
   constructorParams: 'super.proxy',
   methods: [
-    ConfigMethod(
-      returnType: 'TransformEngineLayer',
+    _createMethodPush(
       methodName: 'pushTransform',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('Float64List matrix4'),
-        ConfigMethodParameter('TransformEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'OffsetEngineLayer',
+    _createMethodPush(
       methodName: 'pushOffset',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('double dx'),
         ConfigMethodParameter('double dy'),
-        ConfigMethodParameter('OffsetEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ClipRectEngineLayer',
+    _createMethodPush(
       methodName: 'pushClipRect',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('Rect rect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ClipRRectEngineLayer',
+    _createMethodPush(
       methodName: 'pushClipRRect',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('RRect rrect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipRRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ClipPathEngineLayer',
+    _createMethodPush(
       methodName: 'pushClipPath',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('Path path'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipPathEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'OpacityEngineLayer',
+    _createMethodPush(
       methodName: 'pushOpacity',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('int alpha'),
         ConfigMethodParameter('Offset? offset', defaultTo: 'Offset.zero'),
-        ConfigMethodParameter('OpacityEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ColorFilterEngineLayer',
+    _createMethodPush(
       methodName: 'pushColorFilter',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('ColorFilter filter'),
-        ConfigMethodParameter('ColorFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ImageFilterEngineLayer',
+    _createMethodPush(
       methodName: 'pushImageFilter',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),
-        ConfigMethodParameter('ImageFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'BackdropFilterEngineLayer',
+    _createMethodPush(
       methodName: 'pushBackdropFilter',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('BlendMode blendMode', defaultTo: 'BlendMode.srcOver'),
-        ConfigMethodParameter('BackdropFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
-    ConfigMethod(
-      returnType: 'ShaderMaskEngineLayer',
+    _createMethodPush(
       methodName: 'pushShaderMask',
-      handlerName: 'handlePushOp',
-      parameters: [
+      partialParameters: [
         ConfigMethodParameter('Shader shader'),
         ConfigMethodParameter('Rect maskRect'),
         ConfigMethodParameter('BlendMode blendMode'),
         ConfigMethodParameter('FilterQuality filterQuality', defaultTo: 'FilterQuality.low'),
-        ConfigMethodParameter('ShaderMaskEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
-        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(

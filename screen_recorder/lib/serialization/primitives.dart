@@ -23,7 +23,9 @@ void toBytesBool(BytesBuilder writer, bool value) {
 }
 
 int fromBytesInt(BytesReader reader) {
-  return reader.byteData.getInt64(reader.index);
+  final ans = reader.byteData.getInt64(reader.index);
+  reader.advance(8);
+  return ans;
 }
 
 // TODO improve, do not create a brand new list?
@@ -34,7 +36,9 @@ void toBytesInt(BytesBuilder writer, int value) {
 }
 
 double fromBytesFloat(BytesReader reader) {
-  return reader.byteData.getFloat32(reader.index);
+  final ans = reader.byteData.getFloat32(reader.index);
+  reader.advance(4);
+  return ans;
 }
 
 void toBytesFloat(BytesBuilder writer, double value) {
@@ -42,7 +46,9 @@ void toBytesFloat(BytesBuilder writer, double value) {
 }
 
 double fromBytesDouble(BytesReader reader) {
-  return reader.byteData.getFloat64(reader.index);
+  final ans = reader.byteData.getFloat64(reader.index);
+  reader.advance(4);
+  return ans;
 }
 
 void toBytesDouble(BytesBuilder writer, double value) {

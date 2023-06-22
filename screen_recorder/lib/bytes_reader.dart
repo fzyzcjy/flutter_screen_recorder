@@ -15,7 +15,11 @@ class BytesReader {
 
   Uint8List readBytes(int num) {
     final oldIndex = index;
-    index += num;
+    advance(num);
     return bytes.buffer.asUint8List(oldIndex, num);
+  }
+
+  void advance(int num) {
+    index += num;
   }
 }

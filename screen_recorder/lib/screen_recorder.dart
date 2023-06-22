@@ -5,6 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/my_canvas.dart';
 import 'package:screen_recorder/my_paragraph_builder.dart';
+import 'package:screen_recorder/my_picture_recorder.dart';
 import 'package:screen_recorder/my_scene_builder.dart';
 import 'package:screen_recorder/scene_builder_record.dart';
 import 'package:screen_recorder/simple_compressor.dart';
@@ -24,6 +25,7 @@ class ScreenRecorder {
   final sceneBuilderDataArr = <SceneBuilderRecord>[];
 
   void setup() {
+    PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
     PaintingContext.createCanvas = (recorder) => MyCanvas(Canvas(recorder));
     TextPainter.createParagraphBuilder = (style) => MyParagraphBuilder(style);
     RenderView.createSceneBuilder = () => MySceneBuilder(SceneBuilder());

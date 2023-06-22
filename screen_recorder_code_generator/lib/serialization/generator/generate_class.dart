@@ -44,12 +44,13 @@ ${config.className} fromBytes${getSerializationPartialName(config.className)}(By
 
 String _generateFromBytesField(Config config, ConfigField configField) {
   final listInnerType = typeListInnerType(configField.type);
-  final functionName = 'fromBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
+  final innerFunctionName = 'fromBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final lhs = 'final ${configField.name}';
+  final outerFunctionPartialName = _getSerializationOuterPartialName(configField.type);
 
-  if (listInnerType != null) return '$lhs = fromBytesList(reader, $functionName);';
-  if (typeIsNullable(configField.type)) return '$lhs = fromBytesNullable(reader, $functionName);';
-  return '$lhs = $functionName(reader);';
+  return outerFunctionPartialName != null
+      ? '$lhs = fromBytes$outerFunctionPartialName(reader, $innerFunctionName);'
+      : '$lhs = $innerFunctionName(reader);';
 }
 
 String _generateToBytes(Config config) {
@@ -62,15 +63,24 @@ void toBytes${getSerializationPartialName(config.className)}(BytesBuilder writer
 
 String _generateToBytesField(Config config, ConfigField configField) {
   final listInnerType = typeListInnerType(configField.type);
-  final functionName = 'toBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
+  final innerFunctionName = 'toBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final valueName = 'value.${configField.name}';
+  final outerFunctionPartialName = _getSerializationOuterPartialName(configField.type);
 
-  if (listInnerType != null) return 'toBytesList(writer, $valueName, $functionName);';
-  if (typeIsNullable(configField.type)) return 'toBytesNullable(writer, $valueName, $functionName);';
-  return '$functionName(writer, $valueName);';
+  return outerFunctionPartialName != null
+      ? 'toBytes$outerFunctionPartialName(writer, $valueName, $innerFunctionName);'
+      : '$innerFunctionName(writer, $valueName);';
 }
 
 String? typeListInnerType(String type) =>
     type.startsWith('List<') ? type.replaceAll('List<', '').replaceAll('>', '') : null;
 
 bool typeIsNullable(String type) => type.endsWith('?');
+
+String? _getSerializationOuterPartialName(String type) {
+  final listInnerType = typeListInnerType(type);
+  final nullable = typeIsNullable(type);
+
+  if (listInnerType != null) return nullable ? 'NullableList' : 'List';
+  return nullable ? 'Nullable' : null;
+}

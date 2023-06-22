@@ -249,7 +249,7 @@ TextStyle fromBytesTextStyle(BytesReader reader) {
   final fontStyle = fromBytesNullable(reader, fromBytesFontStyle);
   final textBaseline = fromBytesNullable(reader, fromBytesTextBaseline);
   final fontFamily = fromBytesNullable(reader, fromBytesString);
-  final fontFamilyFallback = fromBytesList(reader, fromBytesString);
+  final fontFamilyFallback = fromBytesNullableList(reader, fromBytesString);
   final fontSize = fromBytesNullable(reader, fromBytesDouble);
   final letterSpacing = fromBytesNullable(reader, fromBytesDouble);
   final wordSpacing = fromBytesNullable(reader, fromBytesDouble);
@@ -258,9 +258,9 @@ TextStyle fromBytesTextStyle(BytesReader reader) {
   final locale = fromBytesNullable(reader, fromBytesLocale);
   final background = fromBytesNullable(reader, fromBytesPaint);
   final foreground = fromBytesNullable(reader, fromBytesPaint);
-  final shadows = fromBytesList(reader, fromBytesShadow);
-  final fontFeatures = fromBytesList(reader, fromBytesFontFeature);
-  final fontVariations = fromBytesList(reader, fromBytesFontVariation);
+  final shadows = fromBytesNullableList(reader, fromBytesShadow);
+  final fontFeatures = fromBytesNullableList(reader, fromBytesFontFeature);
+  final fontVariations = fromBytesNullableList(reader, fromBytesFontVariation);
   return TextStyle(
     color: color,
     decoration: decoration,
@@ -296,7 +296,7 @@ void toBytesTextStyle(BytesBuilder writer, TextStyle value) {
   toBytesNullable(writer, value.fontStyle, toBytesFontStyle);
   toBytesNullable(writer, value.textBaseline, toBytesTextBaseline);
   toBytesNullable(writer, value.fontFamily, toBytesString);
-  toBytesList(writer, value.fontFamilyFallback, toBytesString);
+  toBytesNullableList(writer, value.fontFamilyFallback, toBytesString);
   toBytesNullable(writer, value.fontSize, toBytesDouble);
   toBytesNullable(writer, value.letterSpacing, toBytesDouble);
   toBytesNullable(writer, value.wordSpacing, toBytesDouble);
@@ -305,16 +305,16 @@ void toBytesTextStyle(BytesBuilder writer, TextStyle value) {
   toBytesNullable(writer, value.locale, toBytesLocale);
   toBytesNullable(writer, value.background, toBytesPaint);
   toBytesNullable(writer, value.foreground, toBytesPaint);
-  toBytesList(writer, value.shadows, toBytesShadow);
-  toBytesList(writer, value.fontFeatures, toBytesFontFeature);
-  toBytesList(writer, value.fontVariations, toBytesFontVariation);
+  toBytesNullableList(writer, value.shadows, toBytesShadow);
+  toBytesNullableList(writer, value.fontFeatures, toBytesFontFeature);
+  toBytesNullableList(writer, value.fontVariations, toBytesFontVariation);
 }
 
 StrutStyle fromBytesStrutStyle(BytesReader reader) {
   final encoded = fromBytesByteData(reader);
   final leadingDistribution = fromBytesNullable(reader, fromBytesTextLeadingDistribution);
   final fontFamily = fromBytesNullable(reader, fromBytesString);
-  final fontFamilyFallback = fromBytesList(reader, fromBytesString);
+  final fontFamilyFallback = fromBytesNullableList(reader, fromBytesString);
   return StrutStyle(
     encoded: encoded,
     leadingDistribution: leadingDistribution,
@@ -327,7 +327,7 @@ void toBytesStrutStyle(BytesBuilder writer, StrutStyle value) {
   toBytesByteData(writer, value.encoded);
   toBytesNullable(writer, value.leadingDistribution, toBytesTextLeadingDistribution);
   toBytesNullable(writer, value.fontFamily, toBytesString);
-  toBytesList(writer, value.fontFamilyFallback, toBytesString);
+  toBytesNullableList(writer, value.fontFamilyFallback, toBytesString);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
@@ -981,7 +981,7 @@ Canvas_DrawAtlas_Record fromBytesCanvasDrawAtlasRecord(BytesReader reader) {
   final atlas = fromBytesImage(reader);
   final transforms = fromBytesList(reader, fromBytesRSTransform);
   final rects = fromBytesList(reader, fromBytesRect);
-  final colors = fromBytesList(reader, fromBytesColor);
+  final colors = fromBytesNullableList(reader, fromBytesColor);
   final blendMode = fromBytesNullable(reader, fromBytesBlendMode);
   final cullRect = fromBytesNullable(reader, fromBytesRect);
   final paint = fromBytesPaint(reader);
@@ -1000,7 +1000,7 @@ void toBytesCanvasDrawAtlasRecord(BytesBuilder writer, Canvas_DrawAtlas_Record v
   toBytesImage(writer, value.atlas);
   toBytesList(writer, value.transforms, toBytesRSTransform);
   toBytesList(writer, value.rects, toBytesRect);
-  toBytesList(writer, value.colors, toBytesColor);
+  toBytesNullableList(writer, value.colors, toBytesColor);
   toBytesNullable(writer, value.blendMode, toBytesBlendMode);
   toBytesNullable(writer, value.cullRect, toBytesRect);
   toBytesPaint(writer, value.paint);

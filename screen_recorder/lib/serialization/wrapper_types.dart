@@ -24,3 +24,12 @@ void toBytesList<T extends Object>(BytesBuilder writer, List<T> value, void Func
     toBytesInner(writer, item);
   }
 }
+
+List<T>? fromBytesNullableList<T extends Object>(BytesReader reader, T Function(BytesReader) fromBytesInner) {
+  return fromBytesNullable(reader, (reader) => fromBytesList(reader, fromBytesInner));
+}
+
+void toBytesNullableList<T extends Object>(
+    BytesBuilder writer, List<T>? value, void Function(BytesBuilder, T) toBytesInner) {
+  toBytesNullable(writer, value, (writer, value) => toBytesList(writer, value, toBytesInner));
+}

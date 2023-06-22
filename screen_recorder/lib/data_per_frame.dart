@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:screen_recorder/manual/scene_builder.dart';
+import 'package:screen_recorder/delegate_base/scene_builder.dart';
 
 class DataPerFrame {
   static var instance = DataPerFrame();

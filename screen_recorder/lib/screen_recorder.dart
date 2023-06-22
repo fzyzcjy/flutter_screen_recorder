@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/data_per_frame.dart';
+import 'package:screen_recorder/delegate_base/scene_builder.dart';
+import 'package:screen_recorder/generated/delegate/scene_builder.dart';
 import 'package:screen_recorder/my_canvas.dart';
 import 'package:screen_recorder/my_paragraph_builder.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
-import 'package:screen_recorder/my_scene_builder.dart';
-import 'package:screen_recorder/scene_builder_record.dart';
 import 'package:screen_recorder/simple_compressor.dart';
 
 class ScreenRecorder {
@@ -22,7 +22,7 @@ class ScreenRecorder {
   var overallUncompressedBytesLen = 0;
   final compressor = SimpleCompressor();
 
-  final sceneBuilderDataArr = <SceneBuilderRecord>[];
+  final sceneBuilderDataArr = <SceneBuilderRecordList>[];
 
   void setup() {
     PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());

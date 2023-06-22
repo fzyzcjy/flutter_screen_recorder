@@ -10,7 +10,7 @@ extension ExtPathTemporaryClone on Path {
 }
 
 extension ExtPictureTemporaryClone on Picture {
-  Picture temporaryClone() => CanvasReplayer.replay(record);
+  Picture temporaryClone() => CanvasReplayer.replay(record!);
 }
 
 extension ExtFloat32ListTemporaryClone on Float32List {

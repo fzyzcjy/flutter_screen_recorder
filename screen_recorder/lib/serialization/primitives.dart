@@ -23,7 +23,7 @@ void toBytesBool(BytesBuilder writer, bool value) {
 }
 
 int fromBytesInt(BytesReader reader) {
-  return TODO;
+  return reader.byteData.getInt64(reader.index);
 }
 
 // TODO improve, do not create a brand new list?
@@ -34,7 +34,7 @@ void toBytesInt(BytesBuilder writer, int value) {
 }
 
 double fromBytesFloat(BytesReader reader) {
-  return TODO;
+  return reader.byteData.getFloat32(reader.index);
 }
 
 void toBytesFloat(BytesBuilder writer, double value) {
@@ -42,7 +42,7 @@ void toBytesFloat(BytesBuilder writer, double value) {
 }
 
 double fromBytesDouble(BytesReader reader) {
-  return TODO;
+  return reader.byteData.getFloat64(reader.index);
 }
 
 void toBytesDouble(BytesBuilder writer, double value) {

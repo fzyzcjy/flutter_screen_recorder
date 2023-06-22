@@ -5,7 +5,11 @@ class BytesReader {
   final Uint8List bytes;
   var index = 0;
 
-  BytesReader(this.bytes);
+  // ref: protobuf
+  // https://github.com/fzyzcjy/yplusplus/issues/9598#issuecomment-1602114654
+  final ByteData byteData;
+
+  BytesReader(this.bytes) : byteData = ByteData.view(bytes.buffer);
 
   int readByte() => bytes[index++];
 

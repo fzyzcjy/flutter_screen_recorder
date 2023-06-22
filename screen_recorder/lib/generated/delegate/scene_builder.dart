@@ -17,11 +17,13 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Float64List matrix4, {
     TransformEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushTransform_Record(matrix4: matrix4);
-    return proxy.pushTransform(
+    final result = proxy.pushTransform(
       matrix4,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushTransform_Record(matrix4: matrix4);
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -30,15 +32,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     double dy, {
     OffsetEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushOffset_Record(
-      dx: dx,
-      dy: dy,
-    );
-    return proxy.pushOffset(
+    final result = proxy.pushOffset(
       dx,
       dy,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushOffset_Record(
+      dx: dx,
+      dy: dy,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -47,15 +51,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipRectEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushClipRect_Record(
-      rect: rect,
-      clipBehavior: clipBehavior,
-    );
-    return proxy.pushClipRect(
+    final result = proxy.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushClipRect_Record(
+      rect: rect,
+      clipBehavior: clipBehavior,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -64,15 +70,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipRRectEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushClipRRect_Record(
-      rrect: rrect,
-      clipBehavior: clipBehavior,
-    );
-    return proxy.pushClipRRect(
+    final result = proxy.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushClipRRect_Record(
+      rrect: rrect,
+      clipBehavior: clipBehavior,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -81,15 +89,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Clip clipBehavior = Clip.antiAlias,
     ClipPathEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushClipPath_Record(
-      path: path,
-      clipBehavior: clipBehavior,
-    );
-    return proxy.pushClipPath(
+    final result = proxy.pushClipPath(
       path,
       clipBehavior: clipBehavior,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushClipPath_Record(
+      path: path,
+      clipBehavior: clipBehavior,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -98,15 +108,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Offset? offset = Offset.zero,
     OpacityEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushOpacity_Record(
-      alpha: alpha,
-      offset: offset,
-    );
-    return proxy.pushOpacity(
+    final result = proxy.pushOpacity(
       alpha,
       offset: offset,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushOpacity_Record(
+      alpha: alpha,
+      offset: offset,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -114,11 +126,13 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     ColorFilter filter, {
     ColorFilterEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushColorFilter_Record(filter: filter);
-    return proxy.pushColorFilter(
+    final result = proxy.pushColorFilter(
       filter,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushColorFilter_Record(filter: filter);
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -127,15 +141,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     Offset offset = Offset.zero,
     ImageFilterEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushImageFilter_Record(
-      filter: filter,
-      offset: offset,
-    );
-    return proxy.pushImageFilter(
+    final result = proxy.pushImageFilter(
       filter,
       offset: offset,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushImageFilter_Record(
+      filter: filter,
+      offset: offset,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -144,15 +160,17 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     BlendMode blendMode = BlendMode.srcOver,
     BackdropFilterEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushBackdropFilter_Record(
-      filter: filter,
-      blendMode: blendMode,
-    );
-    return proxy.pushBackdropFilter(
+    final result = proxy.pushBackdropFilter(
       filter,
       blendMode: blendMode,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushBackdropFilter_Record(
+      filter: filter,
+      blendMode: blendMode,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -163,30 +181,35 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     FilterQuality filterQuality = FilterQuality.low,
     ShaderMaskEngineLayer? oldLayer,
   }) {
-    SceneBuilder_PushShaderMask_Record(
-      shader: shader,
-      maskRect: maskRect,
-      blendMode: blendMode,
-      filterQuality: filterQuality,
-    );
-    return proxy.pushShaderMask(
+    final result = proxy.pushShaderMask(
       shader,
       maskRect,
       blendMode,
       filterQuality: filterQuality,
       oldLayer: oldLayer,
     );
+    final record = SceneBuilder_PushShaderMask_Record(
+      shader: shader,
+      maskRect: maskRect,
+      blendMode: blendMode,
+      filterQuality: filterQuality,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
   void pop() {
-    SceneBuilder_Pop_Record();
-    return proxy.pop();
+    final result = proxy.pop();
+    final record = SceneBuilder_Pop_Record();
+    handleOp(record, result);
+    return result;
   }
 
   @override
   void addRetained(EngineLayer retainedLayer) {
-    return proxy.addRetained(retainedLayer);
+    final result = proxy.addRetained(retainedLayer);
+    return result;
   }
 
   @override
@@ -194,14 +217,16 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     int enabledOptions,
     Rect bounds,
   ) {
-    SceneBuilder_AddPerformanceOverlay_Record(
-      enabledOptions: enabledOptions,
-      bounds: bounds,
-    );
-    return proxy.addPerformanceOverlay(
+    final result = proxy.addPerformanceOverlay(
       enabledOptions,
       bounds,
     );
+    final record = SceneBuilder_AddPerformanceOverlay_Record(
+      enabledOptions: enabledOptions,
+      bounds: bounds,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -211,18 +236,20 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     bool isComplexHint = false,
     bool willChangeHint = false,
   }) {
-    SceneBuilder_AddPicture_Record(
-      offset: offset,
-      picture: picture,
-      isComplexHint: isComplexHint,
-      willChangeHint: willChangeHint,
-    );
-    return proxy.addPicture(
+    final result = proxy.addPicture(
       offset,
       picture,
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
+    final record = SceneBuilder_AddPicture_Record(
+      offset: offset,
+      picture: picture,
+      isComplexHint: isComplexHint,
+      willChangeHint: willChangeHint,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -234,15 +261,7 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     bool freeze = false,
     FilterQuality filterQuality = FilterQuality.low,
   }) {
-    SceneBuilder_AddTexture_Record(
-      textureId: textureId,
-      offset: offset,
-      width: width,
-      height: height,
-      freeze: freeze,
-      filterQuality: filterQuality,
-    );
-    return proxy.addTexture(
+    final result = proxy.addTexture(
       textureId,
       offset: offset,
       width: width,
@@ -250,6 +269,16 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
       freeze: freeze,
       filterQuality: filterQuality,
     );
+    final record = SceneBuilder_AddTexture_Record(
+      textureId: textureId,
+      offset: offset,
+      width: width,
+      height: height,
+      freeze: freeze,
+      filterQuality: filterQuality,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -259,37 +288,43 @@ class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
     double width = 0.0,
     double height = 0.0,
   }) {
-    SceneBuilder_AddPlatformView_Record(
-      viewId: viewId,
-      offset: offset,
-      width: width,
-      height: height,
-    );
-    return proxy.addPlatformView(
+    final result = proxy.addPlatformView(
       viewId,
       offset: offset,
       width: width,
       height: height,
     );
+    final record = SceneBuilder_AddPlatformView_Record(
+      viewId: viewId,
+      offset: offset,
+      width: width,
+      height: height,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
   void setRasterizerTracingThreshold(int frameInterval) {
-    return proxy.setRasterizerTracingThreshold(frameInterval);
+    final result = proxy.setRasterizerTracingThreshold(frameInterval);
+    return result;
   }
 
   @override
   void setCheckerboardRasterCacheImages(bool checkerboard) {
-    return proxy.setCheckerboardRasterCacheImages(checkerboard);
+    final result = proxy.setCheckerboardRasterCacheImages(checkerboard);
+    return result;
   }
 
   @override
   void setCheckerboardOffscreenLayers(bool checkerboard) {
-    return proxy.setCheckerboardOffscreenLayers(checkerboard);
+    final result = proxy.setCheckerboardOffscreenLayers(checkerboard);
+    return result;
   }
 
   @override
   Scene build() {
-    return proxy.build();
+    final result = proxy.build();
+    return result;
   }
 }

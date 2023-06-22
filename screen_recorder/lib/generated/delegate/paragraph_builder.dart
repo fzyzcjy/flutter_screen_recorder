@@ -14,30 +14,38 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
 
   @override
   int get placeholderCount {
-    return proxy.placeholderCount;
+    final result = proxy.placeholderCount;
+    return result;
   }
 
   @override
   List<double> get placeholderScales {
-    return proxy.placeholderScales;
+    final result = proxy.placeholderScales;
+    return result;
   }
 
   @override
   void pushStyle(TextStyle style) {
-    ParagraphBuilder_PushStyle_Record(style: style);
-    return proxy.pushStyle(style);
+    final result = proxy.pushStyle(style);
+    final record = ParagraphBuilder_PushStyle_Record(style: style);
+    handleOp(record, result);
+    return result;
   }
 
   @override
   void pop() {
-    ParagraphBuilder_Pop_Record();
-    return proxy.pop();
+    final result = proxy.pop();
+    final record = ParagraphBuilder_Pop_Record();
+    handleOp(record, result);
+    return result;
   }
 
   @override
   void addText(String text) {
-    ParagraphBuilder_AddText_Record(text: text);
-    return proxy.addText(text);
+    final result = proxy.addText(text);
+    final record = ParagraphBuilder_AddText_Record(text: text);
+    handleOp(record, result);
+    return result;
   }
 
   @override
@@ -49,15 +57,7 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
     double? baselineOffset,
     TextBaseline? baseline,
   }) {
-    ParagraphBuilder_AddPlaceholder_Record(
-      width: width,
-      height: height,
-      alignment: alignment,
-      scale: scale,
-      baselineOffset: baselineOffset,
-      baseline: baseline,
-    );
-    return proxy.addPlaceholder(
+    final result = proxy.addPlaceholder(
       width,
       height,
       alignment,
@@ -65,10 +65,21 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
       baselineOffset: baselineOffset,
       baseline: baseline,
     );
+    final record = ParagraphBuilder_AddPlaceholder_Record(
+      width: width,
+      height: height,
+      alignment: alignment,
+      scale: scale,
+      baselineOffset: baselineOffset,
+      baseline: baseline,
+    );
+    handleOp(record, result);
+    return result;
   }
 
   @override
   Paragraph build() {
-    return proxy.build();
+    final result = proxy.build();
+    return result;
   }
 }

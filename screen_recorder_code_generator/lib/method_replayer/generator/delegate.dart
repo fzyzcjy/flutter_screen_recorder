@@ -46,8 +46,14 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
             .dartCode;
   }();
 
-  final body = '$bodyConstructRecord'
-      'return $bodyCallProxy';
+  final bodyLines = [
+    'final result = $bodyCallProxy',
+    if (configMethod.enableRecord) ...[
+      'final record = $bodyConstructRecord',
+      '${configMethod.handlerName}(record, result);',
+    ],
+    'return result;',
+  ];
 
   return Method(
     (b) => b
@@ -57,7 +63,7 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.addAll(configMethod.parameters.requiredParameters)
       ..optionalParameters.addAll(configMethod.parameters.optionalParameters)
-      ..body = Code(body),
+      ..body = Code(bodyLines.join('\n')),
   ).dartCode;
 }
 

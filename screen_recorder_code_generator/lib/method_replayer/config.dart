@@ -23,6 +23,7 @@ class ConfigMethod {
   final List<ConfigMethodParameter> parameters;
   final MethodType? type;
 
+  final String handlerName;
   final bool enableRecord;
 
   const ConfigMethod({
@@ -30,6 +31,7 @@ class ConfigMethod {
     required this.methodName,
     required this.parameters,
     this.type,
+    this.handlerName = 'handleOp',
     this.enableRecord = true,
   });
 

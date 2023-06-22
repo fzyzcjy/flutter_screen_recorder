@@ -6,6 +6,8 @@ class DataPerFrame {
   static var instance = DataPerFrame();
 
   final experimentalData = ExperimentalData();
+
+  // TODO will be better to use epxando to bind to Scene, and then extract it in window.render()
   final sceneBuilderData = SceneBuilderRecordList();
 }
 

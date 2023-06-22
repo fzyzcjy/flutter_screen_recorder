@@ -1,16 +1,15 @@
 import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/paragraph.dart';
-import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/record_list.dart';
 
-extension ExtEngineLayerSceneBuilderRecordExpando on EngineLayer {
-  static final _expando = Expando<SceneBuilder_RecordBase>('EngineLayer.sceneBuilderRecord');
-
-  SceneBuilder_RecordBase? get sceneBuilderRecord => _expando[this];
-
-  set sceneBuilderRecord(SceneBuilder_RecordBase? value) => _expando[this] = value;
-}
+// extension ExtEngineLayerSceneBuilderRecordExpando on EngineLayer {
+//   static final _expando = Expando<SceneBuilder_RecordBase>('EngineLayer.sceneBuilderRecord');
+//
+//   SceneBuilder_RecordBase? get sceneBuilderRecord => _expando[this];
+//
+//   set sceneBuilderRecord(SceneBuilder_RecordBase? value) => _expando[this] = value;
+// }
 
 extension ExtEngineLayerLayerIdExpando on EngineLayer {
   static final _expando = Expando<int>('EngineLayer.layerId');

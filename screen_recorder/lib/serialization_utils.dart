@@ -31,12 +31,24 @@ void toBytesInt(BytesBuilder writer, int value) {
   writer.add((Int64List(1)..[0] = value).buffer.asUint8List());
 }
 
+int fromBytesInt(BytesReader reader) {
+  return TODO;
+}
+
 void toBytesFloat(BytesBuilder writer, double value) {
   writer.add((Float32List(1)..[0] = value).buffer.asUint8List());
 }
 
+double fromBytesFloat(BytesReader reader) {
+  return TODO;
+}
+
 void toBytesDouble(BytesBuilder writer, double value) {
   writer.add((Float64List(1)..[0] = value).buffer.asUint8List());
+}
+
+double fromBytesDouble(BytesReader reader) {
+  return TODO;
 }
 
 void toBytesString(BytesBuilder writer, String value) {
@@ -44,8 +56,17 @@ void toBytesString(BytesBuilder writer, String value) {
   writer.add(utf8.encode(value));
 }
 
+String fromBytesString(BytesReader reader) {
+  return TODO;
+}
+
 void toBytesEnum(BytesBuilder writer, Enum value) {
   toBytesUint8(writer, value.index);
+}
+
+// TODO code-generate this?
+T fromBytesEnum<T>(BytesReader reader) {
+  return TODO;
 }
 
 void toBytesOffset(BytesBuilder writer, Offset value) {
@@ -53,6 +74,11 @@ void toBytesOffset(BytesBuilder writer, Offset value) {
   toBytesFloat(writer, value.dy);
 }
 
+Offset fromBytesOffset(BytesReader reader) {
+  return TODO;
+}
+
+// TODO maybe we can auto generate this as well?
 void toBytesRect(BytesBuilder writer, Rect value) {
   // ref: Rect._getValue32
   toBytesFloat(writer, value.left);
@@ -61,6 +87,11 @@ void toBytesRect(BytesBuilder writer, Rect value) {
   toBytesFloat(writer, value.bottom);
 }
 
+Rect fromBytesRect(BytesReader reader) {
+  return TODO;
+}
+
+// TODO maybe we can auto generate this as well?
 void toBytesRRect(BytesBuilder writer, RRect value) {
   // ref: RRect._getValue32
   toBytesFloat(writer, value.left);
@@ -77,10 +108,22 @@ void toBytesRRect(BytesBuilder writer, RRect value) {
   toBytesFloat(writer, value.blRadiusY);
 }
 
+RRect fromBytesRRect(BytesReader reader) {
+  return TODO;
+}
+
 void toBytesPath(BytesBuilder writer, Path value) {
   writer.add(value.dump());
 }
 
+Path fromBytesPath(BytesReader reader) {
+  return TODO;
+}
+
 void toBytesPicture(BytesBuilder writer, Picture value) {
   value.record!.toBytes(writer);
+}
+
+Picture fromBytesPicture(BytesReader reader) {
+  return TODO;
 }

@@ -56,7 +56,6 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   @override
   int getSaveCount() {
     final result = proxy.getSaveCount();
-    handleOp(result);
     return result;
   }
 
@@ -130,7 +129,6 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   @override
   Float64List getTransform() {
     final result = proxy.getTransform();
-    handleOp(result);
     return result;
   }
 
@@ -191,14 +189,12 @@ class MyCanvas with MyCanvasMixin implements Canvas {
   @override
   Rect getLocalClipBounds() {
     final result = proxy.getLocalClipBounds();
-    handleOp(result);
     return result;
   }
 
   @override
   Rect getDestinationClipBounds() {
     final result = proxy.getDestinationClipBounds();
-    handleOp(result);
     return result;
   }
 

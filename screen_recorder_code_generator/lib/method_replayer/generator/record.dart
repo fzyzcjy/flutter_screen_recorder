@@ -15,11 +15,11 @@ $kCommentHeader
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/bytes_reader_writer.dart';
-import 'package:screen_recorder/generated/serialization/serialization.dart';
-import 'package:screen_recorder/serialization.dart';
-import 'package:screen_recorder/temporary_clone.dart';
-import 'package:screen_recorder/delegate_base/${config.generatedFilename}';
+import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/generated/serialization/serialization.dart';
+import 'package:screen_recorder/src/serialization.dart';
+import 'package:screen_recorder/src/temporary_clone.dart';
+import 'package:screen_recorder/src/delegate_base/${config.generatedFilename}';
 
 ${_generateBaseClass(config)}
 

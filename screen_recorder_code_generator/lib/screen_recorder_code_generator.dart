@@ -5,7 +5,7 @@ import 'package:screen_recorder_code_generator/method_replayer/generator.dart';
 import 'package:screen_recorder_code_generator/serialization/generator.dart';
 
 void main() {
-  final dirTarget = dirname(Platform.script.path) + '/../../screen_recorder/lib/generated';
+  final dirTarget = dirname(Platform.script.path) + '/../../screen_recorder/lib/src/generated';
   generateAllMethodReplayer(dirTarget);
   generateAllSerialization(dirTarget);
 }

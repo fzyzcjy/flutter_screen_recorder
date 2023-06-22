@@ -3,16 +3,18 @@ import 'package:recase/recase.dart';
 
 class Config {
   final String originalClass;
+  final String constructorParams;
   final List<ConfigMethod> methods;
 
   const Config({
     required this.originalClass,
+    required this.constructorParams,
     required this.methods,
   });
 
   String get generatedClass => 'My$originalClass';
 
-  String get manualMixin => 'My${originalClass}Mixin';
+  String get superClass => 'My${originalClass}Base';
 
   String get generatedFilename => '${ReCase(originalClass.toString()).snakeCase}.dart';
 

@@ -2,6 +2,7 @@ import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
 final kConfigCanvas = Config(
   originalClass: 'Canvas',
+  constructorParams: 'super.recorder',
   methods: [
     ConfigMethod(
       returnType: 'void',

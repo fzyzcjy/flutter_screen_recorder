@@ -7,8 +7,10 @@ import 'package:screen_recorder/records.dart';
 
 RecordList<SceneBuilder_RecordBase> get _data => DataPerFrame.instance.sceneBuilderData;
 
-mixin MySceneBuilderMixin {
-  SceneBuilder get proxy;
+abstract class MySceneBuilderBase {
+  final SceneBuilder proxy;
+
+  MySceneBuilderBase(this.proxy);
 
   void handleMiscOp<T>(T result, SceneBuilder_RecordBase<Object?> record) {
     _data.records.add(record.safeClone());

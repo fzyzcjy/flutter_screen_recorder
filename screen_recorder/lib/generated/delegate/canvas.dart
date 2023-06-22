@@ -10,11 +10,8 @@ import 'dart:ui';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/manual/canvas.dart';
 
-class MyCanvas with MyCanvasMixin implements Canvas {
-  @override
-  final Canvas proxy;
-
-  MyCanvas(this.proxy);
+class MyCanvas extends MyCanvasBase implements Canvas {
+  MyCanvas(super.recorder);
 
   @override
   void save() {

@@ -3,6 +3,7 @@ import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
 final kConfigParagraphBuilder = Config(
   originalClass: 'ParagraphBuilder',
+  constructorParams: 'super.style',
   methods: [
     ConfigMethod(
       returnType: 'int',

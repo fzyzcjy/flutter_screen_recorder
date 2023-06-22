@@ -10,11 +10,8 @@ import 'dart:ui';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/manual/paragraph_builder.dart';
 
-class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilder {
-  @override
-  final ParagraphBuilder proxy;
-
-  MyParagraphBuilder(this.proxy);
+class MyParagraphBuilder extends MyParagraphBuilderBase implements ParagraphBuilder {
+  MyParagraphBuilder(super.style);
 
   @override
   int get placeholderCount {

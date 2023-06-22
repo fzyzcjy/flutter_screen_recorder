@@ -10,11 +10,8 @@ import 'dart:ui';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/manual/scene_builder.dart';
 
-class MySceneBuilder with MySceneBuilderMixin implements SceneBuilder {
-  @override
-  final SceneBuilder proxy;
-
-  MySceneBuilder(this.proxy);
+class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
+  MySceneBuilder(super.proxy);
 
   @override
   TransformEngineLayer pushTransform(

@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'dart:collection';
 import 'dart:ui';
 
 import 'package:screen_recorder/data_per_frame.dart';
@@ -28,9 +29,15 @@ abstract class MySceneBuilderBase {
 }
 
 class SceneBuilder_RecordExecuteContext {
-  final Map<int, EngineLayer> engineLayerIdMap;
+  final UnmodifiableMapView<int, EngineLayer> prevEngineLayerIdMap;
+  final nextEngineLayerIdMap = <int, EngineLayer>{};
 
-  const SceneBuilder_RecordExecuteContext({required this.engineLayerIdMap});
- 
-  EngineLayer getEngineLayerById(int layerId) => engineLayerIdMap[layerId]!;
+  SceneBuilder_RecordExecuteContext({required this.prevEngineLayerIdMap});
+
+  EngineLayer getEngineLayerById(int layerId) => prevEngineLayerIdMap[layerId]!;
+
+  void putEngineLayerId(int layerId, EngineLayer engineLayer) {
+    assert(!nextEngineLayerIdMap.containsKey(layerId));
+    nextEngineLayerIdMap[layerId] = engineLayer;
+  }
 }

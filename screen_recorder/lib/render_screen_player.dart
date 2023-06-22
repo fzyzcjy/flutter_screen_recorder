@@ -158,6 +158,8 @@ class ScreenPlayerLayer extends ContainerLayer {
     markNeedsAddToScene();
   }
 
+  var _prevEngineLayerIdMap = <int, EngineLayer>{};
+
   @override
   void addToScene(SceneBuilder builder) {
     print('$runtimeType.addToScene');
@@ -168,7 +170,10 @@ class ScreenPlayerLayer extends ContainerLayer {
     final data = fromBytesSceneBuilderRecordList(reader);
     assert(reader.eof);
 
-    SceneBuilderReplayer.replay(data, builder, engineLayerIdMap: TODO);
+    final nextEngineLayerIdMap =
+        SceneBuilderReplayer.replay(data, builder, prevEngineLayerIdMap: _prevEngineLayerIdMap);
+
+    _prevEngineLayerIdMap = nextEngineLayerIdMap;
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

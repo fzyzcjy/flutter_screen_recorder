@@ -19,11 +19,19 @@ abstract class ParagraphBuilder_RecordBase<Ret> {
 class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_PushStyle_Record({required this.style});
 
+  factory ParagraphBuilder_PushStyle_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final TextStyle style;
 
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.pushStyle(style);
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -35,9 +43,17 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
 class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
+  factory ParagraphBuilder_Pop_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.pop();
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -49,11 +65,19 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
 class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddText_Record({required this.text});
 
+  factory ParagraphBuilder_AddText_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final String text;
 
   @override
   void execute(ParagraphBuilder proxy) {
     return proxy.addText(text);
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -71,6 +95,10 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     required this.baselineOffset,
     required this.baseline,
   });
+
+  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
 
   final double width;
 
@@ -94,6 +122,10 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
       baselineOffset: baselineOffset,
       baseline: baseline,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override

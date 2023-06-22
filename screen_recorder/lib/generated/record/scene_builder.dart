@@ -19,11 +19,19 @@ abstract class SceneBuilder_RecordBase<Ret> {
 class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<TransformEngineLayer> {
   SceneBuilder_PushTransform_Record({required this.matrix4});
 
+  factory SceneBuilder_PushTransform_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final Float64List matrix4;
 
   @override
   TransformEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushTransform(matrix4);
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -38,6 +46,10 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
     required this.dy,
   });
 
+  factory SceneBuilder_PushOffset_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final double dx;
 
   final double dy;
@@ -48,6 +60,10 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
       dx,
       dy,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -65,6 +81,10 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
     required this.clipBehavior,
   });
 
+  factory SceneBuilder_PushClipRect_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final Rect rect;
 
   final Clip clipBehavior;
@@ -75,6 +95,10 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
       rect,
       clipBehavior: clipBehavior,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -92,6 +116,10 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
     required this.clipBehavior,
   });
 
+  factory SceneBuilder_PushClipRRect_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final RRect rrect;
 
   final Clip clipBehavior;
@@ -102,6 +130,10 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
       rrect,
       clipBehavior: clipBehavior,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -119,6 +151,10 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
     required this.clipBehavior,
   });
 
+  factory SceneBuilder_PushClipPath_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final Path path;
 
   final Clip clipBehavior;
@@ -129,6 +165,10 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
       path,
       clipBehavior: clipBehavior,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -146,6 +186,10 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
     required this.offset,
   });
 
+  factory SceneBuilder_PushOpacity_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final int alpha;
 
   final Offset? offset;
@@ -156,6 +200,10 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
       alpha,
       offset: offset,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -170,11 +218,19 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
 class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<ColorFilterEngineLayer> {
   SceneBuilder_PushColorFilter_Record({required this.filter});
 
+  factory SceneBuilder_PushColorFilter_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final ColorFilter filter;
 
   @override
   ColorFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushColorFilter(filter);
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -189,6 +245,10 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
     required this.offset,
   });
 
+  factory SceneBuilder_PushImageFilter_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final ImageFilter filter;
 
   final Offset offset;
@@ -199,6 +259,10 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
       filter,
       offset: offset,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -216,6 +280,10 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
     required this.blendMode,
   });
 
+  factory SceneBuilder_PushBackdropFilter_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final ImageFilter filter;
 
   final BlendMode blendMode;
@@ -226,6 +294,10 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
       filter,
       blendMode: blendMode,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -245,6 +317,10 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
     required this.filterQuality,
   });
 
+  factory SceneBuilder_PushShaderMask_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final Shader shader;
 
   final Rect maskRect;
@@ -263,6 +339,10 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
     );
   }
 
+  void toBytes(BytesBuilder builder) {
+    TODO;
+  }
+
   @override
   SceneBuilder_PushShaderMask_Record temporaryClone() {
     return SceneBuilder_PushShaderMask_Record(
@@ -277,9 +357,17 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
 class SceneBuilder_Pop_Record implements SceneBuilder_RecordBase<void> {
   SceneBuilder_Pop_Record();
 
+  factory SceneBuilder_Pop_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   @override
   void execute(SceneBuilder proxy) {
     return proxy.pop();
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -294,6 +382,10 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
     required this.bounds,
   });
 
+  factory SceneBuilder_AddPerformanceOverlay_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final int enabledOptions;
 
   final Rect bounds;
@@ -304,6 +396,10 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
       enabledOptions,
       bounds,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -323,6 +419,10 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
     required this.willChangeHint,
   });
 
+  factory SceneBuilder_AddPicture_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final Offset offset;
 
   final Picture picture;
@@ -339,6 +439,10 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
       isComplexHint: isComplexHint,
       willChangeHint: willChangeHint,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override
@@ -361,6 +465,10 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     required this.freeze,
     required this.filterQuality,
   });
+
+  factory SceneBuilder_AddTexture_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
 
   final int textureId;
 
@@ -386,6 +494,10 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     );
   }
 
+  void toBytes(BytesBuilder builder) {
+    TODO;
+  }
+
   @override
   SceneBuilder_AddTexture_Record temporaryClone() {
     return SceneBuilder_AddTexture_Record(
@@ -407,6 +519,10 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
     required this.height,
   });
 
+  factory SceneBuilder_AddPlatformView_Record.fromBytes(Uint8List bytes) {
+    TODO;
+  }
+
   final int viewId;
 
   final Offset offset;
@@ -423,6 +539,10 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
       width: width,
       height: height,
     );
+  }
+
+  void toBytes(BytesBuilder builder) {
+    TODO;
   }
 
   @override

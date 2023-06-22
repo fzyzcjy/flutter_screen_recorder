@@ -53,6 +53,8 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
               ))),
       ))
       ..methods.add(_generateRecordClassMethodExecute(config, configMethod))
+      ..constructors.add(_generateRecordClassMethodFromBytes(config, configMethod))
+      ..methods.add(_generateRecordClassMethodToBytes(config, configMethod))
       ..methods.add(_generateRecordClassMethodClone(config, configMethod)),
   ).dartCode;
 }
@@ -74,6 +76,37 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
           ..type = refer(config.originalClass),
       ))
       ..annotations.add(refer('override'))
+      ..body = Code(body),
+  );
+}
+
+Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod configMethod) {
+  final body = 'TODO;';
+
+  return Constructor(
+    (b) => b
+      ..name = 'fromBytes'
+      ..factory = true
+      ..requiredParameters.add(Parameter(
+        (b) => b
+          ..name = 'bytes'
+          ..type = refer('Uint8List'),
+      ))
+      ..body = Code(body),
+  );
+}
+
+Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
+  final body = 'TODO;';
+
+  return Method.returnsVoid(
+    (b) => b
+      ..name = 'toBytes'
+      ..requiredParameters.add(Parameter(
+        (b) => b
+          ..name = 'builder'
+          ..type = refer('BytesBuilder'),
+      ))
       ..body = Code(body),
   );
 }

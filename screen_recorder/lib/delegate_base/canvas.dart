@@ -15,6 +15,6 @@ abstract class MyCanvasBase {
   }
 
   void handleOp<T>(T result, Canvas_RecordBase<Object?> record) {
-    data.methodCallRecords.add(record.safeClone());
+    data.methodCallRecords.add(record.temporaryClone());
   }
 }

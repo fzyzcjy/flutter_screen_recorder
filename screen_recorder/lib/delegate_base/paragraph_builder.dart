@@ -17,7 +17,7 @@ abstract class MyParagraphBuilderBase {
   }
 
   void handleOp<T>(T result, ParagraphBuilder_RecordBase<Object?> record) {
-    _data.methodCallRecords.add(record.safeClone());
+    _data.methodCallRecords.add(record.temporaryClone());
   }
 
   void handleBuildOp(Paragraph result) {

@@ -15,16 +15,17 @@ abstract class MySceneBuilderBase {
   MySceneBuilderBase(this.proxy);
 
   void handleMiscOp<T>(T result, SceneBuilder_RecordBase<Object?> record) {
-    _data.methodCallRecords.add(record.safeClone());
+    _data.methodCallRecords.add(record.temporaryClone());
   }
 
   void handlePushOp(EngineLayer result, SceneBuilder_RecordBase<Object?> record) {
-    _data.methodCallRecords.add(record.safeClone());
+    _data.methodCallRecords.add(record.temporaryClone());
     result.record = record;
   }
 
   void handleAddRetainedOp(EngineLayer retainedLayer) {
     // NOTE use the stored opRecord
-    _data.ops.add(retainedLayer.record!);
+    // TODO no need to do this, it can be large to store
+    _data.methodCallRecords.add(retainedLayer.record!);
   }
 }

@@ -12,3 +12,15 @@ void toBytesNullable<T extends Object>(BytesBuilder writer, T? value, void Funct
   toBytesBool(writer, value != null);
   if (value != null) toBytesInner(writer, value);
 }
+
+List<T> fromBytesList<T extends Object>(BytesReader reader, T Function(BytesReader) fromBytesInner) {
+  final length = fromBytesInt(reader);
+  return [for (var i = 0; i < length; ++i) fromBytesInner(reader)];
+}
+
+void toBytesList<T extends Object>(BytesBuilder writer, List<T> value, void Function(BytesBuilder, T) toBytesInner) {
+  toBytesInt(writer, value.length);
+  for (final item in value) {
+    toBytesInner(writer, item);
+  }
+}

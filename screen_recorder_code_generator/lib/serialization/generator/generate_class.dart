@@ -43,9 +43,12 @@ ${config.className} fromBytes${getSerializationPartialName(config.className)}(By
 }
 
 String _generateFromBytesField(Config config, ConfigField configField) {
-  final functionName = 'fromBytes${getSerializationPartialName(configField.type)}';
+  final listInnerType = typeListInnerType(configField.type);
+  final functionName = 'fromBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final lhs = 'final ${configField.name}';
-  if (typeNullable(configField.type)) return '$lhs = fromBytesNullable(reader, $functionName);';
+
+  if (listInnerType != null) return '$lhs = fromBytesList(reader, $functionName);';
+  if (typeIsNullable(configField.type)) return '$lhs = fromBytesNullable(reader, $functionName);';
   return '$lhs = $functionName(reader);';
 }
 
@@ -58,10 +61,16 @@ void toBytes${getSerializationPartialName(config.className)}(BytesBuilder writer
 }
 
 String _generateToBytesField(Config config, ConfigField configField) {
-  final functionName = 'toBytes${getSerializationPartialName(configField.type)}';
+  final listInnerType = typeListInnerType(configField.type);
+  final functionName = 'toBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final valueName = 'value.${configField.name}';
-  if (typeNullable(configField.type)) return 'toBytesNullable(writer, $valueName, $functionName);';
+
+  if (listInnerType != null) return 'toBytesList(writer, $valueName, $functionName);';
+  if (typeIsNullable(configField.type)) return 'toBytesNullable(writer, $valueName, $functionName);';
   return '$functionName(writer, $valueName);';
 }
 
-bool typeNullable(String type) => type.endsWith('?');
+String? typeListInnerType(String type) =>
+    type.startsWith('List<') ? type.replaceAll('List<', '').replaceAll('>', '') : null;
+
+bool typeIsNullable(String type) => type.endsWith('?');

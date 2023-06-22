@@ -29,6 +29,8 @@ class ConfigMethod {
     required this.parameters,
     this.type,
   });
+ 
+  String recordClassName(Config config) => '${config.originalClass}_${ReCase(methodName).pascalCase}_Record';
 }
 
 class ConfigMethodParameter {

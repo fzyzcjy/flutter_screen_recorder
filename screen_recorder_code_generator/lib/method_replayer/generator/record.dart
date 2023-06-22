@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
-import 'package:recase/recase.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
@@ -22,7 +21,7 @@ ${config.methods.map((configMethod) => _generateRecordClass(config, configMethod
 String _generateRecordClass(Config config, ConfigMethod configMethod) {
   return Class(
     (b) => b
-      ..name = '${config.originalClass}_${ReCase(configMethod.methodName).pascalCase}_Record'
+      ..name = configMethod.recordClassName(config)
       ..fields.addAll(configMethod.parametersForRecord.map((e) => Field(
             (b) => b
               ..name = e.name
@@ -63,6 +62,6 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
   );
 }
 
-extension on ConfigMethod {
+extension ExtConfigMethodRecord on ConfigMethod {
   List<ConfigMethodParameter> get parametersForRecord => parameters.where((e) => e.enableRecord).toList();
 }

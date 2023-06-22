@@ -3,35 +3,42 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/manual/paragraph_builder.dart';
 
 class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilder {
+  @override
   final ParagraphBuilder proxy;
 
   MyParagraphBuilder(this.proxy);
 
   @override
   int get placeholderCount {
+    ParagraphBuilder_PlaceholderCount_Record();
     return proxy.placeholderCount;
   }
 
   @override
   List<double> get placeholderScales {
+    ParagraphBuilder_PlaceholderScales_Record();
     return proxy.placeholderScales;
   }
 
   @override
   void pushStyle(TextStyle style) {
+    ParagraphBuilder_PushStyle_Record(style: style);
     return proxy.pushStyle(style);
   }
 
   @override
   void pop() {
+    ParagraphBuilder_Pop_Record();
     return proxy.pop();
   }
 
   @override
   void addText(String text) {
+    ParagraphBuilder_AddText_Record(text: text);
     return proxy.addText(text);
   }
 
@@ -44,6 +51,14 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
     double? baselineOffset,
     TextBaseline? baseline,
   }) {
+    ParagraphBuilder_AddPlaceholder_Record(
+      width: width,
+      height: height,
+      alignment: alignment,
+      scale: scale,
+      baselineOffset: baselineOffset,
+      baseline: baseline,
+    );
     return proxy.addPlaceholder(
       width,
       height,
@@ -56,6 +71,7 @@ class MyParagraphBuilder with MyParagraphBuilderMixin implements ParagraphBuilde
 
   @override
   Paragraph build() {
+    ParagraphBuilder_Build_Record();
     return proxy.build();
   }
 }

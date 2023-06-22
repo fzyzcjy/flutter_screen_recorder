@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
+import 'package:screen_recorder_code_generator/method_replayer/generator/record.dart';
 import 'package:screen_recorder_code_generator/utils.dart';
 
 void generateDelegate(Config config, String dirTarget) {
@@ -11,9 +12,11 @@ void generateDelegate(Config config, String dirTarget) {
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/generated/record/${config.generatedFilename}';
 import 'package:screen_recorder/manual/${config.generatedFilename}';
 
 class ${config.generatedClass} with ${config.manualMixin} implements ${config.originalClass} {
+  @override
   final ${config.originalClass} proxy;
 
   ${config.generatedClass}(this.proxy);
@@ -26,6 +29,11 @@ class ${config.generatedClass} with ${config.manualMixin} implements ${config.or
 }
 
 String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
+  final bodyConstructRecord = refer(configMethod.recordClassName(config))
+      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
+      .statement
+      .dartCode;
+
   final bodyCallProxy = () {
     final callMethodName = 'proxy.${configMethod.methodName}';
     return configMethod.type == MethodType.getter
@@ -35,7 +43,9 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
             .statement
             .dartCode;
   }();
-  final body = 'return $bodyCallProxy';
+
+  final body = '$bodyConstructRecord'
+      'return $bodyCallProxy';
 
   return Method(
     (b) => b

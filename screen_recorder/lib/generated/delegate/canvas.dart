@@ -3,15 +3,18 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/manual/canvas.dart';
 
 class MyCanvas with MyCanvasMixin implements Canvas {
+  @override
   final Canvas proxy;
 
   MyCanvas(this.proxy);
 
   @override
   void save() {
+    Canvas_Save_Record();
     return proxy.save();
   }
 
@@ -20,6 +23,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect? bounds,
     Paint paint,
   ) {
+    Canvas_SaveLayer_Record(
+      bounds: bounds,
+      paint: paint,
+    );
     return proxy.saveLayer(
       bounds,
       paint,
@@ -28,16 +35,19 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   void restore() {
+    Canvas_Restore_Record();
     return proxy.restore();
   }
 
   @override
   void restoreToCount(int count) {
+    Canvas_RestoreToCount_Record(count: count);
     return proxy.restoreToCount(count);
   }
 
   @override
   int getSaveCount() {
+    Canvas_GetSaveCount_Record();
     return proxy.getSaveCount();
   }
 
@@ -46,6 +56,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     double dx,
     double dy,
   ) {
+    Canvas_Translate_Record(
+      dx: dx,
+      dy: dy,
+    );
     return proxy.translate(
       dx,
       dy,
@@ -57,6 +71,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     double sx, [
     double? sy,
   ]) {
+    Canvas_Scale_Record(
+      sx: sx,
+      sy: sy,
+    );
     return proxy.scale(
       sx,
       sy,
@@ -65,6 +83,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   void rotate(double radians) {
+    Canvas_Rotate_Record(radians: radians);
     return proxy.rotate(radians);
   }
 
@@ -73,6 +92,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     double sx,
     double sy,
   ) {
+    Canvas_Skew_Record(
+      sx: sx,
+      sy: sy,
+    );
     return proxy.skew(
       sx,
       sy,
@@ -81,11 +104,13 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   void transform(Float64List matrix4) {
+    Canvas_Transform_Record(matrix4: matrix4);
     return proxy.transform(matrix4);
   }
 
   @override
   Float64List getTransform() {
+    Canvas_GetTransform_Record();
     return proxy.getTransform();
   }
 
@@ -95,6 +120,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     ClipOp clipOp = ClipOp.intersect,
     bool doAntiAlias = true,
   }) {
+    Canvas_ClipRect_Record(
+      rect: rect,
+      clipOp: clipOp,
+      doAntiAlias: doAntiAlias,
+    );
     return proxy.clipRect(
       rect,
       clipOp: clipOp,
@@ -107,6 +137,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     RRect rrect, {
     bool doAntiAlias = true,
   }) {
+    Canvas_ClipRRect_Record(
+      rrect: rrect,
+      doAntiAlias: doAntiAlias,
+    );
     return proxy.clipRRect(
       rrect,
       doAntiAlias: doAntiAlias,
@@ -118,6 +152,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Path path, {
     bool doAntiAlias = true,
   }) {
+    Canvas_ClipPath_Record(
+      path: path,
+      doAntiAlias: doAntiAlias,
+    );
     return proxy.clipPath(
       path,
       doAntiAlias: doAntiAlias,
@@ -126,11 +164,13 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   Rect getLocalClipBounds() {
+    Canvas_GetLocalClipBounds_Record();
     return proxy.getLocalClipBounds();
   }
 
   @override
   Rect getDestinationClipBounds() {
+    Canvas_GetDestinationClipBounds_Record();
     return proxy.getDestinationClipBounds();
   }
 
@@ -139,6 +179,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Color color,
     BlendMode blendMode,
   ) {
+    Canvas_DrawColor_Record(
+      color: color,
+      blendMode: blendMode,
+    );
     return proxy.drawColor(
       color,
       blendMode,
@@ -151,6 +195,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Offset p2,
     Paint paint,
   ) {
+    Canvas_DrawLine_Record(
+      p1: p1,
+      p2: p2,
+      paint: paint,
+    );
     return proxy.drawLine(
       p1,
       p2,
@@ -160,6 +209,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   void drawPaint(Paint paint) {
+    Canvas_DrawPaint_Record(paint: paint);
     return proxy.drawPaint(paint);
   }
 
@@ -168,6 +218,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect rect,
     Paint paint,
   ) {
+    Canvas_DrawRect_Record(
+      rect: rect,
+      paint: paint,
+    );
     return proxy.drawRect(
       rect,
       paint,
@@ -179,6 +233,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     RRect rrect,
     Paint paint,
   ) {
+    Canvas_DrawRRect_Record(
+      rrect: rrect,
+      paint: paint,
+    );
     return proxy.drawRRect(
       rrect,
       paint,
@@ -191,6 +249,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     RRect inner,
     Paint paint,
   ) {
+    Canvas_DrawDRRect_Record(
+      outer: outer,
+      inner: inner,
+      paint: paint,
+    );
     return proxy.drawDRRect(
       outer,
       inner,
@@ -203,6 +266,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect rect,
     Paint paint,
   ) {
+    Canvas_DrawOval_Record(
+      rect: rect,
+      paint: paint,
+    );
     return proxy.drawOval(
       rect,
       paint,
@@ -215,6 +282,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     double radius,
     Paint paint,
   ) {
+    Canvas_DrawCircle_Record(
+      c: c,
+      radius: radius,
+      paint: paint,
+    );
     return proxy.drawCircle(
       c,
       radius,
@@ -230,6 +302,13 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     bool useCenter,
     Paint paint,
   ) {
+    Canvas_DrawArc_Record(
+      rect: rect,
+      startAngle: startAngle,
+      sweepAngle: sweepAngle,
+      useCenter: useCenter,
+      paint: paint,
+    );
     return proxy.drawArc(
       rect,
       startAngle,
@@ -244,6 +323,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Path path,
     Paint paint,
   ) {
+    Canvas_DrawPath_Record(
+      path: path,
+      paint: paint,
+    );
     return proxy.drawPath(
       path,
       paint,
@@ -256,6 +339,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Offset offset,
     Paint paint,
   ) {
+    Canvas_DrawImage_Record(
+      image: image,
+      offset: offset,
+      paint: paint,
+    );
     return proxy.drawImage(
       image,
       offset,
@@ -270,6 +358,12 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect dst,
     Paint paint,
   ) {
+    Canvas_DrawImageRect_Record(
+      image: image,
+      src: src,
+      dst: dst,
+      paint: paint,
+    );
     return proxy.drawImageRect(
       image,
       src,
@@ -285,6 +379,12 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect dst,
     Paint paint,
   ) {
+    Canvas_DrawImageNine_Record(
+      image: image,
+      center: center,
+      dst: dst,
+      paint: paint,
+    );
     return proxy.drawImageNine(
       image,
       center,
@@ -295,6 +395,7 @@ class MyCanvas with MyCanvasMixin implements Canvas {
 
   @override
   void drawPicture(Picture picture) {
+    Canvas_DrawPicture_Record(picture: picture);
     return proxy.drawPicture(picture);
   }
 
@@ -303,6 +404,10 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Paragraph paragraph,
     Offset offset,
   ) {
+    Canvas_DrawParagraph_Record(
+      paragraph: paragraph,
+      offset: offset,
+    );
     return proxy.drawParagraph(
       paragraph,
       offset,
@@ -315,6 +420,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     List<Offset> points,
     Paint paint,
   ) {
+    Canvas_DrawPoints_Record(
+      pointMode: pointMode,
+      points: points,
+      paint: paint,
+    );
     return proxy.drawPoints(
       pointMode,
       points,
@@ -328,6 +438,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Float32List points,
     Paint paint,
   ) {
+    Canvas_DrawRawPoints_Record(
+      pointMode: pointMode,
+      points: points,
+      paint: paint,
+    );
     return proxy.drawRawPoints(
       pointMode,
       points,
@@ -341,6 +456,11 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     BlendMode blendMode,
     Paint paint,
   ) {
+    Canvas_DrawVertices_Record(
+      vertices: vertices,
+      blendMode: blendMode,
+      paint: paint,
+    );
     return proxy.drawVertices(
       vertices,
       blendMode,
@@ -358,6 +478,15 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect? cullRect,
     Paint paint,
   ) {
+    Canvas_DrawAtlas_Record(
+      atlas: atlas,
+      transforms: transforms,
+      rects: rects,
+      colors: colors,
+      blendMode: blendMode,
+      cullRect: cullRect,
+      paint: paint,
+    );
     return proxy.drawAtlas(
       atlas,
       transforms,
@@ -379,6 +508,15 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     Rect? cullRect,
     Paint paint,
   ) {
+    Canvas_DrawRawAtlas_Record(
+      atlas: atlas,
+      rstTransforms: rstTransforms,
+      rects: rects,
+      colors: colors,
+      blendMode: blendMode,
+      cullRect: cullRect,
+      paint: paint,
+    );
     return proxy.drawRawAtlas(
       atlas,
       rstTransforms,
@@ -397,6 +535,12 @@ class MyCanvas with MyCanvasMixin implements Canvas {
     double elevation,
     bool transparentOccluder,
   ) {
+    Canvas_DrawShadow_Record(
+      path: path,
+      color: color,
+      elevation: elevation,
+      transparentOccluder: transparentOccluder,
+    );
     return proxy.drawShadow(
       path,
       color,

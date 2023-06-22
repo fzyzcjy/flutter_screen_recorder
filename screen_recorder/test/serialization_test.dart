@@ -29,5 +29,7 @@ void _body<T extends Object>({
 
   final reader = BytesReader(bytes);
   final recoveredValue = fromBytes(reader);
+  expect(reader.eof, true);
+
   expect(recoveredValue, value);
 }

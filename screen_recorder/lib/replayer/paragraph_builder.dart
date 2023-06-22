@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:screen_recorder/delegate_base/paragraph_builder.dart';
+import 'package:screen_recorder/record_list.dart';
 
 class ParagraphBuilderReplayer {
   static Paragraph replay(ParagraphBuilderRecordList recordList) {

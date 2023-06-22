@@ -162,7 +162,7 @@ class ScreenPlayerLayer extends ContainerLayer {
 
   @override
   void addToScene(SceneBuilder builder) {
-    print('$runtimeType.addToScene');
+    print('$runtimeType.addToScene start');
 
     final bytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
 
@@ -173,6 +173,9 @@ class ScreenPlayerLayer extends ContainerLayer {
     final nextEngineLayerIdMap =
         SceneBuilderReplayer.replay(data, builder, prevEngineLayerIdMap: _prevEngineLayerIdMap);
 
+    print('$runtimeType.addToScene '
+        'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '
+        '_prevEngineLayerIdMap.keys=${_prevEngineLayerIdMap.keys.toList()}');
     _prevEngineLayerIdMap = nextEngineLayerIdMap;
 
     // _addToSceneColorFilterLayer(builder, () {

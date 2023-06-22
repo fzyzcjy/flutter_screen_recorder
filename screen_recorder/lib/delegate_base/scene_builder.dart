@@ -34,7 +34,8 @@ class SceneBuilder_RecordExecuteContext {
 
   SceneBuilder_RecordExecuteContext({required this.prevEngineLayerIdMap});
 
-  EngineLayer getEngineLayerById(int layerId) => prevEngineLayerIdMap[layerId]!;
+  EngineLayer getEngineLayerById(int layerId) =>
+      prevEngineLayerIdMap[layerId] ?? (throw ArgumentError('Cannot find layerId=$layerId'));
 
   void putEngineLayerId(int layerId, EngineLayer engineLayer) {
     assert(!nextEngineLayerIdMap.containsKey(layerId));

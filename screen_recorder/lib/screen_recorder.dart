@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/generated/delegate/canvas.dart';
 import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';
@@ -51,30 +52,30 @@ class ScreenRecorder {
       overallUncompressedBytesLen += bytes.length;
       compressor.add(bytes);
 
-      // assert(() {
-      //   _sanityCheckSerialization(bytes);
-      //   return true;
-      // }());
+      assert(() {
+        _sanityCheckSerialization(bytes);
+        return true;
+      }());
     }
 
     DataPerFrame.instance = DataPerFrame();
   }
 }
 
-// seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
-// void _sanityCheckSerialization(Uint8List srcBytes) {
-//   final reader = BytesReader(srcBytes);
-//   final restoredData = fromBytesSceneBuilderRecordList(reader);
-//   assert(reader.eof);
-//
-//   final againBytesBuilder = BytesBuilder(copy: true);
-//   toBytesSceneBuilderRecordList(againBytesBuilder, restoredData);
-//   final againBytes = againBytesBuilder.takeBytes();
-//
-//   assert(
-//     listEquals(srcBytes, againBytes),
-//     'sanityCheckSerialization failed '
-//     'srcBytes.length=${srcBytes.length} '
-//     'againBytes.length=${againBytes.length}',
-//   );
-// }
+void _sanityCheckSerialization(Uint8List srcBytes) {
+  final reader = BytesReader(srcBytes);
+  fromBytesSceneBuilderRecordList(reader);
+  assert(reader.eof, 'can fromBytes and exactly consume all bytes');
+
+  // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
+  // final againBytesBuilder = BytesBuilder(copy: true);
+  // toBytesSceneBuilderRecordList(againBytesBuilder, restoredData);
+  // final againBytes = againBytesBuilder.takeBytes();
+  //
+  // assert(
+  //   listEquals(srcBytes, againBytes),
+  //   'sanityCheckSerialization failed '
+  //   'srcBytes.length=${srcBytes.length} '
+  //   'againBytes.length=${againBytes.length}',
+  // );
+}

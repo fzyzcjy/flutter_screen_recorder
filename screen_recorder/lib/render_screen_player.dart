@@ -158,7 +158,8 @@ class ScreenPlayerLayer extends ContainerLayer {
     markNeedsAddToScene();
   }
 
-  var _prevEngineLayerIdMap = <int, EngineLayer>{};
+  // NOTE temporary hack, will cause OOM! should fix it later #9607
+  final _mutableEngineLayerIdMap = <int, EngineLayer>{};
 
   @override
   void addToScene(SceneBuilder builder) {
@@ -171,12 +172,12 @@ class ScreenPlayerLayer extends ContainerLayer {
     assert(reader.eof);
 
     final nextEngineLayerIdMap =
-        SceneBuilderReplayer.replay(data, builder, prevEngineLayerIdMap: _prevEngineLayerIdMap);
+        SceneBuilderReplayer.replay(data, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
 
-    print('$runtimeType.addToScene '
-        'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '
-        '_prevEngineLayerIdMap.keys=${_prevEngineLayerIdMap.keys.toList()}');
-    _prevEngineLayerIdMap = nextEngineLayerIdMap;
+    // print('$runtimeType.addToScene '
+    //     'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '
+    //     '_prevEngineLayerIdMap.keys=${_prevEngineLayerIdMap.keys.toList()}');
+    // _prevEngineLayerIdMap = nextEngineLayerIdMap;
 
     // _addToSceneColorFilterLayer(builder, () {
     //   _addToScenePictureLayer(builder);

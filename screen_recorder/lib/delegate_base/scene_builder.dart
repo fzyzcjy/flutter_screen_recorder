@@ -29,17 +29,16 @@ abstract class MySceneBuilderBase {
 }
 
 class SceneBuilder_RecordExecuteContext {
-  final UnmodifiableMapView<int, EngineLayer> prevEngineLayerIdMap;
-  final nextEngineLayerIdMap = <int, EngineLayer>{};
+  final UnmodifiableMapView<int, EngineLayer> mutableEngineLayerIdMap;
 
-  SceneBuilder_RecordExecuteContext({required this.prevEngineLayerIdMap});
+  SceneBuilder_RecordExecuteContext({required this.mutableEngineLayerIdMap});
 
   EngineLayer getEngineLayerById(int layerId) =>
-      prevEngineLayerIdMap[layerId] ?? (throw ArgumentError('Cannot find layerId=$layerId'));
+      mutableEngineLayerIdMap[layerId] ?? (throw ArgumentError('Cannot find layerId=$layerId'));
 
   void putEngineLayerId(int layerId, EngineLayer engineLayer) {
-    assert(!nextEngineLayerIdMap.containsKey(layerId));
-    nextEngineLayerIdMap[layerId] = engineLayer;
+    // assert(!nextEngineLayerIdMap.containsKey(layerId)); // #9607 should re-enable
+    mutableEngineLayerIdMap[layerId] = engineLayer;
   }
 
   void putRetainedEngineLayerId(int layerId) {

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader_writer.dart';
@@ -15,7 +14,7 @@ Picture fromBytesPicture(BytesReader reader) {
 }
 
 void toBytesPicture(BytesWriter writer, Picture value) {
-  toBytesCanvasRecordList(writer, value.record!);
+  toBytesCanvasRecordList(writer, value.canvasRecordList!);
 }
 
 Paragraph fromBytesParagraph(BytesReader reader) {
@@ -23,7 +22,7 @@ Paragraph fromBytesParagraph(BytesReader reader) {
 }
 
 void toBytesParagraph(BytesWriter writer, Paragraph value) {
-  toBytesParagraphBuilderRecordList(writer, value.record!);
+  toBytesParagraphBuilderRecordList(writer, value.paragraphBuilderRecordList!);
 }
 
 const fromBytesParagraphBuilderRecordBase = ParagraphBuilder_RecordBase.fromBytes;

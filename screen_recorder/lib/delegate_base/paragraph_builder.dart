@@ -19,7 +19,7 @@ abstract class MyParagraphBuilderBase {
   }
 
   void handleBuildOp(Paragraph result) {
-    result.record = _data;
+    result.paragraphBuilderRecordList = _data;
   }
 }
 

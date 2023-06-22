@@ -4,25 +4,25 @@ import 'package:screen_recorder/generated/record/scene_builder.dart';
 import 'package:screen_recorder/record_list.dart';
 
 extension ExtEngineLayerExpando on EngineLayer {
-  static final _expando = Expando<SceneBuilder_RecordBase>('EngineLayer.opRecord');
+  static final _expando = Expando<SceneBuilder_RecordBase>('EngineLayer.sceneBuilderRecord');
 
-  SceneBuilder_RecordBase? get record => _expando[this];
+  SceneBuilder_RecordBase? get sceneBuilderRecord => _expando[this];
 
-  set record(SceneBuilder_RecordBase? value) => _expando[this] = value;
+  set sceneBuilderRecord(SceneBuilder_RecordBase? value) => _expando[this] = value;
 }
 
-extension ExtParagraphExpando on Paragraph {
-  static final _expando = Expando<ParagraphBuilderRecordList>('Paragraph.record');
+extension ExtParagraphBuilderRecordListExpando on Paragraph {
+  static final _expando = Expando<ParagraphBuilderRecordList>('Paragraph.paragraphBuilderRecordList');
 
-  ParagraphBuilderRecordList? get record => _expando[this];
+  ParagraphBuilderRecordList? get paragraphBuilderRecordList => _expando[this];
 
-  set record(ParagraphBuilderRecordList? value) => _expando[this] = value;
+  set paragraphBuilderRecordList(ParagraphBuilderRecordList? value) => _expando[this] = value;
 }
 
 extension ExtPictureExpando on Picture {
-  static final _expando = Expando<CanvasRecordList>('Picture.record');
+  static final _expando = Expando<CanvasRecordList>('Picture.canvasRecordList');
 
-  CanvasRecordList? get record => _expando[this];
+  CanvasRecordList? get canvasRecordList => _expando[this];
 
-  set record(CanvasRecordList? value) => _expando[this] = value;
+  set canvasRecordList(CanvasRecordList? value) => _expando[this] = value;
 }

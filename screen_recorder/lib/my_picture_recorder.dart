@@ -17,7 +17,7 @@ class MyPictureRecorder implements PictureRecorder {
   @override
   Picture endRecording() {
     final result = proxy.endRecording();
-    result.record = myCanvas!.data;
+    result.canvasRecordList = myCanvas!.data;
     return result;
   }
 }

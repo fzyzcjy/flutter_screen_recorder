@@ -81,7 +81,15 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
 }
 
 Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod configMethod) {
-  final body = 'TODO;';
+  final bodyCall = refer(configMethod.recordClassName(config))
+      .call(
+          [],
+          Map.fromEntries(configMethod.parametersForRecord.map(
+            (e) => MapEntry(e.name, refer('TODO')),
+          )))
+      .statement
+      .dartCode;
+  final body = 'return $bodyCall';
 
   return Constructor(
     (b) => b
@@ -97,7 +105,7 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
 }
 
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
-  final body = 'TODO;';
+  final body = configMethod.parametersForRecord.map((param) => '${param.name}.toBytes(builder);').join('\n');
 
   return Method.returnsVoid(
     (b) => b

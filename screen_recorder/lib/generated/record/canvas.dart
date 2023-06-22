@@ -20,7 +20,7 @@ class Canvas_Save_Record implements Canvas_RecordBase<void> {
   Canvas_Save_Record();
 
   factory Canvas_Save_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Save_Record();
   }
 
   @override
@@ -28,10 +28,7 @@ class Canvas_Save_Record implements Canvas_RecordBase<void> {
     return proxy.save();
   }
 
-  void toBytes(BytesBuilder builder) {
-    TODO;
-  }
-
+  void toBytes(BytesBuilder builder) {}
   @override
   Canvas_Save_Record temporaryClone() {
     return Canvas_Save_Record();
@@ -45,7 +42,10 @@ class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_SaveLayer_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_SaveLayer_Record(
+      bounds: TODO,
+      paint: TODO,
+    );
   }
 
   final Rect? bounds;
@@ -61,7 +61,8 @@ class Canvas_SaveLayer_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    bounds.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -77,7 +78,7 @@ class Canvas_Restore_Record implements Canvas_RecordBase<void> {
   Canvas_Restore_Record();
 
   factory Canvas_Restore_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Restore_Record();
   }
 
   @override
@@ -85,10 +86,7 @@ class Canvas_Restore_Record implements Canvas_RecordBase<void> {
     return proxy.restore();
   }
 
-  void toBytes(BytesBuilder builder) {
-    TODO;
-  }
-
+  void toBytes(BytesBuilder builder) {}
   @override
   Canvas_Restore_Record temporaryClone() {
     return Canvas_Restore_Record();
@@ -99,7 +97,7 @@ class Canvas_RestoreToCount_Record implements Canvas_RecordBase<void> {
   Canvas_RestoreToCount_Record({required this.count});
 
   factory Canvas_RestoreToCount_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_RestoreToCount_Record(count: TODO);
   }
 
   final int count;
@@ -110,7 +108,7 @@ class Canvas_RestoreToCount_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    count.toBytes(builder);
   }
 
   @override
@@ -126,7 +124,10 @@ class Canvas_Translate_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_Translate_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Translate_Record(
+      dx: TODO,
+      dy: TODO,
+    );
   }
 
   final double dx;
@@ -142,7 +143,8 @@ class Canvas_Translate_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    dx.toBytes(builder);
+    dy.toBytes(builder);
   }
 
   @override
@@ -161,7 +163,10 @@ class Canvas_Scale_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_Scale_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Scale_Record(
+      sx: TODO,
+      sy: TODO,
+    );
   }
 
   final double sx;
@@ -177,7 +182,8 @@ class Canvas_Scale_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    sx.toBytes(builder);
+    sy.toBytes(builder);
   }
 
   @override
@@ -193,7 +199,7 @@ class Canvas_Rotate_Record implements Canvas_RecordBase<void> {
   Canvas_Rotate_Record({required this.radians});
 
   factory Canvas_Rotate_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Rotate_Record(radians: TODO);
   }
 
   final double radians;
@@ -204,7 +210,7 @@ class Canvas_Rotate_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    radians.toBytes(builder);
   }
 
   @override
@@ -220,7 +226,10 @@ class Canvas_Skew_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_Skew_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Skew_Record(
+      sx: TODO,
+      sy: TODO,
+    );
   }
 
   final double sx;
@@ -236,7 +245,8 @@ class Canvas_Skew_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    sx.toBytes(builder);
+    sy.toBytes(builder);
   }
 
   @override
@@ -252,7 +262,7 @@ class Canvas_Transform_Record implements Canvas_RecordBase<void> {
   Canvas_Transform_Record({required this.matrix4});
 
   factory Canvas_Transform_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_Transform_Record(matrix4: TODO);
   }
 
   final Float64List matrix4;
@@ -263,7 +273,7 @@ class Canvas_Transform_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    matrix4.toBytes(builder);
   }
 
   @override
@@ -280,7 +290,11 @@ class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_ClipRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_ClipRect_Record(
+      rect: TODO,
+      clipOp: TODO,
+      doAntiAlias: TODO,
+    );
   }
 
   final Rect rect;
@@ -299,7 +313,9 @@ class Canvas_ClipRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rect.toBytes(builder);
+    clipOp.toBytes(builder);
+    doAntiAlias.toBytes(builder);
   }
 
   @override
@@ -319,7 +335,10 @@ class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_ClipRRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_ClipRRect_Record(
+      rrect: TODO,
+      doAntiAlias: TODO,
+    );
   }
 
   final RRect rrect;
@@ -335,7 +354,8 @@ class Canvas_ClipRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rrect.toBytes(builder);
+    doAntiAlias.toBytes(builder);
   }
 
   @override
@@ -354,7 +374,10 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_ClipPath_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_ClipPath_Record(
+      path: TODO,
+      doAntiAlias: TODO,
+    );
   }
 
   final Path path;
@@ -370,7 +393,8 @@ class Canvas_ClipPath_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    path.toBytes(builder);
+    doAntiAlias.toBytes(builder);
   }
 
   @override
@@ -389,7 +413,10 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawColor_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawColor_Record(
+      color: TODO,
+      blendMode: TODO,
+    );
   }
 
   final Color color;
@@ -405,7 +432,8 @@ class Canvas_DrawColor_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    color.toBytes(builder);
+    blendMode.toBytes(builder);
   }
 
   @override
@@ -425,7 +453,11 @@ class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawLine_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawLine_Record(
+      p1: TODO,
+      p2: TODO,
+      paint: TODO,
+    );
   }
 
   final Offset p1;
@@ -444,7 +476,9 @@ class Canvas_DrawLine_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    p1.toBytes(builder);
+    p2.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -461,7 +495,7 @@ class Canvas_DrawPaint_Record implements Canvas_RecordBase<void> {
   Canvas_DrawPaint_Record({required this.paint});
 
   factory Canvas_DrawPaint_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawPaint_Record(paint: TODO);
   }
 
   final Paint paint;
@@ -472,7 +506,7 @@ class Canvas_DrawPaint_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    paint.toBytes(builder);
   }
 
   @override
@@ -488,7 +522,10 @@ class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawRect_Record(
+      rect: TODO,
+      paint: TODO,
+    );
   }
 
   final Rect rect;
@@ -504,7 +541,8 @@ class Canvas_DrawRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rect.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -523,7 +561,10 @@ class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawRRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawRRect_Record(
+      rrect: TODO,
+      paint: TODO,
+    );
   }
 
   final RRect rrect;
@@ -539,7 +580,8 @@ class Canvas_DrawRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rrect.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -559,7 +601,11 @@ class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawDRRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawDRRect_Record(
+      outer: TODO,
+      inner: TODO,
+      paint: TODO,
+    );
   }
 
   final RRect outer;
@@ -578,7 +624,9 @@ class Canvas_DrawDRRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    outer.toBytes(builder);
+    inner.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -598,7 +646,10 @@ class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawOval_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawOval_Record(
+      rect: TODO,
+      paint: TODO,
+    );
   }
 
   final Rect rect;
@@ -614,7 +665,8 @@ class Canvas_DrawOval_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rect.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -634,7 +686,11 @@ class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawCircle_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawCircle_Record(
+      c: TODO,
+      radius: TODO,
+      paint: TODO,
+    );
   }
 
   final Offset c;
@@ -653,7 +709,9 @@ class Canvas_DrawCircle_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    c.toBytes(builder);
+    radius.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -676,7 +734,13 @@ class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawArc_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawArc_Record(
+      rect: TODO,
+      startAngle: TODO,
+      sweepAngle: TODO,
+      useCenter: TODO,
+      paint: TODO,
+    );
   }
 
   final Rect rect;
@@ -701,7 +765,11 @@ class Canvas_DrawArc_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    rect.toBytes(builder);
+    startAngle.toBytes(builder);
+    sweepAngle.toBytes(builder);
+    useCenter.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -723,7 +791,10 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawPath_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawPath_Record(
+      path: TODO,
+      paint: TODO,
+    );
   }
 
   final Path path;
@@ -739,7 +810,8 @@ class Canvas_DrawPath_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    path.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -759,7 +831,11 @@ class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawImage_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawImage_Record(
+      image: TODO,
+      offset: TODO,
+      paint: TODO,
+    );
   }
 
   final Image image;
@@ -778,7 +854,9 @@ class Canvas_DrawImage_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    image.toBytes(builder);
+    offset.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -800,7 +878,12 @@ class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawImageRect_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawImageRect_Record(
+      image: TODO,
+      src: TODO,
+      dst: TODO,
+      paint: TODO,
+    );
   }
 
   final Image image;
@@ -822,7 +905,10 @@ class Canvas_DrawImageRect_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    image.toBytes(builder);
+    src.toBytes(builder);
+    dst.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -845,7 +931,12 @@ class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawImageNine_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawImageNine_Record(
+      image: TODO,
+      center: TODO,
+      dst: TODO,
+      paint: TODO,
+    );
   }
 
   final Image image;
@@ -867,7 +958,10 @@ class Canvas_DrawImageNine_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    image.toBytes(builder);
+    center.toBytes(builder);
+    dst.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -885,7 +979,7 @@ class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
   Canvas_DrawPicture_Record({required this.picture});
 
   factory Canvas_DrawPicture_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawPicture_Record(picture: TODO);
   }
 
   final Picture picture;
@@ -896,7 +990,7 @@ class Canvas_DrawPicture_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    picture.toBytes(builder);
   }
 
   @override
@@ -912,7 +1006,10 @@ class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawParagraph_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawParagraph_Record(
+      paragraph: TODO,
+      offset: TODO,
+    );
   }
 
   final Paragraph paragraph;
@@ -928,7 +1025,8 @@ class Canvas_DrawParagraph_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    paragraph.toBytes(builder);
+    offset.toBytes(builder);
   }
 
   @override
@@ -948,7 +1046,11 @@ class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawPoints_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawPoints_Record(
+      pointMode: TODO,
+      points: TODO,
+      paint: TODO,
+    );
   }
 
   final PointMode pointMode;
@@ -967,7 +1069,9 @@ class Canvas_DrawPoints_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    pointMode.toBytes(builder);
+    points.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -988,7 +1092,11 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawRawPoints_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawRawPoints_Record(
+      pointMode: TODO,
+      points: TODO,
+      paint: TODO,
+    );
   }
 
   final PointMode pointMode;
@@ -1007,7 +1115,9 @@ class Canvas_DrawRawPoints_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    pointMode.toBytes(builder);
+    points.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -1028,7 +1138,11 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawVertices_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawVertices_Record(
+      vertices: TODO,
+      blendMode: TODO,
+      paint: TODO,
+    );
   }
 
   final Vertices vertices;
@@ -1047,7 +1161,9 @@ class Canvas_DrawVertices_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    vertices.toBytes(builder);
+    blendMode.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -1072,7 +1188,15 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawAtlas_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawAtlas_Record(
+      atlas: TODO,
+      transforms: TODO,
+      rects: TODO,
+      colors: TODO,
+      blendMode: TODO,
+      cullRect: TODO,
+      paint: TODO,
+    );
   }
 
   final Image atlas;
@@ -1103,7 +1227,13 @@ class Canvas_DrawAtlas_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    atlas.toBytes(builder);
+    transforms.toBytes(builder);
+    rects.toBytes(builder);
+    colors.toBytes(builder);
+    blendMode.toBytes(builder);
+    cullRect.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -1132,7 +1262,15 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawRawAtlas_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawRawAtlas_Record(
+      atlas: TODO,
+      rstTransforms: TODO,
+      rects: TODO,
+      colors: TODO,
+      blendMode: TODO,
+      cullRect: TODO,
+      paint: TODO,
+    );
   }
 
   final Image atlas;
@@ -1163,7 +1301,13 @@ class Canvas_DrawRawAtlas_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    atlas.toBytes(builder);
+    rstTransforms.toBytes(builder);
+    rects.toBytes(builder);
+    colors.toBytes(builder);
+    blendMode.toBytes(builder);
+    cullRect.toBytes(builder);
+    paint.toBytes(builder);
   }
 
   @override
@@ -1189,7 +1333,12 @@ class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
   });
 
   factory Canvas_DrawShadow_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return Canvas_DrawShadow_Record(
+      path: TODO,
+      color: TODO,
+      elevation: TODO,
+      transparentOccluder: TODO,
+    );
   }
 
   final Path path;
@@ -1211,7 +1360,10 @@ class Canvas_DrawShadow_Record implements Canvas_RecordBase<void> {
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    path.toBytes(builder);
+    color.toBytes(builder);
+    elevation.toBytes(builder);
+    transparentOccluder.toBytes(builder);
   }
 
   @override

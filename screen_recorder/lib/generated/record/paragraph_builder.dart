@@ -20,7 +20,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
   ParagraphBuilder_PushStyle_Record({required this.style});
 
   factory ParagraphBuilder_PushStyle_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return ParagraphBuilder_PushStyle_Record(style: TODO);
   }
 
   final TextStyle style;
@@ -31,7 +31,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    style.toBytes(builder);
   }
 
   @override
@@ -44,7 +44,7 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
   factory ParagraphBuilder_Pop_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return ParagraphBuilder_Pop_Record();
   }
 
   @override
@@ -52,10 +52,7 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder builder) {
-    TODO;
-  }
-
+  void toBytes(BytesBuilder builder) {}
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -66,7 +63,7 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
   ParagraphBuilder_AddText_Record({required this.text});
 
   factory ParagraphBuilder_AddText_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return ParagraphBuilder_AddText_Record(text: TODO);
   }
 
   final String text;
@@ -77,7 +74,7 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    text.toBytes(builder);
   }
 
   @override
@@ -97,7 +94,14 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
   });
 
   factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(Uint8List bytes) {
-    TODO;
+    return ParagraphBuilder_AddPlaceholder_Record(
+      width: TODO,
+      height: TODO,
+      alignment: TODO,
+      scale: TODO,
+      baselineOffset: TODO,
+      baseline: TODO,
+    );
   }
 
   final double width;
@@ -125,7 +129,12 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
   }
 
   void toBytes(BytesBuilder builder) {
-    TODO;
+    width.toBytes(builder);
+    height.toBytes(builder);
+    alignment.toBytes(builder);
+    scale.toBytes(builder);
+    baselineOffset.toBytes(builder);
+    baseline.toBytes(builder);
   }
 
   @override

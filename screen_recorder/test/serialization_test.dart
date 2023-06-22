@@ -5,40 +5,51 @@ import 'package:screen_recorder/serialization.dart';
 
 void main() {
   group('toBytes and fromBytes', () {
-    group('int', () {
-      for (final value in [0, 42, -42, 9223372036854775807, -9223372036854775808]) {
-        test('value=$value', () {
-          _body(toBytes: toBytesInt, fromBytes: fromBytesInt, value: value);
-        });
-      }
-    });
+    _addTestGroup(
+      'Int',
+      toBytes: toBytesInt,
+      fromBytes: fromBytesInt,
+      values: [0, 42, -42, 9223372036854775807, -9223372036854775808],
+    );
 
-    group('float32', () {
-      for (final value in [0.0, 42.0, -42.0, 3.4028230607370965e+38]) {
-        test('value=$value', () {
-          _body(toBytes: toBytesFloat, fromBytes: fromBytesFloat, value: value);
-        });
-      }
-    });
+    _addTestGroup(
+      'Float',
+      toBytes: toBytesFloat,
+      fromBytes: fromBytesFloat,
+      values: [0.0, 42.0, -42.0, 3.4028230607370965e+38],
+    );
 
-    group('float64', () {
-      for (final value in [0.0, 42.0, -42.0, double.maxFinite, -double.maxFinite, double.minPositive]) {
-        test('value=$value', () {
-          _body(toBytes: toBytesDouble, fromBytes: fromBytesDouble, value: value);
-        });
-      }
-    });
+    _addTestGroup(
+      'Double',
+      toBytes: toBytesDouble,
+      fromBytes: fromBytesDouble,
+      values: [0.0, 42.0, -42.0, double.maxFinite, -double.maxFinite, double.minPositive],
+    );
 
-    group('bytes', () {
-      for (final value in [
+    _addTestGroup(
+      'Bytes',
+      toBytes: toBytesBytes,
+      fromBytes: fromBytesBytes,
+      values: [
         <int>[],
         [0, 127, 255]
-      ]) {
-        test('value=$value', () {
-          _body(toBytes: toBytesBytes, fromBytes: fromBytesBytes, value: value);
-        });
-      }
-    });
+      ],
+    );
+  });
+}
+
+void _addTestGroup<T extends Object>(
+  String name, {
+  required void Function(BytesWriter writer, T value) toBytes,
+  required T Function(BytesReader reader) fromBytes,
+  required List<T> values,
+}) {
+  group(name, () {
+    for (final value in values) {
+      test('value=$value', () {
+        _body<T>(toBytes: toBytes, fromBytes: fromBytes, value: value);
+      });
+    }
   });
 }
 

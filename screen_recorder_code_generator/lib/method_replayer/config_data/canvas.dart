@@ -31,6 +31,7 @@ final kConfigCanvas = Config(
     ConfigMethod(
       returnType: 'int',
       methodName: 'getSaveCount',
+      enableRecord: false,
       parameters: [],
     ),
     ConfigMethod(
@@ -74,6 +75,7 @@ final kConfigCanvas = Config(
     ConfigMethod(
       returnType: 'Float64List',
       methodName: 'getTransform',
+      enableRecord: false,
       parameters: [],
     ),
     ConfigMethod(
@@ -104,11 +106,13 @@ final kConfigCanvas = Config(
     ConfigMethod(
       returnType: 'Rect',
       methodName: 'getLocalClipBounds',
+      enableRecord: false,
       parameters: [],
     ),
     ConfigMethod(
       returnType: 'Rect',
       methodName: 'getDestinationClipBounds',
+      enableRecord: false,
       parameters: [],
     ),
     ConfigMethod(

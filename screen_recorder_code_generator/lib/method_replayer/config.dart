@@ -23,13 +23,16 @@ class ConfigMethod {
   final List<ConfigMethodParameter> parameters;
   final MethodType? type;
 
+  final bool enableRecord;
+
   const ConfigMethod({
     required this.returnType,
     required this.methodName,
     required this.parameters,
     this.type,
+    this.enableRecord = true,
   });
- 
+
   String recordClassName(Config config) => '${config.originalClass}_${ReCase(methodName).pascalCase}_Record';
 }
 

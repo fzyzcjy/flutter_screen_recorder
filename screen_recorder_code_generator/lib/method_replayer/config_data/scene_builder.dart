@@ -101,6 +101,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addRetained',
+      enableRecord: false,
       parameters: [
         ConfigMethodParameter('EngineLayer retainedLayer'),
       ],
@@ -148,6 +149,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'setRasterizerTracingThreshold',
+      enableRecord: false,
       parameters: [
         ConfigMethodParameter('int frameInterval'),
       ],
@@ -155,6 +157,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'setCheckerboardRasterCacheImages',
+      enableRecord: false,
       parameters: [
         ConfigMethodParameter('bool checkerboard'),
       ],
@@ -162,6 +165,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'setCheckerboardOffscreenLayers',
+      enableRecord: false,
       parameters: [
         ConfigMethodParameter('bool checkerboard'),
       ],
@@ -169,6 +173,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'Scene',
       methodName: 'build',
+      enableRecord: false,
       parameters: [],
     ),
   ],

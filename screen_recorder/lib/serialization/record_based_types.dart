@@ -14,7 +14,7 @@ Picture fromBytesPicture(BytesReader reader) {
   return CanvasReplayer.replay(fromBytesCanvasRecordList(reader));
 }
 
-void toBytesPicture(BytesBuilder writer, Picture value) {
+void toBytesPicture(BytesWriter writer, Picture value) {
   toBytesCanvasRecordList(writer, value.record!);
 }
 
@@ -22,7 +22,7 @@ Paragraph fromBytesParagraph(BytesReader reader) {
   return ParagraphBuilderReplayer.replay(fromBytesParagraphBuilderRecordList(reader));
 }
 
-void toBytesParagraph(BytesBuilder writer, Paragraph value) {
+void toBytesParagraph(BytesWriter writer, Paragraph value) {
   toBytesParagraphBuilderRecordList(writer, value.record!);
 }
 
@@ -30,8 +30,8 @@ const fromBytesParagraphBuilderRecordBase = ParagraphBuilder_RecordBase.fromByte
 const fromBytesCanvasRecordBase = Canvas_RecordBase.fromBytes;
 const fromBytesSceneBuilderRecordBase = SceneBuilder_RecordBase.fromBytes;
 
-void toBytesParagraphBuilderRecordBase(BytesBuilder writer, ParagraphBuilder_RecordBase value) => value.toBytes(writer);
+void toBytesParagraphBuilderRecordBase(BytesWriter writer, ParagraphBuilder_RecordBase value) => value.toBytes(writer);
 
-void toBytesCanvasRecordBase(BytesBuilder writer, Canvas_RecordBase value) => value.toBytes(writer);
+void toBytesCanvasRecordBase(BytesWriter writer, Canvas_RecordBase value) => value.toBytes(writer);
 
-void toBytesSceneBuilderRecordBase(BytesBuilder writer, SceneBuilder_RecordBase value) => value.toBytes(writer);
+void toBytesSceneBuilderRecordBase(BytesWriter writer, SceneBuilder_RecordBase value) => value.toBytes(writer);

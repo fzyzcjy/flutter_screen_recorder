@@ -94,14 +94,14 @@ sealed class Canvas_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   Canvas_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesBuilder writer) {
+  void toBytes(BytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
 
   int get tag;
 
-  void toBytesWithoutTag(BytesBuilder writer);
+  void toBytesWithoutTag(BytesWriter writer);
 }
 
 class Canvas_Save_Record extends Canvas_RecordBase<void> {
@@ -118,7 +118,7 @@ class Canvas_Save_Record extends Canvas_RecordBase<void> {
   int get tag => 0;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSaveRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasSaveRecord(writer, this);
 
   @override
   Canvas_Save_Record temporaryClone() {
@@ -150,7 +150,7 @@ class Canvas_SaveLayer_Record extends Canvas_RecordBase<void> {
   int get tag => 1;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSaveLayerRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasSaveLayerRecord(writer, this);
 
   @override
   Canvas_SaveLayer_Record temporaryClone() {
@@ -175,7 +175,7 @@ class Canvas_Restore_Record extends Canvas_RecordBase<void> {
   int get tag => 2;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRestoreRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasRestoreRecord(writer, this);
 
   @override
   Canvas_Restore_Record temporaryClone() {
@@ -199,7 +199,7 @@ class Canvas_RestoreToCount_Record extends Canvas_RecordBase<void> {
   int get tag => 3;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRestoreToCountRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasRestoreToCountRecord(writer, this);
 
   @override
   Canvas_RestoreToCount_Record temporaryClone() {
@@ -231,7 +231,7 @@ class Canvas_Translate_Record extends Canvas_RecordBase<void> {
   int get tag => 4;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasTranslateRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasTranslateRecord(writer, this);
 
   @override
   Canvas_Translate_Record temporaryClone() {
@@ -266,7 +266,7 @@ class Canvas_Scale_Record extends Canvas_RecordBase<void> {
   int get tag => 5;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasScaleRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasScaleRecord(writer, this);
 
   @override
   Canvas_Scale_Record temporaryClone() {
@@ -293,7 +293,7 @@ class Canvas_Rotate_Record extends Canvas_RecordBase<void> {
   int get tag => 6;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasRotateRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasRotateRecord(writer, this);
 
   @override
   Canvas_Rotate_Record temporaryClone() {
@@ -325,7 +325,7 @@ class Canvas_Skew_Record extends Canvas_RecordBase<void> {
   int get tag => 7;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasSkewRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasSkewRecord(writer, this);
 
   @override
   Canvas_Skew_Record temporaryClone() {
@@ -352,7 +352,7 @@ class Canvas_Transform_Record extends Canvas_RecordBase<void> {
   int get tag => 8;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasTransformRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasTransformRecord(writer, this);
 
   @override
   Canvas_Transform_Record temporaryClone() {
@@ -388,7 +388,7 @@ class Canvas_ClipRect_Record extends Canvas_RecordBase<void> {
   int get tag => 9;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasClipRectRecord(writer, this);
 
   @override
   Canvas_ClipRect_Record temporaryClone() {
@@ -424,7 +424,7 @@ class Canvas_ClipRRect_Record extends Canvas_RecordBase<void> {
   int get tag => 10;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipRRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasClipRRectRecord(writer, this);
 
   @override
   Canvas_ClipRRect_Record temporaryClone() {
@@ -459,7 +459,7 @@ class Canvas_ClipPath_Record extends Canvas_RecordBase<void> {
   int get tag => 11;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasClipPathRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasClipPathRecord(writer, this);
 
   @override
   Canvas_ClipPath_Record temporaryClone() {
@@ -494,7 +494,7 @@ class Canvas_DrawColor_Record extends Canvas_RecordBase<void> {
   int get tag => 12;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawColorRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawColorRecord(writer, this);
 
   @override
   Canvas_DrawColor_Record temporaryClone() {
@@ -533,7 +533,7 @@ class Canvas_DrawLine_Record extends Canvas_RecordBase<void> {
   int get tag => 13;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawLineRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawLineRecord(writer, this);
 
   @override
   Canvas_DrawLine_Record temporaryClone() {
@@ -561,7 +561,7 @@ class Canvas_DrawPaint_Record extends Canvas_RecordBase<void> {
   int get tag => 14;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPaintRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawPaintRecord(writer, this);
 
   @override
   Canvas_DrawPaint_Record temporaryClone() {
@@ -593,7 +593,7 @@ class Canvas_DrawRect_Record extends Canvas_RecordBase<void> {
   int get tag => 15;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawRectRecord(writer, this);
 
   @override
   Canvas_DrawRect_Record temporaryClone() {
@@ -628,7 +628,7 @@ class Canvas_DrawRRect_Record extends Canvas_RecordBase<void> {
   int get tag => 16;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawRRectRecord(writer, this);
 
   @override
   Canvas_DrawRRect_Record temporaryClone() {
@@ -667,7 +667,7 @@ class Canvas_DrawDRRect_Record extends Canvas_RecordBase<void> {
   int get tag => 17;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawDRRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawDRRectRecord(writer, this);
 
   @override
   Canvas_DrawDRRect_Record temporaryClone() {
@@ -703,7 +703,7 @@ class Canvas_DrawOval_Record extends Canvas_RecordBase<void> {
   int get tag => 18;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawOvalRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawOvalRecord(writer, this);
 
   @override
   Canvas_DrawOval_Record temporaryClone() {
@@ -742,7 +742,7 @@ class Canvas_DrawCircle_Record extends Canvas_RecordBase<void> {
   int get tag => 19;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawCircleRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawCircleRecord(writer, this);
 
   @override
   Canvas_DrawCircle_Record temporaryClone() {
@@ -790,7 +790,7 @@ class Canvas_DrawArc_Record extends Canvas_RecordBase<void> {
   int get tag => 20;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawArcRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawArcRecord(writer, this);
 
   @override
   Canvas_DrawArc_Record temporaryClone() {
@@ -828,7 +828,7 @@ class Canvas_DrawPath_Record extends Canvas_RecordBase<void> {
   int get tag => 21;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPathRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawPathRecord(writer, this);
 
   @override
   Canvas_DrawPath_Record temporaryClone() {
@@ -867,7 +867,7 @@ class Canvas_DrawImage_Record extends Canvas_RecordBase<void> {
   int get tag => 22;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawImageRecord(writer, this);
 
   @override
   Canvas_DrawImage_Record temporaryClone() {
@@ -911,7 +911,7 @@ class Canvas_DrawImageRect_Record extends Canvas_RecordBase<void> {
   int get tag => 23;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageRectRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawImageRectRecord(writer, this);
 
   @override
   Canvas_DrawImageRect_Record temporaryClone() {
@@ -956,7 +956,7 @@ class Canvas_DrawImageNine_Record extends Canvas_RecordBase<void> {
   int get tag => 24;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawImageNineRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawImageNineRecord(writer, this);
 
   @override
   Canvas_DrawImageNine_Record temporaryClone() {
@@ -985,7 +985,7 @@ class Canvas_DrawPicture_Record extends Canvas_RecordBase<void> {
   int get tag => 25;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPictureRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawPictureRecord(writer, this);
 
   @override
   Canvas_DrawPicture_Record temporaryClone() {
@@ -1017,7 +1017,7 @@ class Canvas_DrawParagraph_Record extends Canvas_RecordBase<void> {
   int get tag => 26;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawParagraphRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawParagraphRecord(writer, this);
 
   @override
   Canvas_DrawParagraph_Record temporaryClone() {
@@ -1056,7 +1056,7 @@ class Canvas_DrawPoints_Record extends Canvas_RecordBase<void> {
   int get tag => 27;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawPointsRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawPointsRecord(writer, this);
 
   @override
   Canvas_DrawPoints_Record temporaryClone() {
@@ -1096,7 +1096,7 @@ class Canvas_DrawRawPoints_Record extends Canvas_RecordBase<void> {
   int get tag => 28;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRawPointsRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawRawPointsRecord(writer, this);
 
   @override
   Canvas_DrawRawPoints_Record temporaryClone() {
@@ -1136,7 +1136,7 @@ class Canvas_DrawVertices_Record extends Canvas_RecordBase<void> {
   int get tag => 29;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawVerticesRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawVerticesRecord(writer, this);
 
   @override
   Canvas_DrawVertices_Record temporaryClone() {
@@ -1192,7 +1192,7 @@ class Canvas_DrawAtlas_Record extends Canvas_RecordBase<void> {
   int get tag => 30;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawAtlasRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawAtlasRecord(writer, this);
 
   @override
   Canvas_DrawAtlas_Record temporaryClone() {
@@ -1252,7 +1252,7 @@ class Canvas_DrawRawAtlas_Record extends Canvas_RecordBase<void> {
   int get tag => 31;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawRawAtlasRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawRawAtlasRecord(writer, this);
 
   @override
   Canvas_DrawRawAtlas_Record temporaryClone() {
@@ -1300,7 +1300,7 @@ class Canvas_DrawShadow_Record extends Canvas_RecordBase<void> {
   int get tag => 32;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesCanvasDrawShadowRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesCanvasDrawShadowRecord(writer, this);
 
   @override
   Canvas_DrawShadow_Record temporaryClone() {

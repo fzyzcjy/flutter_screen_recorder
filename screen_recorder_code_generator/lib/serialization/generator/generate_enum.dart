@@ -37,7 +37,7 @@ $enumName fromBytes${getSerializationPartialName(enumName)}(BytesReader reader) 
 
 String _generateToBytes(String enumName) {
   return '''
-void toBytes${getSerializationPartialName(enumName)}(BytesBuilder writer, $enumName value) {
+void toBytes${getSerializationPartialName(enumName)}(BytesWriter writer, $enumName value) {
   writer.addByte(value.index);
 }
   ''';

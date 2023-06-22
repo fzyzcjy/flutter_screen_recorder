@@ -11,7 +11,7 @@ class DataPerFrame {
 
 // class ExperimentalData {
 //   final countMap = <String, int>{};
-//   final bytes = BytesBuilder(copy: true);
+//   final bytes = BytesWriter(copy: true);
 //
 //   void incrCount(String name) => countMap[name] = (countMap[name] ?? 0) + 1;
 //

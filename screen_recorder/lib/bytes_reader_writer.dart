@@ -26,7 +26,7 @@ class BytesReader {
   bool get eof => index == bytes.length;
 }
 
-// ref Dart [BytesBuilder]
+// ref Dart [BytesWriter]
 class BytesWriter {
   /// Initial size of internal buffer.
   static const int _initSize = 1024;

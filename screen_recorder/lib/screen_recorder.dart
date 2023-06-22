@@ -43,7 +43,7 @@ class ScreenRecorder {
 
     if (recording) {
       final sceneBuilderData = DataPerFrame.instance.sceneBuilderData;
-      final bytesBuilder = BytesBuilder(copy: true);
+      final bytesBuilder = BytesWriter();
       toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderData);
       final bytes = bytesBuilder.takeBytes();
 
@@ -68,9 +68,9 @@ void _sanityCheckSerialization(Uint8List srcBytes) {
   assert(reader.eof, 'can fromBytes and exactly consume all bytes');
 
   // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
-  // final againBytesBuilder = BytesBuilder(copy: true);
-  // toBytesSceneBuilderRecordList(againBytesBuilder, restoredData);
-  // final againBytes = againBytesBuilder.takeBytes();
+  // final againBytesWriter = BytesWriter(copy: true);
+  // toBytesSceneBuilderRecordList(againBytesWriter, restoredData);
+  // final againBytes = againBytesWriter.takeBytes();
   //
   // assert(
   //   listEquals(srcBytes, againBytes),

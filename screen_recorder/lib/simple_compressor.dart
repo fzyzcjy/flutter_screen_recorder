@@ -11,7 +11,7 @@ class SimpleCompressor {
 
     if (pendingChunksBytesLen >= 200000) {
       // ignore: deprecated_export_use
-      final pendingData = BytesBuilder(copy: false);
+      final pendingData = BytesWriter(copy: false);
       for (final chunk in _pendingChunks) {
         pendingData.add(chunk);
       }

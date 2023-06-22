@@ -17,7 +17,7 @@ Clip fromBytesClip(BytesReader reader) {
   return Clip.values[reader.readByte()];
 }
 
-void toBytesClip(BytesBuilder writer, Clip value) {
+void toBytesClip(BytesWriter writer, Clip value) {
   writer.addByte(value.index);
 }
 
@@ -25,7 +25,7 @@ ClipOp fromBytesClipOp(BytesReader reader) {
   return ClipOp.values[reader.readByte()];
 }
 
-void toBytesClipOp(BytesBuilder writer, ClipOp value) {
+void toBytesClipOp(BytesWriter writer, ClipOp value) {
   writer.addByte(value.index);
 }
 
@@ -33,7 +33,7 @@ BlendMode fromBytesBlendMode(BytesReader reader) {
   return BlendMode.values[reader.readByte()];
 }
 
-void toBytesBlendMode(BytesBuilder writer, BlendMode value) {
+void toBytesBlendMode(BytesWriter writer, BlendMode value) {
   writer.addByte(value.index);
 }
 
@@ -41,7 +41,7 @@ FilterQuality fromBytesFilterQuality(BytesReader reader) {
   return FilterQuality.values[reader.readByte()];
 }
 
-void toBytesFilterQuality(BytesBuilder writer, FilterQuality value) {
+void toBytesFilterQuality(BytesWriter writer, FilterQuality value) {
   writer.addByte(value.index);
 }
 
@@ -49,7 +49,7 @@ PointMode fromBytesPointMode(BytesReader reader) {
   return PointMode.values[reader.readByte()];
 }
 
-void toBytesPointMode(BytesBuilder writer, PointMode value) {
+void toBytesPointMode(BytesWriter writer, PointMode value) {
   writer.addByte(value.index);
 }
 
@@ -57,7 +57,7 @@ PlaceholderAlignment fromBytesPlaceholderAlignment(BytesReader reader) {
   return PlaceholderAlignment.values[reader.readByte()];
 }
 
-void toBytesPlaceholderAlignment(BytesBuilder writer, PlaceholderAlignment value) {
+void toBytesPlaceholderAlignment(BytesWriter writer, PlaceholderAlignment value) {
   writer.addByte(value.index);
 }
 
@@ -65,7 +65,7 @@ TextBaseline fromBytesTextBaseline(BytesReader reader) {
   return TextBaseline.values[reader.readByte()];
 }
 
-void toBytesTextBaseline(BytesBuilder writer, TextBaseline value) {
+void toBytesTextBaseline(BytesWriter writer, TextBaseline value) {
   writer.addByte(value.index);
 }
 
@@ -73,7 +73,7 @@ TextAlign fromBytesTextAlign(BytesReader reader) {
   return TextAlign.values[reader.readByte()];
 }
 
-void toBytesTextAlign(BytesBuilder writer, TextAlign value) {
+void toBytesTextAlign(BytesWriter writer, TextAlign value) {
   writer.addByte(value.index);
 }
 
@@ -81,7 +81,7 @@ TextDirection fromBytesTextDirection(BytesReader reader) {
   return TextDirection.values[reader.readByte()];
 }
 
-void toBytesTextDirection(BytesBuilder writer, TextDirection value) {
+void toBytesTextDirection(BytesWriter writer, TextDirection value) {
   writer.addByte(value.index);
 }
 
@@ -89,7 +89,7 @@ TextLeadingDistribution fromBytesTextLeadingDistribution(BytesReader reader) {
   return TextLeadingDistribution.values[reader.readByte()];
 }
 
-void toBytesTextLeadingDistribution(BytesBuilder writer, TextLeadingDistribution value) {
+void toBytesTextLeadingDistribution(BytesWriter writer, TextLeadingDistribution value) {
   writer.addByte(value.index);
 }
 
@@ -97,7 +97,7 @@ TextDecorationStyle fromBytesTextDecorationStyle(BytesReader reader) {
   return TextDecorationStyle.values[reader.readByte()];
 }
 
-void toBytesTextDecorationStyle(BytesBuilder writer, TextDecorationStyle value) {
+void toBytesTextDecorationStyle(BytesWriter writer, TextDecorationStyle value) {
   writer.addByte(value.index);
 }
 
@@ -105,7 +105,7 @@ FontStyle fromBytesFontStyle(BytesReader reader) {
   return FontStyle.values[reader.readByte()];
 }
 
-void toBytesFontStyle(BytesBuilder writer, FontStyle value) {
+void toBytesFontStyle(BytesWriter writer, FontStyle value) {
   writer.addByte(value.index);
 }
 
@@ -113,7 +113,7 @@ FontWeight fromBytesFontWeight(BytesReader reader) {
   return FontWeight.values[reader.readByte()];
 }
 
-void toBytesFontWeight(BytesBuilder writer, FontWeight value) {
+void toBytesFontWeight(BytesWriter writer, FontWeight value) {
   writer.addByte(value.index);
 }
 
@@ -126,7 +126,7 @@ Offset fromBytesOffset(BytesReader reader) {
   );
 }
 
-void toBytesOffset(BytesBuilder writer, Offset value) {
+void toBytesOffset(BytesWriter writer, Offset value) {
   toBytesDouble(writer, value.dx);
   toBytesDouble(writer, value.dy);
 }
@@ -144,7 +144,7 @@ Rect fromBytesRect(BytesReader reader) {
   );
 }
 
-void toBytesRect(BytesBuilder writer, Rect value) {
+void toBytesRect(BytesWriter writer, Rect value) {
   toBytesDouble(writer, value.left);
   toBytesDouble(writer, value.top);
   toBytesDouble(writer, value.right);
@@ -176,7 +176,7 @@ RRect fromBytesRRect(BytesReader reader) {
   );
 }
 
-void toBytesRRect(BytesBuilder writer, RRect value) {
+void toBytesRRect(BytesWriter writer, RRect value) {
   toBytesDouble(writer, value.left);
   toBytesDouble(writer, value.top);
   toBytesDouble(writer, value.right);
@@ -204,7 +204,7 @@ RSTransform fromBytesRSTransform(BytesReader reader) {
   );
 }
 
-void toBytesRSTransform(BytesBuilder writer, RSTransform value) {
+void toBytesRSTransform(BytesWriter writer, RSTransform value) {
   toBytesDouble(writer, value.scos);
   toBytesDouble(writer, value.ssin);
   toBytesDouble(writer, value.tx);
@@ -240,7 +240,7 @@ ParagraphStyle fromBytesParagraphStyle(BytesReader reader) {
   );
 }
 
-void toBytesParagraphStyle(BytesBuilder writer, ParagraphStyle value) {
+void toBytesParagraphStyle(BytesWriter writer, ParagraphStyle value) {
   toBytesNullable(writer, value.textAlign, toBytesTextAlign);
   toBytesNullable(writer, value.textDirection, toBytesTextDirection);
   toBytesNullable(writer, value.maxLines, toBytesInt);
@@ -302,7 +302,7 @@ TextStyle fromBytesTextStyle(BytesReader reader) {
   );
 }
 
-void toBytesTextStyle(BytesBuilder writer, TextStyle value) {
+void toBytesTextStyle(BytesWriter writer, TextStyle value) {
   toBytesNullable(writer, value.color, toBytesColor);
   toBytesNullable(writer, value.decoration, toBytesTextDecoration);
   toBytesNullable(writer, value.decorationColor, toBytesColor);
@@ -339,7 +339,7 @@ StrutStyle fromBytesStrutStyle(BytesReader reader) {
   );
 }
 
-void toBytesStrutStyle(BytesBuilder writer, StrutStyle value) {
+void toBytesStrutStyle(BytesWriter writer, StrutStyle value) {
   toBytesByteData(writer, value.encoded);
   toBytesNullable(writer, value.leadingDistribution, toBytesTextLeadingDistribution);
   toBytesNullable(writer, value.fontFamily, toBytesString);
@@ -357,7 +357,7 @@ TextHeightBehavior fromBytesTextHeightBehavior(BytesReader reader) {
   );
 }
 
-void toBytesTextHeightBehavior(BytesBuilder writer, TextHeightBehavior value) {
+void toBytesTextHeightBehavior(BytesWriter writer, TextHeightBehavior value) {
   toBytesBool(writer, value.applyHeightToFirstAscent);
   toBytesBool(writer, value.applyHeightToLastDescent);
   toBytesTextLeadingDistribution(writer, value.leadingDistribution);
@@ -374,7 +374,7 @@ Shadow fromBytesShadow(BytesReader reader) {
   );
 }
 
-void toBytesShadow(BytesBuilder writer, Shadow value) {
+void toBytesShadow(BytesWriter writer, Shadow value) {
   toBytesColor(writer, value.color);
   toBytesOffset(writer, value.offset);
   toBytesDouble(writer, value.blurRadius);
@@ -389,7 +389,7 @@ FontVariation fromBytesFontVariation(BytesReader reader) {
   );
 }
 
-void toBytesFontVariation(BytesBuilder writer, FontVariation value) {
+void toBytesFontVariation(BytesWriter writer, FontVariation value) {
   toBytesString(writer, value.axis);
   toBytesDouble(writer, value.value);
 }
@@ -403,7 +403,7 @@ FontFeature fromBytesFontFeature(BytesReader reader) {
   );
 }
 
-void toBytesFontFeature(BytesBuilder writer, FontFeature value) {
+void toBytesFontFeature(BytesWriter writer, FontFeature value) {
   toBytesString(writer, value.feature);
   toBytesInt(writer, value.value);
 }
@@ -413,7 +413,7 @@ Color fromBytesColor(BytesReader reader) {
   return Color(value);
 }
 
-void toBytesColor(BytesBuilder writer, Color value) {
+void toBytesColor(BytesWriter writer, Color value) {
   toBytesInt(writer, value.value);
 }
 
@@ -428,7 +428,7 @@ Locale fromBytesLocale(BytesReader reader) {
   );
 }
 
-void toBytesLocale(BytesBuilder writer, Locale value) {
+void toBytesLocale(BytesWriter writer, Locale value) {
   toBytesString(writer, value.languageCode);
   toBytesNullable(writer, value.scriptCode, toBytesString);
   toBytesNullable(writer, value.countryCode, toBytesString);
@@ -439,7 +439,7 @@ TextDecoration fromBytesTextDecoration(BytesReader reader) {
   return TextDecoration.raw(mask);
 }
 
-void toBytesTextDecoration(BytesBuilder writer, TextDecoration value) {
+void toBytesTextDecoration(BytesWriter writer, TextDecoration value) {
   toBytesInt(writer, value.mask);
 }
 
@@ -448,7 +448,7 @@ Paint fromBytesPaint(BytesReader reader) {
   return Paint.raw(data);
 }
 
-void toBytesPaint(BytesBuilder writer, Paint value) {
+void toBytesPaint(BytesWriter writer, Paint value) {
   toBytesByteData(writer, value.data);
 }
 
@@ -461,7 +461,7 @@ ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(BytesReader reade
   );
 }
 
-void toBytesParagraphBuilderRecordList(BytesBuilder writer, ParagraphBuilderRecordList value) {
+void toBytesParagraphBuilderRecordList(BytesWriter writer, ParagraphBuilderRecordList value) {
   toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
   toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
 }
@@ -471,7 +471,7 @@ CanvasRecordList fromBytesCanvasRecordList(BytesReader reader) {
   return CanvasRecordList(methodCallRecords: methodCallRecords);
 }
 
-void toBytesCanvasRecordList(BytesBuilder writer, CanvasRecordList value) {
+void toBytesCanvasRecordList(BytesWriter writer, CanvasRecordList value) {
   toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
 }
 
@@ -480,7 +480,7 @@ SceneBuilderRecordList fromBytesSceneBuilderRecordList(BytesReader reader) {
   return SceneBuilderRecordList(methodCallRecords: methodCallRecords);
 }
 
-void toBytesSceneBuilderRecordList(BytesBuilder writer, SceneBuilderRecordList value) {
+void toBytesSceneBuilderRecordList(BytesWriter writer, SceneBuilderRecordList value) {
   toBytesList(writer, value.methodCallRecords, toBytesSceneBuilderRecordBase);
 }
 
@@ -489,7 +489,7 @@ ParagraphBuilder_Constructor_Record fromBytesParagraphBuilderConstructorRecord(B
   return ParagraphBuilder_Constructor_Record(style: style);
 }
 
-void toBytesParagraphBuilderConstructorRecord(BytesBuilder writer, ParagraphBuilder_Constructor_Record value) {
+void toBytesParagraphBuilderConstructorRecord(BytesWriter writer, ParagraphBuilder_Constructor_Record value) {
   toBytesParagraphStyle(writer, value.style);
 }
 
@@ -498,7 +498,7 @@ SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(Bytes
   return SceneBuilder_PushTransform_Record(matrix4: matrix4);
 }
 
-void toBytesSceneBuilderPushTransformRecord(BytesBuilder writer, SceneBuilder_PushTransform_Record value) {
+void toBytesSceneBuilderPushTransformRecord(BytesWriter writer, SceneBuilder_PushTransform_Record value) {
   toBytesFloat64List(writer, value.matrix4);
 }
 
@@ -511,7 +511,7 @@ SceneBuilder_PushOffset_Record fromBytesSceneBuilderPushOffsetRecord(BytesReader
   );
 }
 
-void toBytesSceneBuilderPushOffsetRecord(BytesBuilder writer, SceneBuilder_PushOffset_Record value) {
+void toBytesSceneBuilderPushOffsetRecord(BytesWriter writer, SceneBuilder_PushOffset_Record value) {
   toBytesDouble(writer, value.dx);
   toBytesDouble(writer, value.dy);
 }
@@ -525,7 +525,7 @@ SceneBuilder_PushClipRect_Record fromBytesSceneBuilderPushClipRectRecord(BytesRe
   );
 }
 
-void toBytesSceneBuilderPushClipRectRecord(BytesBuilder writer, SceneBuilder_PushClipRect_Record value) {
+void toBytesSceneBuilderPushClipRectRecord(BytesWriter writer, SceneBuilder_PushClipRect_Record value) {
   toBytesRect(writer, value.rect);
   toBytesClip(writer, value.clipBehavior);
 }
@@ -539,7 +539,7 @@ SceneBuilder_PushClipRRect_Record fromBytesSceneBuilderPushClipRRectRecord(Bytes
   );
 }
 
-void toBytesSceneBuilderPushClipRRectRecord(BytesBuilder writer, SceneBuilder_PushClipRRect_Record value) {
+void toBytesSceneBuilderPushClipRRectRecord(BytesWriter writer, SceneBuilder_PushClipRRect_Record value) {
   toBytesRRect(writer, value.rrect);
   toBytesClip(writer, value.clipBehavior);
 }
@@ -553,7 +553,7 @@ SceneBuilder_PushClipPath_Record fromBytesSceneBuilderPushClipPathRecord(BytesRe
   );
 }
 
-void toBytesSceneBuilderPushClipPathRecord(BytesBuilder writer, SceneBuilder_PushClipPath_Record value) {
+void toBytesSceneBuilderPushClipPathRecord(BytesWriter writer, SceneBuilder_PushClipPath_Record value) {
   toBytesPath(writer, value.path);
   toBytesClip(writer, value.clipBehavior);
 }
@@ -567,7 +567,7 @@ SceneBuilder_PushOpacity_Record fromBytesSceneBuilderPushOpacityRecord(BytesRead
   );
 }
 
-void toBytesSceneBuilderPushOpacityRecord(BytesBuilder writer, SceneBuilder_PushOpacity_Record value) {
+void toBytesSceneBuilderPushOpacityRecord(BytesWriter writer, SceneBuilder_PushOpacity_Record value) {
   toBytesInt(writer, value.alpha);
   toBytesNullable(writer, value.offset, toBytesOffset);
 }
@@ -577,7 +577,7 @@ SceneBuilder_PushColorFilter_Record fromBytesSceneBuilderPushColorFilterRecord(B
   return SceneBuilder_PushColorFilter_Record(filter: filter);
 }
 
-void toBytesSceneBuilderPushColorFilterRecord(BytesBuilder writer, SceneBuilder_PushColorFilter_Record value) {
+void toBytesSceneBuilderPushColorFilterRecord(BytesWriter writer, SceneBuilder_PushColorFilter_Record value) {
   toBytesColorFilter(writer, value.filter);
 }
 
@@ -590,7 +590,7 @@ SceneBuilder_PushImageFilter_Record fromBytesSceneBuilderPushImageFilterRecord(B
   );
 }
 
-void toBytesSceneBuilderPushImageFilterRecord(BytesBuilder writer, SceneBuilder_PushImageFilter_Record value) {
+void toBytesSceneBuilderPushImageFilterRecord(BytesWriter writer, SceneBuilder_PushImageFilter_Record value) {
   toBytesImageFilter(writer, value.filter);
   toBytesOffset(writer, value.offset);
 }
@@ -604,7 +604,7 @@ SceneBuilder_PushBackdropFilter_Record fromBytesSceneBuilderPushBackdropFilterRe
   );
 }
 
-void toBytesSceneBuilderPushBackdropFilterRecord(BytesBuilder writer, SceneBuilder_PushBackdropFilter_Record value) {
+void toBytesSceneBuilderPushBackdropFilterRecord(BytesWriter writer, SceneBuilder_PushBackdropFilter_Record value) {
   toBytesImageFilter(writer, value.filter);
   toBytesBlendMode(writer, value.blendMode);
 }
@@ -622,7 +622,7 @@ SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(Byt
   );
 }
 
-void toBytesSceneBuilderPushShaderMaskRecord(BytesBuilder writer, SceneBuilder_PushShaderMask_Record value) {
+void toBytesSceneBuilderPushShaderMaskRecord(BytesWriter writer, SceneBuilder_PushShaderMask_Record value) {
   toBytesShader(writer, value.shader);
   toBytesRect(writer, value.maskRect);
   toBytesBlendMode(writer, value.blendMode);
@@ -633,7 +633,7 @@ SceneBuilder_Pop_Record fromBytesSceneBuilderPopRecord(BytesReader reader) {
   return SceneBuilder_Pop_Record();
 }
 
-void toBytesSceneBuilderPopRecord(BytesBuilder writer, SceneBuilder_Pop_Record value) {}
+void toBytesSceneBuilderPopRecord(BytesWriter writer, SceneBuilder_Pop_Record value) {}
 
 SceneBuilder_AddPerformanceOverlay_Record fromBytesSceneBuilderAddPerformanceOverlayRecord(BytesReader reader) {
   final enabledOptions = fromBytesInt(reader);
@@ -644,8 +644,8 @@ SceneBuilder_AddPerformanceOverlay_Record fromBytesSceneBuilderAddPerformanceOve
   );
 }
 
-void toBytesSceneBuilderAddPerformanceOverlayRecord(
-    BytesBuilder writer, SceneBuilder_AddPerformanceOverlay_Record value) {
+void toBytesSceneBuilderAddPerformanceOverlayRecord(BytesWriter writer,
+    SceneBuilder_AddPerformanceOverlay_Record value) {
   toBytesInt(writer, value.enabledOptions);
   toBytesRect(writer, value.bounds);
 }
@@ -663,7 +663,7 @@ SceneBuilder_AddPicture_Record fromBytesSceneBuilderAddPictureRecord(BytesReader
   );
 }
 
-void toBytesSceneBuilderAddPictureRecord(BytesBuilder writer, SceneBuilder_AddPicture_Record value) {
+void toBytesSceneBuilderAddPictureRecord(BytesWriter writer, SceneBuilder_AddPicture_Record value) {
   toBytesOffset(writer, value.offset);
   toBytesPicture(writer, value.picture);
   toBytesBool(writer, value.isComplexHint);
@@ -687,7 +687,7 @@ SceneBuilder_AddTexture_Record fromBytesSceneBuilderAddTextureRecord(BytesReader
   );
 }
 
-void toBytesSceneBuilderAddTextureRecord(BytesBuilder writer, SceneBuilder_AddTexture_Record value) {
+void toBytesSceneBuilderAddTextureRecord(BytesWriter writer, SceneBuilder_AddTexture_Record value) {
   toBytesInt(writer, value.textureId);
   toBytesOffset(writer, value.offset);
   toBytesDouble(writer, value.width);
@@ -709,7 +709,7 @@ SceneBuilder_AddPlatformView_Record fromBytesSceneBuilderAddPlatformViewRecord(B
   );
 }
 
-void toBytesSceneBuilderAddPlatformViewRecord(BytesBuilder writer, SceneBuilder_AddPlatformView_Record value) {
+void toBytesSceneBuilderAddPlatformViewRecord(BytesWriter writer, SceneBuilder_AddPlatformView_Record value) {
   toBytesInt(writer, value.viewId);
   toBytesOffset(writer, value.offset);
   toBytesDouble(writer, value.width);
@@ -720,7 +720,7 @@ Canvas_Save_Record fromBytesCanvasSaveRecord(BytesReader reader) {
   return Canvas_Save_Record();
 }
 
-void toBytesCanvasSaveRecord(BytesBuilder writer, Canvas_Save_Record value) {}
+void toBytesCanvasSaveRecord(BytesWriter writer, Canvas_Save_Record value) {}
 
 Canvas_SaveLayer_Record fromBytesCanvasSaveLayerRecord(BytesReader reader) {
   final bounds = fromBytesNullable(reader, fromBytesRect);
@@ -731,7 +731,7 @@ Canvas_SaveLayer_Record fromBytesCanvasSaveLayerRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasSaveLayerRecord(BytesBuilder writer, Canvas_SaveLayer_Record value) {
+void toBytesCanvasSaveLayerRecord(BytesWriter writer, Canvas_SaveLayer_Record value) {
   toBytesNullable(writer, value.bounds, toBytesRect);
   toBytesPaint(writer, value.paint);
 }
@@ -740,14 +740,14 @@ Canvas_Restore_Record fromBytesCanvasRestoreRecord(BytesReader reader) {
   return Canvas_Restore_Record();
 }
 
-void toBytesCanvasRestoreRecord(BytesBuilder writer, Canvas_Restore_Record value) {}
+void toBytesCanvasRestoreRecord(BytesWriter writer, Canvas_Restore_Record value) {}
 
 Canvas_RestoreToCount_Record fromBytesCanvasRestoreToCountRecord(BytesReader reader) {
   final count = fromBytesInt(reader);
   return Canvas_RestoreToCount_Record(count: count);
 }
 
-void toBytesCanvasRestoreToCountRecord(BytesBuilder writer, Canvas_RestoreToCount_Record value) {
+void toBytesCanvasRestoreToCountRecord(BytesWriter writer, Canvas_RestoreToCount_Record value) {
   toBytesInt(writer, value.count);
 }
 
@@ -760,7 +760,7 @@ Canvas_Translate_Record fromBytesCanvasTranslateRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasTranslateRecord(BytesBuilder writer, Canvas_Translate_Record value) {
+void toBytesCanvasTranslateRecord(BytesWriter writer, Canvas_Translate_Record value) {
   toBytesDouble(writer, value.dx);
   toBytesDouble(writer, value.dy);
 }
@@ -774,7 +774,7 @@ Canvas_Scale_Record fromBytesCanvasScaleRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasScaleRecord(BytesBuilder writer, Canvas_Scale_Record value) {
+void toBytesCanvasScaleRecord(BytesWriter writer, Canvas_Scale_Record value) {
   toBytesDouble(writer, value.sx);
   toBytesNullable(writer, value.sy, toBytesDouble);
 }
@@ -784,7 +784,7 @@ Canvas_Rotate_Record fromBytesCanvasRotateRecord(BytesReader reader) {
   return Canvas_Rotate_Record(radians: radians);
 }
 
-void toBytesCanvasRotateRecord(BytesBuilder writer, Canvas_Rotate_Record value) {
+void toBytesCanvasRotateRecord(BytesWriter writer, Canvas_Rotate_Record value) {
   toBytesDouble(writer, value.radians);
 }
 
@@ -797,7 +797,7 @@ Canvas_Skew_Record fromBytesCanvasSkewRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasSkewRecord(BytesBuilder writer, Canvas_Skew_Record value) {
+void toBytesCanvasSkewRecord(BytesWriter writer, Canvas_Skew_Record value) {
   toBytesDouble(writer, value.sx);
   toBytesDouble(writer, value.sy);
 }
@@ -807,7 +807,7 @@ Canvas_Transform_Record fromBytesCanvasTransformRecord(BytesReader reader) {
   return Canvas_Transform_Record(matrix4: matrix4);
 }
 
-void toBytesCanvasTransformRecord(BytesBuilder writer, Canvas_Transform_Record value) {
+void toBytesCanvasTransformRecord(BytesWriter writer, Canvas_Transform_Record value) {
   toBytesFloat64List(writer, value.matrix4);
 }
 
@@ -822,7 +822,7 @@ Canvas_ClipRect_Record fromBytesCanvasClipRectRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasClipRectRecord(BytesBuilder writer, Canvas_ClipRect_Record value) {
+void toBytesCanvasClipRectRecord(BytesWriter writer, Canvas_ClipRect_Record value) {
   toBytesRect(writer, value.rect);
   toBytesClipOp(writer, value.clipOp);
   toBytesBool(writer, value.doAntiAlias);
@@ -837,7 +837,7 @@ Canvas_ClipRRect_Record fromBytesCanvasClipRRectRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasClipRRectRecord(BytesBuilder writer, Canvas_ClipRRect_Record value) {
+void toBytesCanvasClipRRectRecord(BytesWriter writer, Canvas_ClipRRect_Record value) {
   toBytesRRect(writer, value.rrect);
   toBytesBool(writer, value.doAntiAlias);
 }
@@ -851,7 +851,7 @@ Canvas_ClipPath_Record fromBytesCanvasClipPathRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasClipPathRecord(BytesBuilder writer, Canvas_ClipPath_Record value) {
+void toBytesCanvasClipPathRecord(BytesWriter writer, Canvas_ClipPath_Record value) {
   toBytesPath(writer, value.path);
   toBytesBool(writer, value.doAntiAlias);
 }
@@ -865,7 +865,7 @@ Canvas_DrawColor_Record fromBytesCanvasDrawColorRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawColorRecord(BytesBuilder writer, Canvas_DrawColor_Record value) {
+void toBytesCanvasDrawColorRecord(BytesWriter writer, Canvas_DrawColor_Record value) {
   toBytesColor(writer, value.color);
   toBytesBlendMode(writer, value.blendMode);
 }
@@ -881,7 +881,7 @@ Canvas_DrawLine_Record fromBytesCanvasDrawLineRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawLineRecord(BytesBuilder writer, Canvas_DrawLine_Record value) {
+void toBytesCanvasDrawLineRecord(BytesWriter writer, Canvas_DrawLine_Record value) {
   toBytesOffset(writer, value.p1);
   toBytesOffset(writer, value.p2);
   toBytesPaint(writer, value.paint);
@@ -892,7 +892,7 @@ Canvas_DrawPaint_Record fromBytesCanvasDrawPaintRecord(BytesReader reader) {
   return Canvas_DrawPaint_Record(paint: paint);
 }
 
-void toBytesCanvasDrawPaintRecord(BytesBuilder writer, Canvas_DrawPaint_Record value) {
+void toBytesCanvasDrawPaintRecord(BytesWriter writer, Canvas_DrawPaint_Record value) {
   toBytesPaint(writer, value.paint);
 }
 
@@ -905,7 +905,7 @@ Canvas_DrawRect_Record fromBytesCanvasDrawRectRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawRectRecord(BytesBuilder writer, Canvas_DrawRect_Record value) {
+void toBytesCanvasDrawRectRecord(BytesWriter writer, Canvas_DrawRect_Record value) {
   toBytesRect(writer, value.rect);
   toBytesPaint(writer, value.paint);
 }
@@ -919,7 +919,7 @@ Canvas_DrawRRect_Record fromBytesCanvasDrawRRectRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawRRectRecord(BytesBuilder writer, Canvas_DrawRRect_Record value) {
+void toBytesCanvasDrawRRectRecord(BytesWriter writer, Canvas_DrawRRect_Record value) {
   toBytesRRect(writer, value.rrect);
   toBytesPaint(writer, value.paint);
 }
@@ -935,7 +935,7 @@ Canvas_DrawDRRect_Record fromBytesCanvasDrawDRRectRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawDRRectRecord(BytesBuilder writer, Canvas_DrawDRRect_Record value) {
+void toBytesCanvasDrawDRRectRecord(BytesWriter writer, Canvas_DrawDRRect_Record value) {
   toBytesRRect(writer, value.outer);
   toBytesRRect(writer, value.inner);
   toBytesPaint(writer, value.paint);
@@ -950,7 +950,7 @@ Canvas_DrawOval_Record fromBytesCanvasDrawOvalRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawOvalRecord(BytesBuilder writer, Canvas_DrawOval_Record value) {
+void toBytesCanvasDrawOvalRecord(BytesWriter writer, Canvas_DrawOval_Record value) {
   toBytesRect(writer, value.rect);
   toBytesPaint(writer, value.paint);
 }
@@ -966,7 +966,7 @@ Canvas_DrawCircle_Record fromBytesCanvasDrawCircleRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawCircleRecord(BytesBuilder writer, Canvas_DrawCircle_Record value) {
+void toBytesCanvasDrawCircleRecord(BytesWriter writer, Canvas_DrawCircle_Record value) {
   toBytesOffset(writer, value.c);
   toBytesDouble(writer, value.radius);
   toBytesPaint(writer, value.paint);
@@ -987,7 +987,7 @@ Canvas_DrawArc_Record fromBytesCanvasDrawArcRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawArcRecord(BytesBuilder writer, Canvas_DrawArc_Record value) {
+void toBytesCanvasDrawArcRecord(BytesWriter writer, Canvas_DrawArc_Record value) {
   toBytesRect(writer, value.rect);
   toBytesDouble(writer, value.startAngle);
   toBytesDouble(writer, value.sweepAngle);
@@ -1004,7 +1004,7 @@ Canvas_DrawPath_Record fromBytesCanvasDrawPathRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawPathRecord(BytesBuilder writer, Canvas_DrawPath_Record value) {
+void toBytesCanvasDrawPathRecord(BytesWriter writer, Canvas_DrawPath_Record value) {
   toBytesPath(writer, value.path);
   toBytesPaint(writer, value.paint);
 }
@@ -1020,7 +1020,7 @@ Canvas_DrawImage_Record fromBytesCanvasDrawImageRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawImageRecord(BytesBuilder writer, Canvas_DrawImage_Record value) {
+void toBytesCanvasDrawImageRecord(BytesWriter writer, Canvas_DrawImage_Record value) {
   toBytesImage(writer, value.image);
   toBytesOffset(writer, value.offset);
   toBytesPaint(writer, value.paint);
@@ -1039,7 +1039,7 @@ Canvas_DrawImageRect_Record fromBytesCanvasDrawImageRectRecord(BytesReader reade
   );
 }
 
-void toBytesCanvasDrawImageRectRecord(BytesBuilder writer, Canvas_DrawImageRect_Record value) {
+void toBytesCanvasDrawImageRectRecord(BytesWriter writer, Canvas_DrawImageRect_Record value) {
   toBytesImage(writer, value.image);
   toBytesRect(writer, value.src);
   toBytesRect(writer, value.dst);
@@ -1059,7 +1059,7 @@ Canvas_DrawImageNine_Record fromBytesCanvasDrawImageNineRecord(BytesReader reade
   );
 }
 
-void toBytesCanvasDrawImageNineRecord(BytesBuilder writer, Canvas_DrawImageNine_Record value) {
+void toBytesCanvasDrawImageNineRecord(BytesWriter writer, Canvas_DrawImageNine_Record value) {
   toBytesImage(writer, value.image);
   toBytesRect(writer, value.center);
   toBytesRect(writer, value.dst);
@@ -1071,7 +1071,7 @@ Canvas_DrawPicture_Record fromBytesCanvasDrawPictureRecord(BytesReader reader) {
   return Canvas_DrawPicture_Record(picture: picture);
 }
 
-void toBytesCanvasDrawPictureRecord(BytesBuilder writer, Canvas_DrawPicture_Record value) {
+void toBytesCanvasDrawPictureRecord(BytesWriter writer, Canvas_DrawPicture_Record value) {
   toBytesPicture(writer, value.picture);
 }
 
@@ -1084,7 +1084,7 @@ Canvas_DrawParagraph_Record fromBytesCanvasDrawParagraphRecord(BytesReader reade
   );
 }
 
-void toBytesCanvasDrawParagraphRecord(BytesBuilder writer, Canvas_DrawParagraph_Record value) {
+void toBytesCanvasDrawParagraphRecord(BytesWriter writer, Canvas_DrawParagraph_Record value) {
   toBytesParagraph(writer, value.paragraph);
   toBytesOffset(writer, value.offset);
 }
@@ -1100,7 +1100,7 @@ Canvas_DrawPoints_Record fromBytesCanvasDrawPointsRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawPointsRecord(BytesBuilder writer, Canvas_DrawPoints_Record value) {
+void toBytesCanvasDrawPointsRecord(BytesWriter writer, Canvas_DrawPoints_Record value) {
   toBytesPointMode(writer, value.pointMode);
   toBytesList(writer, value.points, toBytesOffset);
   toBytesPaint(writer, value.paint);
@@ -1117,7 +1117,7 @@ Canvas_DrawRawPoints_Record fromBytesCanvasDrawRawPointsRecord(BytesReader reade
   );
 }
 
-void toBytesCanvasDrawRawPointsRecord(BytesBuilder writer, Canvas_DrawRawPoints_Record value) {
+void toBytesCanvasDrawRawPointsRecord(BytesWriter writer, Canvas_DrawRawPoints_Record value) {
   toBytesPointMode(writer, value.pointMode);
   toBytesFloat32List(writer, value.points);
   toBytesPaint(writer, value.paint);
@@ -1134,7 +1134,7 @@ Canvas_DrawVertices_Record fromBytesCanvasDrawVerticesRecord(BytesReader reader)
   );
 }
 
-void toBytesCanvasDrawVerticesRecord(BytesBuilder writer, Canvas_DrawVertices_Record value) {
+void toBytesCanvasDrawVerticesRecord(BytesWriter writer, Canvas_DrawVertices_Record value) {
   toBytesVertices(writer, value.vertices);
   toBytesBlendMode(writer, value.blendMode);
   toBytesPaint(writer, value.paint);
@@ -1159,7 +1159,7 @@ Canvas_DrawAtlas_Record fromBytesCanvasDrawAtlasRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawAtlasRecord(BytesBuilder writer, Canvas_DrawAtlas_Record value) {
+void toBytesCanvasDrawAtlasRecord(BytesWriter writer, Canvas_DrawAtlas_Record value) {
   toBytesImage(writer, value.atlas);
   toBytesList(writer, value.transforms, toBytesRSTransform);
   toBytesList(writer, value.rects, toBytesRect);
@@ -1188,7 +1188,7 @@ Canvas_DrawRawAtlas_Record fromBytesCanvasDrawRawAtlasRecord(BytesReader reader)
   );
 }
 
-void toBytesCanvasDrawRawAtlasRecord(BytesBuilder writer, Canvas_DrawRawAtlas_Record value) {
+void toBytesCanvasDrawRawAtlasRecord(BytesWriter writer, Canvas_DrawRawAtlas_Record value) {
   toBytesImage(writer, value.atlas);
   toBytesFloat32List(writer, value.rstTransforms);
   toBytesFloat32List(writer, value.rects);
@@ -1211,7 +1211,7 @@ Canvas_DrawShadow_Record fromBytesCanvasDrawShadowRecord(BytesReader reader) {
   );
 }
 
-void toBytesCanvasDrawShadowRecord(BytesBuilder writer, Canvas_DrawShadow_Record value) {
+void toBytesCanvasDrawShadowRecord(BytesWriter writer, Canvas_DrawShadow_Record value) {
   toBytesPath(writer, value.path);
   toBytesColor(writer, value.color);
   toBytesDouble(writer, value.elevation);
@@ -1223,7 +1223,7 @@ ParagraphBuilder_PushStyle_Record fromBytesParagraphBuilderPushStyleRecord(Bytes
   return ParagraphBuilder_PushStyle_Record(style: style);
 }
 
-void toBytesParagraphBuilderPushStyleRecord(BytesBuilder writer, ParagraphBuilder_PushStyle_Record value) {
+void toBytesParagraphBuilderPushStyleRecord(BytesWriter writer, ParagraphBuilder_PushStyle_Record value) {
   toBytesTextStyle(writer, value.style);
 }
 
@@ -1231,14 +1231,14 @@ ParagraphBuilder_Pop_Record fromBytesParagraphBuilderPopRecord(BytesReader reade
   return ParagraphBuilder_Pop_Record();
 }
 
-void toBytesParagraphBuilderPopRecord(BytesBuilder writer, ParagraphBuilder_Pop_Record value) {}
+void toBytesParagraphBuilderPopRecord(BytesWriter writer, ParagraphBuilder_Pop_Record value) {}
 
 ParagraphBuilder_AddText_Record fromBytesParagraphBuilderAddTextRecord(BytesReader reader) {
   final text = fromBytesString(reader);
   return ParagraphBuilder_AddText_Record(text: text);
 }
 
-void toBytesParagraphBuilderAddTextRecord(BytesBuilder writer, ParagraphBuilder_AddText_Record value) {
+void toBytesParagraphBuilderAddTextRecord(BytesWriter writer, ParagraphBuilder_AddText_Record value) {
   toBytesString(writer, value.text);
 }
 
@@ -1259,7 +1259,7 @@ ParagraphBuilder_AddPlaceholder_Record fromBytesParagraphBuilderAddPlaceholderRe
   );
 }
 
-void toBytesParagraphBuilderAddPlaceholderRecord(BytesBuilder writer, ParagraphBuilder_AddPlaceholder_Record value) {
+void toBytesParagraphBuilderAddPlaceholderRecord(BytesWriter writer, ParagraphBuilder_AddPlaceholder_Record value) {
   toBytesDouble(writer, value.width);
   toBytesDouble(writer, value.height);
   toBytesPlaceholderAlignment(writer, value.alignment);

@@ -36,14 +36,14 @@ sealed class ParagraphBuilder_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   ParagraphBuilder_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesBuilder writer) {
+  void toBytes(BytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
 
   int get tag;
 
-  void toBytesWithoutTag(BytesBuilder writer);
+  void toBytesWithoutTag(BytesWriter writer);
 }
 
 class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void> {
@@ -63,7 +63,7 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
   int get tag => 0;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
 
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
@@ -85,7 +85,7 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
   int get tag => 1;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderPopRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPopRecord(writer, this);
 
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
@@ -110,7 +110,7 @@ class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> 
   int get tag => 2;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
 
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
@@ -159,7 +159,7 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
   int get tag => 3;
 
   @override
-  void toBytesWithoutTag(BytesBuilder writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
+  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
 
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {

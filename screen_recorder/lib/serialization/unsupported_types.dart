@@ -7,20 +7,20 @@ import 'package:screen_recorder/bytes_reader_writer.dart';
 
 ColorFilter fromBytesColorFilter(BytesReader reader) => throw UnimplementedError();
 
-void toBytesColorFilter(BytesBuilder writer, ColorFilter value) {}
+void toBytesColorFilter(BytesWriter writer, ColorFilter value) {}
 
 ImageFilter fromBytesImageFilter(BytesReader reader) => throw UnimplementedError();
 
-void toBytesImageFilter(BytesBuilder writer, ImageFilter value) {}
+void toBytesImageFilter(BytesWriter writer, ImageFilter value) {}
 
 Shader fromBytesShader(BytesReader reader) => throw UnimplementedError();
 
-void toBytesShader(BytesBuilder writer, Shader value) {}
+void toBytesShader(BytesWriter writer, Shader value) {}
 
 Image fromBytesImage(BytesReader reader) => throw UnimplementedError();
 
-void toBytesImage(BytesBuilder writer, Image value) {}
+void toBytesImage(BytesWriter writer, Image value) {}
 
 Vertices fromBytesVertices(BytesReader reader) => throw UnimplementedError();
 
-void toBytesVertices(BytesBuilder writer, Vertices value) {}
+void toBytesVertices(BytesWriter writer, Vertices value) {}

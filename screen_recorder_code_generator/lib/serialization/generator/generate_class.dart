@@ -27,12 +27,12 @@ String _generateFromBytes(Config config) {
   final constructorCall = config.constructorParams != null
       ? '$constructorName(${config.constructorParams});'
       : refer(constructorName)
-          .call(
-            config.nonNamedFields.map((e) => refer(e.name)),
-            Map.fromEntries(config.namedFields.map((e) => MapEntry(e.name, refer(e.name)))),
-          )
-          .statement
-          .dartCode;
+      .call(
+    config.nonNamedFields.map((e) => refer(e.name)),
+    Map.fromEntries(config.namedFields.map((e) => MapEntry(e.name, refer(e.name)))),
+  )
+      .statement
+      .dartCode;
 
   return '''
 ${config.className} fromBytes${getSerializationPartialName(config.className)}(BytesReader reader) {
@@ -55,7 +55,7 @@ String _generateFromBytesField(Config config, ConfigField configField) {
 
 String _generateToBytes(Config config) {
   return '''
-void toBytes${getSerializationPartialName(config.className)}(BytesBuilder writer, ${config.className} value) {
+void toBytes${getSerializationPartialName(config.className)}(BytesWriter writer, ${config.className} value) {
   ${config.fields.map((e) => _generateToBytesField(config, e)).join('\n')}
 }
   ''';

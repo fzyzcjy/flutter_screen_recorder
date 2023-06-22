@@ -23,7 +23,8 @@ import 'package:screen_recorder/temporary_clone.dart';
 
 ${_generateBaseClass(config)}
 
-${config.methodsForRecord.mapIndexed((index, configMethod) => _generateRecordClass(config, configMethod, index)).join('\n\n')}
+${config.methodsForRecord.mapIndexed((index, configMethod) => _generateRecordClass(config, configMethod, index)).join(
+      '\n\n')}
   ''';
 
   File('$dirTarget/record/${config.generatedFilename}').writeAsStringSync(dartfmt.format(text));
@@ -41,14 +42,14 @@ sealed class ${config.recordBaseClass}<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   ${config.recordBaseClass}<Ret> temporaryClone();
   
-  void toBytes(BytesBuilder writer) {
+  void toBytes(BytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
   
   int get tag;
 
-  void toBytesWithoutTag(BytesBuilder writer);
+  void toBytesWithoutTag(BytesWriter writer);
 }
   ''';
 }
@@ -58,7 +59,8 @@ String _generateBaseClassFromBytes(Config config) {
   static ${config.recordBaseClass} fromBytes(BytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
-      ${config.methodsForRecord.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
+      ${config.methodsForRecord.mapIndexed((index, configMethod) =>
+      _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
       default: throw UnimplementedError('unknown tag=\$tag');
     }
   }
@@ -71,19 +73,25 @@ String _generateBaseClassFromBytesCase(Config config, ConfigMethod configMethod,
 
 String _generateRecordClass(Config config, ConfigMethod configMethod, int index) {
   return Class(
-    (b) => b
+        (b) =>
+    b
       ..name = configMethod.recordClassName(config)
       ..extend = refer('${config.recordBaseClass}<${configMethod.returnType}>')
-      ..fields.addAll(configMethod.parametersForRecord.map((e) => Field(
-            (b) => b
+      ..fields.addAll(configMethod.parametersForRecord.map((e) =>
+          Field(
+                (b) =>
+            b
               ..name = e.name
               ..type = refer(e.type)
               ..modifier = FieldModifier.final$,
           )))
       ..constructors.add(Constructor(
-        (b) => b
-          ..optionalParameters.addAll(configMethod.parametersForRecord.map((e) => Parameter(
-                (b) => b
+            (b) =>
+        b
+          ..optionalParameters.addAll(configMethod.parametersForRecord.map((e) =>
+              Parameter(
+                    (b) =>
+                b
                   ..name = e.name
                   ..toThis = true
                   ..named = true
@@ -93,7 +101,8 @@ String _generateRecordClass(Config config, ConfigMethod configMethod, int index)
       ..methods.add(_generateRecordClassMethodExecute(config, configMethod))
       ..constructors.add(_generateRecordClassMethodFromBytes(config, configMethod))
       ..methods.add(Method(
-        (b) => b
+            (b) =>
+        b
           ..name = 'tag'
           ..returns = refer('int')
           ..type = MethodType.getter
@@ -114,11 +123,13 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
   final body = 'return proxy.$bodyCallProxy';
 
   return Method(
-    (b) => b
+        (b) =>
+    b
       ..name = 'execute'
       ..returns = refer(configMethod.returnType)
       ..requiredParameters.add(Parameter(
-        (b) => b
+            (b) =>
+        b
           ..name = 'proxy'
           ..type = refer(config.originalClass),
       ))
@@ -129,12 +140,14 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
 
 Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod configMethod) {
   return Constructor(
-    (b) => b
+        (b) =>
+    b
       ..name = 'fromBytes'
       ..factory = true
       ..lambda = true
       ..requiredParameters.add(Parameter(
-        (b) => b
+            (b) =>
+        b
           ..name = 'reader'
           ..type = refer('BytesReader'),
       ))
@@ -144,14 +157,16 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
 
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
   return Method.returnsVoid(
-    (b) => b
+        (b) =>
+    b
       ..name = 'toBytesWithoutTag'
       ..lambda = true
       ..annotations.add(refer('override'))
       ..requiredParameters.add(Parameter(
-        (b) => b
+            (b) =>
+        b
           ..name = 'writer'
-          ..type = refer('BytesBuilder'),
+          ..type = refer('BytesWriter'),
       ))
       ..body = Code('toBytes${getSerializationPartialName(configMethod.recordClassName(config))}(writer, this)'),
   );
@@ -160,16 +175,17 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
 Method _generateRecordClassMethodClone(Config config, ConfigMethod configMethod) {
   final bodyCall = refer(configMethod.recordClassName(config))
       .call(
-          [],
-          Map.fromEntries(configMethod.parametersForRecord.map(
+      [],
+      Map.fromEntries(configMethod.parametersForRecord.map(
             (e) => MapEntry(e.name, refer(e.name + (_shouldTemporaryClone(e.type) ? '.temporaryClone()' : ''))),
-          )))
+      )))
       .statement
       .dartCode;
   final body = 'return $bodyCall';
 
   return Method(
-    (b) => b
+        (b) =>
+    b
       ..name = 'temporaryClone'
       ..returns = refer(configMethod.recordClassName(config))
       ..annotations.add(refer('override'))

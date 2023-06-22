@@ -1,7 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/bytes_reader_writer.dart';
 import 'package:screen_recorder/serialization.dart';
 
 void main() {
@@ -21,11 +19,11 @@ void main() {
 }
 
 void _body<T extends Object>({
-  required void Function(BytesBuilder writer, T value) toBytes,
+  required void Function(BytesWriter writer, T value) toBytes,
   required T Function(BytesReader reader) fromBytes,
   required T value,
 }) {
-  final writer = BytesBuilder();
+  final writer = BytesWriter();
   toBytes(writer, value);
   final bytes = writer.takeBytes();
 

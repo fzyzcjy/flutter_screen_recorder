@@ -2,74 +2,85 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/expandos.dart';
 
-void toBytesUint8(BytesBuilder builder, int value) {
+void toBytesUint8(BytesBuilder writer, int value) {
   assert(value >= 0 && value <= 255);
-  builder.addByte(value);
+  writer.addByte(value);
 }
 
-void toBytesBool(BytesBuilder builder, bool value) {
-  builder.addByte(value ? 1 : 0);
+int fromBytesUint8(BytesReader reader) {
+  return reader.readByte();
+}
+
+void toBytesBool(BytesBuilder writer, bool value) {
+  writer.addByte(value ? 1 : 0);
+}
+
+bool fromBytesBool(BytesReader reader) {
+  final byte = reader.readByte();
+  assert(byte == 0 || byte == 1);
+  return byte != 0;
 }
 
 // TODO improve, do not create a brand new list?
 // TODO consider byte order
 // TODO same for toBytesDouble etc
-void toBytesInt(BytesBuilder builder, int value) {
-  builder.add((Int64List(1)..[0] = value).buffer.asUint8List());
+void toBytesInt(BytesBuilder writer, int value) {
+  writer.add((Int64List(1)..[0] = value).buffer.asUint8List());
 }
 
-void toBytesFloat(BytesBuilder builder, double value) {
-  builder.add((Float32List(1)..[0] = value).buffer.asUint8List());
+void toBytesFloat(BytesBuilder writer, double value) {
+  writer.add((Float32List(1)..[0] = value).buffer.asUint8List());
 }
 
-void toBytesDouble(BytesBuilder builder, double value) {
-  builder.add((Float64List(1)..[0] = value).buffer.asUint8List());
+void toBytesDouble(BytesBuilder writer, double value) {
+  writer.add((Float64List(1)..[0] = value).buffer.asUint8List());
 }
 
-void toBytesString(BytesBuilder builder, String value) {
+void toBytesString(BytesBuilder writer, String value) {
   // TODO add string length information
-  builder.add(utf8.encode(value));
+  writer.add(utf8.encode(value));
 }
 
-void toBytesEnum(BytesBuilder builder, Enum value) {
-  toBytesUint8(builder, value.index);
+void toBytesEnum(BytesBuilder writer, Enum value) {
+  toBytesUint8(writer, value.index);
 }
 
-void toBytesOffset(BytesBuilder builder, Offset value) {
-  toBytesFloat(builder, value.dx);
-  toBytesFloat(builder, value.dy);
+void toBytesOffset(BytesBuilder writer, Offset value) {
+  toBytesFloat(writer, value.dx);
+  toBytesFloat(writer, value.dy);
 }
 
-void toBytesRect(BytesBuilder builder, Rect value) {
+void toBytesRect(BytesBuilder writer, Rect value) {
   // ref: Rect._getValue32
-  toBytesFloat(builder, value.left);
-  toBytesFloat(builder, value.top);
-  toBytesFloat(builder, value.right);
-  toBytesFloat(builder, value.bottom);
+  toBytesFloat(writer, value.left);
+  toBytesFloat(writer, value.top);
+  toBytesFloat(writer, value.right);
+  toBytesFloat(writer, value.bottom);
 }
 
-void toBytesRRect(BytesBuilder builder, RRect value) {
+void toBytesRRect(BytesBuilder writer, RRect value) {
   // ref: RRect._getValue32
-  toBytesFloat(builder, value.left);
-  toBytesFloat(builder, value.top);
-  toBytesFloat(builder, value.right);
-  toBytesFloat(builder, value.bottom);
-  toBytesFloat(builder, value.tlRadiusX);
-  toBytesFloat(builder, value.tlRadiusY);
-  toBytesFloat(builder, value.trRadiusX);
-  toBytesFloat(builder, value.trRadiusY);
-  toBytesFloat(builder, value.brRadiusX);
-  toBytesFloat(builder, value.brRadiusY);
-  toBytesFloat(builder, value.blRadiusX);
-  toBytesFloat(builder, value.blRadiusY);
+  toBytesFloat(writer, value.left);
+  toBytesFloat(writer, value.top);
+  toBytesFloat(writer, value.right);
+  toBytesFloat(writer, value.bottom);
+  toBytesFloat(writer, value.tlRadiusX);
+  toBytesFloat(writer, value.tlRadiusY);
+  toBytesFloat(writer, value.trRadiusX);
+  toBytesFloat(writer, value.trRadiusY);
+  toBytesFloat(writer, value.brRadiusX);
+  toBytesFloat(writer, value.brRadiusY);
+  toBytesFloat(writer, value.blRadiusX);
+  toBytesFloat(writer, value.blRadiusY);
 }
 
-void toBytesPath(BytesBuilder builder, Path value) {
-  builder.add(value.dump());
+void toBytesPath(BytesBuilder writer, Path value) {
+  writer.add(value.dump());
 }
 
-void toBytesPicture(BytesBuilder builder, Picture value) {
-  value.record!.toBytes(builder);
+void toBytesPicture(BytesBuilder writer, Picture value) {
+  value.record!.toBytes(writer);
 }

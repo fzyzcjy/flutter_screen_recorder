@@ -7,6 +7,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
@@ -20,8 +21,9 @@ abstract class ParagraphBuilder_RecordBase<Ret> {
 class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_PushStyle_Record({required this.style});
 
-  factory ParagraphBuilder_PushStyle_Record.fromBytes(Uint8List bytes) {
-    return ParagraphBuilder_PushStyle_Record(style: TODO);
+  factory ParagraphBuilder_PushStyle_Record.fromBytes(BytesReader reader) {
+    final style = fromBytesTextStyle(reader);
+    return ParagraphBuilder_PushStyle_Record(style: style);
   }
 
   final TextStyle style;
@@ -31,8 +33,8 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
     return proxy.pushStyle(style);
   }
 
-  void toBytes(BytesBuilder builder) {
-    toBytesTextStyle(builder, style);
+  void toBytes(BytesBuilder writer) {
+    toBytesTextStyle(writer, style);
   }
 
   @override
@@ -44,7 +46,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
 class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
-  factory ParagraphBuilder_Pop_Record.fromBytes(Uint8List bytes) {
+  factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) {
     return ParagraphBuilder_Pop_Record();
   }
 
@@ -53,7 +55,7 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder builder) {}
+  void toBytes(BytesBuilder writer) {}
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -63,8 +65,9 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
 class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddText_Record({required this.text});
 
-  factory ParagraphBuilder_AddText_Record.fromBytes(Uint8List bytes) {
-    return ParagraphBuilder_AddText_Record(text: TODO);
+  factory ParagraphBuilder_AddText_Record.fromBytes(BytesReader reader) {
+    final text = fromBytesString(reader);
+    return ParagraphBuilder_AddText_Record(text: text);
   }
 
   final String text;
@@ -74,8 +77,8 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
     return proxy.addText(text);
   }
 
-  void toBytes(BytesBuilder builder) {
-    toBytesString(builder, text);
+  void toBytes(BytesBuilder writer) {
+    toBytesString(writer, text);
   }
 
   @override
@@ -94,14 +97,20 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     required this.baseline,
   });
 
-  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(Uint8List bytes) {
+  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(BytesReader reader) {
+    final width = fromBytesDouble(reader);
+    final height = fromBytesDouble(reader);
+    final alignment = fromBytesPlaceholderAlignment(reader);
+    final scale = fromBytesDouble(reader);
+    final baselineOffset = fromBytesDouble(reader);
+    final baseline = fromBytesTextBaseline(reader);
     return ParagraphBuilder_AddPlaceholder_Record(
-      width: TODO,
-      height: TODO,
-      alignment: TODO,
-      scale: TODO,
-      baselineOffset: TODO,
-      baseline: TODO,
+      width: width,
+      height: height,
+      alignment: alignment,
+      scale: scale,
+      baselineOffset: baselineOffset,
+      baseline: baseline,
     );
   }
 
@@ -129,13 +138,13 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     );
   }
 
-  void toBytes(BytesBuilder builder) {
-    toBytesDouble(builder, width);
-    toBytesDouble(builder, height);
-    toBytesPlaceholderAlignment(builder, alignment);
-    toBytesDouble(builder, scale);
-    toBytesDouble(builder, baselineOffset);
-    toBytesTextBaseline(builder, baseline);
+  void toBytes(BytesBuilder writer) {
+    toBytesDouble(writer, width);
+    toBytesDouble(writer, height);
+    toBytesPlaceholderAlignment(writer, alignment);
+    toBytesDouble(writer, scale);
+    toBytesDouble(writer, baselineOffset);
+    toBytesTextBaseline(writer, baseline);
   }
 
   @override

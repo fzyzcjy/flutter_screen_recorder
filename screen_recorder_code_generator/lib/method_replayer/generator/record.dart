@@ -16,6 +16,7 @@ $kCommentHeader
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/serialization_utils.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
@@ -84,15 +85,15 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
 }
 
 Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod configMethod) {
-  final bodyCall = refer(configMethod.recordClassName(config))
-      .call(
-          [],
-          Map.fromEntries(configMethod.parametersForRecord.map(
-            (e) => MapEntry(e.name, refer('TODO')),
-          )))
+  final constructorCall = refer(configMethod.recordClassName(config))
+      .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
       .statement
       .dartCode;
-  final body = 'return $bodyCall';
+  final body = [
+    for (final param in configMethod.parametersForRecord)
+      'final ${param.name} = fromBytes${getSerializationPartialName(param.type)}(reader);',
+    'return $constructorCall',
+  ].join('\n');
 
   return Constructor(
     (b) => b
@@ -100,24 +101,25 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
       ..factory = true
       ..requiredParameters.add(Parameter(
         (b) => b
-          ..name = 'bytes'
-          ..type = refer('Uint8List'),
+          ..name = 'reader'
+          ..type = refer('BytesReader'),
       ))
       ..body = Code(body),
   );
 }
 
 Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMethod) {
-  final body = configMethod.parametersForRecord //
-      .map((param) => 'toBytes${getSerializationPartialName(param.type)}(builder, ${param.name});')
-      .join('\n');
+  final body = [
+    for (final param in configMethod.parametersForRecord)
+      'toBytes${getSerializationPartialName(param.type)}(writer, ${param.name});'
+  ].join('\n');
 
   return Method.returnsVoid(
     (b) => b
       ..name = 'toBytes'
       ..requiredParameters.add(Parameter(
         (b) => b
-          ..name = 'builder'
+          ..name = 'writer'
           ..type = refer('BytesBuilder'),
       ))
       ..body = Code(body),

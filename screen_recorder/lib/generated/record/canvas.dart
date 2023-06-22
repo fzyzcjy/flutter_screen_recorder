@@ -12,11 +12,97 @@ import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
-abstract class Canvas_RecordBase<Ret> {
+sealed class Canvas_RecordBase<Ret> {
+  Canvas_RecordBase();
+
+  Canvas_RecordBase.fromBytes(BytesReader reader) {
+    final index = fromBytesUint8(reader);
+    switch (index) {
+      case 0:
+        return fromBytesCanvasSaveRecord(reader);
+      case 1:
+        return fromBytesCanvasSaveLayerRecord(reader);
+      case 2:
+        return fromBytesCanvasRestoreRecord(reader);
+      case 3:
+        return fromBytesCanvasRestoreToCountRecord(reader);
+      case 4:
+        return fromBytesCanvasGetSaveCountRecord(reader);
+      case 5:
+        return fromBytesCanvasTranslateRecord(reader);
+      case 6:
+        return fromBytesCanvasScaleRecord(reader);
+      case 7:
+        return fromBytesCanvasRotateRecord(reader);
+      case 8:
+        return fromBytesCanvasSkewRecord(reader);
+      case 9:
+        return fromBytesCanvasTransformRecord(reader);
+      case 10:
+        return fromBytesCanvasGetTransformRecord(reader);
+      case 11:
+        return fromBytesCanvasClipRectRecord(reader);
+      case 12:
+        return fromBytesCanvasClipRRectRecord(reader);
+      case 13:
+        return fromBytesCanvasClipPathRecord(reader);
+      case 14:
+        return fromBytesCanvasGetLocalClipBoundsRecord(reader);
+      case 15:
+        return fromBytesCanvasGetDestinationClipBoundsRecord(reader);
+      case 16:
+        return fromBytesCanvasDrawColorRecord(reader);
+      case 17:
+        return fromBytesCanvasDrawLineRecord(reader);
+      case 18:
+        return fromBytesCanvasDrawPaintRecord(reader);
+      case 19:
+        return fromBytesCanvasDrawRectRecord(reader);
+      case 20:
+        return fromBytesCanvasDrawRRectRecord(reader);
+      case 21:
+        return fromBytesCanvasDrawDRRectRecord(reader);
+      case 22:
+        return fromBytesCanvasDrawOvalRecord(reader);
+      case 23:
+        return fromBytesCanvasDrawCircleRecord(reader);
+      case 24:
+        return fromBytesCanvasDrawArcRecord(reader);
+      case 25:
+        return fromBytesCanvasDrawPathRecord(reader);
+      case 26:
+        return fromBytesCanvasDrawImageRecord(reader);
+      case 27:
+        return fromBytesCanvasDrawImageRectRecord(reader);
+      case 28:
+        return fromBytesCanvasDrawImageNineRecord(reader);
+      case 29:
+        return fromBytesCanvasDrawPictureRecord(reader);
+      case 30:
+        return fromBytesCanvasDrawParagraphRecord(reader);
+      case 31:
+        return fromBytesCanvasDrawPointsRecord(reader);
+      case 32:
+        return fromBytesCanvasDrawRawPointsRecord(reader);
+      case 33:
+        return fromBytesCanvasDrawVerticesRecord(reader);
+      case 34:
+        return fromBytesCanvasDrawAtlasRecord(reader);
+      case 35:
+        return fromBytesCanvasDrawRawAtlasRecord(reader);
+      case 36:
+        return fromBytesCanvasDrawShadowRecord(reader);
+      default:
+        throw UnimplementedError('unknown index=$index');
+    }
+  }
+
   Ret execute(Canvas proxy);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   Canvas_RecordBase<Ret> temporaryClone();
+
+  void toBytes(BytesBuilder writer);
 }
 
 class Canvas_Save_Record implements Canvas_RecordBase<void> {

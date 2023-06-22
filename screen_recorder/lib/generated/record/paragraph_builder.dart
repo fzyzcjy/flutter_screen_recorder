@@ -12,11 +12,37 @@ import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
-abstract class ParagraphBuilder_RecordBase<Ret> {
+sealed class ParagraphBuilder_RecordBase<Ret> {
+  ParagraphBuilder_RecordBase();
+
+  ParagraphBuilder_RecordBase.fromBytes(BytesReader reader) {
+    final index = fromBytesUint8(reader);
+    switch (index) {
+      case 0:
+        return fromBytesParagraphBuilderPlaceholderCountRecord(reader);
+      case 1:
+        return fromBytesParagraphBuilderPlaceholderScalesRecord(reader);
+      case 2:
+        return fromBytesParagraphBuilderPushStyleRecord(reader);
+      case 3:
+        return fromBytesParagraphBuilderPopRecord(reader);
+      case 4:
+        return fromBytesParagraphBuilderAddTextRecord(reader);
+      case 5:
+        return fromBytesParagraphBuilderAddPlaceholderRecord(reader);
+      case 6:
+        return fromBytesParagraphBuilderBuildRecord(reader);
+      default:
+        throw UnimplementedError('unknown index=$index');
+    }
+  }
+
   Ret execute(ParagraphBuilder proxy);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   ParagraphBuilder_RecordBase<Ret> temporaryClone();
+
+  void toBytes(BytesBuilder writer);
 }
 
 class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<void> {

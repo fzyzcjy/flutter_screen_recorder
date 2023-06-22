@@ -12,11 +12,63 @@ import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
-abstract class SceneBuilder_RecordBase<Ret> {
+sealed class SceneBuilder_RecordBase<Ret> {
+  SceneBuilder_RecordBase();
+
+  SceneBuilder_RecordBase.fromBytes(BytesReader reader) {
+    final index = fromBytesUint8(reader);
+    switch (index) {
+      case 0:
+        return fromBytesSceneBuilderPushTransformRecord(reader);
+      case 1:
+        return fromBytesSceneBuilderPushOffsetRecord(reader);
+      case 2:
+        return fromBytesSceneBuilderPushClipRectRecord(reader);
+      case 3:
+        return fromBytesSceneBuilderPushClipRRectRecord(reader);
+      case 4:
+        return fromBytesSceneBuilderPushClipPathRecord(reader);
+      case 5:
+        return fromBytesSceneBuilderPushOpacityRecord(reader);
+      case 6:
+        return fromBytesSceneBuilderPushColorFilterRecord(reader);
+      case 7:
+        return fromBytesSceneBuilderPushImageFilterRecord(reader);
+      case 8:
+        return fromBytesSceneBuilderPushBackdropFilterRecord(reader);
+      case 9:
+        return fromBytesSceneBuilderPushShaderMaskRecord(reader);
+      case 10:
+        return fromBytesSceneBuilderPopRecord(reader);
+      case 11:
+        return fromBytesSceneBuilderAddRetainedRecord(reader);
+      case 12:
+        return fromBytesSceneBuilderAddPerformanceOverlayRecord(reader);
+      case 13:
+        return fromBytesSceneBuilderAddPictureRecord(reader);
+      case 14:
+        return fromBytesSceneBuilderAddTextureRecord(reader);
+      case 15:
+        return fromBytesSceneBuilderAddPlatformViewRecord(reader);
+      case 16:
+        return fromBytesSceneBuilderSetRasterizerTracingThresholdRecord(reader);
+      case 17:
+        return fromBytesSceneBuilderSetCheckerboardRasterCacheImagesRecord(reader);
+      case 18:
+        return fromBytesSceneBuilderSetCheckerboardOffscreenLayersRecord(reader);
+      case 19:
+        return fromBytesSceneBuilderBuildRecord(reader);
+      default:
+        throw UnimplementedError('unknown index=$index');
+    }
+  }
+
   Ret execute(SceneBuilder proxy);
 
   // TODO only a temporary workaround, should remove after implementing serialization
   SceneBuilder_RecordBase<Ret> temporaryClone();
+
+  void toBytes(BytesBuilder writer);
 }
 
 class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<TransformEngineLayer> {

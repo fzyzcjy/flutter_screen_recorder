@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:code_builder/code_builder.dart';
+import 'package:collection/collection.dart';
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 import 'package:screen_recorder_code_generator/method_replayer/generator/delegate.dart';
 import 'package:screen_recorder_code_generator/serialization/generator.dart';
@@ -20,17 +21,45 @@ import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/serialization.dart';
 import 'package:screen_recorder/temporary_clone.dart';
 
-abstract class ${config.recordBaseClass}<Ret> {
-  Ret execute(${config.originalClass} proxy);
-  
-  // TODO only a temporary workaround, should remove after implementing serialization
-  ${config.recordBaseClass}<Ret> temporaryClone();
-}
+${_generateBaseClass(config)}
 
 ${config.methods.map((configMethod) => _generateRecordClass(config, configMethod)).join('\n\n')}
   ''';
 
   File('$dirTarget/record/${config.generatedFilename}').writeAsStringSync(dartfmt.format(text));
+}
+
+String _generateBaseClass(Config config) {
+  return '''
+sealed class ${config.recordBaseClass}<Ret> {
+  ${config.recordBaseClass}();
+  
+  ${_generateBaseClassFromBytes(config)}
+  
+  Ret execute(${config.originalClass} proxy);
+  
+  // TODO only a temporary workaround, should remove after implementing serialization
+  ${config.recordBaseClass}<Ret> temporaryClone();
+
+  void toBytes(BytesBuilder writer);
+}
+  ''';
+}
+
+String _generateBaseClassFromBytes(Config config) {
+  return '''
+  ${config.recordBaseClass}.fromBytes(BytesReader reader) {
+    final index = fromBytesUint8(reader);
+    switch (index) {
+      ${config.methods.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
+      default: throw UnimplementedError('unknown index=\$index');
+    }
+  }
+  ''';
+}
+
+String _generateBaseClassFromBytesCase(Config config, ConfigMethod configMethod, int index) {
+  return 'case $index: return fromBytes${getSerializationPartialName(configMethod.recordClassName(config))}(reader);';
 }
 
 String _generateRecordClass(Config config, ConfigMethod configMethod) {

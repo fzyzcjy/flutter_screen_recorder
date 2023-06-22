@@ -8,7 +8,7 @@ final kConfigSceneBuilder = Config(
       methodName: 'pushTransform',
       parameters: [
         ConfigMethodParameter('Float64List matrix4'),
-        ConfigMethodParameter('TransformEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('TransformEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -17,7 +17,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('double dx'),
         ConfigMethodParameter('double dy'),
-        ConfigMethodParameter('OffsetEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('OffsetEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -26,7 +26,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('Rect rect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipRectEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ClipRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -35,7 +35,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('RRect rrect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipRRectEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ClipRRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -44,7 +44,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('Path path'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
-        ConfigMethodParameter('ClipPathEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ClipPathEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -53,7 +53,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('int alpha'),
         ConfigMethodParameter('Offset? offset', defaultTo: 'Offset.zero'),
-        ConfigMethodParameter('OpacityEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('OpacityEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -61,7 +61,7 @@ final kConfigSceneBuilder = Config(
       methodName: 'pushColorFilter',
       parameters: [
         ConfigMethodParameter('ColorFilter filter'),
-        ConfigMethodParameter('ColorFilterEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ColorFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -70,7 +70,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),
-        ConfigMethodParameter('ImageFilterEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ImageFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -79,7 +79,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('BlendMode blendMode', defaultTo: 'BlendMode.srcOver'),
-        ConfigMethodParameter('BackdropFilterEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('BackdropFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(
@@ -90,7 +90,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('Rect maskRect'),
         ConfigMethodParameter('BlendMode blendMode'),
         ConfigMethodParameter('FilterQuality filterQuality', defaultTo: 'FilterQuality.low'),
-        ConfigMethodParameter('ShaderMaskEngineLayer? oldLayer', required: false, named: true),
+        ConfigMethodParameter('ShaderMaskEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
       ],
     ),
     ConfigMethod(

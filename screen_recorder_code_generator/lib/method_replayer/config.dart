@@ -38,11 +38,14 @@ class ConfigMethodParameter {
   final bool named;
   final String? defaultTo;
 
+  final bool enableRecord;
+
   ConfigMethodParameter(
     String typeAndName, {
     bool? required,
     bool? named,
     this.defaultTo,
+    this.enableRecord = true,
   })  : assert(typeAndName.split(' ').length == 2),
         type = typeAndName.split(' ')[0],
         name = typeAndName.split(' ')[1],

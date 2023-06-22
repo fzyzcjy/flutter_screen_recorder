@@ -23,7 +23,7 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
   return Class(
     (b) => b
       ..name = '${config.originalClass}_${ReCase(configMethod.methodName).pascalCase}_Record'
-      ..fields.addAll(configMethod.parameters.map((e) => Field(
+      ..fields.addAll(configMethod.parametersForRecord.map((e) => Field(
             (b) => b
               ..name = e.name
               ..type = refer(e.type)
@@ -31,7 +31,7 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
           )))
       ..constructors.add(Constructor(
         (b) => b
-          ..optionalParameters.addAll(configMethod.parameters.map((e) => Parameter(
+          ..optionalParameters.addAll(configMethod.parametersForRecord.map((e) => Parameter(
                 (b) => b
                   ..name = e.name
                   ..toThis = true
@@ -45,7 +45,7 @@ String _generateRecordClass(Config config, ConfigMethod configMethod) {
 
 Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMethod) {
   final bodyCallProxy = refer(configMethod.methodName)
-      .call(configMethod.positionalArguments, configMethod.namedArguments)
+      .call(configMethod.parametersForRecord.positionalArguments, configMethod.parametersForRecord.namedArguments)
       .statement
       .dartCode;
   final body = 'return proxy.$bodyCallProxy';
@@ -61,4 +61,8 @@ Method _generateRecordClassMethodExecute(Config config, ConfigMethod configMetho
       ))
       ..body = Code(body),
   );
+}
+
+extension on ConfigMethod {
+  List<ConfigMethodParameter> get parametersForRecord => parameters.where((e) => e.enableRecord).toList();
 }

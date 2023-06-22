@@ -4,20 +4,12 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 class SceneBuilder_PushTransform_Record {
-  SceneBuilder_PushTransform_Record({
-    required this.matrix4,
-    required this.oldLayer,
-  });
+  SceneBuilder_PushTransform_Record({required this.matrix4});
 
   final Float64List matrix4;
 
-  final TransformEngineLayer? oldLayer;
-
   TransformEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushTransform(
-      matrix4,
-      oldLayer: oldLayer,
-    );
+    return proxy.pushTransform(matrix4);
   }
 }
 
@@ -25,20 +17,16 @@ class SceneBuilder_PushOffset_Record {
   SceneBuilder_PushOffset_Record({
     required this.dx,
     required this.dy,
-    required this.oldLayer,
   });
 
   final double dx;
 
   final double dy;
 
-  final OffsetEngineLayer? oldLayer;
-
   OffsetEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushOffset(
       dx,
       dy,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -47,20 +35,16 @@ class SceneBuilder_PushClipRect_Record {
   SceneBuilder_PushClipRect_Record({
     required this.rect,
     required this.clipBehavior,
-    required this.oldLayer,
   });
 
   final Rect rect;
 
   final Clip clipBehavior;
 
-  final ClipRectEngineLayer? oldLayer;
-
   ClipRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRect(
       rect,
       clipBehavior: clipBehavior,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -69,20 +53,16 @@ class SceneBuilder_PushClipRRect_Record {
   SceneBuilder_PushClipRRect_Record({
     required this.rrect,
     required this.clipBehavior,
-    required this.oldLayer,
   });
 
   final RRect rrect;
 
   final Clip clipBehavior;
 
-  final ClipRRectEngineLayer? oldLayer;
-
   ClipRRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRRect(
       rrect,
       clipBehavior: clipBehavior,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -91,20 +71,16 @@ class SceneBuilder_PushClipPath_Record {
   SceneBuilder_PushClipPath_Record({
     required this.path,
     required this.clipBehavior,
-    required this.oldLayer,
   });
 
   final Path path;
 
   final Clip clipBehavior;
 
-  final ClipPathEngineLayer? oldLayer;
-
   ClipPathEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipPath(
       path,
       clipBehavior: clipBehavior,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -113,39 +89,27 @@ class SceneBuilder_PushOpacity_Record {
   SceneBuilder_PushOpacity_Record({
     required this.alpha,
     required this.offset,
-    required this.oldLayer,
   });
 
   final int alpha;
 
   final Offset? offset;
 
-  final OpacityEngineLayer? oldLayer;
-
   OpacityEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushOpacity(
       alpha,
       offset: offset,
-      oldLayer: oldLayer,
     );
   }
 }
 
 class SceneBuilder_PushColorFilter_Record {
-  SceneBuilder_PushColorFilter_Record({
-    required this.filter,
-    required this.oldLayer,
-  });
+  SceneBuilder_PushColorFilter_Record({required this.filter});
 
   final ColorFilter filter;
 
-  final ColorFilterEngineLayer? oldLayer;
-
   ColorFilterEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushColorFilter(
-      filter,
-      oldLayer: oldLayer,
-    );
+    return proxy.pushColorFilter(filter);
   }
 }
 
@@ -153,20 +117,16 @@ class SceneBuilder_PushImageFilter_Record {
   SceneBuilder_PushImageFilter_Record({
     required this.filter,
     required this.offset,
-    required this.oldLayer,
   });
 
   final ImageFilter filter;
 
   final Offset offset;
 
-  final ImageFilterEngineLayer? oldLayer;
-
   ImageFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushImageFilter(
       filter,
       offset: offset,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -175,20 +135,16 @@ class SceneBuilder_PushBackdropFilter_Record {
   SceneBuilder_PushBackdropFilter_Record({
     required this.filter,
     required this.blendMode,
-    required this.oldLayer,
   });
 
   final ImageFilter filter;
 
   final BlendMode blendMode;
 
-  final BackdropFilterEngineLayer? oldLayer;
-
   BackdropFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushBackdropFilter(
       filter,
       blendMode: blendMode,
-      oldLayer: oldLayer,
     );
   }
 }
@@ -199,7 +155,6 @@ class SceneBuilder_PushShaderMask_Record {
     required this.maskRect,
     required this.blendMode,
     required this.filterQuality,
-    required this.oldLayer,
   });
 
   final Shader shader;
@@ -210,15 +165,12 @@ class SceneBuilder_PushShaderMask_Record {
 
   final FilterQuality filterQuality;
 
-  final ShaderMaskEngineLayer? oldLayer;
-
   ShaderMaskEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushShaderMask(
       shader,
       maskRect,
       blendMode,
       filterQuality: filterQuality,
-      oldLayer: oldLayer,
     );
   }
 }

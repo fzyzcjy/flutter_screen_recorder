@@ -30,7 +30,10 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
     final callMethodName = 'proxy.${configMethod.methodName}';
     return configMethod.type == MethodType.getter
         ? '$callMethodName;'
-        : refer(callMethodName).call(configMethod.positionalArguments, configMethod.namedArguments).statement.dartCode;
+        : refer(callMethodName)
+            .call(configMethod.parameters.positionalArguments, configMethod.parameters.namedArguments)
+            .statement
+            .dartCode;
   }();
   final body = 'return $bodyCallProxy';
 
@@ -40,21 +43,23 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
       ..annotations.add(refer('override'))
       ..type = configMethod.type
       ..returns = refer(configMethod.returnType)
-      ..requiredParameters.addAll(configMethod.requiredParameters)
-      ..optionalParameters.addAll(configMethod.optionalParameters)
+      ..requiredParameters.addAll(configMethod.parameters.requiredParameters)
+      ..optionalParameters.addAll(configMethod.parameters.optionalParameters)
       ..body = Code(body),
   ).dartCode;
 }
 
-extension ExtConfigMethod on ConfigMethod {
-  List<Parameter> get requiredParameters => parameters.where((e) => e.required).map((e) => e.toParameter()).toList();
+extension ExtConfigMethod on ConfigMethod {}
 
-  List<Parameter> get optionalParameters => parameters.where((e) => !e.required).map((e) => e.toParameter()).toList();
+extension ExtListConfigMethodParameter on List<ConfigMethodParameter> {
+  List<Parameter> get requiredParameters => where((e) => e.required).map((e) => e.toParameter()).toList();
 
-  List<Expression> get positionalArguments => parameters.where((e) => !e.named).map((e) => refer(e.name)).toList();
+  List<Parameter> get optionalParameters => where((e) => !e.required).map((e) => e.toParameter()).toList();
+
+  List<Expression> get positionalArguments => where((e) => !e.named).map((e) => refer(e.name)).toList();
 
   Map<String, Expression> get namedArguments =>
-      Map.fromEntries(parameters.where((e) => e.named).map((e) => MapEntry(e.name, refer(e.name))));
+      Map.fromEntries(where((e) => e.named).map((e) => MapEntry(e.name, refer(e.name))));
 }
 
 extension on ConfigMethodParameter {

@@ -12,12 +12,14 @@ class RecordList<MR> {
 }
 
 class RecordListWithConstructor<CR, MR> extends RecordList<MR> {
-  CR? constructorRecord;
+  late CR constructorRecord;
 
   RecordListWithConstructor({
-    this.constructorRecord,
+    CR? constructorRecord,
     required super.methodCallRecords,
-  });
+  }) {
+    if (constructorRecord != null) this.constructorRecord = constructorRecord;
+  }
 }
 
 typedef ParagraphBuilderRecordList

@@ -13,6 +13,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:screen_recorder/bytes_reader.dart';
+import 'package:screen_recorder/delegate_base/paragraph_builder.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';

@@ -1,13 +1,17 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/generated/delegate/canvas.dart';
 import 'package:screen_recorder/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/generated/delegate/scene_builder.dart';
+import 'package:screen_recorder/generated/serialization/serialization.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
-import 'package:screen_recorder/record_list.dart';
+import 'package:screen_recorder/simple_compressor.dart';
 
 class ScreenRecorder {
   static const _kTag = 'ScreenRecorder';
@@ -18,10 +22,11 @@ class ScreenRecorder {
 
   var recording = true;
 
-  // var overallUncompressedBytesLen = 0;
-  // final compressor = SimpleCompressor();
+  var overallUncompressedBytesLen = 0;
+  final compressor = SimpleCompressor();
 
-  final sceneBuilderDataArr = <SceneBuilderRecordList>[];
+  // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
+  final sceneBuilderDataArr = <Uint8List>[];
 
   void setup() {
     PaintingContext.createPictureRecorder = () => MyPictureRecorder(PictureRecorder());
@@ -33,18 +38,44 @@ class ScreenRecorder {
   }
 
   void _handlePersistentFrameCallback() {
-    // print('$_kTag PersistentFrameCallback '
-    //     'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-    //     'compressor=$compressor '
-    //     'experimentalData=${DataPerFrame.instance.experimentalData}');
-    //
-    // overallUncompressedBytesLen += DataPerFrame.instance.experimentalData.bytes.length;
-    // compressor.add(DataPerFrame.instance.experimentalData.bytes.takeBytes());
+    print('$_kTag PersistentFrameCallback '
+        'overallUncompressedBytesLen=$overallUncompressedBytesLen '
+        'compressor=$compressor');
 
     if (recording) {
-      sceneBuilderDataArr.add(DataPerFrame.instance.sceneBuilderData);
+      final sceneBuilderData = DataPerFrame.instance.sceneBuilderData;
+      final bytesBuilder = BytesBuilder(copy: true);
+      toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderData);
+      final bytes = bytesBuilder.takeBytes();
+
+      sceneBuilderDataArr.add(bytes);
+
+      overallUncompressedBytesLen += bytes.length;
+      compressor.add(bytes);
+
+      assert(() {
+        _sanityCheckSerialization(bytes);
+        return true;
+      }());
     }
 
     DataPerFrame.instance = DataPerFrame();
   }
+}
+
+void _sanityCheckSerialization(Uint8List srcBytes) {
+  final reader = BytesReader(srcBytes);
+  final restoredData = fromBytesSceneBuilderRecordList(reader);
+  assert(reader.eof);
+
+  final againBytesBuilder = BytesBuilder(copy: true);
+  toBytesSceneBuilderRecordList(againBytesBuilder, restoredData);
+  final againBytes = againBytesBuilder.takeBytes();
+
+  assert(
+    listEquals(srcBytes, againBytes),
+    'sanityCheckSerialization failed '
+    'srcBytes.length=${srcBytes.length} '
+    'againBytes.length=${againBytes.length}',
+  );
 }

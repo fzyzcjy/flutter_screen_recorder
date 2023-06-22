@@ -22,4 +22,6 @@ class BytesReader {
   void advance(int num) {
     index += num;
   }
+ 
+  bool get eof => index == bytes.length;
 }

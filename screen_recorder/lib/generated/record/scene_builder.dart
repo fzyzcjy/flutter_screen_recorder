@@ -69,16 +69,24 @@ sealed class SceneBuilder_RecordBase<Ret> {
 }
 
 class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<TransformEngineLayer> {
-  SceneBuilder_PushTransform_Record({required this.matrix4});
+  SceneBuilder_PushTransform_Record({
+    required this.matrix4,
+    required this.layerId,
+  });
 
   factory SceneBuilder_PushTransform_Record.fromBytes(BytesReader reader) =>
       fromBytesSceneBuilderPushTransformRecord(reader);
 
   final Float64List matrix4;
 
+  final int layerId;
+
   @override
   TransformEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushTransform(matrix4);
+    return proxy.pushTransform(
+      matrix4,
+      layerId,
+    );
   }
 
   @override
@@ -87,7 +95,10 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushTransformRecord(writer, this);
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
-    return SceneBuilder_PushTransform_Record(matrix4: matrix4.temporaryClone());
+    return SceneBuilder_PushTransform_Record(
+      matrix4: matrix4.temporaryClone(),
+      layerId: layerId,
+    );
   }
 }
 
@@ -95,6 +106,7 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
   SceneBuilder_PushOffset_Record({
     required this.dx,
     required this.dy,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushOffset_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderPushOffsetRecord(reader);
@@ -103,11 +115,14 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
 
   final double dy;
 
+  final int layerId;
+
   @override
   OffsetEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushOffset(
       dx,
       dy,
+      layerId,
     );
   }
 
@@ -120,6 +135,7 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
     return SceneBuilder_PushOffset_Record(
       dx: dx,
       dy: dy,
+      layerId: layerId,
     );
   }
 }
@@ -128,6 +144,7 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
   SceneBuilder_PushClipRect_Record({
     required this.rect,
     required this.clipBehavior,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushClipRect_Record.fromBytes(BytesReader reader) =>
@@ -137,10 +154,13 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
 
   final Clip clipBehavior;
 
+  final int layerId;
+
   @override
   ClipRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRect(
       rect,
+      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -154,6 +174,7 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
     return SceneBuilder_PushClipRect_Record(
       rect: rect,
       clipBehavior: clipBehavior,
+      layerId: layerId,
     );
   }
 }
@@ -162,6 +183,7 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
   SceneBuilder_PushClipRRect_Record({
     required this.rrect,
     required this.clipBehavior,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushClipRRect_Record.fromBytes(BytesReader reader) =>
@@ -171,10 +193,13 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
 
   final Clip clipBehavior;
 
+  final int layerId;
+
   @override
   ClipRRectEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipRRect(
       rrect,
+      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -188,6 +213,7 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
     return SceneBuilder_PushClipRRect_Record(
       rrect: rrect,
       clipBehavior: clipBehavior,
+      layerId: layerId,
     );
   }
 }
@@ -196,6 +222,7 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
   SceneBuilder_PushClipPath_Record({
     required this.path,
     required this.clipBehavior,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushClipPath_Record.fromBytes(BytesReader reader) =>
@@ -205,10 +232,13 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
 
   final Clip clipBehavior;
 
+  final int layerId;
+
   @override
   ClipPathEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushClipPath(
       path,
+      layerId,
       clipBehavior: clipBehavior,
     );
   }
@@ -222,6 +252,7 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
     return SceneBuilder_PushClipPath_Record(
       path: path.temporaryClone(),
       clipBehavior: clipBehavior,
+      layerId: layerId,
     );
   }
 }
@@ -230,6 +261,7 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
   SceneBuilder_PushOpacity_Record({
     required this.alpha,
     required this.offset,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushOpacity_Record.fromBytes(BytesReader reader) =>
@@ -239,10 +271,13 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
 
   final Offset? offset;
 
+  final int layerId;
+
   @override
   OpacityEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushOpacity(
       alpha,
+      layerId,
       offset: offset,
     );
   }
@@ -256,21 +291,30 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
     return SceneBuilder_PushOpacity_Record(
       alpha: alpha,
       offset: offset,
+      layerId: layerId,
     );
   }
 }
 
 class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorFilterEngineLayer> {
-  SceneBuilder_PushColorFilter_Record({required this.filter});
+  SceneBuilder_PushColorFilter_Record({
+    required this.filter,
+    required this.layerId,
+  });
 
   factory SceneBuilder_PushColorFilter_Record.fromBytes(BytesReader reader) =>
       fromBytesSceneBuilderPushColorFilterRecord(reader);
 
   final ColorFilter filter;
 
+  final int layerId;
+
   @override
   ColorFilterEngineLayer execute(SceneBuilder proxy) {
-    return proxy.pushColorFilter(filter);
+    return proxy.pushColorFilter(
+      filter,
+      layerId,
+    );
   }
 
   @override
@@ -279,7 +323,10 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
   void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushColorFilterRecord(writer, this);
   @override
   SceneBuilder_PushColorFilter_Record temporaryClone() {
-    return SceneBuilder_PushColorFilter_Record(filter: filter);
+    return SceneBuilder_PushColorFilter_Record(
+      filter: filter,
+      layerId: layerId,
+    );
   }
 }
 
@@ -287,6 +334,7 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
   SceneBuilder_PushImageFilter_Record({
     required this.filter,
     required this.offset,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushImageFilter_Record.fromBytes(BytesReader reader) =>
@@ -296,10 +344,13 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
 
   final Offset offset;
 
+  final int layerId;
+
   @override
   ImageFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushImageFilter(
       filter,
+      layerId,
       offset: offset,
     );
   }
@@ -313,6 +364,7 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
     return SceneBuilder_PushImageFilter_Record(
       filter: filter,
       offset: offset,
+      layerId: layerId,
     );
   }
 }
@@ -321,6 +373,7 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
   SceneBuilder_PushBackdropFilter_Record({
     required this.filter,
     required this.blendMode,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushBackdropFilter_Record.fromBytes(BytesReader reader) =>
@@ -330,10 +383,13 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
 
   final BlendMode blendMode;
 
+  final int layerId;
+
   @override
   BackdropFilterEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushBackdropFilter(
       filter,
+      layerId,
       blendMode: blendMode,
     );
   }
@@ -347,6 +403,7 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
     return SceneBuilder_PushBackdropFilter_Record(
       filter: filter,
       blendMode: blendMode,
+      layerId: layerId,
     );
   }
 }
@@ -357,6 +414,7 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
     required this.maskRect,
     required this.blendMode,
     required this.filterQuality,
+    required this.layerId,
   });
 
   factory SceneBuilder_PushShaderMask_Record.fromBytes(BytesReader reader) =>
@@ -370,12 +428,15 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
 
   final FilterQuality filterQuality;
 
+  final int layerId;
+
   @override
   ShaderMaskEngineLayer execute(SceneBuilder proxy) {
     return proxy.pushShaderMask(
       shader,
       maskRect,
       blendMode,
+      layerId,
       filterQuality: filterQuality,
     );
   }
@@ -391,6 +452,7 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
       maskRect: maskRect,
       blendMode: blendMode,
       filterQuality: filterQuality,
+      layerId: layerId,
     );
   }
 }

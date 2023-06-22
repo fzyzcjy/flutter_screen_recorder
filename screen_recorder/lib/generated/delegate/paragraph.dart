@@ -9,6 +9,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/paragraph.dart';
 import 'package:screen_recorder/delegate_base/paragraph.dart';
+import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/paragraph.dart';
 
 class MyParagraph extends MyParagraphBase implements Paragraph {

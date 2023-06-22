@@ -1,5 +1,11 @@
 import 'package:screen_recorder_code_generator/method_replayer/config.dart';
 
+final _parameterSynthesizedLayerId = ConfigMethodParameter(
+  'int layerId',
+  synthesizedInRecord: true,
+  recordConstructorArgument: 'result.layerId',
+);
+
 final kConfigSceneBuilder = Config(
   originalClass: 'SceneBuilder',
   constructorParams: 'super.proxy',
@@ -11,6 +17,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('Float64List matrix4'),
         ConfigMethodParameter('TransformEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -21,6 +28,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('double dx'),
         ConfigMethodParameter('double dy'),
         ConfigMethodParameter('OffsetEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -31,6 +39,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('Rect rect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
         ConfigMethodParameter('ClipRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -41,6 +50,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('RRect rrect'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
         ConfigMethodParameter('ClipRRectEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -51,6 +61,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('Path path'),
         ConfigMethodParameter('Clip clipBehavior', defaultTo: 'Clip.antiAlias'),
         ConfigMethodParameter('ClipPathEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -61,6 +72,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('int alpha'),
         ConfigMethodParameter('Offset? offset', defaultTo: 'Offset.zero'),
         ConfigMethodParameter('OpacityEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -70,6 +82,7 @@ final kConfigSceneBuilder = Config(
       parameters: [
         ConfigMethodParameter('ColorFilter filter'),
         ConfigMethodParameter('ColorFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -80,6 +93,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('Offset offset', defaultTo: 'Offset.zero'),
         ConfigMethodParameter('ImageFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -90,6 +104,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('ImageFilter filter'),
         ConfigMethodParameter('BlendMode blendMode', defaultTo: 'BlendMode.srcOver'),
         ConfigMethodParameter('BackdropFilterEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(
@@ -102,6 +117,7 @@ final kConfigSceneBuilder = Config(
         ConfigMethodParameter('BlendMode blendMode'),
         ConfigMethodParameter('FilterQuality filterQuality', defaultTo: 'FilterQuality.low'),
         ConfigMethodParameter('ShaderMaskEngineLayer? oldLayer', required: false, named: true, enableRecord: false),
+        _parameterSynthesizedLayerId,
       ],
     ),
     ConfigMethod(

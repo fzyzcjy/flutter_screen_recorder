@@ -9,6 +9,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/scene_builder.dart';
 import 'package:screen_recorder/delegate_base/paragraph.dart';
+import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
 
 class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
@@ -23,7 +24,10 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
       matrix4,
       oldLayer: oldLayer,
     );
-    final record = SceneBuilder_PushTransform_Record(matrix4: matrix4);
+    final record = SceneBuilder_PushTransform_Record(
+      matrix4: matrix4,
+      layerId: result.layerId,
+    );
     handlePushOp(result, record);
     return result;
   }
@@ -42,6 +46,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushOffset_Record(
       dx: dx,
       dy: dy,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -61,6 +66,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipRect_Record(
       rect: rect,
       clipBehavior: clipBehavior,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -80,6 +86,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipRRect_Record(
       rrect: rrect,
       clipBehavior: clipBehavior,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -99,6 +106,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushClipPath_Record(
       path: path,
       clipBehavior: clipBehavior,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -118,6 +126,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushOpacity_Record(
       alpha: alpha,
       offset: offset,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -132,7 +141,10 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
       filter,
       oldLayer: oldLayer,
     );
-    final record = SceneBuilder_PushColorFilter_Record(filter: filter);
+    final record = SceneBuilder_PushColorFilter_Record(
+      filter: filter,
+      layerId: result.layerId,
+    );
     handlePushOp(result, record);
     return result;
   }
@@ -151,6 +163,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushImageFilter_Record(
       filter: filter,
       offset: offset,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -170,6 +183,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
     final record = SceneBuilder_PushBackdropFilter_Record(
       filter: filter,
       blendMode: blendMode,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;
@@ -195,6 +209,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
       maskRect: maskRect,
       blendMode: blendMode,
       filterQuality: filterQuality,
+      layerId: result.layerId,
     );
     handlePushOp(result, record);
     return result;

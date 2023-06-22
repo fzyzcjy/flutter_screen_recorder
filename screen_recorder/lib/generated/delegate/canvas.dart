@@ -9,6 +9,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/canvas.dart';
 import 'package:screen_recorder/delegate_base/paragraph.dart';
+import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 
 class MyCanvas extends MyCanvasBase implements Canvas {

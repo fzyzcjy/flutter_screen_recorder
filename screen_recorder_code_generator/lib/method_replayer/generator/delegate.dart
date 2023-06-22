@@ -16,6 +16,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/delegate_base/${config.generatedFilename}';
 import 'package:screen_recorder/delegate_base/paragraph.dart';
+import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/${config.generatedFilename}';
 
 class ${config.generatedClass} extends ${config.superClass} implements ${config.originalClass} {
@@ -31,7 +32,10 @@ class ${config.generatedClass} extends ${config.superClass} implements ${config.
 String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
   final bodyConstructRecord = configMethod.enableRecord
       ? refer(configMethod.recordClassName(config))
-          .call([], Map.fromEntries(configMethod.parametersForRecord.map((e) => MapEntry(e.name, refer(e.name)))))
+          .call(
+              [],
+              Map.fromEntries(configMethod.parametersForRecord
+                  .map((e) => MapEntry(e.name, refer(e.recordConstructorArgument ?? e.name)))))
           .statement
           .dartCode
       : '';
@@ -44,7 +48,8 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
     return configMethod.type == MethodType.getter
         ? '$callMethodName;'
         : refer(callMethodName)
-            .call(configMethod.parameters.positionalArguments, configMethod.parameters.namedArguments)
+            .call(configMethod.parametersForDelegate.positionalArguments,
+                configMethod.parametersForDelegate.namedArguments)
             .statement
             .dartCode;
   }();
@@ -68,13 +73,15 @@ String _generateDelegateMethod(Config config, ConfigMethod configMethod) {
       ..annotations.add(refer('override'))
       ..type = configMethod.type
       ..returns = refer(configMethod.returnType)
-      ..requiredParameters.addAll(configMethod.parameters.requiredParameters)
-      ..optionalParameters.addAll(configMethod.parameters.optionalParameters)
+      ..requiredParameters.addAll(configMethod.parametersForDelegate.requiredParameters)
+      ..optionalParameters.addAll(configMethod.parametersForDelegate.optionalParameters)
       ..body = Code(bodyLines.join('\n')),
   ).dartCode;
 }
 
-extension ExtConfigMethod on ConfigMethod {}
+extension ExtConfigMethodRecord on ConfigMethod {
+  List<ConfigMethodParameter> get parametersForDelegate => parameters.where((e) => !e.synthesizedInRecord).toList();
+}
 
 extension ExtListConfigMethodParameter on List<ConfigMethodParameter> {
   List<Parameter> get requiredParameters => where((e) => e.required).map((e) => e.toParameter()).toList();

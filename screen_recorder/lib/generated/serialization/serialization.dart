@@ -513,118 +513,149 @@ void toBytesParagraphRecord(BytesWriter writer, ParagraphRecord value) {
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {
   final matrix4 = fromBytesFloat64List(reader);
-  return SceneBuilder_PushTransform_Record(matrix4: matrix4);
+  final layerId = fromBytesInt(reader);
+  return SceneBuilder_PushTransform_Record(
+    matrix4: matrix4,
+    layerId: layerId,
+  );
 }
 
 void toBytesSceneBuilderPushTransformRecord(BytesWriter writer, SceneBuilder_PushTransform_Record value) {
   toBytesFloat64List(writer, value.matrix4);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushOffset_Record fromBytesSceneBuilderPushOffsetRecord(BytesReader reader) {
   final dx = fromBytesDouble(reader);
   final dy = fromBytesDouble(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushOffset_Record(
     dx: dx,
     dy: dy,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushOffsetRecord(BytesWriter writer, SceneBuilder_PushOffset_Record value) {
   toBytesDouble(writer, value.dx);
   toBytesDouble(writer, value.dy);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushClipRect_Record fromBytesSceneBuilderPushClipRectRecord(BytesReader reader) {
   final rect = fromBytesRect(reader);
   final clipBehavior = fromBytesClip(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushClipRect_Record(
     rect: rect,
     clipBehavior: clipBehavior,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushClipRectRecord(BytesWriter writer, SceneBuilder_PushClipRect_Record value) {
   toBytesRect(writer, value.rect);
   toBytesClip(writer, value.clipBehavior);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushClipRRect_Record fromBytesSceneBuilderPushClipRRectRecord(BytesReader reader) {
   final rrect = fromBytesRRect(reader);
   final clipBehavior = fromBytesClip(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushClipRRect_Record(
     rrect: rrect,
     clipBehavior: clipBehavior,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushClipRRectRecord(BytesWriter writer, SceneBuilder_PushClipRRect_Record value) {
   toBytesRRect(writer, value.rrect);
   toBytesClip(writer, value.clipBehavior);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushClipPath_Record fromBytesSceneBuilderPushClipPathRecord(BytesReader reader) {
   final path = fromBytesPath(reader);
   final clipBehavior = fromBytesClip(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushClipPath_Record(
     path: path,
     clipBehavior: clipBehavior,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushClipPathRecord(BytesWriter writer, SceneBuilder_PushClipPath_Record value) {
   toBytesPath(writer, value.path);
   toBytesClip(writer, value.clipBehavior);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushOpacity_Record fromBytesSceneBuilderPushOpacityRecord(BytesReader reader) {
   final alpha = fromBytesInt(reader);
   final offset = fromBytesNullable(reader, fromBytesOffset);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushOpacity_Record(
     alpha: alpha,
     offset: offset,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushOpacityRecord(BytesWriter writer, SceneBuilder_PushOpacity_Record value) {
   toBytesInt(writer, value.alpha);
   toBytesNullable(writer, value.offset, toBytesOffset);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushColorFilter_Record fromBytesSceneBuilderPushColorFilterRecord(BytesReader reader) {
   final filter = fromBytesColorFilter(reader);
-  return SceneBuilder_PushColorFilter_Record(filter: filter);
+  final layerId = fromBytesInt(reader);
+  return SceneBuilder_PushColorFilter_Record(
+    filter: filter,
+    layerId: layerId,
+  );
 }
 
 void toBytesSceneBuilderPushColorFilterRecord(BytesWriter writer, SceneBuilder_PushColorFilter_Record value) {
   toBytesColorFilter(writer, value.filter);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushImageFilter_Record fromBytesSceneBuilderPushImageFilterRecord(BytesReader reader) {
   final filter = fromBytesImageFilter(reader);
   final offset = fromBytesOffset(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushImageFilter_Record(
     filter: filter,
     offset: offset,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushImageFilterRecord(BytesWriter writer, SceneBuilder_PushImageFilter_Record value) {
   toBytesImageFilter(writer, value.filter);
   toBytesOffset(writer, value.offset);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushBackdropFilter_Record fromBytesSceneBuilderPushBackdropFilterRecord(BytesReader reader) {
   final filter = fromBytesImageFilter(reader);
   final blendMode = fromBytesBlendMode(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushBackdropFilter_Record(
     filter: filter,
     blendMode: blendMode,
+    layerId: layerId,
   );
 }
 
 void toBytesSceneBuilderPushBackdropFilterRecord(BytesWriter writer, SceneBuilder_PushBackdropFilter_Record value) {
   toBytesImageFilter(writer, value.filter);
   toBytesBlendMode(writer, value.blendMode);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(BytesReader reader) {
@@ -632,11 +663,13 @@ SceneBuilder_PushShaderMask_Record fromBytesSceneBuilderPushShaderMaskRecord(Byt
   final maskRect = fromBytesRect(reader);
   final blendMode = fromBytesBlendMode(reader);
   final filterQuality = fromBytesFilterQuality(reader);
+  final layerId = fromBytesInt(reader);
   return SceneBuilder_PushShaderMask_Record(
     shader: shader,
     maskRect: maskRect,
     blendMode: blendMode,
     filterQuality: filterQuality,
+    layerId: layerId,
   );
 }
 
@@ -645,6 +678,7 @@ void toBytesSceneBuilderPushShaderMaskRecord(BytesWriter writer, SceneBuilder_Pu
   toBytesRect(writer, value.maskRect);
   toBytesBlendMode(writer, value.blendMode);
   toBytesFilterQuality(writer, value.filterQuality);
+  toBytesInt(writer, value.layerId);
 }
 
 SceneBuilder_Pop_Record fromBytesSceneBuilderPopRecord(BytesReader reader) {

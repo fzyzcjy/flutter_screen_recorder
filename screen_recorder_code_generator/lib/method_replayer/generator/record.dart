@@ -9,6 +9,8 @@ void generateRecord(Config config, String dirTarget) {
   final text = '''
 // ignore_for_file: unused_import, camel_case_types
 
+$kCommentHeader
+
 import 'dart:typed_data';
 import 'dart:ui';
 

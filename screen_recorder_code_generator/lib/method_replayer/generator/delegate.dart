@@ -9,6 +9,8 @@ void generateDelegate(Config config, String dirTarget) {
   final text = '''
 // ignore_for_file: unused_import
 
+$kCommentHeader
+
 import 'dart:typed_data';
 import 'dart:ui';
 

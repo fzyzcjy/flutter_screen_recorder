@@ -20,11 +20,11 @@ abstract class MySceneBuilderBase {
 
   void handlePushOp(EngineLayer result, SceneBuilder_RecordBase<Object?> record) {
     _data.methodCallRecords.add(record.safeClone());
-    result.opRecord = record;
+    result.record = record;
   }
 
   void handleAddRetainedOp(EngineLayer retainedLayer) {
     // NOTE use the stored opRecord
-    _data.ops.add(retainedLayer.opRecord!);
+    _data.ops.add(retainedLayer.record!);
   }
 }

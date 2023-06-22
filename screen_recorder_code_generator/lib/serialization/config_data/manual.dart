@@ -197,7 +197,7 @@ final kManualConfigs = [
   Config(
     className: 'ParagraphRecord',
     fields: [
-      ConfigField(type: 'ParagraphConstraints?', name: 'constraints', named: true),
+      ConfigField(type: 'ParagraphConstraints?', name: 'layoutConstraints', named: true),
     ],
   ),
 ];

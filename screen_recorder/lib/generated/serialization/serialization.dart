@@ -503,12 +503,12 @@ void toBytesParagraphConstraints(BytesWriter writer, ParagraphConstraints value)
 }
 
 ParagraphRecord fromBytesParagraphRecord(BytesReader reader) {
-  final constraints = fromBytesNullable(reader, fromBytesParagraphConstraints);
-  return ParagraphRecord(constraints: constraints);
+  final layoutConstraints = fromBytesNullable(reader, fromBytesParagraphConstraints);
+  return ParagraphRecord(layoutConstraints: layoutConstraints);
 }
 
 void toBytesParagraphRecord(BytesWriter writer, ParagraphRecord value) {
-  toBytesNullable(writer, value.constraints, toBytesParagraphConstraints);
+  toBytesNullable(writer, value.layoutConstraints, toBytesParagraphConstraints);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {

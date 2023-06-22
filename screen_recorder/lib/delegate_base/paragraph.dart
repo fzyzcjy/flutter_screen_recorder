@@ -10,14 +10,14 @@ abstract class MyParagraphBase {
   }
 
   void handleLayoutOp(ParagraphConstraints constraints) {
-    proxy.paragraphRecord!.constraints = constraints;
+    proxy.paragraphRecord!.layoutConstraints = constraints;
   }
 }
 
 class ParagraphRecord {
-  ParagraphConstraints? constraints;
+  ParagraphConstraints? layoutConstraints;
 
   ParagraphRecord({
-    this.constraints,
+    this.layoutConstraints,
   });
 }

@@ -32,7 +32,7 @@ class ParagraphBuilder_PushStyle_Record implements ParagraphBuilder_RecordBase<v
     return proxy.pushStyle(style);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPushStyleRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
     return ParagraphBuilder_PushStyle_Record(style: style);
@@ -49,7 +49,7 @@ class ParagraphBuilder_Pop_Record implements ParagraphBuilder_RecordBase<void> {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPopRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderPopRecord(writer, this);
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -69,7 +69,7 @@ class ParagraphBuilder_AddText_Record implements ParagraphBuilder_RecordBase<voi
     return proxy.addText(text);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddTextRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
     return ParagraphBuilder_AddText_Record(text: text);
@@ -113,7 +113,7 @@ class ParagraphBuilder_AddPlaceholder_Record implements ParagraphBuilder_RecordB
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
     return ParagraphBuilder_AddPlaceholder_Record(

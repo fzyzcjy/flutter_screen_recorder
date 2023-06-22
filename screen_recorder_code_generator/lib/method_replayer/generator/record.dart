@@ -109,7 +109,7 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
           ..name = 'writer'
           ..type = refer('BytesBuilder'),
       ))
-      ..body = Code('toBytes${getSerializationPartialName(configMethod.recordClassName(config))}(writer)'),
+      ..body = Code('toBytes${getSerializationPartialName(configMethod.recordClassName(config))}(writer, this)'),
   );
 }
 

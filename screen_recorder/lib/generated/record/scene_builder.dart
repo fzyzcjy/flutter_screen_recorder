@@ -32,7 +32,7 @@ class SceneBuilder_PushTransform_Record implements SceneBuilder_RecordBase<Trans
     return proxy.pushTransform(matrix4);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushTransformRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushTransformRecord(writer, this);
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
     return SceneBuilder_PushTransform_Record(matrix4: matrix4.temporaryClone());
@@ -59,7 +59,7 @@ class SceneBuilder_PushOffset_Record implements SceneBuilder_RecordBase<OffsetEn
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushOffsetRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushOffsetRecord(writer, this);
   @override
   SceneBuilder_PushOffset_Record temporaryClone() {
     return SceneBuilder_PushOffset_Record(
@@ -90,7 +90,7 @@ class SceneBuilder_PushClipRect_Record implements SceneBuilder_RecordBase<ClipRe
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipRectRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipRectRecord(writer, this);
   @override
   SceneBuilder_PushClipRect_Record temporaryClone() {
     return SceneBuilder_PushClipRect_Record(
@@ -121,7 +121,7 @@ class SceneBuilder_PushClipRRect_Record implements SceneBuilder_RecordBase<ClipR
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipRRectRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipRRectRecord(writer, this);
   @override
   SceneBuilder_PushClipRRect_Record temporaryClone() {
     return SceneBuilder_PushClipRRect_Record(
@@ -152,7 +152,7 @@ class SceneBuilder_PushClipPath_Record implements SceneBuilder_RecordBase<ClipPa
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipPathRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushClipPathRecord(writer, this);
   @override
   SceneBuilder_PushClipPath_Record temporaryClone() {
     return SceneBuilder_PushClipPath_Record(
@@ -183,7 +183,7 @@ class SceneBuilder_PushOpacity_Record implements SceneBuilder_RecordBase<Opacity
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushOpacityRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushOpacityRecord(writer, this);
   @override
   SceneBuilder_PushOpacity_Record temporaryClone() {
     return SceneBuilder_PushOpacity_Record(
@@ -206,7 +206,7 @@ class SceneBuilder_PushColorFilter_Record implements SceneBuilder_RecordBase<Col
     return proxy.pushColorFilter(filter);
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushColorFilterRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushColorFilterRecord(writer, this);
   @override
   SceneBuilder_PushColorFilter_Record temporaryClone() {
     return SceneBuilder_PushColorFilter_Record(filter: filter);
@@ -234,7 +234,7 @@ class SceneBuilder_PushImageFilter_Record implements SceneBuilder_RecordBase<Ima
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushImageFilterRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushImageFilterRecord(writer, this);
   @override
   SceneBuilder_PushImageFilter_Record temporaryClone() {
     return SceneBuilder_PushImageFilter_Record(
@@ -265,7 +265,7 @@ class SceneBuilder_PushBackdropFilter_Record implements SceneBuilder_RecordBase<
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushBackdropFilterRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushBackdropFilterRecord(writer, this);
   @override
   SceneBuilder_PushBackdropFilter_Record temporaryClone() {
     return SceneBuilder_PushBackdropFilter_Record(
@@ -304,7 +304,7 @@ class SceneBuilder_PushShaderMask_Record implements SceneBuilder_RecordBase<Shad
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushShaderMaskRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPushShaderMaskRecord(writer, this);
   @override
   SceneBuilder_PushShaderMask_Record temporaryClone() {
     return SceneBuilder_PushShaderMask_Record(
@@ -326,7 +326,7 @@ class SceneBuilder_Pop_Record implements SceneBuilder_RecordBase<void> {
     return proxy.pop();
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPopRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderPopRecord(writer, this);
   @override
   SceneBuilder_Pop_Record temporaryClone() {
     return SceneBuilder_Pop_Record();
@@ -354,7 +354,7 @@ class SceneBuilder_AddPerformanceOverlay_Record implements SceneBuilder_RecordBa
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer, this);
   @override
   SceneBuilder_AddPerformanceOverlay_Record temporaryClone() {
     return SceneBuilder_AddPerformanceOverlay_Record(
@@ -392,7 +392,7 @@ class SceneBuilder_AddPicture_Record implements SceneBuilder_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPictureRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPictureRecord(writer, this);
   @override
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
@@ -440,7 +440,7 @@ class SceneBuilder_AddTexture_Record implements SceneBuilder_RecordBase<void> {
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddTextureRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddTextureRecord(writer, this);
   @override
   SceneBuilder_AddTexture_Record temporaryClone() {
     return SceneBuilder_AddTexture_Record(
@@ -483,7 +483,7 @@ class SceneBuilder_AddPlatformView_Record implements SceneBuilder_RecordBase<voi
     );
   }
 
-  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPlatformViewRecord(writer);
+  void toBytes(BytesBuilder writer) => toBytesSceneBuilderAddPlatformViewRecord(writer, this);
   @override
   SceneBuilder_AddPlatformView_Record temporaryClone() {
     return SceneBuilder_AddPlatformView_Record(

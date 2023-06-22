@@ -19,6 +19,14 @@ void toBytesClip(BytesBuilder writer, Clip value) {
   writer.addByte(value.index);
 }
 
+ClipOp fromBytesClipOp(BytesReader reader) {
+  return ClipOp.values[reader.readByte()];
+}
+
+void toBytesClipOp(BytesBuilder writer, ClipOp value) {
+  writer.addByte(value.index);
+}
+
 BlendMode fromBytesBlendMode(BytesReader reader) {
   return BlendMode.values[reader.readByte()];
 }
@@ -32,6 +40,30 @@ FilterQuality fromBytesFilterQuality(BytesReader reader) {
 }
 
 void toBytesFilterQuality(BytesBuilder writer, FilterQuality value) {
+  writer.addByte(value.index);
+}
+
+PointMode fromBytesPointMode(BytesReader reader) {
+  return PointMode.values[reader.readByte()];
+}
+
+void toBytesPointMode(BytesBuilder writer, PointMode value) {
+  writer.addByte(value.index);
+}
+
+PlaceholderAlignment fromBytesPlaceholderAlignment(BytesReader reader) {
+  return PlaceholderAlignment.values[reader.readByte()];
+}
+
+void toBytesPlaceholderAlignment(BytesBuilder writer, PlaceholderAlignment value) {
+  writer.addByte(value.index);
+}
+
+TextBaseline fromBytesTextBaseline(BytesReader reader) {
+  return TextBaseline.values[reader.readByte()];
+}
+
+void toBytesTextBaseline(BytesBuilder writer, TextBaseline value) {
   writer.addByte(value.index);
 }
 

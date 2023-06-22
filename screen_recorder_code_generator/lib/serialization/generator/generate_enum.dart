@@ -2,8 +2,12 @@ import 'package:screen_recorder_code_generator/serialization/generator.dart';
 
 const kEnumNames = [
   'Clip',
+  'ClipOp',
   'BlendMode',
   'FilterQuality',
+  'PointMode',
+  'PlaceholderAlignment',
+  'TextBaseline',
 ];
 
 String generateAllEnum() {

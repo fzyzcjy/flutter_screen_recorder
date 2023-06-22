@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-import 'package:screen_recorder/scene_builder_record.dart';
+import 'package:screen_recorder/generated/record/scene_builder.dart';
 
 extension ExtEngineLayerExpando on EngineLayer {
-  static final _expando = Expando<SceneBuilderOpRecord>('EngineLayer.opRecord');
+  static final _expando = Expando<SceneBuilder_RecordBase>('EngineLayer.opRecord');
 
-  SceneBuilderOpRecord? get opRecord => _expando[this];
+  SceneBuilder_RecordBase? get opRecord => _expando[this];
 
-  set opRecord(SceneBuilderOpRecord? value) => _expando[this] = value;
+  set opRecord(SceneBuilder_RecordBase? value) => _expando[this] = value;
 }

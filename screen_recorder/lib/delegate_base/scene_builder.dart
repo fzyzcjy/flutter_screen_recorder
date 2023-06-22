@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:screen_recorder/data_per_frame.dart';
 import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
-import 'package:screen_recorder/records.dart';
+import 'package:screen_recorder/record_list.dart';
 
 SceneBuilderRecordList get _data => DataPerFrame.instance.sceneBuilderData;
 

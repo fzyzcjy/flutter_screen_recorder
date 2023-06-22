@@ -163,4 +163,29 @@ final kManualConfigs = [
       // TODO handle shaders etc
     ],
   ),
+  Config(
+    className: 'ParagraphBuilderRecordList',
+    fields: [
+      ConfigField(type: 'ParagraphBuilder_Constructor_Record', name: 'constructorRecord', named: true),
+      ConfigField(type: 'List<ParagraphBuilder_RecordBase>', name: 'methodCallRecords', named: true),
+    ],
+  ),
+  Config(
+    className: 'CanvasRecordList',
+    fields: [
+      ConfigField(type: 'List<Canvas_RecordBase>', name: 'methodCallRecords', named: true),
+    ],
+  ),
+  Config(
+    className: 'SceneBuilderRecordList',
+    fields: [
+      ConfigField(type: 'List<SceneBuilder_RecordBase>', name: 'methodCallRecords', named: true),
+    ],
+  ),
+  Config(
+    className: 'ParagraphBuilder_Constructor_Record',
+    fields: [
+      ConfigField(type: 'ParagraphStyle', name: 'style', named: true),
+    ],
+  ),
 ];

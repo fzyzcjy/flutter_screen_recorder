@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/my_picture_recorder.dart';
-import 'package:screen_recorder/records.dart';
+import 'package:screen_recorder/record_list.dart';
 
 abstract class MyCanvasBase {
   final Canvas proxy;

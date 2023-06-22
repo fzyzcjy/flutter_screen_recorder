@@ -9,6 +9,7 @@ import 'package:screen_recorder/bytes_reader.dart';
 import 'package:screen_recorder/generated/record/canvas.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/generated/record/scene_builder.dart';
+import 'package:screen_recorder/record_list.dart';
 import 'package:screen_recorder/serialization.dart';
 
 Clip fromBytesClip(BytesReader reader) {
@@ -448,6 +449,47 @@ Paint fromBytesPaint(BytesReader reader) {
 
 void toBytesPaint(BytesBuilder writer, Paint value) {
   toBytesByteData(writer, value.data);
+}
+
+ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(BytesReader reader) {
+  final constructorRecord = fromBytesParagraphBuilderConstructorRecord(reader);
+  final methodCallRecords = fromBytesList(reader, fromBytesParagraphBuilderRecordBase);
+  return ParagraphBuilderRecordList(
+    constructorRecord: constructorRecord,
+    methodCallRecords: methodCallRecords,
+  );
+}
+
+void toBytesParagraphBuilderRecordList(BytesBuilder writer, ParagraphBuilderRecordList value) {
+  toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
+  toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
+}
+
+CanvasRecordList fromBytesCanvasRecordList(BytesReader reader) {
+  final methodCallRecords = fromBytesList(reader, fromBytesCanvasRecordBase);
+  return CanvasRecordList(methodCallRecords: methodCallRecords);
+}
+
+void toBytesCanvasRecordList(BytesBuilder writer, CanvasRecordList value) {
+  toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
+}
+
+SceneBuilderRecordList fromBytesSceneBuilderRecordList(BytesReader reader) {
+  final methodCallRecords = fromBytesList(reader, fromBytesSceneBuilderRecordBase);
+  return SceneBuilderRecordList(methodCallRecords: methodCallRecords);
+}
+
+void toBytesSceneBuilderRecordList(BytesBuilder writer, SceneBuilderRecordList value) {
+  toBytesList(writer, value.methodCallRecords, toBytesSceneBuilderRecordBase);
+}
+
+ParagraphBuilder_Constructor_Record fromBytesParagraphBuilderConstructorRecord(BytesReader reader) {
+  final style = fromBytesParagraphStyle(reader);
+  return ParagraphBuilder_Constructor_Record(style: style);
+}
+
+void toBytesParagraphBuilderConstructorRecord(BytesBuilder writer, ParagraphBuilder_Constructor_Record value) {
+  toBytesParagraphStyle(writer, value.style);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {

@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:screen_recorder/expandos.dart';
 import 'package:screen_recorder/generated/record/paragraph_builder.dart';
-import 'package:screen_recorder/records.dart';
+import 'package:screen_recorder/record_list.dart';
 
 abstract class MyParagraphBuilderBase {
   final ParagraphBuilder proxy;

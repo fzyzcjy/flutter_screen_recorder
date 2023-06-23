@@ -32,14 +32,22 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // when `nothing` should not even render the controlling FloatingActionButton below, because those are still
+    // text under the hood, and we really need to clean up everything, if we want to make screen_recorder gets
+    // completely removed from Flutter
+    // https://github.com/fzyzcjy/yplusplus/issues/9620#issuecomment-1603479358
+    if (displayMode == _DisplayMode.nothing) {
+      return Container();
+    }
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
           (switch (displayMode) {
             _DisplayMode.originalTree => widget.child,
-            _DisplayMode.nothing => Container(),
             _DisplayMode.player => const ScreenPlayerWidget(),
+            _ => throw UnimplementedError(),
           }),
           Positioned(
             right: 64,

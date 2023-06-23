@@ -29,7 +29,7 @@ String generateAllEnum() {
 
 String _generateFromBytes(String enumName) {
   return '''
-$enumName fromBytes${getSerializationPartialName(enumName)}(BytesReader reader) {
+$enumName fromBytes${getSerializationPartialName(enumName)}(ContextBytesReader reader) {
   return $enumName.values[fromBytesUint8(reader)];
 }
   ''';
@@ -37,7 +37,7 @@ $enumName fromBytes${getSerializationPartialName(enumName)}(BytesReader reader) 
 
 String _generateToBytes(String enumName) {
   return '''
-void toBytes${getSerializationPartialName(enumName)}(BytesWriter writer, $enumName value) {
+void toBytes${getSerializationPartialName(enumName)}(ContextBytesWriter writer, $enumName value) {
   toBytesUint8(writer, value.index);
 }
   ''';

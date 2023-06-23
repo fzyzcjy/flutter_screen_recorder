@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/expandos.dart';
 import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/delegate/canvas.dart';
@@ -14,6 +13,7 @@ import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
+import 'package:screen_recorder/src/serialization/context.dart';
 import 'package:screen_recorder/src/simple_compressor.dart';
 import 'package:screen_recorder/src/touch/touch_data.dart';
 
@@ -81,7 +81,7 @@ class ScreenRecorder {
           touch: currTouchPerFrameData,
         );
 
-        final bytesBuilder = BytesWriter();
+        final bytesBuilder = ContextBytesWriter(context: ToBytesContext());
         toBytesFramePacket(bytesBuilder, framePacket);
         final bytes = bytesBuilder.takeBytes();
 
@@ -108,14 +108,14 @@ class ScreenRecorder {
 }
 
 void _sanityCheckSerialization(Uint8List srcBytes) {
-  final reader = BytesReader(srcBytes);
+  final reader = ContextBytesReader(srcBytes, context: FromBytesContext());
   fromBytesFramePacket(reader);
   assert(reader.eof, 'can fromBytes and exactly consume all bytes');
 
   // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
-  // final againBytesWriter = BytesWriter(copy: true);
-  // toBytesSceneBuilderRecordList(againBytesWriter, restoredData);
-  // final againBytes = againBytesWriter.takeBytes();
+  // final againContextBytesWriter = ContextBytesWriter(copy: true);
+  // toBytesSceneBuilderRecordList(againContextBytesWriter, restoredData);
+  // final againBytes = againContextBytesWriter.takeBytes();
   //
   // assert(
   //   listEquals(srcBytes, againBytes),

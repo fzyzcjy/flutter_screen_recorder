@@ -41,21 +41,21 @@ sealed class ${config.recordBaseClass}<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   ${config.recordBaseClass}<Ret> temporaryClone();
   
-  void toBytes(BytesWriter writer) {
+  void toBytes(ContextBytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
   
   int get tag;
 
-  void toBytesWithoutTag(BytesWriter writer);
+  void toBytesWithoutTag(ContextBytesWriter writer);
 }
   ''';
 }
 
 String _generateBaseClassFromBytes(Config config) {
   return '''
-  static ${config.recordBaseClass} fromBytes(BytesReader reader) {
+  static ${config.recordBaseClass} fromBytes(ContextBytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
       ${config.methodsForRecord.mapIndexed((index, configMethod) => _generateBaseClassFromBytesCase(config, configMethod, index)).join('\n')}
@@ -147,7 +147,7 @@ Constructor _generateRecordClassMethodFromBytes(Config config, ConfigMethod conf
       ..requiredParameters.add(Parameter(
         (b) => b
           ..name = 'reader'
-          ..type = refer('BytesReader'),
+          ..type = refer('ContextBytesReader'),
       ))
       ..body = Code('fromBytes${getSerializationPartialName(configMethod.recordClassName(config))}(reader)'),
   );
@@ -162,7 +162,7 @@ Method _generateRecordClassMethodToBytes(Config config, ConfigMethod configMetho
       ..requiredParameters.add(Parameter(
         (b) => b
           ..name = 'writer'
-          ..type = refer('BytesWriter'),
+          ..type = refer('ContextBytesWriter'),
       ))
       ..body = Code('toBytes${getSerializationPartialName(configMethod.recordClassName(config))}(writer, this)'),
   );

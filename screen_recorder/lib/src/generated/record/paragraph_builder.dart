@@ -7,16 +7,15 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/delegate_base/paragraph_builder.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/serialization.dart';
 import 'package:screen_recorder/src/temporary_clone.dart';
-import 'package:screen_recorder/src/delegate_base/paragraph_builder.dart';
 
 sealed class ParagraphBuilder_RecordBase<Ret> {
   ParagraphBuilder_RecordBase();
 
-  static ParagraphBuilder_RecordBase fromBytes(BytesReader reader) {
+  static ParagraphBuilder_RecordBase fromBytes(ContextBytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
       case 0:
@@ -37,20 +36,20 @@ sealed class ParagraphBuilder_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   ParagraphBuilder_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesWriter writer) {
+  void toBytes(ContextBytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
 
   int get tag;
 
-  void toBytesWithoutTag(BytesWriter writer);
+  void toBytesWithoutTag(ContextBytesWriter writer);
 }
 
 class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_PushStyle_Record({required this.style});
 
-  factory ParagraphBuilder_PushStyle_Record.fromBytes(BytesReader reader) =>
+  factory ParagraphBuilder_PushStyle_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesParagraphBuilderPushStyleRecord(reader);
 
   final TextStyle style;
@@ -66,8 +65,10 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
 
   @override
   int get tag => 0;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesParagraphBuilderPushStyleRecord(writer, this);
+
   @override
   ParagraphBuilder_PushStyle_Record temporaryClone() {
     return ParagraphBuilder_PushStyle_Record(style: style);
@@ -77,7 +78,8 @@ class ParagraphBuilder_PushStyle_Record extends ParagraphBuilder_RecordBase<void
 class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_Pop_Record();
 
-  factory ParagraphBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesParagraphBuilderPopRecord(reader);
+  factory ParagraphBuilder_Pop_Record.fromBytes(ContextBytesReader reader) =>
+      fromBytesParagraphBuilderPopRecord(reader);
 
   @override
   void execute(
@@ -90,8 +92,10 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
 
   @override
   int get tag => 1;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderPopRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesParagraphBuilderPopRecord(writer, this);
+
   @override
   ParagraphBuilder_Pop_Record temporaryClone() {
     return ParagraphBuilder_Pop_Record();
@@ -101,7 +105,7 @@ class ParagraphBuilder_Pop_Record extends ParagraphBuilder_RecordBase<void> {
 class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> {
   ParagraphBuilder_AddText_Record({required this.text});
 
-  factory ParagraphBuilder_AddText_Record.fromBytes(BytesReader reader) =>
+  factory ParagraphBuilder_AddText_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesParagraphBuilderAddTextRecord(reader);
 
   final String text;
@@ -117,8 +121,10 @@ class ParagraphBuilder_AddText_Record extends ParagraphBuilder_RecordBase<void> 
 
   @override
   int get tag => 2;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesParagraphBuilderAddTextRecord(writer, this);
+
   @override
   ParagraphBuilder_AddText_Record temporaryClone() {
     return ParagraphBuilder_AddText_Record(text: text);
@@ -135,7 +141,7 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
     required this.baseline,
   });
 
-  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(BytesReader reader) =>
+  factory ParagraphBuilder_AddPlaceholder_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesParagraphBuilderAddPlaceholderRecord(reader);
 
   final double width;
@@ -168,8 +174,10 @@ class ParagraphBuilder_AddPlaceholder_Record extends ParagraphBuilder_RecordBase
 
   @override
   int get tag => 3;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesParagraphBuilderAddPlaceholderRecord(writer, this);
+
   @override
   ParagraphBuilder_AddPlaceholder_Record temporaryClone() {
     return ParagraphBuilder_AddPlaceholder_Record(

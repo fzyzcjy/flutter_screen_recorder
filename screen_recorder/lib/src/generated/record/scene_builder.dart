@@ -7,16 +7,15 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/delegate_base/scene_builder.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/serialization.dart';
 import 'package:screen_recorder/src/temporary_clone.dart';
-import 'package:screen_recorder/src/delegate_base/scene_builder.dart';
 
 sealed class SceneBuilder_RecordBase<Ret> {
   SceneBuilder_RecordBase();
 
-  static SceneBuilder_RecordBase fromBytes(BytesReader reader) {
+  static SceneBuilder_RecordBase fromBytes(ContextBytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
       case 0:
@@ -61,14 +60,14 @@ sealed class SceneBuilder_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   SceneBuilder_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesWriter writer) {
+  void toBytes(ContextBytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
 
   int get tag;
 
-  void toBytesWithoutTag(BytesWriter writer);
+  void toBytesWithoutTag(ContextBytesWriter writer);
 }
 
 class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<TransformEngineLayer> {
@@ -77,7 +76,7 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
     required this.layerId,
   });
 
-  factory SceneBuilder_PushTransform_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushTransform_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushTransformRecord(reader);
 
   final Float64List matrix4;
@@ -96,8 +95,10 @@ class SceneBuilder_PushTransform_Record extends SceneBuilder_RecordBase<Transfor
 
   @override
   int get tag => 0;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushTransformRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushTransformRecord(writer, this);
+
   @override
   SceneBuilder_PushTransform_Record temporaryClone() {
     return SceneBuilder_PushTransform_Record(
@@ -114,7 +115,8 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
     required this.layerId,
   });
 
-  factory SceneBuilder_PushOffset_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderPushOffsetRecord(reader);
+  factory SceneBuilder_PushOffset_Record.fromBytes(ContextBytesReader reader) =>
+      fromBytesSceneBuilderPushOffsetRecord(reader);
 
   final double dx;
 
@@ -137,8 +139,10 @@ class SceneBuilder_PushOffset_Record extends SceneBuilder_RecordBase<OffsetEngin
 
   @override
   int get tag => 1;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushOffsetRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushOffsetRecord(writer, this);
+
   @override
   SceneBuilder_PushOffset_Record temporaryClone() {
     return SceneBuilder_PushOffset_Record(
@@ -156,7 +160,7 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
     required this.layerId,
   });
 
-  factory SceneBuilder_PushClipRect_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushClipRect_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushClipRectRecord(reader);
 
   final Rect rect;
@@ -180,8 +184,10 @@ class SceneBuilder_PushClipRect_Record extends SceneBuilder_RecordBase<ClipRectE
 
   @override
   int get tag => 2;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipRectRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushClipRectRecord(writer, this);
+
   @override
   SceneBuilder_PushClipRect_Record temporaryClone() {
     return SceneBuilder_PushClipRect_Record(
@@ -199,7 +205,7 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
     required this.layerId,
   });
 
-  factory SceneBuilder_PushClipRRect_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushClipRRect_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushClipRRectRecord(reader);
 
   final RRect rrect;
@@ -223,8 +229,10 @@ class SceneBuilder_PushClipRRect_Record extends SceneBuilder_RecordBase<ClipRRec
 
   @override
   int get tag => 3;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipRRectRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushClipRRectRecord(writer, this);
+
   @override
   SceneBuilder_PushClipRRect_Record temporaryClone() {
     return SceneBuilder_PushClipRRect_Record(
@@ -242,7 +250,7 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
     required this.layerId,
   });
 
-  factory SceneBuilder_PushClipPath_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushClipPath_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushClipPathRecord(reader);
 
   final Path path;
@@ -266,8 +274,10 @@ class SceneBuilder_PushClipPath_Record extends SceneBuilder_RecordBase<ClipPathE
 
   @override
   int get tag => 4;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushClipPathRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushClipPathRecord(writer, this);
+
   @override
   SceneBuilder_PushClipPath_Record temporaryClone() {
     return SceneBuilder_PushClipPath_Record(
@@ -285,7 +295,7 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
     required this.layerId,
   });
 
-  factory SceneBuilder_PushOpacity_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushOpacity_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushOpacityRecord(reader);
 
   final int alpha;
@@ -309,8 +319,10 @@ class SceneBuilder_PushOpacity_Record extends SceneBuilder_RecordBase<OpacityEng
 
   @override
   int get tag => 5;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushOpacityRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushOpacityRecord(writer, this);
+
   @override
   SceneBuilder_PushOpacity_Record temporaryClone() {
     return SceneBuilder_PushOpacity_Record(
@@ -327,7 +339,7 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
     required this.layerId,
   });
 
-  factory SceneBuilder_PushColorFilter_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushColorFilter_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushColorFilterRecord(reader);
 
   final ColorFilter filter;
@@ -346,8 +358,10 @@ class SceneBuilder_PushColorFilter_Record extends SceneBuilder_RecordBase<ColorF
 
   @override
   int get tag => 6;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushColorFilterRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushColorFilterRecord(writer, this);
+
   @override
   SceneBuilder_PushColorFilter_Record temporaryClone() {
     return SceneBuilder_PushColorFilter_Record(
@@ -364,7 +378,7 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
     required this.layerId,
   });
 
-  factory SceneBuilder_PushImageFilter_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushImageFilter_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushImageFilterRecord(reader);
 
   final ImageFilter filter;
@@ -388,8 +402,10 @@ class SceneBuilder_PushImageFilter_Record extends SceneBuilder_RecordBase<ImageF
 
   @override
   int get tag => 7;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushImageFilterRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushImageFilterRecord(writer, this);
+
   @override
   SceneBuilder_PushImageFilter_Record temporaryClone() {
     return SceneBuilder_PushImageFilter_Record(
@@ -407,7 +423,7 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
     required this.layerId,
   });
 
-  factory SceneBuilder_PushBackdropFilter_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushBackdropFilter_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushBackdropFilterRecord(reader);
 
   final ImageFilter filter;
@@ -431,8 +447,10 @@ class SceneBuilder_PushBackdropFilter_Record extends SceneBuilder_RecordBase<Bac
 
   @override
   int get tag => 8;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushBackdropFilterRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushBackdropFilterRecord(writer, this);
+
   @override
   SceneBuilder_PushBackdropFilter_Record temporaryClone() {
     return SceneBuilder_PushBackdropFilter_Record(
@@ -452,7 +470,7 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
     required this.layerId,
   });
 
-  factory SceneBuilder_PushShaderMask_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_PushShaderMask_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderPushShaderMaskRecord(reader);
 
   final Shader shader;
@@ -482,8 +500,10 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
 
   @override
   int get tag => 9;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPushShaderMaskRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPushShaderMaskRecord(writer, this);
+
   @override
   SceneBuilder_PushShaderMask_Record temporaryClone() {
     return SceneBuilder_PushShaderMask_Record(
@@ -499,7 +519,7 @@ class SceneBuilder_PushShaderMask_Record extends SceneBuilder_RecordBase<ShaderM
 class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
   SceneBuilder_Pop_Record();
 
-  factory SceneBuilder_Pop_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderPopRecord(reader);
+  factory SceneBuilder_Pop_Record.fromBytes(ContextBytesReader reader) => fromBytesSceneBuilderPopRecord(reader);
 
   @override
   void execute(
@@ -512,8 +532,10 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 10;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderPopRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderPopRecord(writer, this);
+
   @override
   SceneBuilder_Pop_Record temporaryClone() {
     return SceneBuilder_Pop_Record();
@@ -523,7 +545,7 @@ class SceneBuilder_Pop_Record extends SceneBuilder_RecordBase<void> {
 class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
   SceneBuilder_AddRetained_Record({required this.retainedLayerId});
 
-  factory SceneBuilder_AddRetained_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_AddRetained_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderAddRetainedRecord(reader);
 
   final int retainedLayerId;
@@ -540,8 +562,10 @@ class SceneBuilder_AddRetained_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 11;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddRetainedRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderAddRetainedRecord(writer, this);
+
   @override
   SceneBuilder_AddRetained_Record temporaryClone() {
     return SceneBuilder_AddRetained_Record(retainedLayerId: retainedLayerId);
@@ -554,7 +578,7 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
     required this.bounds,
   });
 
-  factory SceneBuilder_AddPerformanceOverlay_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_AddPerformanceOverlay_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderAddPerformanceOverlayRecord(reader);
 
   final int enabledOptions;
@@ -575,8 +599,10 @@ class SceneBuilder_AddPerformanceOverlay_Record extends SceneBuilder_RecordBase<
 
   @override
   int get tag => 12;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderAddPerformanceOverlayRecord(writer, this);
+
   @override
   SceneBuilder_AddPerformanceOverlay_Record temporaryClone() {
     return SceneBuilder_AddPerformanceOverlay_Record(
@@ -594,7 +620,8 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
     required this.willChangeHint,
   });
 
-  factory SceneBuilder_AddPicture_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderAddPictureRecord(reader);
+  factory SceneBuilder_AddPicture_Record.fromBytes(ContextBytesReader reader) =>
+      fromBytesSceneBuilderAddPictureRecord(reader);
 
   final Offset offset;
 
@@ -620,8 +647,10 @@ class SceneBuilder_AddPicture_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 13;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPictureRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderAddPictureRecord(writer, this);
+
   @override
   SceneBuilder_AddPicture_Record temporaryClone() {
     return SceneBuilder_AddPicture_Record(
@@ -643,7 +672,8 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
     required this.filterQuality,
   });
 
-  factory SceneBuilder_AddTexture_Record.fromBytes(BytesReader reader) => fromBytesSceneBuilderAddTextureRecord(reader);
+  factory SceneBuilder_AddTexture_Record.fromBytes(ContextBytesReader reader) =>
+      fromBytesSceneBuilderAddTextureRecord(reader);
 
   final int textureId;
 
@@ -675,8 +705,10 @@ class SceneBuilder_AddTexture_Record extends SceneBuilder_RecordBase<void> {
 
   @override
   int get tag => 14;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddTextureRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderAddTextureRecord(writer, this);
+
   @override
   SceneBuilder_AddTexture_Record temporaryClone() {
     return SceneBuilder_AddTexture_Record(
@@ -698,7 +730,7 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
     required this.height,
   });
 
-  factory SceneBuilder_AddPlatformView_Record.fromBytes(BytesReader reader) =>
+  factory SceneBuilder_AddPlatformView_Record.fromBytes(ContextBytesReader reader) =>
       fromBytesSceneBuilderAddPlatformViewRecord(reader);
 
   final int viewId;
@@ -725,8 +757,10 @@ class SceneBuilder_AddPlatformView_Record extends SceneBuilder_RecordBase<void> 
 
   @override
   int get tag => 15;
+
   @override
-  void toBytesWithoutTag(BytesWriter writer) => toBytesSceneBuilderAddPlatformViewRecord(writer, this);
+  void toBytesWithoutTag(ContextBytesWriter writer) => toBytesSceneBuilderAddPlatformViewRecord(writer, this);
+
   @override
   SceneBuilder_AddPlatformView_Record temporaryClone() {
     return SceneBuilder_AddPlatformView_Record(

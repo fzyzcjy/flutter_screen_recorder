@@ -7,16 +7,15 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/delegate_base/paragraph.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/serialization.dart';
 import 'package:screen_recorder/src/temporary_clone.dart';
-import 'package:screen_recorder/src/delegate_base/paragraph.dart';
 
 sealed class Paragraph_RecordBase<Ret> {
   Paragraph_RecordBase();
 
-  static Paragraph_RecordBase fromBytes(BytesReader reader) {
+  static Paragraph_RecordBase fromBytes(ContextBytesReader reader) {
     final tag = fromBytesUint8(reader);
     switch (tag) {
       default:
@@ -29,12 +28,12 @@ sealed class Paragraph_RecordBase<Ret> {
   // TODO only a temporary workaround, should remove after implementing serialization
   Paragraph_RecordBase<Ret> temporaryClone();
 
-  void toBytes(BytesWriter writer) {
+  void toBytes(ContextBytesWriter writer) {
     toBytesUint8(writer, tag);
     toBytesWithoutTag(writer);
   }
 
   int get tag;
 
-  void toBytesWithoutTag(BytesWriter writer);
+  void toBytesWithoutTag(ContextBytesWriter writer);
 }

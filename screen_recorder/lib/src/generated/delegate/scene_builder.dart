@@ -344,6 +344,7 @@ class MySceneBuilder extends MySceneBuilderBase implements SceneBuilder {
   @override
   Scene build() {
     final result = proxy.build();
+    handleBuildOp(result);
     return result;
   }
 }

@@ -23,6 +23,14 @@ extension ExtEngineLayerLayerIdExpando on EngineLayer {
   int getOrCreateLayerId() => layerId ??= _nextDefaultId++;
 }
 
+extension ExtSceneBuilderRecordListExpando on Scene {
+  static final _expando = Expando<SceneBuilderRecordList>('Scene.sceneBuilderRecordList');
+
+  SceneBuilderRecordList? get sceneBuilderRecordList => _expando[this];
+
+  set sceneBuilderRecordList(SceneBuilderRecordList? value) => _expando[this] = value;
+}
+
 extension ExtParagraphBuilderRecordListExpando on Paragraph {
   static final _expando = Expando<ParagraphBuilderRecordList>('Paragraph.paragraphBuilderRecordList');
 

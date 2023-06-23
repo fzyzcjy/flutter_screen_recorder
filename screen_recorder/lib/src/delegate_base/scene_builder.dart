@@ -2,14 +2,13 @@
 
 import 'dart:ui';
 
-import 'package:screen_recorder/src/data_per_frame.dart';
+import 'package:screen_recorder/src/expandos.dart';
 import 'package:screen_recorder/src/generated/record/scene_builder.dart';
 import 'package:screen_recorder/src/record_list.dart';
 
-SceneBuilderRecordList get _data => DataPerFrame.instance.sceneBuilderData;
-
 abstract class MySceneBuilderBase {
   final SceneBuilder proxy;
+  final _data = SceneBuilderRecordList(methodCallRecords: []);
 
   MySceneBuilderBase(this.proxy);
 
@@ -24,6 +23,10 @@ abstract class MySceneBuilderBase {
 
   void handleAddRetainedOp(void result, SceneBuilder_AddRetained_Record record) {
     _data.methodCallRecords.add(record.temporaryClone());
+  }
+
+  void handleBuildOp(Scene result) {
+    result.sceneBuilderRecordList = _data;
   }
 }
 

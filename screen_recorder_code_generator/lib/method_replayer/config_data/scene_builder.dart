@@ -190,7 +190,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'Scene',
       methodName: 'build',
-      handlerName: null,
+      handlerName: 'handleBuildOp',
       enableRecord: false,
       parameters: [],
     ),

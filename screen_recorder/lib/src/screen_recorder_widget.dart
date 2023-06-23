@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/src/render_screen_player.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
+import 'package:screen_recorder/src/touch/touch_listener.dart';
 
 class ScreenRecorderWidget extends StatefulWidget {
   final Widget child;
@@ -45,7 +46,9 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
       child: Stack(
         children: [
           (switch (displayMode) {
-            _DisplayMode.originalTree => widget.child,
+            _DisplayMode.originalTree => TouchListener(
+                child: widget.child,
+              ),
             _DisplayMode.player => const ScreenPlayerWidget(),
             _ => throw UnimplementedError(),
           }),

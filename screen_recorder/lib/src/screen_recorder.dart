@@ -14,6 +14,7 @@ import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/simple_compressor.dart';
+import 'package:screen_recorder/src/touch/touch_data.dart';
 
 class ScreenRecorder {
   static const _kTag = 'ScreenRecorder';
@@ -44,6 +45,7 @@ class ScreenRecorder {
   }
 
   SceneBuilderRecordList? _lastSceneBuilderRecordList;
+  var touchPerFrameData = TouchPerFrameData(positions: []);
 
   void _handleCallViewRender(Scene scene) {
     if (recording) {
@@ -64,6 +66,11 @@ class ScreenRecorder {
 
       final sceneBuilderRecordList = _lastSceneBuilderRecordList;
       _lastSceneBuilderRecordList = null;
+
+      final currTouchPerFrameData = touchPerFrameData;
+      touchPerFrameData = TouchPerFrameData(positions: []);
+     
+      TODO_about_touch;
 
       // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
       if (sceneBuilderRecordList != null) {

@@ -74,19 +74,49 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
   }
 
   Widget _buildCore() {
-    return Transform.scale(
-      // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
-      // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
-      scale: 1 / View.of(context).devicePixelRatio,
-      alignment: Alignment.topLeft,
-      origin: Offset.zero,
-      child: RepaintBoundary(
-        child: _ScreenPlayerInnerWidget(
-          framePacket: framePacket,
+    return Stack(
+      children: [
+        Transform.scale(
+          // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
+          // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
+          scale: 1 / View.of(context).devicePixelRatio,
+          alignment: Alignment.topLeft,
+          origin: Offset.zero,
+          child: RepaintBoundary(
+            child: _ScreenPlayerInnerWidget(
+              framePacket: framePacket,
+            ),
+          ),
         ),
-      ),
+        CustomPaint(
+          painter: _TouchPainter(
+            framePacket: framePacket,
+          ),
+        ),
+      ],
     );
   }
+}
+
+class _TouchPainter extends CustomPainter {
+  final FramePacket framePacket;
+
+  _TouchPainter({required this.framePacket});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final painter = Paint()
+      ..color = Colors.green
+      ..style = PaintingStyle.stroke;
+
+    for (final position in framePacket.touch.positions) {
+      canvas.drawCircle(position, 24, painter);
+    }
+  }
+
+  // for simplicity, always shouldRepaint...
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
 class _ScreenPlayerInnerWidget extends LeafRenderObjectWidget {

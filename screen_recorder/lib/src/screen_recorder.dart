@@ -14,7 +14,6 @@ import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization/context.dart';
-import 'package:screen_recorder/src/simple_compressor.dart';
 import 'package:screen_recorder/src/touch/touch_data.dart';
 
 class ScreenRecorder {
@@ -27,7 +26,8 @@ class ScreenRecorder {
   var recording = true;
 
   var overallUncompressedBytesLen = 0;
-  final compressor = SimpleCompressor();
+
+  // final compressor = SimpleCompressor();
 
   // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
   final framePackets = <Uint8List>[];
@@ -64,7 +64,8 @@ class ScreenRecorder {
   void dumpDebugInfo({required bool verbose}) {
     print('$_kTag dumpDebugInfo '
         'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-        'compressor=$compressor');
+        // 'compressor=$compressor'
+        );
     if (verbose) {
       printWrapped(
           'postFrameTimeMicrosArr.where(superLong)=${_postFrameProcessInfos.where((e) => e.durationMicros >= 10000).toList()}');
@@ -84,54 +85,49 @@ class ScreenRecorder {
       return true;
     }());
 
-    if (recording) {
-      Timeline.startSync('ScreenRecorder.PostFrame');
-      final start = DateTime.now();
+    if (!recording) return;
 
-      final sceneBuilderRecordList = _lastSceneBuilderRecordList;
-      _lastSceneBuilderRecordList = null;
+    Timeline.startSync('ScreenRecorder.PostFrame');
+    final start = DateTime.now();
 
-      final currTouchPerFrameData = touchPerFrameData;
-      touchPerFrameData = TouchPerFrameData(positions: []);
+    final sceneBuilderRecordList = _lastSceneBuilderRecordList;
+    _lastSceneBuilderRecordList = null;
 
-      final int bytesLen;
+    // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
+    if (sceneBuilderRecordList == null) return;
 
-      // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
-      if (sceneBuilderRecordList != null) {
-        final framePacket = FramePacket(
-          scene: sceneBuilderRecordList,
-          touch: currTouchPerFrameData,
-        );
+    final currTouchPerFrameData = touchPerFrameData;
+    touchPerFrameData = TouchPerFrameData(positions: []);
 
-        final bytesBuilder = ContextBytesWriter(context: _toBytesContext);
-        toBytesFramePacket(bytesBuilder, framePacket);
-        final bytes = bytesBuilder.takeBytes();
+    final int bytesLen;
 
-        framePackets.add(bytes);
+    final framePacket = FramePacket(
+      scene: sceneBuilderRecordList,
+      touch: currTouchPerFrameData,
+    );
 
-        overallUncompressedBytesLen += bytes.length;
-        bytesLen = bytes.length;
+    final bytesBuilder = ContextBytesWriter(context: _toBytesContext);
+    toBytesFramePacket(bytesBuilder, framePacket);
+    final bytes = bytesBuilder.takeBytes();
 
-        compressor.add(bytes);
+    framePackets.add(bytes);
 
-        // assert(() {
-        //   _sanityCheckSerialization(bytes);
-        //   return true;
-        // }());
-      } else {
-        bytesLen = 0;
-        assert(() {
-          print('_handlePersistentFrameCallback but see sceneBuilderRecordList == null, thus do nothing');
-          return true;
-        }());
-      }
+    overallUncompressedBytesLen += bytes.length;
+    bytesLen = bytes.length;
 
-      Timeline.finishSync();
-      _postFrameProcessInfos.add(_PostFrameProcessInfo(
-        durationMicros: DateTime.now().difference(start).inMicroseconds,
-        uncompressedBytesLen: bytesLen,
-      ));
-    }
+    // TODO should run in another isolate, otherwise it is slow #9648
+    // compressor.add(bytes);
+
+    // assert(() {
+    //   _sanityCheckSerialization(bytes);
+    //   return true;
+    // }());
+
+    Timeline.finishSync();
+    _postFrameProcessInfos.add(_PostFrameProcessInfo(
+      durationMicros: DateTime.now().difference(start).inMicroseconds,
+      uncompressedBytesLen: bytesLen,
+    ));
   }
 }
 

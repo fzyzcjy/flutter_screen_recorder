@@ -69,7 +69,10 @@ class BytesWriter {
 
   @pragma('vm:prefer-inline')
   void writeUint8(int value) {
-    _write(1, () => ByteData.view(_buffer.buffer).setUint8(_length, value));
+    final required = _length + 1;
+    _growIfNotEnoughSpace(required);
+    _buffer[length] = value;
+    _length = required;
   }
 
   @pragma('vm:prefer-inline')

@@ -46,7 +46,9 @@ class ScreenRecorder {
   SceneBuilderRecordList? _lastSceneBuilderRecordList;
 
   void _handleCallViewRender(Scene scene) {
-    _lastSceneBuilderRecordList = scene.sceneBuilderRecordList!;
+    if (recording) {
+      _lastSceneBuilderRecordList = scene.sceneBuilderRecordList!;
+    }
   }
 
   void _handlePersistentFrameCallback() {

@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
-import 'package:screen_recorder/src/data_per_frame.dart';
+import 'package:screen_recorder/src/expandos.dart';
 import 'package:screen_recorder/src/generated/delegate/canvas.dart';
 import 'package:screen_recorder/src/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/src/generated/delegate/scene_builder.dart';
@@ -52,9 +52,10 @@ class ScreenRecorder {
     if (recording) {
       Timeline.startSync('ScreenRecorder.PostFrame');
 
-      final sceneBuilderData = DataPerFrame.instance.sceneBuilderData;
+      final Scene scene = TODO;
+      final sceneBuilderRecordList = scene.sceneBuilderRecordList!;
       final bytesBuilder = BytesWriter();
-      toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderData);
+      toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderRecordList);
       final bytes = bytesBuilder.takeBytes();
 
       sceneBuilderDataArr.add(bytes);

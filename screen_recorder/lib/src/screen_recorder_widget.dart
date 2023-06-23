@@ -65,7 +65,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             bottom: 64 * 2,
             child: FloatingActionButton(
               onPressed: () => _setRecording(value: false),
-              child: const Icon(Icons.pause),
+              child: const Icon(Icons.stop),
             ),
           ),
           Positioned(

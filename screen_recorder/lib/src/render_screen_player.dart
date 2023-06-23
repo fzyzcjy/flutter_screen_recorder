@@ -106,11 +106,11 @@ class _TouchPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final painter = Paint()
-      ..color = Colors.green
-      ..style = PaintingStyle.stroke;
+      ..color = Colors.grey.withAlpha(100)
+      ..style = PaintingStyle.fill;
 
     for (final position in framePacket.touch.positions) {
-      canvas.drawCircle(position, 24, painter);
+      canvas.drawCircle(position, 20, painter);
     }
   }
 

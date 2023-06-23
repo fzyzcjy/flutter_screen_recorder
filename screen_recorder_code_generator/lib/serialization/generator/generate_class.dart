@@ -34,10 +34,16 @@ String _generateFromBytes(Config config) {
           .statement
           .dartCode;
 
-  return '''
-${config.className} fromBytes${getSerializationPartialName(config.className)}(ContextBytesReader reader) {
+  var body = '''
   ${config.fields.map((e) => _generateFromBytesField(config, e)).join('\n')}
   return $constructorCall
+  ''';
+
+  if (config.enableReferable) body = _wrapFromBytesReferable(body);
+
+  return '''
+${config.className} fromBytes${getSerializationPartialName(config.className)}(ContextBytesReader reader) {
+  $body
 }
   ''';
 }
@@ -53,10 +59,22 @@ String _generateFromBytesField(Config config, ConfigField configField) {
       : '$lhs = $innerFunctionName(reader);';
 }
 
+String _wrapFromBytesReferable(String innerBody) {
+  return '''
+    return fromBytesReferable(reader, () {
+      $innerBody
+    });
+  ''';
+}
+
 String _generateToBytes(Config config) {
+  var body = config.fields.map((e) => _generateToBytesField(config, e)).join('\n');
+
+  if (config.enableReferable) body = _wrapToBytesReferable(body);
+
   return '''
 void toBytes${getSerializationPartialName(config.className)}(ContextBytesWriter writer, ${config.className} value) {
-  ${config.fields.map((e) => _generateToBytesField(config, e)).join('\n')}
+  $body
 }
   ''';
 }
@@ -70,6 +88,14 @@ String _generateToBytesField(Config config, ConfigField configField) {
   return outerFunctionPartialName != null
       ? 'toBytes$outerFunctionPartialName(writer, $valueName, $innerFunctionName);'
       : '$innerFunctionName(writer, $valueName);';
+}
+
+String _wrapToBytesReferable(String innerBody) {
+  return '''
+    toBytesReferable(writer, value, () {
+      $innerBody
+    });
+  ''';
 }
 
 String? typeListInnerType(String type) =>

@@ -1,6 +1,7 @@
-import 'package:screen_recorder/src/referable.dart';
 import 'package:screen_recorder/src/serialization/context.dart';
 import 'package:screen_recorder/src/serialization/primitives.dart';
+
+export 'package:screen_recorder/src/referable.dart';
 
 T? fromBytesNullable<T extends Object>(ContextBytesReader reader, T Function(ContextBytesReader) fromBytesInner) {
   final hasContent = fromBytesBool(reader);
@@ -34,13 +35,4 @@ List<T>? fromBytesNullableList<T extends Object>(
 void toBytesNullableList<T extends Object>(
     ContextBytesWriter writer, List<T>? value, void Function(ContextBytesWriter, T) toBytesInner) {
   toBytesNullable(writer, value, (writer, value) => toBytesList(writer, value, toBytesInner));
-}
-
-T fromBytesReferable<T>(ContextBytesReader reader, ReferableReadContext context, T Function() fromBytesInner) {
-  return TODO;
-}
-
-void toBytesReferable<T>(
-    ContextBytesWriter writer, ReferableWriteContext context, T value, void Function() toBytesInner) {
-  TODO;
 }

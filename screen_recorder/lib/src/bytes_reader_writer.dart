@@ -62,26 +62,32 @@ class BytesWriter {
 
   BytesWriter() : _buffer = _emptyList;
 
+  @pragma('vm:prefer-inline')
   void writeBytes(List<int> bytes) {
     _write(bytes.length, () => _buffer.setRange(_length, _length + bytes.length, bytes));
   }
 
+  @pragma('vm:prefer-inline')
   void writeUint8(int value) {
     _write(1, () => ByteData.view(_buffer.buffer).setUint8(_length, value));
   }
 
+  @pragma('vm:prefer-inline')
   void writeInt64(int value) {
     _write(8, () => ByteData.view(_buffer.buffer).setInt64(_length, value));
   }
 
+  @pragma('vm:prefer-inline')
   void writeFloat32(double value) {
     _write(4, () => ByteData.view(_buffer.buffer).setFloat32(_length, value));
   }
 
+  @pragma('vm:prefer-inline')
   void writeFloat64(double value) {
     _write(8, () => ByteData.view(_buffer.buffer).setFloat64(_length, value));
   }
 
+  @pragma('vm:prefer-inline')
   void _write(int writeBytesLength, void Function() act) {
     final required = _length + writeBytesLength;
     _growIfNotEnoughSpace(required);
@@ -89,6 +95,7 @@ class BytesWriter {
     _length = required;
   }
 
+  @pragma('vm:prefer-inline')
   void _growIfNotEnoughSpace(int required) {
     if (_buffer.length < required) {
       _grow(required);

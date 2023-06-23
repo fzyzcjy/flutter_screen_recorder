@@ -20,20 +20,12 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          showPlayer
-              ? const ScreenPlayerWidget()
-              : KeyedSubtree(
-                  // when switch recording, try to refresh the whole subtree to avoid using MyParagraph + (naive) Canvas causing errors
-                  key: ValueKey(ScreenRecorder.instance.recording),
-                  child: widget.child,
-                ),
+          showPlayer ? const ScreenPlayerWidget() : widget.child,
           Positioned(
             right: 64,
             bottom: 64 * 3,
             child: FloatingActionButton(
-              // need to (hacky) setState, b/c we rely on this in KeyedSubtree...
-              // Anyway should use a state management solution later
-              onPressed: () => setState(() => ScreenRecorder.instance.recording = true),
+              onPressed: () => ScreenRecorder.instance.recording = true,
               child: const Icon(Icons.fiber_manual_record_outlined),
             ),
           ),
@@ -41,7 +33,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             right: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
-              onPressed: () => setState(() => ScreenRecorder.instance.recording = false),
+              onPressed: () => ScreenRecorder.instance.recording = false,
               child: const Icon(Icons.pause),
             ),
           ),

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/replayer/scene_builder.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
@@ -16,11 +17,16 @@ class ScreenPlayerWidget extends StatefulWidget {
 }
 
 class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
-  var frameIndex = 0;
+  late int frameIndex;
+
+  late FramePacket framePacket;
 
   @override
   void initState() {
     super.initState();
+
+    frameIndex = 0;
+    _computeFramePacket();
 
     // deliberately make it super slow for easy debuggign
     Timer.periodic(const Duration(milliseconds: 200), (timer) {
@@ -31,8 +37,16 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
 
       setState(() {
         frameIndex = (frameIndex + 1) % ScreenRecorder.instance.sceneBuilderDataArr.length;
+        _computeFramePacket();
       });
     });
+  }
+
+  void _computeFramePacket() {
+    final framePacketBytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
+    final reader = BytesReader(framePacketBytes);
+    framePacket = fromBytesFramePacket(reader);
+    assert(reader.eof);
   }
 
   @override
@@ -52,7 +66,7 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
             origin: Offset.zero,
             child: RepaintBoundary(
               child: _ScreenPlayerInnerWidget(
-                frameIndex: frameIndex,
+                framePacket: framePacket,
               ),
             ),
           ),
@@ -72,29 +86,29 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
 }
 
 class _ScreenPlayerInnerWidget extends LeafRenderObjectWidget {
-  final int frameIndex;
+  final FramePacket framePacket;
 
-  const _ScreenPlayerInnerWidget({required this.frameIndex});
+  const _ScreenPlayerInnerWidget({required this.framePacket});
 
   @override
-  RenderObject createRenderObject(BuildContext context) => RenderScreenPlayer(frameIndex: frameIndex);
+  RenderObject createRenderObject(BuildContext context) => RenderScreenPlayer(framePacket: framePacket);
 
   @override
   void updateRenderObject(BuildContext context, RenderScreenPlayer renderObject) =>
-      renderObject.frameIndex = frameIndex;
+      renderObject.framePacket = framePacket;
 }
 
 class RenderScreenPlayer extends RenderBox {
   RenderScreenPlayer({
-    required int frameIndex,
-  }) : _frameIndex = frameIndex;
+    required FramePacket framePacket,
+  }) : _framePacket = framePacket;
 
-  int get frameIndex => _frameIndex;
-  int _frameIndex;
+  FramePacket get framePacket => _framePacket;
+  FramePacket _framePacket;
 
-  set frameIndex(int value) {
-    if (_frameIndex == value) return;
-    _frameIndex = value;
+  set framePacket(FramePacket value) {
+    if (_framePacket == value) return;
+    _framePacket = value;
     markNeedsPaint();
   }
 
@@ -112,10 +126,10 @@ class RenderScreenPlayer extends RenderBox {
 
     assert(offset == Offset.zero);
 
-    layer ??= ScreenPlayerLayer(frameIndex: frameIndex);
+    layer ??= ScreenPlayerLayer(framePacket: framePacket);
     context.addLayer(layer!);
 
-    (layer! as ScreenPlayerLayer).frameIndex = frameIndex;
+    (layer! as ScreenPlayerLayer).framePacket = framePacket;
 
     // layer ??= OffsetLayer();
     //
@@ -146,15 +160,15 @@ class RenderScreenPlayer extends RenderBox {
 
 class ScreenPlayerLayer extends ContainerLayer {
   ScreenPlayerLayer({
-    required int frameIndex,
-  }) : _frameIndex = frameIndex;
+    required FramePacket framePacket,
+  }) : _framePacket = framePacket;
 
-  int get frameIndex => _frameIndex;
-  int _frameIndex;
+  FramePacket get framePacket => _framePacket;
+  FramePacket _framePacket;
 
-  set frameIndex(int value) {
-    if (_frameIndex == value) return;
-    _frameIndex = value;
+  set framePacket(FramePacket value) {
+    if (_framePacket == value) return;
+    _framePacket = value;
     markNeedsAddToScene();
   }
 
@@ -165,13 +179,7 @@ class ScreenPlayerLayer extends ContainerLayer {
   void addToScene(SceneBuilder builder) {
     debugPrint('$runtimeType.addToScene start');
 
-    final bytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
-
-    final reader = BytesReader(bytes);
-    final data = fromBytesFramePacket(reader);
-    assert(reader.eof);
-
-    SceneBuilderReplayer.replay(data.scene, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
+    SceneBuilderReplayer.replay(framePacket.scene, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
 
     // debugPrint('$runtimeType.addToScene '
     //     'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '

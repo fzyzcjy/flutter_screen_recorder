@@ -14,6 +14,7 @@ import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization/context.dart';
+import 'package:screen_recorder/src/serialization/wrapper_types.dart';
 import 'package:screen_recorder/src/simple_compressor.dart';
 import 'package:screen_recorder/src/touch/touch_data.dart';
 
@@ -31,6 +32,8 @@ class ScreenRecorder {
 
   // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
   final framePackets = <Uint8List>[];
+
+  final _toBytesContext = ToBytesContext();
 
   Future<void> setup() async {
     PaintingContext.createPictureRecorder = () => recording ? MyPictureRecorder(PictureRecorder()) : PictureRecorder();
@@ -81,7 +84,7 @@ class ScreenRecorder {
           touch: currTouchPerFrameData,
         );
 
-        final bytesBuilder = ContextBytesWriter(context: ToBytesContext());
+        final bytesBuilder = ContextBytesWriter(context: _toBytesContext);
         toBytesFramePacket(bytesBuilder, framePacket);
         final bytes = bytesBuilder.takeBytes();
 
@@ -91,10 +94,10 @@ class ScreenRecorder {
 
         compressor.add(bytes);
 
-        assert(() {
-          _sanityCheckSerialization(bytes);
-          return true;
-        }());
+        // assert(() {
+        //   _sanityCheckSerialization(bytes);
+        //   return true;
+        // }());
       } else {
         assert(() {
           print('_handlePersistentFrameCallback but see sceneBuilderRecordList == null, thus do nothing');
@@ -107,20 +110,21 @@ class ScreenRecorder {
   }
 }
 
-void _sanityCheckSerialization(Uint8List srcBytes) {
-  final reader = ContextBytesReader(srcBytes, context: FromBytesContext());
-  fromBytesFramePacket(reader);
-  assert(reader.eof, 'can fromBytes and exactly consume all bytes');
-
-  // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
-  // final againContextBytesWriter = ContextBytesWriter(copy: true);
-  // toBytesSceneBuilderRecordList(againContextBytesWriter, restoredData);
-  // final againBytes = againContextBytesWriter.takeBytes();
-  //
-  // assert(
-  //   listEquals(srcBytes, againBytes),
-  //   'sanityCheckSerialization failed '
-  //   'srcBytes.length=${srcBytes.length} '
-  //   'againBytes.length=${againBytes.length}',
-  // );
-}
+// hard to check since FromBytesContext is across frames #9638
+// void _sanityCheckSerialization(Uint8List srcBytes) {
+//   final reader = ContextBytesReader(srcBytes, context: FromBytesContext());
+//   fromBytesFramePacket(reader);
+//   assert(reader.eof, 'can fromBytes and exactly consume all bytes');
+//
+//   // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record
+//   // final againContextBytesWriter = ContextBytesWriter(copy: true);
+//   // toBytesSceneBuilderRecordList(againContextBytesWriter, restoredData);
+//   // final againBytes = againContextBytesWriter.takeBytes();
+//   //
+//   // assert(
+//   //   listEquals(srcBytes, againBytes),
+//   //   'sanityCheckSerialization failed '
+//   //   'srcBytes.length=${srcBytes.length} '
+//   //   'againBytes.length=${againBytes.length}',
+//   // );
+// }

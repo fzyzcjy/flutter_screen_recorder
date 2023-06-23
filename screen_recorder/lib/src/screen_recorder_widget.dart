@@ -77,8 +77,14 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             right: 64,
             bottom: 64,
             child: FloatingActionButton(
-              onPressed: () => setState(() =>
-                  displayMode = displayMode == _DisplayMode.player ? _DisplayMode.originalTree : _DisplayMode.player),
+              onPressed: () async {
+                if (ScreenRecorder.instance.recording) {
+                  await _setRecording(value: false);
+                }
+
+                setState(() =>
+                    displayMode = displayMode == _DisplayMode.player ? _DisplayMode.originalTree : _DisplayMode.player);
+              },
               child: const Icon(Icons.tv_outlined),
             ),
           ),

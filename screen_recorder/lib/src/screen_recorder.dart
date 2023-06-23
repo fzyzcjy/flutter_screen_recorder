@@ -60,23 +60,26 @@ class ScreenRecorder {
     if (recording) {
       Timeline.startSync('ScreenRecorder.PostFrame');
 
-      final sceneBuilderRecordList = _lastSceneBuilderRecordList!;
+      final sceneBuilderRecordList = _lastSceneBuilderRecordList;
       _lastSceneBuilderRecordList = null;
 
-      final bytesBuilder = BytesWriter();
-      toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderRecordList);
-      final bytes = bytesBuilder.takeBytes();
+      // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
+      if (sceneBuilderRecordList != null) {
+        final bytesBuilder = BytesWriter();
+        toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderRecordList);
+        final bytes = bytesBuilder.takeBytes();
 
-      sceneBuilderDataArr.add(bytes);
+        sceneBuilderDataArr.add(bytes);
 
-      overallUncompressedBytesLen += bytes.length;
+        overallUncompressedBytesLen += bytes.length;
 
-      compressor.add(bytes);
+        compressor.add(bytes);
 
-      assert(() {
-        _sanityCheckSerialization(bytes);
-        return true;
-      }());
+        assert(() {
+          _sanityCheckSerialization(bytes);
+          return true;
+        }());
+      }
 
       Timeline.finishSync();
     }

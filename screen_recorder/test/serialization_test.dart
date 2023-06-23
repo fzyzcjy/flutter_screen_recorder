@@ -2,9 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:screen_recorder/bytes_reader_writer.dart';
-import 'package:screen_recorder/generated/serialization/serialization.dart';
-import 'package:screen_recorder/serialization.dart';
+import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/generated/serialization/serialization.dart';
+import 'package:screen_recorder/src/serialization.dart';
 
 void main() {
   group('toBytes and fromBytes', () {
@@ -117,7 +117,7 @@ void main() {
       fromBytes: fromBytesOffset,
       values: [
         Offset.zero,
-        Offset(1234.5, -1234.5),
+        const Offset(1234.5, -1234.5),
       ],
     );
 

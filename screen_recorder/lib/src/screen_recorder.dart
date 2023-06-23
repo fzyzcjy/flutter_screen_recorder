@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/expandos.dart';
+import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/delegate/canvas.dart';
 import 'package:screen_recorder/src/generated/delegate/paragraph_builder.dart';
 import 'package:screen_recorder/src/generated/delegate/scene_builder.dart';
@@ -69,13 +70,16 @@ class ScreenRecorder {
 
       final currTouchPerFrameData = touchPerFrameData;
       touchPerFrameData = TouchPerFrameData(positions: []);
-     
-      TODO_about_touch;
 
       // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
       if (sceneBuilderRecordList != null) {
+        final framePacket = FramePacket(
+          scene: sceneBuilderRecordList,
+          touch: currTouchPerFrameData,
+        );
+
         final bytesBuilder = BytesWriter();
-        toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderRecordList);
+        toBytesFramePacket(bytesBuilder, framePacket);
         final bytes = bytesBuilder.takeBytes();
 
         sceneBuilderDataArr.add(bytes);

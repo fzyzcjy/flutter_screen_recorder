@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
-import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/replayer/scene_builder.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
 
@@ -168,11 +167,10 @@ class ScreenPlayerLayer extends ContainerLayer {
     final bytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
 
     final reader = BytesReader(bytes);
-    final data = fromBytesSceneBuilderRecordList(reader);
+    final data = fromBytesFramePacket(reader);
     assert(reader.eof);
 
-    final nextEngineLayerIdMap =
-        SceneBuilderReplayer.replay(data, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
+    SceneBuilderReplayer.replay(data.scene, builder, mutableEngineLayerIdMap: _mutableEngineLayerIdMap);
 
     // debugPrint('$runtimeType.addToScene '
     //     'nextEngineLayerIdMap.keys=${nextEngineLayerIdMap.keys.toList()} '

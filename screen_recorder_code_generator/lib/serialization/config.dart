@@ -4,11 +4,14 @@ class Config {
   final String? constructorParams;
   final List<ConfigField> fields;
 
+  final bool enableReferable;
+
   Config({
     required this.className,
     this.constructorName,
     this.constructorParams,
     required this.fields,
+    this.enableReferable = false,
   });
 
   List<ConfigField> get namedFields => fields.where((e) => e.named).toList();

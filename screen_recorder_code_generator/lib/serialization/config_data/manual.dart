@@ -165,7 +165,9 @@ final kManualConfigs = [
   ),
   Config(
     className: 'ParagraphBuilderRecordList',
+    enableReferable: true,
     fields: [
+      ConfigField(type: 'int', name: 'id', named: true),
       ConfigField(type: 'ParagraphBuilder_Constructor_Record', name: 'constructorRecord', named: true),
       ConfigField(type: 'List<ParagraphBuilder_RecordBase>', name: 'methodCallRecords', named: true),
     ],

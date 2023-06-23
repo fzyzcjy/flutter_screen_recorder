@@ -14,11 +14,13 @@ import 'dart:ui';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph_builder.dart';
+import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/record/canvas.dart';
 import 'package:screen_recorder/src/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/src/generated/record/scene_builder.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization.dart';
+import 'package:screen_recorder/src/touch/touch_data.dart';
 
 ${generateAllEnum()}
 

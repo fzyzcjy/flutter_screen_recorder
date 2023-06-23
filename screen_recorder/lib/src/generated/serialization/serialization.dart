@@ -7,11 +7,13 @@ import 'dart:ui';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph_builder.dart';
+import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/record/canvas.dart';
 import 'package:screen_recorder/src/generated/record/paragraph_builder.dart';
 import 'package:screen_recorder/src/generated/record/scene_builder.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization.dart';
+import 'package:screen_recorder/src/touch/touch_data.dart';
 
 Clip fromBytesClip(BytesReader reader) {
   return Clip.values[fromBytesUint8(reader)];
@@ -509,6 +511,29 @@ ParagraphRecord fromBytesParagraphRecord(BytesReader reader) {
 
 void toBytesParagraphRecord(BytesWriter writer, ParagraphRecord value) {
   toBytesNullable(writer, value.layoutConstraints, toBytesParagraphConstraints);
+}
+
+TouchPerFrameData fromBytesTouchPerFrameData(BytesReader reader) {
+  final positions = fromBytesList(reader, fromBytesOffset);
+  return TouchPerFrameData(positions: positions);
+}
+
+void toBytesTouchPerFrameData(BytesWriter writer, TouchPerFrameData value) {
+  toBytesList(writer, value.positions, toBytesOffset);
+}
+
+FramePacket fromBytesFramePacket(BytesReader reader) {
+  final scene = fromBytesSceneBuilderRecordList(reader);
+  final touch = fromBytesTouchPerFrameData(reader);
+  return FramePacket(
+    scene: scene,
+    touch: touch,
+  );
+}
+
+void toBytesFramePacket(BytesWriter writer, FramePacket value) {
+  toBytesSceneBuilderRecordList(writer, value.scene);
+  toBytesTouchPerFrameData(writer, value.touch);
 }
 
 SceneBuilder_PushTransform_Record fromBytesSceneBuilderPushTransformRecord(BytesReader reader) {

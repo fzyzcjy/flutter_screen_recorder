@@ -200,4 +200,17 @@ final kManualConfigs = [
       ConfigField(type: 'ParagraphConstraints?', name: 'layoutConstraints', named: true),
     ],
   ),
+  Config(
+    className: 'TouchPerFrameData',
+    fields: [
+      ConfigField(type: 'List<Offset>', name: 'positions', named: true),
+    ],
+  ),
+  Config(
+    className: 'FramePacket',
+    fields: [
+      ConfigField(type: 'SceneBuilderRecordList', name: 'scene', named: true),
+      ConfigField(type: 'TouchPerFrameData', name: 'touch', named: true),
+    ],
+  ),
 ];

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/replayer/scene_builder.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
 

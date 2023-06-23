@@ -173,6 +173,7 @@ final kManualConfigs = [
   ),
   Config(
     className: 'CanvasRecordList',
+    enableReferable: true,
     fields: [
       ConfigField(type: 'List<Canvas_RecordBase>', name: 'methodCallRecords', named: true),
     ],

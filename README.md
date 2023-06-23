@@ -33,3 +33,17 @@ Steps:
 1. Play with the app
 2. Tap "stop" floating action button
 3. Tap "replay" (the monitor icon) floating action button, and see the replay
+
+### Expected features in v1.0
+
+The demo above only demonstrates the core functionality works. In order to make it a full screen recorder and session replayer (debugger), there are more work (though not hard) to be done. More specifically, I expect to have such API:
+
+Layer 1: Record & replay
+
+* To record, simply wrap with `ScreenRecorderWidget(child: ...)`, and call `ScreenRecorder.start()` / `.pause()`.
+* To replay, simply use `ScreenPlayerWidget`, with features like a normal video player.
+
+Layer 2: "Session replay" for debugging
+
+* Automatically record and save to local disk.
+* When the user detects a bug and you want to know what happens before that bug, call something like `ScreenRecorder.getRecorded(startTime, endTime)` and send to you / upload to your server.

@@ -1,14 +1,15 @@
 import 'package:screen_recorder/src/bytes_reader_writer.dart';
+import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/referable.dart';
 
 class ToBytesContext {
-  final ReferableWriteContext referableContextParagraphBuilderRecordList;
-  final ReferableWriteContext referableContextCanvasRecordList;
+  final ReferableWriteContext<ParagraphBuilderRecordList> referableContextParagraphBuilderRecordList;
+  final ReferableWriteContext<CanvasRecordList> referableContextCanvasRecordList;
 }
 
 class FromBytesContext {
-  final ReferableReadContext referableContextParagraphBuilderRecordList;
-  final ReferableReadContext referableContextCanvasRecordList;
+  final ReferableReadContext<ParagraphBuilderRecordList> referableContextParagraphBuilderRecordList;
+  final ReferableReadContext<CanvasRecordList> referableContextCanvasRecordList;
 }
 
 class ContextBytesWriter extends BytesWriter {

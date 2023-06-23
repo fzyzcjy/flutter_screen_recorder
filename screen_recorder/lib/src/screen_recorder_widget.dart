@@ -56,7 +56,10 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             right: 64,
             bottom: 64 * 3,
             child: FloatingActionButton(
-              onPressed: () => _setRecording(value: true),
+              onPressed: () {
+                ScreenRecorder.instance.framePackets.clear();
+                _setRecording(value: true);
+              },
               child: const Icon(Icons.fiber_manual_record_outlined),
             ),
           ),
@@ -64,7 +67,9 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             right: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
-              onPressed: () => _setRecording(value: false),
+              onPressed: () {
+                _setRecording(value: false);
+              },
               child: const Icon(Icons.stop),
             ),
           ),

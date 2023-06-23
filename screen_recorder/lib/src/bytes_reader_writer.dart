@@ -1,5 +1,8 @@
 import 'dart:typed_data';
 
+// use little endian instead of (default) big endian to improve performance #9640
+const Endian _kEndian = Endian.little;
+
 // also ref https://github.com/brendan-duncan/archive/blob/main/lib/src/util/input_stream.dart
 class BytesReader {
   final Uint8List bytes;
@@ -22,19 +25,19 @@ class BytesReader {
   int readUint8() => bytes[_index++];
 
   int readInt64() {
-    final ans = byteData.getInt64(_index);
+    final ans = byteData.getInt64(_index, _kEndian);
     _index += 8;
     return ans;
   }
 
   double readFloat32() {
-    final ans = byteData.getFloat32(_index);
+    final ans = byteData.getFloat32(_index, _kEndian);
     _index += 4;
     return ans;
   }
 
   double readFloat64() {
-    final ans = byteData.getFloat64(_index);
+    final ans = byteData.getFloat64(_index, _kEndian);
     _index += 8;
     return ans;
   }
@@ -59,8 +62,11 @@ class BytesWriter {
   ///
   /// Will grow as necessary
   Uint8List _buffer;
+  ByteData _bufferByteDataView;
 
-  BytesWriter() : _buffer = _emptyList;
+  BytesWriter()
+      : _buffer = _emptyList,
+        _bufferByteDataView = ByteData.view(_emptyList.buffer);
 
   @pragma('vm:prefer-inline')
   void writeBytes(List<int> bytes) {
@@ -77,17 +83,17 @@ class BytesWriter {
 
   @pragma('vm:prefer-inline')
   void writeInt64(int value) {
-    _write(8, () => ByteData.view(_buffer.buffer).setInt64(_length, value));
+    _write(8, () => _bufferByteDataView.setInt64(_length, value, _kEndian));
   }
 
   @pragma('vm:prefer-inline')
   void writeFloat32(double value) {
-    _write(4, () => ByteData.view(_buffer.buffer).setFloat32(_length, value));
+    _write(4, () => _bufferByteDataView.setFloat32(_length, value, _kEndian));
   }
 
   @pragma('vm:prefer-inline')
   void writeFloat64(double value) {
-    _write(8, () => ByteData.view(_buffer.buffer).setFloat64(_length, value));
+    _write(8, () => _bufferByteDataView.setFloat64(_length, value, _kEndian));
   }
 
   @pragma('vm:prefer-inline')
@@ -118,6 +124,7 @@ class BytesWriter {
     var newBuffer = Uint8List(newSize);
     newBuffer.setRange(0, _buffer.length, _buffer);
     _buffer = newBuffer;
+    _bufferByteDataView = ByteData.view(_buffer.buffer);
   }
 
   Uint8List takeBytes() {

@@ -21,10 +21,6 @@ abstract class MySceneBuilderBase {
     // result.sceneBuilderRecord = record;
   }
 
-  void handleAddRetainedOp(void result, SceneBuilder_AddRetained_Record record) {
-    _data.methodCallRecords.add(record.temporaryClone());
-  }
-
   void handleBuildOp(Scene result) {
     result.sceneBuilderRecordList = _data;
   }

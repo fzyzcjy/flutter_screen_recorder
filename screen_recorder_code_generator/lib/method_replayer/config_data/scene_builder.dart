@@ -107,7 +107,7 @@ final kConfigSceneBuilder = Config(
     ConfigMethod(
       returnType: 'void',
       methodName: 'addRetained',
-      handlerName: 'handleAddRetainedOp',
+      handlerName: 'handleMiscOp',
       recordExecuteExtraBody: 'executeContext.putRetainedEngineLayerId(retainedLayerId);',
       parameters: [
         ConfigMethodParameter('EngineLayer retainedLayer',

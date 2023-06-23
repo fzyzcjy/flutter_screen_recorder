@@ -106,7 +106,7 @@ class ScreenRecorder {
 
 void _sanityCheckSerialization(Uint8List srcBytes) {
   final reader = BytesReader(srcBytes);
-  fromBytesSceneBuilderRecordList(reader);
+  fromBytesFramePacket(reader);
   assert(reader.eof, 'can fromBytes and exactly consume all bytes');
 
   // seems not easy to check, because some data like Picture are not serializable *themselves*, but need a record

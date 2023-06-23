@@ -34,3 +34,11 @@ void toBytesNullableList<T extends Object>(
     ContextBytesWriter writer, List<T>? value, void Function(ContextBytesWriter, T) toBytesInner) {
   toBytesNullable(writer, value, (writer, value) => toBytesList(writer, value, toBytesInner));
 }
+
+T fromBytesReferable<T>(ContextBytesReader reader, T Function(ContextBytesReader) fromBytesInner) {
+  return TODO;
+}
+
+void toBytesReferable<T>(ContextBytesWriter writer, T value, void Function(ContextBytesWriter, T) toBytesInner) {
+  TODO;
+}

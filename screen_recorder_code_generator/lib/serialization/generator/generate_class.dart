@@ -46,7 +46,8 @@ String _generateFromBytesField(Config config, ConfigField configField) {
   final listInnerType = typeListInnerType(configField.type);
   final innerFunctionName = 'fromBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final lhs = 'final ${configField.name}';
-  final outerFunctionPartialName = _getSerializationOuterPartialName(configField.type);
+  final outerFunctionPartialName =
+      _getSerializationOuterPartialName(configField.type, enableReferable: config.enableReferable);
 
   return outerFunctionPartialName != null
       ? '$lhs = fromBytes$outerFunctionPartialName(reader, $innerFunctionName);'
@@ -65,7 +66,8 @@ String _generateToBytesField(Config config, ConfigField configField) {
   final listInnerType = typeListInnerType(configField.type);
   final innerFunctionName = 'toBytes${getSerializationPartialName(listInnerType ?? configField.type)}';
   final valueName = 'value.${configField.name}';
-  final outerFunctionPartialName = _getSerializationOuterPartialName(configField.type);
+  final outerFunctionPartialName =
+      _getSerializationOuterPartialName(configField.type, enableReferable: config.enableReferable);
 
   return outerFunctionPartialName != null
       ? 'toBytes$outerFunctionPartialName(writer, $valueName, $innerFunctionName);'
@@ -77,10 +79,11 @@ String? typeListInnerType(String type) =>
 
 bool typeIsNullable(String type) => type.endsWith('?');
 
-String? _getSerializationOuterPartialName(String type) {
+String? _getSerializationOuterPartialName(String type, {required bool enableReferable}) {
   final listInnerType = typeListInnerType(type);
   final nullable = typeIsNullable(type);
 
+  if (enableReferable) return 'Referable';
   if (listInnerType != null) return nullable ? 'NullableList' : 'List';
   return nullable ? 'Nullable' : null;
 }

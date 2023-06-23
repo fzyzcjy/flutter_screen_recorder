@@ -41,9 +41,12 @@ class ScreenRecorder {
   }
 
   void _handlePersistentFrameCallback() {
-    debugPrint('$_kTag PersistentFrameCallback '
-        'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-        'compressor=$compressor');
+    assert(() {
+      print('$_kTag PersistentFrameCallback '
+          'overallUncompressedBytesLen=$overallUncompressedBytesLen '
+          'compressor=$compressor');
+      return true;
+    }());
 
     if (recording) {
       Timeline.startSync('ScreenRecorder.PostFrame');

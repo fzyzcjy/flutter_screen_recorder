@@ -15,7 +15,9 @@ Remarks:
 * It captures every frame in full resolution and full details, e.g. the ripple animation.
 * This is just super early demo and there are (many) rough edges, but the main idea is there.
 
-TODO link
+https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/3a2a9298-659c-455f-b89a-9299a2168ed9
+
+https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/69a76027-797a-493f-88cc-56814e6aa1f5
 
 #### Reproduction
 

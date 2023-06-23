@@ -34,7 +34,7 @@ class ScreenRecorder {
 
   final _toBytesContext = ToBytesContext();
 
-  final _postFrameTimeMicrosArr = <int>[];
+  final _postFrameProcessInfos = <_PostFrameProcessInfo>[];
 
   Future<void> setup() async {
     PaintingContext.createPictureRecorder = () => recording ? MyPictureRecorder(PictureRecorder()) : PictureRecorder();
@@ -67,10 +67,14 @@ class ScreenRecorder {
         'compressor=$compressor');
     if (verbose) {
       printWrapped(
-          'postFrameTimeMicrosArr.where(superLong)=${_postFrameTimeMicrosArr.where((e) => e >= 10000).toList()}');
-      printWrapped('postFrameTimeMicrosArr.where(long)=${_postFrameTimeMicrosArr.where((e) => e >= 2000).toList()}');
-      printWrapped('postFrameTimeMicrosArr(all)=$_postFrameTimeMicrosArr');
-      _postFrameTimeMicrosArr.clear();
+          'postFrameTimeMicrosArr.where(superLong)=${_postFrameProcessInfos.where((e) => e.durationMicros >= 10000).toList()}');
+      printWrapped(
+          'postFrameTimeMicrosArr.where(long)=${_postFrameProcessInfos.where((e) => e.durationMicros >= 2000).toList()}');
+      printWrapped(
+          'postFrameTimeMicrosArr(all.duration)=${_postFrameProcessInfos.map((e) => e.durationMicros).toList()}');
+      printWrapped(
+          'postFrameTimeMicrosArr(all.bytes)=${_postFrameProcessInfos.map((e) => e.uncompressedBytesLen).toList()}');
+      _postFrameProcessInfos.clear();
     }
   }
 
@@ -90,6 +94,8 @@ class ScreenRecorder {
       final currTouchPerFrameData = touchPerFrameData;
       touchPerFrameData = TouchPerFrameData(positions: []);
 
+      final int bytesLen;
+
       // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
       if (sceneBuilderRecordList != null) {
         final framePacket = FramePacket(
@@ -104,6 +110,7 @@ class ScreenRecorder {
         framePackets.add(bytes);
 
         overallUncompressedBytesLen += bytes.length;
+        bytesLen = bytes.length;
 
         compressor.add(bytes);
 
@@ -112,6 +119,7 @@ class ScreenRecorder {
         //   return true;
         // }());
       } else {
+        bytesLen = 0;
         assert(() {
           print('_handlePersistentFrameCallback but see sceneBuilderRecordList == null, thus do nothing');
           return true;
@@ -119,7 +127,10 @@ class ScreenRecorder {
       }
 
       Timeline.finishSync();
-      _postFrameTimeMicrosArr.add(DateTime.now().difference(start).inMicroseconds);
+      _postFrameProcessInfos.add(_PostFrameProcessInfo(
+        durationMicros: DateTime.now().difference(start).inMicroseconds,
+        uncompressedBytesLen: bytesLen,
+      ));
     }
   }
 }
@@ -144,3 +155,13 @@ class ScreenRecorder {
 // }
 
 void printWrapped(String text) => RegExp('.{1,800}').allMatches(text).forEach((match) => print(match.group(0)));
+
+class _PostFrameProcessInfo {
+  final int durationMicros;
+  final int uncompressedBytesLen;
+
+  const _PostFrameProcessInfo({required this.durationMicros, required this.uncompressedBytesLen});
+
+  @override
+  String toString() => '(t=$durationMicros, len=$uncompressedBytesLen)';
+}

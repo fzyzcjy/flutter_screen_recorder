@@ -488,7 +488,22 @@ CanvasRecordList fromBytesCanvasRecordList(BytesReader reader) {
   return CanvasRecordList(methodCallRecords: methodCallRecords);
 }
 
+// TEMPORARY HACK
+extension _ExtCanvasRecordListSerializeId on CanvasRecordList {
+  static final _expando = Expando<int>('CanvasRecordList.serializeId');
+
+  static var _nextId = 1;
+
+  int? get serializeId => _expando[this];
+
+  set serializeId(int? value) => _expando[this] = value;
+}
+
 void toBytesCanvasRecordList(BytesWriter writer, CanvasRecordList value) {
+  // TEMPORARY HACK
+  if (value.serializeId != null) return;
+  value.serializeId = _ExtCanvasRecordListSerializeId._nextId++;
+
   toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
 }
 

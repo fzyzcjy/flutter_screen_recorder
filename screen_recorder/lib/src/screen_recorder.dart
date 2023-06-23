@@ -84,54 +84,48 @@ class ScreenRecorder {
       return true;
     }());
 
-    if (recording) {
-      Timeline.startSync('ScreenRecorder.PostFrame');
-      final start = DateTime.now();
+    if (!recording) return;
 
-      final sceneBuilderRecordList = _lastSceneBuilderRecordList;
-      _lastSceneBuilderRecordList = null;
+    Timeline.startSync('ScreenRecorder.PostFrame');
+    final start = DateTime.now();
 
-      final currTouchPerFrameData = touchPerFrameData;
-      touchPerFrameData = TouchPerFrameData(positions: []);
+    final sceneBuilderRecordList = _lastSceneBuilderRecordList;
+    _lastSceneBuilderRecordList = null;
 
-      final int bytesLen;
+    // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
+    if (sceneBuilderRecordList == null) return;
 
-      // https://github.com/fzyzcjy/yplusplus/issues/9623#issuecomment-1603494622
-      if (sceneBuilderRecordList != null) {
-        final framePacket = FramePacket(
-          scene: sceneBuilderRecordList,
-          touch: currTouchPerFrameData,
-        );
+    final currTouchPerFrameData = touchPerFrameData;
+    touchPerFrameData = TouchPerFrameData(positions: []);
 
-        final bytesBuilder = ContextBytesWriter(context: _toBytesContext);
-        toBytesFramePacket(bytesBuilder, framePacket);
-        final bytes = bytesBuilder.takeBytes();
+    final int bytesLen;
 
-        framePackets.add(bytes);
+    final framePacket = FramePacket(
+      scene: sceneBuilderRecordList,
+      touch: currTouchPerFrameData,
+    );
 
-        overallUncompressedBytesLen += bytes.length;
-        bytesLen = bytes.length;
+    final bytesBuilder = ContextBytesWriter(context: _toBytesContext);
+    toBytesFramePacket(bytesBuilder, framePacket);
+    final bytes = bytesBuilder.takeBytes();
 
-        compressor.add(bytes);
+    framePackets.add(bytes);
 
-        // assert(() {
-        //   _sanityCheckSerialization(bytes);
-        //   return true;
-        // }());
-      } else {
-        bytesLen = 0;
-        assert(() {
-          print('_handlePersistentFrameCallback but see sceneBuilderRecordList == null, thus do nothing');
-          return true;
-        }());
-      }
+    overallUncompressedBytesLen += bytes.length;
+    bytesLen = bytes.length;
 
-      Timeline.finishSync();
-      _postFrameProcessInfos.add(_PostFrameProcessInfo(
-        durationMicros: DateTime.now().difference(start).inMicroseconds,
-        uncompressedBytesLen: bytesLen,
-      ));
-    }
+    compressor.add(bytes);
+
+    // assert(() {
+    //   _sanityCheckSerialization(bytes);
+    //   return true;
+    // }());
+
+    Timeline.finishSync();
+    _postFrameProcessInfos.add(_PostFrameProcessInfo(
+      durationMicros: DateTime.now().difference(start).inMicroseconds,
+      uncompressedBytesLen: bytesLen,
+    ));
   }
 }
 

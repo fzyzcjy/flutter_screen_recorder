@@ -4,7 +4,6 @@
 
 import 'dart:ui';
 
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph.dart';
 import 'package:screen_recorder/src/delegate_base/paragraph_builder.dart';
 import 'package:screen_recorder/src/frame_packet.dart';
@@ -455,26 +454,29 @@ void toBytesPaint(ContextBytesWriter writer, Paint value) {
 }
 
 ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(ContextBytesReader reader) {
-  final constructorRecord = fromBytesReferable(reader, fromBytesParagraphBuilderConstructorRecord);
-  final methodCallRecords = fromBytesReferable(reader, fromBytesParagraphBuilderRecordBase);
+  final id = fromBytesInt(reader);
+  final constructorRecord = fromBytesParagraphBuilderConstructorRecord(reader);
+  final methodCallRecords = fromBytesList(reader, fromBytesParagraphBuilderRecordBase);
   return ParagraphBuilderRecordList(
+    id: id,
     constructorRecord: constructorRecord,
     methodCallRecords: methodCallRecords,
   );
 }
 
 void toBytesParagraphBuilderRecordList(ContextBytesWriter writer, ParagraphBuilderRecordList value) {
-  toBytesReferable(writer, value.constructorRecord, toBytesParagraphBuilderConstructorRecord);
-  toBytesReferable(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
+  toBytesInt(writer, value.id);
+  toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
+  toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
 }
 
 CanvasRecordList fromBytesCanvasRecordList(ContextBytesReader reader) {
-  final methodCallRecords = fromBytesReferable(reader, fromBytesCanvasRecordBase);
+  final methodCallRecords = fromBytesList(reader, fromBytesCanvasRecordBase);
   return CanvasRecordList(methodCallRecords: methodCallRecords);
 }
 
 void toBytesCanvasRecordList(ContextBytesWriter writer, CanvasRecordList value) {
-  toBytesReferable(writer, value.methodCallRecords, toBytesCanvasRecordBase);
+  toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
 }
 
 SceneBuilderRecordList fromBytesSceneBuilderRecordList(ContextBytesReader reader) {

@@ -30,7 +30,7 @@ class ScreenRecorder {
   final compressor = SimpleCompressor();
 
   // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
-  final sceneBuilderDataArr = <Uint8List>[];
+  final framePackets = <Uint8List>[];
 
   Future<void> setup() async {
     PaintingContext.createPictureRecorder = () => recording ? MyPictureRecorder(PictureRecorder()) : PictureRecorder();
@@ -82,7 +82,7 @@ class ScreenRecorder {
         toBytesFramePacket(bytesBuilder, framePacket);
         final bytes = bytesBuilder.takeBytes();
 
-        sceneBuilderDataArr.add(bytes);
+        framePackets.add(bytes);
 
         overallUncompressedBytesLen += bytes.length;
 

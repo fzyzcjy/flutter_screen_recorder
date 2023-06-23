@@ -36,14 +36,14 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
       }
 
       setState(() {
-        frameIndex = (frameIndex + 1) % ScreenRecorder.instance.sceneBuilderDataArr.length;
+        frameIndex = (frameIndex + 1) % ScreenRecorder.instance.framePackets.length;
         _computeFramePacket();
       });
     });
   }
 
   void _computeFramePacket() {
-    final framePacketBytes = ScreenRecorder.instance.sceneBuilderDataArr[frameIndex];
+    final framePacketBytes = ScreenRecorder.instance.framePackets[frameIndex];
     final reader = BytesReader(framePacketBytes);
     framePacket = fromBytesFramePacket(reader);
     assert(reader.eof);
@@ -79,7 +79,9 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
         Transform.scale(
           // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
           // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
-          scale: 1 / View.of(context).devicePixelRatio,
+          scale: 1 / View
+              .of(context)
+              .devicePixelRatio,
           alignment: Alignment.topLeft,
           origin: Offset.zero,
           child: RepaintBoundary(

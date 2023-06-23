@@ -14,7 +14,6 @@ import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization/context.dart';
-import 'package:screen_recorder/src/simple_compressor.dart';
 import 'package:screen_recorder/src/touch/touch_data.dart';
 
 class ScreenRecorder {
@@ -27,7 +26,8 @@ class ScreenRecorder {
   var recording = true;
 
   var overallUncompressedBytesLen = 0;
-  final compressor = SimpleCompressor();
+
+  // final compressor = SimpleCompressor();
 
   // final sceneBuilderDataArr = <SceneBuilderRecordList>[];
   final framePackets = <Uint8List>[];
@@ -64,7 +64,8 @@ class ScreenRecorder {
   void dumpDebugInfo({required bool verbose}) {
     print('$_kTag dumpDebugInfo '
         'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-        'compressor=$compressor');
+        // 'compressor=$compressor'
+        );
     if (verbose) {
       printWrapped(
           'postFrameTimeMicrosArr.where(superLong)=${_postFrameProcessInfos.where((e) => e.durationMicros >= 10000).toList()}');
@@ -114,7 +115,8 @@ class ScreenRecorder {
     overallUncompressedBytesLen += bytes.length;
     bytesLen = bytes.length;
 
-    compressor.add(bytes);
+    // TODO should run in another isolate, otherwise it is slow #9648
+    // compressor.add(bytes);
 
     // assert(() {
     //   _sanityCheckSerialization(bytes);

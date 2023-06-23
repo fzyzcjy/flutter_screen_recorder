@@ -463,7 +463,22 @@ ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(BytesReader reade
   );
 }
 
+// TEMPORARY HACK
+extension _ExtParagraphBuilderRecordListSerializeId on ParagraphBuilderRecordList {
+  static final _expando = Expando<int>('ParagraphBuilderRecordList.serializeId');
+
+  static var _nextId = 1;
+
+  int? get serializeId => _expando[this];
+
+  set serializeId(int? value) => _expando[this] = value;
+}
+
 void toBytesParagraphBuilderRecordList(BytesWriter writer, ParagraphBuilderRecordList value) {
+  // TEMPORARY HACK
+  if (value.serializeId != null) return;
+  value.serializeId = _ExtParagraphBuilderRecordListSerializeId._nextId++;
+
   toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
   toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
 }

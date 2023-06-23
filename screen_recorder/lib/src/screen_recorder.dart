@@ -12,6 +12,7 @@ import 'package:screen_recorder/src/generated/delegate/scene_builder.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
+import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/simple_compressor.dart';
 
 class ScreenRecorder {
@@ -35,10 +36,17 @@ class ScreenRecorder {
     TextPainter.createParagraphBuilder = (style) => recording ? MyParagraphBuilder(style) : ParagraphBuilder(style);
     OffsetLayer.createSceneBuilder =
         RenderView.createSceneBuilder = () => recording ? MySceneBuilder(SceneBuilder()) : SceneBuilder();
+    RenderView.onCallViewRender = _handleCallViewRender;
 
     SchedulerBinding.instance.addPersistentFrameCallback((timeStamp) => _handlePersistentFrameCallback());
 
     await PlaceholderData.instance.setup();
+  }
+
+  SceneBuilderRecordList? _lastSceneBuilderRecordList;
+
+  void _handleCallViewRender(Scene scene) {
+    _lastSceneBuilderRecordList = scene.sceneBuilderRecordList!;
   }
 
   void _handlePersistentFrameCallback() {
@@ -52,8 +60,9 @@ class ScreenRecorder {
     if (recording) {
       Timeline.startSync('ScreenRecorder.PostFrame');
 
-      final Scene scene = TODO;
-      final sceneBuilderRecordList = scene.sceneBuilderRecordList!;
+      final sceneBuilderRecordList = _lastSceneBuilderRecordList!;
+      _lastSceneBuilderRecordList = null;
+
       final bytesBuilder = BytesWriter();
       toBytesSceneBuilderRecordList(bytesBuilder, sceneBuilderRecordList);
       final bytes = bytesBuilder.takeBytes();

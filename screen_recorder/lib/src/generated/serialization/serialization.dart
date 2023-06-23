@@ -455,7 +455,7 @@ void toBytesPaint(ContextBytesWriter writer, Paint value) {
 }
 
 ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(ContextBytesReader reader) {
-  return fromBytesReferable(reader, () {
+  return fromBytesReferable(reader, reader.context.referableContextParagraphBuilderRecordList, () {
     final constructorRecord = fromBytesParagraphBuilderConstructorRecord(reader);
     final methodCallRecords = fromBytesList(reader, fromBytesParagraphBuilderRecordBase);
     return ParagraphBuilderRecordList(
@@ -466,21 +466,21 @@ ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(ContextBytesReade
 }
 
 void toBytesParagraphBuilderRecordList(ContextBytesWriter writer, ParagraphBuilderRecordList value) {
-  toBytesReferable(writer, value, () {
+  toBytesReferable(writer, writer.context.referableContextParagraphBuilderRecordList, value, () {
     toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
     toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
   });
 }
 
 CanvasRecordList fromBytesCanvasRecordList(ContextBytesReader reader) {
-  return fromBytesReferable(reader, () {
+  return fromBytesReferable(reader, reader.context.referableContextCanvasRecordList, () {
     final methodCallRecords = fromBytesList(reader, fromBytesCanvasRecordBase);
     return CanvasRecordList(methodCallRecords: methodCallRecords);
   });
 }
 
 void toBytesCanvasRecordList(ContextBytesWriter writer, CanvasRecordList value) {
-  toBytesReferable(writer, value, () {
+  toBytesReferable(writer, writer.context.referableContextCanvasRecordList, value, () {
     toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
   });
 }

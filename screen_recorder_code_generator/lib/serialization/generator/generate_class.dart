@@ -39,7 +39,7 @@ String _generateFromBytes(Config config) {
   return $constructorCall
   ''';
 
-  if (config.enableReferable) body = _wrapFromBytesReferable(body);
+  if (config.enableReferable) body = _wrapFromBytesReferable(config, body);
 
   return '''
 ${config.className} fromBytes${getSerializationPartialName(config.className)}(ContextBytesReader reader) {
@@ -59,9 +59,9 @@ String _generateFromBytesField(Config config, ConfigField configField) {
       : '$lhs = $innerFunctionName(reader);';
 }
 
-String _wrapFromBytesReferable(String innerBody) {
+String _wrapFromBytesReferable(Config config, String innerBody) {
   return '''
-    return fromBytesReferable(reader, () {
+    return fromBytesReferable(reader, reader.context.referableContext${config.className}, () {
       $innerBody
     });
   ''';
@@ -70,7 +70,7 @@ String _wrapFromBytesReferable(String innerBody) {
 String _generateToBytes(Config config) {
   var body = config.fields.map((e) => _generateToBytesField(config, e)).join('\n');
 
-  if (config.enableReferable) body = _wrapToBytesReferable(body);
+  if (config.enableReferable) body = _wrapToBytesReferable(config, body);
 
   return '''
 void toBytes${getSerializationPartialName(config.className)}(ContextBytesWriter writer, ${config.className} value) {
@@ -90,9 +90,9 @@ String _generateToBytesField(Config config, ConfigField configField) {
       : '$innerFunctionName(writer, $valueName);';
 }
 
-String _wrapToBytesReferable(String innerBody) {
+String _wrapToBytesReferable(Config config, String innerBody) {
   return '''
-    toBytesReferable(writer, value, () {
+    toBytesReferable(writer, writer.context.referableContext${config.className}, value, () {
       $innerBody
     });
   ''';

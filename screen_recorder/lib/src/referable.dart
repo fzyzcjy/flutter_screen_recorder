@@ -1,0 +1,3 @@
+class ReferableWriteContext {}
+
+class ReferableReadContext {}

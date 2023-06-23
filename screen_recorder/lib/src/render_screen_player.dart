@@ -3,11 +3,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/frame_packet.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/replayer/scene_builder.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
+import 'package:screen_recorder/src/serialization/context.dart';
+import 'package:screen_recorder/src/serialization/wrapper_types.dart';
 
 class ScreenPlayerWidget extends StatefulWidget {
   const ScreenPlayerWidget({Key? key}) : super(key: key);
@@ -18,15 +19,15 @@ class ScreenPlayerWidget extends StatefulWidget {
 
 class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
   late int frameIndex;
-
   late FramePacket framePacket;
+  late FromBytesContext fromBytesContext;
 
   @override
   void initState() {
     super.initState();
 
     frameIndex = 0;
-    _computeFramePacket();
+    _computeFramePacketAndFromBytesContext();
 
     // deliberately make it super slow for easy debuggign
     Timer.periodic(const Duration(milliseconds: 200), (timer) {
@@ -37,14 +38,17 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
 
       setState(() {
         frameIndex = (frameIndex + 1) % ScreenRecorder.instance.framePackets.length;
-        _computeFramePacket();
+        _computeFramePacketAndFromBytesContext();
       });
     });
   }
 
-  void _computeFramePacket() {
+  void _computeFramePacketAndFromBytesContext() {
+    // the context is stateful across frames, thus re-init iff at frame 0
+    if (frameIndex == 0) fromBytesContext = FromBytesContext();
+
     final framePacketBytes = ScreenRecorder.instance.framePackets[frameIndex];
-    final reader = BytesReader(framePacketBytes);
+    final reader = ContextBytesReader(framePacketBytes, context: fromBytesContext);
     framePacket = fromBytesFramePacket(reader);
     assert(reader.eof);
   }
@@ -79,9 +83,7 @@ class _ScreenPlayerWidgetState extends State<ScreenPlayerWidget> {
         Transform.scale(
           // https://github.com/fzyzcjy/yplusplus/issues/9590#issuecomment-1601922243
           // TODO should be devicePixelRatio of the phone that *records* this, not the phone that *plays* this
-          scale: 1 / View
-              .of(context)
-              .devicePixelRatio,
+          scale: 1 / View.of(context).devicePixelRatio,
           alignment: Alignment.topLeft,
           origin: Offset.zero,
           child: RepaintBoundary(

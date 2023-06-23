@@ -1,33 +1,33 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart' as material;
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
+import 'package:screen_recorder/src/serialization/context.dart';
 
-Image fromBytesImage(BytesReader reader) => PlaceholderData.instance.placeholderImage;
+Image fromBytesImage(ContextBytesReader reader) => PlaceholderData.instance.placeholderImage;
 
-void toBytesImage(BytesWriter writer, Image value) {}
+void toBytesImage(ContextBytesWriter writer, Image value) {}
 
-Vertices fromBytesVertices(BytesReader reader) =>
+Vertices fromBytesVertices(ContextBytesReader reader) =>
     // dummy (empty) vertices
     Vertices(VertexMode.triangles, []);
 
-void toBytesVertices(BytesWriter writer, Vertices value) {}
+void toBytesVertices(ContextBytesWriter writer, Vertices value) {}
 
-ColorFilter fromBytesColorFilter(BytesReader reader) =>
+ColorFilter fromBytesColorFilter(ContextBytesReader reader) =>
     // identity ColorFilter
     const ColorFilter.matrix([1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
 
-void toBytesColorFilter(BytesWriter writer, ColorFilter value) {}
+void toBytesColorFilter(ContextBytesWriter writer, ColorFilter value) {}
 
-ImageFilter fromBytesImageFilter(BytesReader reader) =>
+ImageFilter fromBytesImageFilter(ContextBytesReader reader) =>
     // identity filter
     ImageFilter.matrix(material.Matrix4.identity().storage);
 
-void toBytesImageFilter(BytesWriter writer, ImageFilter value) {}
+void toBytesImageFilter(ContextBytesWriter writer, ImageFilter value) {}
 
-Shader fromBytesShader(BytesReader reader) =>
+Shader fromBytesShader(ContextBytesReader reader) =>
     // dummy shader
     Gradient.radial(Offset.zero, 50, [material.Colors.red, material.Colors.blue]);
 
-void toBytesShader(BytesWriter writer, Shader value) {}
+void toBytesShader(ContextBytesWriter writer, Shader value) {}

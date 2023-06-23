@@ -165,14 +165,18 @@ final kManualConfigs = [
   ),
   Config(
     className: 'ParagraphBuilderRecordList',
+    enableReferable: true,
     fields: [
+      ConfigField(type: 'int', name: 'objectId', named: true),
       ConfigField(type: 'ParagraphBuilder_Constructor_Record', name: 'constructorRecord', named: true),
       ConfigField(type: 'List<ParagraphBuilder_RecordBase>', name: 'methodCallRecords', named: true),
     ],
   ),
   Config(
     className: 'CanvasRecordList',
+    enableReferable: true,
     fields: [
+      ConfigField(type: 'int', name: 'objectId', named: true),
       ConfigField(type: 'List<Canvas_RecordBase>', name: 'methodCallRecords', named: true),
     ],
   ),

@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:screen_recorder/src/bytes_reader_writer.dart';
 import 'package:screen_recorder/src/generated/serialization/serialization.dart';
 import 'package:screen_recorder/src/serialization.dart';
 
@@ -132,8 +131,8 @@ void main() {
 
 void _addTestGroup<T extends Object>(
   String name, {
-  required void Function(BytesWriter writer, T value) toBytes,
-  required T Function(BytesReader reader) fromBytes,
+  required void Function(ContextBytesWriter writer, T value) toBytes,
+  required T Function(ContextBytesReader reader) fromBytes,
   required List<T> values,
   Object Function(T)? comparisonExtractor,
 }) {
@@ -153,19 +152,19 @@ void _addTestGroup<T extends Object>(
 }
 
 void _body<T extends Object>({
-  required void Function(BytesWriter writer, T value) toBytes,
-  required T Function(BytesReader reader) fromBytes,
+  required void Function(ContextBytesWriter writer, T value) toBytes,
+  required T Function(ContextBytesReader reader) fromBytes,
   required T value,
   Object Function(T)? comparisonExtractor,
 }) {
   comparisonExtractor ??= (x) => x;
 
-  final writer = BytesWriter();
+  final writer = ContextBytesWriter(context: ToBytesContext());
   toBytes(writer, value);
   final bytes = writer.takeBytes();
   debugPrint('bytes=$bytes');
 
-  final reader = BytesReader(bytes);
+  final reader = ContextBytesReader(bytes, context: FromBytesContext());
   final recoveredValue = fromBytes(reader);
   expect(reader.eof, true);
 

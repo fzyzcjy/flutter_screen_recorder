@@ -81,6 +81,11 @@ class ScreenRecorder {
           _sanityCheckSerialization(bytes);
           return true;
         }());
+      } else {
+        assert(() {
+          print('_handlePersistentFrameCallback but see sceneBuilderRecordList == null, thus do nothing');
+          return true;
+        }());
       }
 
       Timeline.finishSync();

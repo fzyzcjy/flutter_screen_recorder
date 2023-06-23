@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:screen_recorder/src/delegate_base/paragraph.dart';
@@ -15,7 +16,9 @@ Picture fromBytesPicture(ContextBytesReader reader) {
 }
 
 void toBytesPicture(ContextBytesWriter writer, Picture value) {
+  Timeline.startSync('toBytesPicture');
   toBytesCanvasRecordList(writer, value.canvasRecordList!);
+  Timeline.finishSync();
 }
 
 Paragraph fromBytesParagraph(ContextBytesReader reader) {
@@ -39,4 +42,8 @@ void toBytesParagraphBuilderRecordBase(ContextBytesWriter writer, ParagraphBuild
 
 void toBytesCanvasRecordBase(ContextBytesWriter writer, Canvas_RecordBase value) => value.toBytes(writer);
 
-void toBytesSceneBuilderRecordBase(ContextBytesWriter writer, SceneBuilder_RecordBase value) => value.toBytes(writer);
+void toBytesSceneBuilderRecordBase(ContextBytesWriter writer, SceneBuilder_RecordBase value) {
+  Timeline.startSync('toBytesSceneBuilderRecordBase');
+  value.toBytes(writer);
+  Timeline.finishSync();
+}

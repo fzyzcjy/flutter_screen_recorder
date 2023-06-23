@@ -54,6 +54,14 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
           }),
           Positioned(
             right: 64,
+            bottom: 64 * 4,
+            child: FloatingActionButton(
+              onPressed: () => ScreenRecorder.instance.dumpDebugInfo(verbose: true),
+              child: const Icon(Icons.bug_report_outlined),
+            ),
+          ),
+          Positioned(
+            right: 64,
             bottom: 64 * 3,
             child: FloatingActionButton(
               onPressed: () {

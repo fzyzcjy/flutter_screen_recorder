@@ -14,7 +14,6 @@ import 'package:screen_recorder/src/my_picture_recorder.dart';
 import 'package:screen_recorder/src/placeholder_data.dart';
 import 'package:screen_recorder/src/record_list.dart';
 import 'package:screen_recorder/src/serialization/context.dart';
-import 'package:screen_recorder/src/serialization/wrapper_types.dart';
 import 'package:screen_recorder/src/simple_compressor.dart';
 import 'package:screen_recorder/src/touch/touch_data.dart';
 
@@ -34,6 +33,8 @@ class ScreenRecorder {
   final framePackets = <Uint8List>[];
 
   final _toBytesContext = ToBytesContext();
+
+  final _postFrameTimeMicrosArr = <int>[];
 
   Future<void> setup() async {
     PaintingContext.createPictureRecorder = () => recording ? MyPictureRecorder(PictureRecorder()) : PictureRecorder();
@@ -60,16 +61,28 @@ class ScreenRecorder {
     }
   }
 
+  void dumpDebugInfo({required bool verbose}) {
+    print('$_kTag dumpDebugInfo '
+        'overallUncompressedBytesLen=$overallUncompressedBytesLen '
+        'compressor=$compressor');
+    if (verbose) {
+      printWrapped(
+          'postFrameTimeMicrosArr.where(superLong)=${_postFrameTimeMicrosArr.where((e) => e >= 10000).toList()}');
+      printWrapped('postFrameTimeMicrosArr.where(long)=${_postFrameTimeMicrosArr.where((e) => e >= 2000).toList()}');
+      printWrapped('postFrameTimeMicrosArr(all)=$_postFrameTimeMicrosArr');
+      _postFrameTimeMicrosArr.clear();
+    }
+  }
+
   void _handlePersistentFrameCallback() {
     assert(() {
-      print('$_kTag PersistentFrameCallback '
-          'overallUncompressedBytesLen=$overallUncompressedBytesLen '
-          'compressor=$compressor');
+      dumpDebugInfo(verbose: false);
       return true;
     }());
 
     if (recording) {
       Timeline.startSync('ScreenRecorder.PostFrame');
+      final start = DateTime.now();
 
       final sceneBuilderRecordList = _lastSceneBuilderRecordList;
       _lastSceneBuilderRecordList = null;
@@ -106,6 +119,7 @@ class ScreenRecorder {
       }
 
       Timeline.finishSync();
+      _postFrameTimeMicrosArr.add(DateTime.now().difference(start).inMicroseconds);
     }
   }
 }
@@ -128,3 +142,5 @@ class ScreenRecorder {
 //   //   'againBytes.length=${againBytes.length}',
 //   // );
 // }
+
+void printWrapped(String text) => RegExp('.{1,800}').allMatches(text).forEach((match) => print(match.group(0)));

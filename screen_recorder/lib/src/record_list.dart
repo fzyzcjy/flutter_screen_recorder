@@ -26,24 +26,28 @@ class RecordListWithConstructor<CR, MR> extends RecordList<MR> {
 class ParagraphBuilderRecordList
     extends RecordListWithConstructor<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase>
     implements ReferableObject {
+  static var _nextObjectId = 1;
+
   @override
   final int objectId;
 
   ParagraphBuilderRecordList({
-    required this.objectId,
+    int? objectId,
     super.constructorRecord,
     required super.methodCallRecords,
-  });
+  }) : objectId = objectId ?? _nextObjectId++;
 }
 
 class CanvasRecordList extends RecordList<Canvas_RecordBase> implements ReferableObject {
+  static var _nextObjectId = 1;
+
   @override
   final int objectId;
 
   CanvasRecordList({
-    required this.objectId,
+    int? objectId,
     required super.methodCallRecords,
-  });
+  }) : objectId = objectId ?? _nextObjectId++;
 }
 
 class SceneBuilderRecordList extends RecordList<SceneBuilder_RecordBase> {

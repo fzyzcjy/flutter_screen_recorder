@@ -24,7 +24,10 @@ class RecordListWithConstructor<CR, MR> extends RecordList<MR> {
 
 class ParagraphBuilderRecordList
     extends RecordListWithConstructor<ParagraphBuilder_Constructor_Record, ParagraphBuilder_RecordBase> {
+  final int id;
+
   ParagraphBuilderRecordList({
+    required this.id,
     super.constructorRecord,
     required super.methodCallRecords,
   });

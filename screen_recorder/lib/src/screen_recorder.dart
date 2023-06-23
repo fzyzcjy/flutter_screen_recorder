@@ -80,8 +80,6 @@ class ScreenRecorder {
 
       Timeline.finishSync();
     }
-
-    DataPerFrame.instance = DataPerFrame();
   }
 }
 

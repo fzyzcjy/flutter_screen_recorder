@@ -14,6 +14,7 @@ Remarks:
 * Replay is deliberately "janky" (slow) because I want to clearly show each frame.
 * It captures every frame in full resolution and full details, e.g. the ripple animation.
 * This is just super early demo and there are (many) rough edges, but the main idea is there.
+* ui.Image are not captured yet, but it seems not hard to do so (there is already API)
 
 https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/3a2a9298-659c-455f-b89a-9299a2168ed9
 

@@ -456,9 +456,11 @@ void toBytesPaint(ContextBytesWriter writer, Paint value) {
 
 ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(ContextBytesReader reader) {
   return fromBytesReferable(reader, reader.context.referableContextParagraphBuilderRecordList, () {
+    final objectId = fromBytesInt(reader);
     final constructorRecord = fromBytesParagraphBuilderConstructorRecord(reader);
     final methodCallRecords = fromBytesList(reader, fromBytesParagraphBuilderRecordBase);
     return ParagraphBuilderRecordList(
+      objectId: objectId,
       constructorRecord: constructorRecord,
       methodCallRecords: methodCallRecords,
     );
@@ -467,6 +469,7 @@ ParagraphBuilderRecordList fromBytesParagraphBuilderRecordList(ContextBytesReade
 
 void toBytesParagraphBuilderRecordList(ContextBytesWriter writer, ParagraphBuilderRecordList value) {
   toBytesReferable(writer, writer.context.referableContextParagraphBuilderRecordList, value, () {
+    toBytesInt(writer, value.objectId);
     toBytesParagraphBuilderConstructorRecord(writer, value.constructorRecord);
     toBytesList(writer, value.methodCallRecords, toBytesParagraphBuilderRecordBase);
   });
@@ -474,13 +477,18 @@ void toBytesParagraphBuilderRecordList(ContextBytesWriter writer, ParagraphBuild
 
 CanvasRecordList fromBytesCanvasRecordList(ContextBytesReader reader) {
   return fromBytesReferable(reader, reader.context.referableContextCanvasRecordList, () {
+    final objectId = fromBytesInt(reader);
     final methodCallRecords = fromBytesList(reader, fromBytesCanvasRecordBase);
-    return CanvasRecordList(methodCallRecords: methodCallRecords);
+    return CanvasRecordList(
+      objectId: objectId,
+      methodCallRecords: methodCallRecords,
+    );
   });
 }
 
 void toBytesCanvasRecordList(ContextBytesWriter writer, CanvasRecordList value) {
   toBytesReferable(writer, writer.context.referableContextCanvasRecordList, value, () {
+    toBytesInt(writer, value.objectId);
     toBytesList(writer, value.methodCallRecords, toBytesCanvasRecordBase);
   });
 }

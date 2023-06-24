@@ -88,14 +88,16 @@ class SimpleVideoEncoder(
 
                 val encodedData = codec.getOutputBuffer(index)!!
 
+                var effectiveSize = info.size
+
                 if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
                     if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    info.size = 0
+                    effectiveSize = 0
                 }
 
-                if (info.size != 0) {
+                if (effectiveSize != 0) {
                     if (!frameMuxer.isStarted()) {
                         throw RuntimeException("muxer hasn't started")
                     }

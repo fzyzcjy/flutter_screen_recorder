@@ -9,6 +9,7 @@ import androidx.annotation.RawRes
 import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
+import java.time.Instant
 
 private const val TAG = "SimpleVideoEncoder"
 private const val VERBOSE = true
@@ -72,7 +73,8 @@ class SimpleVideoEncoder(
     }
 
     fun encode(image: Bitmap) {
-        if (VERBOSE) Log.i(TAG, "encode() begin")
+        val startTime = System.nanoTime()
+        Log.i(TAG, "encode() begin time=$startTime")
 
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
@@ -80,9 +82,12 @@ class SimpleVideoEncoder(
         val canvas = surface?.lockHardwareCanvas()
         canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
+
+        Log.i(TAG, "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+
         drainCodec(false)
 
-        if (VERBOSE) Log.i(TAG, "encode() end")
+        Log.i(TAG, "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
     }
 
     /**

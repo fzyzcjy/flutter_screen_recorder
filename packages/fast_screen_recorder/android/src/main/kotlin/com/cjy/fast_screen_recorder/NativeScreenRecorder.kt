@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
+import java.time.Instant
 
 private const val TAG = "NativeScreenRecorder"
 
@@ -64,7 +65,8 @@ object NativeScreenRecorder {
         activity: Activity,
         callback: (Result<Unit>) -> Unit,
     ) {
-        Log.i(TAG, "capture() begin")
+        val startTime = System.nanoTime()
+        Log.i(TAG, "capture() begin time=$startTime")
 
         val window = activity.window
 
@@ -83,7 +85,7 @@ object NativeScreenRecorder {
 //                window,
                 flutterSurfaceView!!,
                 bitmap!!,
-                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback) },
+                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime) },
                 Handler(Looper.getMainLooper())
             )
         } else {
@@ -91,8 +93,8 @@ object NativeScreenRecorder {
         }
     }
 
-    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit) {
-        Log.i(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult")
+    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit, debugStartTime: Long) {
+        Log.i(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))

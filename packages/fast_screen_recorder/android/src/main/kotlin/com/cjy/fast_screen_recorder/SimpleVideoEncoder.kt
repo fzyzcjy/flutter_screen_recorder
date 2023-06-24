@@ -110,12 +110,10 @@ class SimpleVideoEncoder(
             if (VERBOSE) Log.d(TAG, "sending EOS to encoder")
             mediaCodec.signalEndOfInputStream()
         }
-        var encoderOutputBuffers: Array<ByteBuffer?>? = mediaCodec.getOutputBuffers()
+        // TODO do not use this deprecated API?
+        val encoderOutputBuffers: Array<ByteBuffer?> = mediaCodec.getOutputBuffers()
         while (true) {
-            val encoderStatus: Int = mediaCodec.dequeueOutputBuffer(
-                bufferInfo, TIMEOUT_USEC
-                    .toLong()
-            )
+            val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 // no output available yet
                 if (!endOfStream) {
@@ -123,10 +121,10 @@ class SimpleVideoEncoder(
                 } else {
                     if (VERBOSE) Log.d(TAG, "no output available, spinning to await EOS")
                 }
-            // NOTE no need to worry about this, since deprecated after API 21
-            // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-            //     // not expected for an encoder
-            //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
+                // NOTE no need to worry about this, since deprecated after API 21
+                // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                //     // not expected for an encoder
+                //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
                 // should happen before receiving buffers, and should only happen once
                 if (frameMuxer.isStarted()) {
@@ -141,7 +139,7 @@ class SimpleVideoEncoder(
                 Log.wtf(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
                 // let's ignore it
             } else {
-                val encodedData = encoderOutputBuffers?.get(encoderStatus)
+                val encodedData = encoderOutputBuffers[encoderStatus]
                     ?: throw RuntimeException("encoderOutputBuffer  $encoderStatus was null")
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got

@@ -16,9 +16,7 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMux
         private val TAG: String = SimpleMp4FrameMuxer::class.java.simpleName
     }
 
-    private val frameUsec: Long = run {
-        (TimeUnit.SECONDS.toMicros(1L) / fps).toLong()
-    }
+    private val frameUsec: Long = (TimeUnit.SECONDS.toMicros(1L) / fps).toLong()
 
     private val muxer: MediaMuxer = MediaMuxer(path, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
 
@@ -27,9 +25,7 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMux
     private var videoFrames = 0
     private var finalVideoTime: Long = 0
 
-    override fun isStarted(): Boolean {
-        return started
-    }
+    override fun isStarted(): Boolean = started
 
     override fun start(videoFormat: MediaFormat) {
         videoTrackIndex = muxer.addTrack(videoFormat)

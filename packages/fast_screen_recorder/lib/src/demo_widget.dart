@@ -17,6 +17,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
   final _recorder = FastScreenRecorder.instance;
 
   String? path;
+  var scale = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +28,38 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
           widget.child,
           Positioned(
             right: 64,
+            bottom: 64 * 4,
+            child: FloatingActionButton(
+              onPressed: () => scale *= 1.2,
+              child: const Icon(Icons.add),
+            ),
+          ),
+          Positioned(
+            right: 64,
+            bottom: 64 * 3,
+            child: FloatingActionButton(
+              onPressed: () => scale /= 1.2,
+              child: const Icon(Icons.remove),
+            ),
+          ),
+          Positioned(
+            right: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
               onPressed: () async {
+                final screenSize = MediaQuery.sizeOf(context);
+                final outputSize = screenSize * scale;
+
                 final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
                 await Directory(dir).create(recursive: true);
                 setState(() =>
                     path = '$dir/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
 
-                print('record to path=$path');
+                print('record to path=$path outputSize=$outputSize');
 
                 await _recorder.start(
                   path: File(path!),
-                  outputSize: const Size(360, 720),
+                  outputSize: outputSize,
                   fps: 2,
                   bitrate: 80 * 1000,
                   iFrameInterval: 10,

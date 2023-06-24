@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import android.view.Surface
 import androidx.annotation.RawRes
+import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
 
@@ -52,14 +53,11 @@ class SimpleVideoEncoder(
     }
 
     private val bufferInfo: MediaCodec.BufferInfo = MediaCodec.BufferInfo()
-    private var frameMuxer: FrameMuxer = muxerConfig.frameMuxer
+    private val frameMuxer: SimpleFrameMuxer = muxerConfig.frameMuxer
 
     private var surface: Surface? = null
     private var rect: Rect? = null
 
-    /**
-     * @throws IOException
-     */
     fun start() {
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
@@ -67,23 +65,9 @@ class SimpleVideoEncoder(
         drainCodec(false)
     }
 
-    fun createFrame(image: Any) {
-        for (i in 0 until muxerConfig.framesPerImage) {
-            val canvas = createCanvas()
-            when (image) {
-                is Int -> {
-                    Log.i(TAG, "Trying to decode as @DrawableRes")
-                    val bitmap = BitmapFactory.decodeResource(context.resources, image)
-                    drawBitmapAndPostCanvas(bitmap, canvas)
-                }
-                is Bitmap -> drawBitmapAndPostCanvas(image, canvas)
-                is Canvas -> postCanvasFrame(image)
-                else -> Log.e(
-                    TAG,
-                    "Image type $image is not supported. Try using a Canvas or a Bitmap"
-                )
-            }
-        }
+    fun createFrame(image: Bitmap) {
+        val canvas = createCanvas()
+        drawBitmapAndPostCanvas(image, canvas)
     }
 
     private fun createCanvas(): Canvas? {
@@ -198,10 +182,6 @@ class SimpleVideoEncoder(
         surface?.release()
     }
 
-    fun releaseAudioExtractor() {
-        audioExtractor?.release()
-    }
-
     fun releaseMuxer() {
         // Release MediaMuxer
         frameMuxer.release()
@@ -214,9 +194,8 @@ data class MuxerConfig(
     var videoWidth: Int = 320,
     var videoHeight: Int = 240,
     var mimeType: String = MediaFormat.MIMETYPE_VIDEO_AVC,
-    var framesPerImage: Int = 1,
     var frameRate: Float = 10F,
     var bitrate: Int = 1500000,
-    var frameMuxer: FrameMuxer = Mp4FrameMuxer(file.absolutePath, frameRate),
+    var frameMuxer: SimpleFrameMuxer = SimpleMp4FrameMuxer(file.absolutePath, frameRate),
     var iFrameInterval: Int = 10
 )

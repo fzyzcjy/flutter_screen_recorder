@@ -39,6 +39,7 @@ object NativeScreenRecorder {
                 // TODO more args
             ),
         )
+        encoder!!.start()
 
         Log.d(TAG, "start() end")
     }

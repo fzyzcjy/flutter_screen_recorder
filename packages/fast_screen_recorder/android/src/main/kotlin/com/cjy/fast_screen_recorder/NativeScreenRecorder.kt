@@ -78,7 +78,7 @@ object NativeScreenRecorder {
             return
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             PixelCopy.request(
 //                window,
                 flutterSurfaceView!!,

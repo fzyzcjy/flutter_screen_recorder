@@ -40,8 +40,7 @@ class FastScreenRecorder {
         _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handlePeriodicCall);
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!_recording) throw ArgumentError('cannot start since already recording');
         _recording = false;
 
@@ -50,8 +49,11 @@ class FastScreenRecorder {
         _timer = null;
       });
 
-  void _handlePeriodicCall(Timer _) async =>
-      await _lock.synchronized(() async {
+  void _handlePeriodicCall(Timer _) async => await _lock.synchronized(() async {
+        // this can happen because lock delays execution
+        // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
+        if (!_recording) return;
+
         await NativeRecorder.instance.capture();
       });
 }

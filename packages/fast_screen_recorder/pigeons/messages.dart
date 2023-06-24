@@ -15,6 +15,9 @@ class StartRequest {
   late String path;
   late int outputWidth;
   late int outputHeight;
+  late double frameRate;
+  late int bitrate;
+  late int iFrameInterval;
 }
 
 @HostApi()

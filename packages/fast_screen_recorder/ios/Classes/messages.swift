@@ -39,16 +39,25 @@ struct StartRequest {
   var path: String
   var outputWidth: Int64
   var outputHeight: Int64
+  var frameRate: Double
+  var bitrate: Int64
+  var iFrameInterval: Int64
 
   static func fromList(_ list: [Any?]) -> StartRequest? {
     let path = list[0] as! String
     let outputWidth = list[1] is Int64 ? list[1] as! Int64 : Int64(list[1] as! Int32)
     let outputHeight = list[2] is Int64 ? list[2] as! Int64 : Int64(list[2] as! Int32)
+    let frameRate = list[3] as! Double
+    let bitrate = list[4] is Int64 ? list[4] as! Int64 : Int64(list[4] as! Int32)
+    let iFrameInterval = list[5] is Int64 ? list[5] as! Int64 : Int64(list[5] as! Int32)
 
     return StartRequest(
       path: path,
       outputWidth: outputWidth,
-      outputHeight: outputHeight
+      outputHeight: outputHeight,
+      frameRate: frameRate,
+      bitrate: bitrate,
+      iFrameInterval: iFrameInterval
     )
   }
   func toList() -> [Any?] {
@@ -56,6 +65,9 @@ struct StartRequest {
       path,
       outputWidth,
       outputHeight,
+      frameRate,
+      bitrate,
+      iFrameInterval,
     ]
   }
 }

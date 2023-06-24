@@ -1,26 +1,54 @@
 package com.cjy.fast_screen_recorder
 
+import android.app.Activity
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** FastScreenRecorderPlugin */
-class FastScreenRecorderPlugin: FlutterPlugin, FastScreenRecorderHostApi {
-  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    FastScreenRecorderHostApi.setUp(flutterPluginBinding.binaryMessenger, this)
-  }
+class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, ActivityAware {
 
-  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    FastScreenRecorderHostApi.setUp(binding.binaryMessenger, null)
-  }
+    // engine related
 
-  override fun start(request: StartRequest) = NativeScreenRecorder.start(path = request.path)
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        FastScreenRecorderHostApi.setUp(flutterPluginBinding.binaryMessenger, this)
+    }
 
-  override fun capture() = NativeScreenRecorder.capture()
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        FastScreenRecorderHostApi.setUp(binding.binaryMessenger, null)
+    }
 
-  override fun stop() = NativeScreenRecorder.stop()
+    // activity related
+
+    private var activity: Activity? = null
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        activity = binding.activity
+    }
+
+    override fun onDetachedFromActivity() {
+        activity = null
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        activity = null
+    }
+
+    // real api
+
+    override fun start(request: StartRequest) = NativeScreenRecorder.start(path = request.path)
+
+    override fun capture() = NativeScreenRecorder.capture(activity = activity!!)
+
+    override fun stop() = NativeScreenRecorder.stop()
 }

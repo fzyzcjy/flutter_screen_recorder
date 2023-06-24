@@ -23,7 +23,7 @@ class ScreenRecorder {
 
   ScreenRecorder._();
 
-  var recording = true;
+  var recording = false;
 
   var overallUncompressedBytesLen = 0;
 

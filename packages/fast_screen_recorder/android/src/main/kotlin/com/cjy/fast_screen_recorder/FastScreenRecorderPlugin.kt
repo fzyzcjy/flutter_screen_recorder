@@ -19,10 +19,10 @@ class FastScreenRecorderPlugin: FlutterPlugin, FastScreenRecorderHostApi {
   }
 
   override fun start(request: StartRequest) {
-    TODO("Not yet implemented")
+    NativeScreenRecorder.start(path = request.path)
   }
 
   override fun stop() {
-    TODO("Not yet implemented")
+    NativeScreenRecorder.stop()
   }
 }

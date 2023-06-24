@@ -17,6 +17,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
   final _recorder = FastScreenRecorder.instance;
 
   String? path;
+
   // var scale = 1.0;
 
   @override
@@ -27,7 +28,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
         children: [
           widget.child,
           // Positioned(
-          //   right: 64,
+          //   left: 64,
           //   bottom: 64 * 4,
           //   child: FloatingActionButton(
           //     onPressed: () => scale *= 1.2,
@@ -35,7 +36,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
           //   ),
           // ),
           // Positioned(
-          //   right: 64,
+          //   left: 64,
           //   bottom: 64 * 3,
           //   child: FloatingActionButton(
           //     onPressed: () => scale /= 1.2,
@@ -43,7 +44,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
           //   ),
           // ),
           Positioned(
-            right: 64,
+            left: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
               onPressed: () async {
@@ -70,7 +71,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
             ),
           ),
           Positioned(
-            right: 64,
+            left: 64,
             bottom: 64,
             child: FloatingActionButton(
               onPressed: () async {

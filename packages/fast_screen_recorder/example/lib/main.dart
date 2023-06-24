@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
-import 'package:flutter/services.dart';
 import 'package:fast_screen_recorder/fast_screen_recorder.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,36 +19,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _fastScreenRecorderPlugin = FastScreenRecorder();
+  final _recorder = FastScreenRecorder.instance;
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _fastScreenRecorderPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+  String? path;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +30,43 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: Column(
+          children: [
+            ListTile(
+              title: const Text('Path'),
+              subtitle: Text(path ?? 'null'),
+            ),
+            ListTile(
+              title: const Text('Start'),
+              onTap: () async {
+                final dir = await getDownloadsDirectory();
+                setState(() => path =
+                    '${dir!.path}/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
+
+                await _recorder.start(
+                  path: File(path!),
+                  outputSize: const Size(360, 720),
+                  fps: 2,
+                  bitrate: 80 * 1000,
+                  iFrameInterval: 10,
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Stop'),
+              onTap: () async {
+                await _recorder.stop();
+              },
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) => ListTile(
+                  title: Text('Item $index'),
+                  subtitle: Text('Random text ${Random().nextInt(1000000000)}'),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

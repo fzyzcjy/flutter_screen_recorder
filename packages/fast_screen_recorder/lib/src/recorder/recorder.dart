@@ -21,11 +21,9 @@ class FastScreenRecorder {
   Future<void> start({
     required File path,
     required Size outputSize,
-    // TODO pick a good value
-    int fps = 2,
-    // TODO pick a good value
-    int bitrate = 80 * 1000,
-    int iFrameInterval = 10,
+    required int fps,
+    required int bitrate,
+    required int iFrameInterval,
   }) async =>
       await _lock.synchronized(() async {
         if (_recording) throw ArgumentError('cannot start since already recording');

@@ -7,6 +7,9 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.PixelCopy
+import android.view.View
+import android.view.ViewGroup
+import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
 
 private const val TAG = "NativeScreenRecorder"
@@ -64,9 +67,16 @@ object NativeScreenRecorder {
         Log.d(TAG, "capture() begin")
 
         val window = activity.window
+
+        var flutterSurfaceView: FlutterSurfaceView? = null
+        traverseView(window.decorView) { v ->
+            if (v is FlutterSurfaceView) flutterSurfaceView = v
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PixelCopy.request(
-                window,
+//                window,
+                flutterSurfaceView!!,
                 bitmap!!,
                 { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback) },
                 Handler(Looper.getMainLooper())
@@ -84,7 +94,22 @@ object NativeScreenRecorder {
             return
         }
 
+        File("/storage/emulated/0/Android/data/com.cjy.fast_screen_recorder_example/files/fast_screen_recorder_experiment/hello.png").outputStream()
+            .use { out ->
+                bitmap!!.compress(Bitmap.CompressFormat.PNG, 85, out)
+                out.flush()
+            }
+
         encoder!!.encode(bitmap!!)
         callback(Result.success(Unit))
+    }
+}
+
+private fun traverseView(view: View, callback: (View) -> Unit) {
+    callback(view)
+    if (view is ViewGroup) {
+        for (i in 0 until view.childCount) {
+            traverseView(view.getChildAt(i), callback)
+        }
     }
 }

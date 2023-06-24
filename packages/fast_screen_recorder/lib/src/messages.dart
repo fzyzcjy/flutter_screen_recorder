@@ -12,13 +12,21 @@ import 'package:flutter/services.dart';
 class StartRequest {
   StartRequest({
     required this.path,
+    required this.outputWidth,
+    required this.outputHeight,
   });
 
   String path;
 
+  int outputWidth;
+
+  int outputHeight;
+
   Object encode() {
     return <Object?>[
       path,
+      outputWidth,
+      outputHeight,
     ];
   }
 
@@ -26,6 +34,8 @@ class StartRequest {
     result as List<Object?>;
     return StartRequest(
       path: result[0]! as String,
+      outputWidth: result[1]! as int,
+      outputHeight: result[2]! as int,
     );
   }
 }
@@ -69,6 +79,28 @@ class FastScreenRecorderHostApi {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_request]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> capture() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.FastScreenRecorderHostApi.capture', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

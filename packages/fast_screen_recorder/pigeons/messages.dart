@@ -13,11 +13,16 @@ import 'package:pigeon/pigeon.dart';
 ))
 class StartRequest {
   late String path;
+  late int outputWidth;
+  late int outputHeight;
 }
 
 @HostApi()
 abstract class FastScreenRecorderHostApi {
   void start(StartRequest request);
+
+  @async
+  void capture();
 
   void stop();
 }

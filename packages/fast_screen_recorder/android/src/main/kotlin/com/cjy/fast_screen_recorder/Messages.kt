@@ -45,22 +45,29 @@ class FlutterError (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class StartRequest (
-  val path: String
+  val path: String,
+  val outputWidth: Long,
+  val outputHeight: Long
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): StartRequest {
       val path = list[0] as String
-      return StartRequest(path)
+      val outputWidth = list[1].let { if (it is Int) it.toLong() else it as Long }
+      val outputHeight = list[2].let { if (it is Int) it.toLong() else it as Long }
+      return StartRequest(path, outputWidth, outputHeight)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       path,
+      outputWidth,
+      outputHeight,
     )
   }
 }
+
 @Suppress("UNCHECKED_CAST")
 private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
@@ -87,6 +94,7 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface FastScreenRecorderHostApi {
   fun start(request: StartRequest)
+  fun capture(callback: (Result<Unit>) -> Unit)
   fun stop()
 
   companion object {
@@ -111,6 +119,23 @@ interface FastScreenRecorderHostApi {
               wrapped = wrapError(exception)
             }
             reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            api.capture() { result: Result<Unit> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                reply.reply(wrapResult(null))
+              }
+            }
           }
         } else {
           channel.setMessageHandler(null)

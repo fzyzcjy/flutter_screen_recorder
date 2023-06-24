@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fast_screen_recorder/src/messages.dart';
 
 class NativeRecorder {
@@ -9,10 +7,9 @@ class NativeRecorder {
 
   NativeRecorder._();
 
-  Future<void> start({
-    required File path,
-  }) async =>
-      await _hostApi.start(StartRequest(path: path.path));
+  Future<void> start(StartRequest request) async => await _hostApi.start(request);
+
+  Future<void> capture() async => await _hostApi.capture();
 
   Future<void> stop() async => await _hostApi.stop();
 }

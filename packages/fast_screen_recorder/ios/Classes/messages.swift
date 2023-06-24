@@ -37,20 +37,29 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 /// Generated class from Pigeon that represents data sent in messages.
 struct StartRequest {
   var path: String
+  var outputWidth: Int64
+  var outputHeight: Int64
 
   static func fromList(_ list: [Any?]) -> StartRequest? {
     let path = list[0] as! String
+    let outputWidth = list[1] is Int64 ? list[1] as! Int64 : Int64(list[1] as! Int32)
+    let outputHeight = list[2] is Int64 ? list[2] as! Int64 : Int64(list[2] as! Int32)
 
     return StartRequest(
-      path: path
+      path: path,
+      outputWidth: outputWidth,
+      outputHeight: outputHeight
     )
   }
   func toList() -> [Any?] {
     return [
       path,
+      outputWidth,
+      outputHeight,
     ]
   }
 }
+
 private class FastScreenRecorderHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -90,6 +99,7 @@ class FastScreenRecorderHostApiCodec: FlutterStandardMessageCodec {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol FastScreenRecorderHostApi {
   func start(request: StartRequest) throws
+  func capture(completion: @escaping (Result<Void, Error>) -> Void)
   func stop() throws
 }
 
@@ -113,6 +123,21 @@ class FastScreenRecorderHostApiSetup {
       }
     } else {
       startChannel.setMessageHandler(nil)
+    }
+    let captureChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      captureChannel.setMessageHandler { _, reply in
+        api.capture() { result in
+          switch result {
+            case .success:
+              reply(wrapResult(nil))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
+        }
+      }
+    } else {
+      captureChannel.setMessageHandler(nil)
     }
     let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderHostApi.stop", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {

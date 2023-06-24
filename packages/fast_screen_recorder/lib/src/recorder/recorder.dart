@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
-import 'package:synchronized/synchronized.dart.dart';
+import 'package:synchronized/synchronized.dart';
 
 class FastScreenRecorder {
   static final instance = FastScreenRecorder._();
@@ -21,11 +21,9 @@ class FastScreenRecorder {
   Future<void> start({
     required File path,
     required Size outputSize,
-    // TODO pick a good value
-    int fps = 2,
-    // TODO pick a good value
-    int bitrate = 80 * 1000,
-    int iFrameInterval = 10,
+    required int fps,
+    required int bitrate,
+    required int iFrameInterval,
   }) async =>
       await _lock.synchronized(() async {
         if (_recording) throw ArgumentError('cannot start since already recording');
@@ -52,6 +50,10 @@ class FastScreenRecorder {
       });
 
   void _handlePeriodicCall(Timer _) async => await _lock.synchronized(() async {
+        // this can happen because lock delays execution
+        // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
+        if (!_recording) return;
+
         await NativeRecorder.instance.capture();
       });
 }

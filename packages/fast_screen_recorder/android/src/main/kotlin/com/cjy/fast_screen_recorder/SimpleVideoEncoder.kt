@@ -10,7 +10,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
 
-private const val TAG = "FrameBuilder"
+private const val TAG = "SimpleVideoEncoder"
 private const val VERBOSE = true
 private const val TIMEOUT_USEC = 10000
 

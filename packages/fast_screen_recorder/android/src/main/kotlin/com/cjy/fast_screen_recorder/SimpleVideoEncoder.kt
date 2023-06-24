@@ -87,9 +87,7 @@ class SimpleVideoEncoder(
             ) {
                 Log.i(TAG, "onOutputBufferAvailable index=$index")
 
-                // TODO do not use this deprecated API?
-                val encodedData = codec.outputBuffers[index]
-                    ?: throw RuntimeException("encoderOutputBuffer  $index was null")
+                val encodedData = codec.getOutputBuffer(index)!!
 
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got

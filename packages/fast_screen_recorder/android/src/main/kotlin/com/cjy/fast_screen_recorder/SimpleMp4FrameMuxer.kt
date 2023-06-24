@@ -29,7 +29,7 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMux
 
     override fun start(videoFormat: MediaFormat) {
         videoTrackIndex = muxer.addTrack(videoFormat)
-        Log.d("Video format: %s", videoFormat.toString())
+        Log.d(TAG, "start() videoFormat=$videoFormat videoTrackIndex=$videoTrackIndex")
         muxer.start()
         started = true
     }

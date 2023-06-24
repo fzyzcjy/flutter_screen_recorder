@@ -11,8 +11,7 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 private const val TAG = "FrameBuilder"
-private const val VERBOSE: Boolean = false
-private const val SECOND_IN_USEC = 1000000
+private const val VERBOSE = true
 private const val TIMEOUT_USEC = 10000
 
 /**
@@ -51,13 +50,19 @@ class SimpleVideoEncoder(
     private var surface: Surface? = null
 
     fun start() {
+        Log.d(TAG, "start() begin")
+
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
         mediaCodec.start()
         drainCodec(false)
+
+        Log.d(TAG, "start() end")
     }
 
     fun encode(image: Bitmap) {
+        if (VERBOSE) Log.d(TAG, "encode() begin")
+
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
         // says that, "Surface.lockCanvas(android.graphics.Rect) may fail or produce unexpected results."
@@ -65,6 +70,8 @@ class SimpleVideoEncoder(
         canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
         drainCodec(false)
+
+        if (VERBOSE) Log.d(TAG, "encode() end")
     }
 
     /**
@@ -78,21 +85,24 @@ class SimpleVideoEncoder(
      * Borrows heavily from https://bigflake.com/mediacodec/EncodeAndMuxTest.java.txt
      */
     private fun drainCodec(endOfStream: Boolean) {
-        if (VERBOSE) Log.d(TAG, "drainCodec($endOfStream)")
+        if (VERBOSE) Log.d(TAG, "drainCodec start endOfStream=$endOfStream")
+
         if (endOfStream) {
-            if (VERBOSE) Log.d(TAG, "sending EOS to encoder")
             mediaCodec.signalEndOfInputStream()
         }
+
         // TODO do not use this deprecated API?
         val encoderOutputBuffers: Array<ByteBuffer?> = mediaCodec.getOutputBuffers()
         while (true) {
             val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
+            if (VERBOSE) Log.d(TAG, "drainCodec get encoderStatus=$encoderStatus")
+
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 // no output available yet
                 if (!endOfStream) {
                     break // out of while
                 } else {
-                    if (VERBOSE) Log.d(TAG, "no output available, spinning to await EOS")
+                    if (VERBOSE) Log.d(TAG, "drainCodec no output available, spinning to await EOS")
                 }
                 // NOTE no need to worry about this, since deprecated after API 21
                 // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
@@ -104,12 +114,12 @@ class SimpleVideoEncoder(
                     throw RuntimeException("format changed twice")
                 }
                 val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.d(TAG, "encoder output format changed: $newFormat")
+                Log.d(TAG, "drainCodec encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
                 frameMuxer.start(newFormat)
             } else if (encoderStatus < 0) {
-                Log.wtf(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
+                Log.wtf(TAG, "drainCodec unexpected encoderStatus=$encoderStatus")
                 // let's ignore it
             } else {
                 val encodedData = encoderOutputBuffers[encoderStatus]
@@ -117,7 +127,7 @@ class SimpleVideoEncoder(
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) Log.d(TAG, "ignoring BUFFER_FLAG_CODEC_CONFIG")
+                    if (VERBOSE) Log.d(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
                     bufferInfo.size = 0
                 }
                 if (bufferInfo.size != 0) {
@@ -130,26 +140,30 @@ class SimpleVideoEncoder(
                 mediaCodec.releaseOutputBuffer(encoderStatus, false)
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                     if (!endOfStream) {
-                        Log.w(TAG, "reached end of stream unexpectedly")
+                        Log.w(TAG, "drainCodec reached end of stream unexpectedly")
                     } else {
-                        if (VERBOSE) Log.d(TAG, "end of stream reached")
+                        if (VERBOSE) Log.d(TAG, "drainCodec end of stream reached")
                     }
                     break // out of while
                 }
             }
         }
+
+        if (VERBOSE) Log.d(TAG, "drainCodec end")
     }
 
     /**
      * Releases encoder resources.  May be called after partial / failed initialization.
      */
     fun releaseVideoCodec() {
-        // Release the video layer
-        if (VERBOSE) Log.d(TAG, "releasing encoder objects")
+        Log.d(TAG, "releaseVideoCodec() begin")
+
         drainCodec(true)
         mediaCodec.stop()
         mediaCodec.release()
         surface?.release()
+
+        Log.d(TAG, "releaseVideoCodec() end")
     }
 
     fun releaseMuxer() {

@@ -73,6 +73,11 @@ object NativeScreenRecorder {
             if (v is FlutterSurfaceView) flutterSurfaceView = v
         }
 
+        if (flutterSurfaceView == null) {
+            callback(Result.failure(IllegalStateException("failed to find FlutterSurfaceView")))
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PixelCopy.request(
 //                window,

@@ -118,8 +118,9 @@ Future<void> _compressionExperiment() async {
   final zlibHardestCompressedData = ZLibEncoder(level: 9, memLevel: 9).convert(nonCompressedData);
 
   final path =
-      '${(await getTemporaryDirectory()).path}/NonCompressedBytes_${DateTime.now().toIso8601String().replaceAll(':', '').replaceAll('.', '')}.bin';
-  File(path).writeAsBytes(nonCompressedData);
+      '${(await getExternalStorageDirectory())!.path}/NonCompressedBytes_${DateTime.now().toIso8601String().replaceAll(':', '').replaceAll('.', '')}.bin';
+  print('write to path=$path');
+  await File(path).writeAsBytes(nonCompressedData);
 
   print('defaultCompressedData=${defaultCompressedData.length} '
       'nonCompressedData=${nonCompressedData.length} '

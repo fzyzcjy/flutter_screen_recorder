@@ -1,7 +1,6 @@
-package com.homesoft.encoder
+package com.cjy.fast_screen_recorder
 
 import android.content.Context
-import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas

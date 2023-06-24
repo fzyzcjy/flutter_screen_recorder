@@ -9,17 +9,13 @@ import java.nio.ByteBuffer
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/FrameMuxer.kt
  */
 interface SimpleFrameMuxer {
-
     fun isStarted(): Boolean
 
-    fun start(videoFormat: MediaFormat, audioExtractor: MediaExtractor? = null)
+    fun start(videoFormat: MediaFormat)
 
-    fun muxVideoFrame(byteBuffer: ByteBuffer, bufferInfo: MediaCodec.BufferInfo)
-
-    fun muxAudioFrame(encodedData: ByteBuffer, audioBufferInfo: MediaCodec.BufferInfo)
+    fun muxVideoFrame(encodedData: ByteBuffer, bufferInfo: MediaCodec.BufferInfo)
 
     fun release()
 
     fun getVideoTime(): Long
-
 }

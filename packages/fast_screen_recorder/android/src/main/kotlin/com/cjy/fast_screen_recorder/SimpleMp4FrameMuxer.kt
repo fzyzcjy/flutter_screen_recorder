@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit
 /**
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/Mp4FrameMuxer.kt
  */
-class SimpleMp4FrameMuxer(path: String, private val fps: Float) : FrameMuxer {
+class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMuxer {
     companion object {
-        private val TAG: String = Mp4FrameMuxer::class.java.simpleName
+        private val TAG: String = SimpleMp4FrameMuxer::class.java.simpleName
     }
 
     private val frameUsec: Long = run {
@@ -24,7 +24,6 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : FrameMuxer {
 
     private var started = false
     private var videoTrackIndex = 0
-    private var audioTrackIndex = 0
     private var videoFrames = 0
     private var finalVideoTime: Long = 0
 
@@ -32,15 +31,8 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : FrameMuxer {
         return started
     }
 
-    override fun start(videoFormat: MediaFormat, audioExtractor: MediaExtractor?) {
-        // now that we have the Magic Goodies, start the muxer
-        audioExtractor?.selectTrack(0)
-        val audioFormat = audioExtractor?.getTrackFormat(0)
+    override fun start(videoFormat: MediaFormat) {
         videoTrackIndex = muxer.addTrack(videoFormat)
-        audioFormat?.run {
-            audioTrackIndex = muxer.addTrack(audioFormat)
-            Log.e("Audio format: %s", audioFormat.toString())
-        }
         Log.d("Video format: %s", videoFormat.toString())
         muxer.start()
         started = true
@@ -54,10 +46,6 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : FrameMuxer {
         bufferInfo.presentationTimeUs = finalVideoTime
 
         muxer.writeSampleData(videoTrackIndex, encodedData, bufferInfo)
-    }
-
-    override fun muxAudioFrame(encodedData: ByteBuffer, audioBufferInfo: MediaCodec.BufferInfo) {
-        muxer.writeSampleData(audioTrackIndex, encodedData, audioBufferInfo)
     }
 
     override fun release() {

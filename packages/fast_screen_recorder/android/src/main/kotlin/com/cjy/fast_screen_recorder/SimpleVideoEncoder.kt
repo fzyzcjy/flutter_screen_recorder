@@ -85,7 +85,7 @@ class SimpleVideoEncoder(
                 index: Int,
                 info: MediaCodec.BufferInfo
             ) {
-                Log.i(TAG, "onOutputBufferAvailable index=$index")
+                Log.i(TAG, "onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
 
                 val encodedData = codec.getOutputBuffer(index)!!
 
@@ -110,6 +110,8 @@ class SimpleVideoEncoder(
                     Log.i(TAG, "drainCodec end of stream reached")
                     actualRelease()
                 }
+
+                Log.i(TAG, "onOutputBufferAvailable() end")
             }
 
             override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {

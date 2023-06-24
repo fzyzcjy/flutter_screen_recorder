@@ -5,6 +5,10 @@ object NativeScreenRecorder {
         TODO()
     }
 
+    fun capture() {
+        TODO()
+    }
+
     fun stop() {
         TODO()
     }

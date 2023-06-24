@@ -18,11 +18,9 @@ class FastScreenRecorderPlugin: FlutterPlugin, FastScreenRecorderHostApi {
     FastScreenRecorderHostApi.setUp(binding.binaryMessenger, null)
   }
 
-  override fun start(request: StartRequest) {
-    NativeScreenRecorder.start(path = request.path)
-  }
+  override fun start(request: StartRequest) = NativeScreenRecorder.start(path = request.path)
 
-  override fun stop() {
-    NativeScreenRecorder.stop()
-  }
+  override fun capture() = NativeScreenRecorder.capture()
+
+  override fun stop() = NativeScreenRecorder.stop()
 }

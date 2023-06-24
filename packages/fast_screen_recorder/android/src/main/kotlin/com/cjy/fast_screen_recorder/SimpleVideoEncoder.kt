@@ -58,22 +58,6 @@ class SimpleVideoEncoder(
     private var surface: Surface? = null
     private var rect: Rect? = null
 
-    private var audioExtractor: MediaExtractor? = run {
-        if (audioTrackResource != null) {
-            val assetFileDescriptor: AssetFileDescriptor =
-                context.resources.openRawResourceFd(audioTrackResource)
-            val extractor = MediaExtractor()
-            extractor.setDataSource(
-                assetFileDescriptor.fileDescriptor,
-                assetFileDescriptor.startOffset,
-                assetFileDescriptor.length
-            )
-            extractor
-        } else {
-            null
-        }
-    }
-
     /**
      * @throws IOException
      */
@@ -198,48 +182,6 @@ class SimpleVideoEncoder(
                         if (VERBOSE) Log.d(TAG, "end of stream reached")
                     }
                     break // out of while
-                }
-            }
-        }
-    }
-
-    fun muxAudioFrames() {
-        val sampleSize = 256 * 1024
-        val offset = 100
-        val audioBuffer = ByteBuffer.allocate(sampleSize)
-        val audioBufferInfo = MediaCodec.BufferInfo()
-        var sawEOS = false
-        audioExtractor!!.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC)
-        var finalAudioTime: Long
-        val finalVideoTime: Long = frameMuxer.getVideoTime()
-        var audioTrackFrameCount = 0
-        while (!sawEOS) {
-            audioBufferInfo.offset = offset
-            audioBufferInfo.size = audioExtractor!!.readSampleData(audioBuffer, offset)
-            if (audioBufferInfo.size < 0) {
-                if (VERBOSE) Log.d(TAG, "Saw input EOS.")
-                audioBufferInfo.size = 0
-                sawEOS = true
-            } else {
-                finalAudioTime = audioExtractor!!.sampleTime
-                audioBufferInfo.presentationTimeUs = finalAudioTime
-                audioBufferInfo.flags = audioExtractor!!.sampleFlags
-                frameMuxer.muxAudioFrame(audioBuffer, audioBufferInfo)
-                audioExtractor!!.advance()
-                audioTrackFrameCount++
-                if (VERBOSE) Log.d(
-                    TAG,
-                    "Frame ($audioTrackFrameCount Flags: ${audioBufferInfo.flags} Size(KB): ${audioBufferInfo.size / 1024}"
-                )
-                // We want the sound to play for a few more seconds after the last image
-                if ((finalAudioTime > finalVideoTime) &&
-                    (finalAudioTime % finalVideoTime > muxerConfig.framesPerImage * SECOND_IN_USEC)
-                ) {
-                    sawEOS = true
-                    if (VERBOSE) Log.d(
-                        TAG,
-                        "Final audio time: $finalAudioTime video time: $finalVideoTime"
-                    )
                 }
             }
         }

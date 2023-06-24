@@ -123,9 +123,10 @@ class SimpleVideoEncoder(
                 } else {
                     if (VERBOSE) Log.d(TAG, "no output available, spinning to await EOS")
                 }
-            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-                // not expected for an encoder
-                encoderOutputBuffers = mediaCodec.getOutputBuffers()
+            // NOTE no need to worry about this, since deprecated after API 21
+            // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+            //     // not expected for an encoder
+            //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
                 // should happen before receiving buffers, and should only happen once
                 if (frameMuxer.isStarted()) {
@@ -135,7 +136,7 @@ class SimpleVideoEncoder(
                 Log.d(TAG, "encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
-                frameMuxer.start(newFormat, audioExtractor)
+                frameMuxer.start(newFormat)
             } else if (encoderStatus < 0) {
                 Log.wtf(TAG, "unexpected result from encoder.dequeueOutputBuffer: $encoderStatus")
                 // let's ignore it

@@ -14,7 +14,10 @@ object NativeScreenRecorder {
         TODO()
     }
 
-    fun capture(activity: Activity) {
+    fun capture(
+        activity: Activity,
+        callback: (Result<Unit>) -> Unit,
+    ) {
         val window = activity.window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PixelCopy.request(
@@ -24,13 +27,13 @@ object NativeScreenRecorder {
                     if (copyResult == PixelCopy.SUCCESS) {
                         TODO()
                     } else {
-                        TODO()
+                        callback(Result.failure(IllegalStateException("PixelCopy failed (copyResult=$copyResult)")))
                     }
                 },
                 Handler(Looper.getMainLooper())
             )
         } else {
-            throw IllegalStateException("only support >= Android O currently")
+            callback(Result.failure(IllegalStateException("only support >= Android O currently")))
         }
     }
 

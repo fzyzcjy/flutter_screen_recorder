@@ -26,7 +26,7 @@ object NativeScreenRecorder {
         bitrate: Int,
         iFrameInterval: Int,
     ) {
-        Log.d(TAG, "start() begin")
+        Log.i(TAG, "start() begin")
 
         check(bitmap == null)
         bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
@@ -44,11 +44,11 @@ object NativeScreenRecorder {
         )
         encoder!!.start()
 
-        Log.d(TAG, "start() end")
+        Log.i(TAG, "start() end")
     }
 
     fun stop() {
-        Log.d(TAG, "stop() begin")
+        Log.i(TAG, "stop() begin")
 
         bitmap!!.recycle()
         bitmap = null
@@ -57,14 +57,14 @@ object NativeScreenRecorder {
         encoder!!.releaseMuxer()
         encoder = null
 
-        Log.d(TAG, "stop() end")
+        Log.i(TAG, "stop() end")
     }
 
     fun capture(
         activity: Activity,
         callback: (Result<Unit>) -> Unit,
     ) {
-        Log.d(TAG, "capture() begin")
+        Log.i(TAG, "capture() begin")
 
         val window = activity.window
 
@@ -92,7 +92,7 @@ object NativeScreenRecorder {
     }
 
     private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit) {
-        Log.d(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult")
+        Log.i(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult")
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))

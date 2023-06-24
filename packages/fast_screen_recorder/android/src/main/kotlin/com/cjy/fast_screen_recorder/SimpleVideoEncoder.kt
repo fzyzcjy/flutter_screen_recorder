@@ -21,7 +21,7 @@ class SimpleVideoEncoder(
     private val muxerConfig: MuxerConfig,
 ) {
     private val mediaFormat: MediaFormat = run {
-        Log.d(TAG, "mediaFormat creation begin")
+        Log.i(TAG, "mediaFormat creation begin")
 
         val format = MediaFormat.createVideoFormat(
             muxerConfig.mimeType,
@@ -39,18 +39,18 @@ class SimpleVideoEncoder(
         format.setFloat(MediaFormat.KEY_FRAME_RATE, muxerConfig.frameRate)
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, muxerConfig.iFrameInterval)
 
-        Log.d(TAG, "mediaFormat creation end format=$format")
+        Log.i(TAG, "mediaFormat creation end format=$format")
 
         format
     }
 
     private val mediaCodec: MediaCodec = run {
-        Log.d(TAG, "mediaCodec creation begin")
+        Log.i(TAG, "mediaCodec creation begin")
 
         val codecs = MediaCodecList(REGULAR_CODECS)
         val ans = MediaCodec.createByCodecName(codecs.findEncoderForFormat(mediaFormat))
 
-        Log.d(TAG, "mediaCodec creation end ans=$ans")
+        Log.i(TAG, "mediaCodec creation end ans=$ans")
 
         ans
     }
@@ -61,18 +61,18 @@ class SimpleVideoEncoder(
     private var surface: Surface? = null
 
     fun start() {
-        Log.d(TAG, "start() begin")
+        Log.i(TAG, "start() begin")
 
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
         mediaCodec.start()
         drainCodec(false)
 
-        Log.d(TAG, "start() end")
+        Log.i(TAG, "start() end")
     }
 
     fun encode(image: Bitmap) {
-        if (VERBOSE) Log.d(TAG, "encode() begin")
+        if (VERBOSE) Log.i(TAG, "encode() begin")
 
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
@@ -82,7 +82,7 @@ class SimpleVideoEncoder(
         surface?.unlockCanvasAndPost(canvas)
         drainCodec(false)
 
-        if (VERBOSE) Log.d(TAG, "encode() end")
+        if (VERBOSE) Log.i(TAG, "encode() end")
     }
 
     /**
@@ -96,7 +96,7 @@ class SimpleVideoEncoder(
      * Borrows heavily from https://bigflake.com/mediacodec/EncodeAndMuxTest.java.txt
      */
     private fun drainCodec(endOfStream: Boolean) {
-        if (VERBOSE) Log.d(TAG, "drainCodec start endOfStream=$endOfStream")
+        if (VERBOSE) Log.i(TAG, "drainCodec start endOfStream=$endOfStream")
 
         if (endOfStream) {
             mediaCodec.signalEndOfInputStream()
@@ -106,14 +106,14 @@ class SimpleVideoEncoder(
         val encoderOutputBuffers: Array<ByteBuffer?> = mediaCodec.getOutputBuffers()
         while (true) {
             val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
-            if (VERBOSE) Log.d(TAG, "drainCodec get encoderStatus=$encoderStatus")
+            if (VERBOSE) Log.i(TAG, "drainCodec get encoderStatus=$encoderStatus")
 
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 // no output available yet
                 if (!endOfStream) {
                     break // out of while
                 } else {
-                    if (VERBOSE) Log.d(TAG, "drainCodec no output available, spinning to await EOS")
+                    if (VERBOSE) Log.i(TAG, "drainCodec no output available, spinning to await EOS")
                 }
                 // NOTE no need to worry about this, since deprecated after API 21
                 // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
@@ -125,7 +125,7 @@ class SimpleVideoEncoder(
                     throw RuntimeException("format changed twice")
                 }
                 val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.d(TAG, "drainCodec encoder output format changed: $newFormat")
+                Log.i(TAG, "drainCodec encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
                 frameMuxer.start(newFormat)
@@ -138,7 +138,7 @@ class SimpleVideoEncoder(
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) Log.d(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
                     bufferInfo.size = 0
                 }
                 if (bufferInfo.size != 0) {
@@ -146,35 +146,35 @@ class SimpleVideoEncoder(
                         throw RuntimeException("muxer hasn't started")
                     }
                     frameMuxer.muxVideoFrame(encodedData, bufferInfo)
-                    if (VERBOSE) Log.d(TAG, "sent " + bufferInfo.size + " bytes to muxer")
+                    if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
                 }
                 mediaCodec.releaseOutputBuffer(encoderStatus, false)
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                     if (!endOfStream) {
                         Log.w(TAG, "drainCodec reached end of stream unexpectedly")
                     } else {
-                        if (VERBOSE) Log.d(TAG, "drainCodec end of stream reached")
+                        if (VERBOSE) Log.i(TAG, "drainCodec end of stream reached")
                     }
                     break // out of while
                 }
             }
         }
 
-        if (VERBOSE) Log.d(TAG, "drainCodec end")
+        if (VERBOSE) Log.i(TAG, "drainCodec end")
     }
 
     /**
      * Releases encoder resources.  May be called after partial / failed initialization.
      */
     fun releaseVideoCodec() {
-        Log.d(TAG, "releaseVideoCodec() begin")
+        Log.i(TAG, "releaseVideoCodec() begin")
 
         drainCodec(true)
         mediaCodec.stop()
         mediaCodec.release()
         surface?.release()
 
-        Log.d(TAG, "releaseVideoCodec() end")
+        Log.i(TAG, "releaseVideoCodec() end")
     }
 
     fun releaseMuxer() {

@@ -14,6 +14,9 @@ class StartRequest {
     required this.path,
     required this.outputWidth,
     required this.outputHeight,
+    required this.frameRate,
+    required this.bitrate,
+    required this.iFrameInterval,
   });
 
   String path;
@@ -22,11 +25,20 @@ class StartRequest {
 
   int outputHeight;
 
+  double frameRate;
+
+  int bitrate;
+
+  int iFrameInterval;
+
   Object encode() {
     return <Object?>[
       path,
       outputWidth,
       outputHeight,
+      frameRate,
+      bitrate,
+      iFrameInterval,
     ];
   }
 
@@ -36,6 +48,9 @@ class StartRequest {
       path: result[0]! as String,
       outputWidth: result[1]! as int,
       outputHeight: result[2]! as int,
+      frameRate: result[3]! as double,
+      bitrate: result[4]! as int,
+      iFrameInterval: result[5]! as int,
     );
   }
 }

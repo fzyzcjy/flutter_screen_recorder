@@ -1,13 +1,8 @@
 package com.cjy.fast_screen_recorder
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Rect
 import android.media.*
 import android.media.MediaCodecList.REGULAR_CODECS
-import android.os.Build
 import android.util.Log
 import android.view.Surface
 import androidx.annotation.RawRes
@@ -164,12 +159,12 @@ class SimpleVideoEncoder(
 }
 
 data class MuxerConfig(
-    var file: File,
-    var videoWidth: Int = 320,
-    var videoHeight: Int = 240,
-    var mimeType: String = MediaFormat.MIMETYPE_VIDEO_AVC,
-    var frameRate: Float = 10F,
-    var bitrate: Int = 1500000,
-    var frameMuxer: SimpleFrameMuxer = SimpleMp4FrameMuxer(file.absolutePath, frameRate),
-    var iFrameInterval: Int = 10
+    val file: File,
+    val videoWidth: Int,
+    val videoHeight: Int,
+    val mimeType: String = MediaFormat.MIMETYPE_VIDEO_AVC,
+    val frameRate: Float,
+    val bitrate: Int,
+    val iFrameInterval: Int,
+    val frameMuxer: SimpleFrameMuxer = SimpleMp4FrameMuxer(file.absolutePath, frameRate),
 )

@@ -47,7 +47,10 @@ class FlutterError (
 data class StartRequest (
   val path: String,
   val outputWidth: Long,
-  val outputHeight: Long
+  val outputHeight: Long,
+  val frameRate: Double,
+  val bitrate: Long,
+  val iFrameInterval: Long
 
 ) {
   companion object {
@@ -56,7 +59,10 @@ data class StartRequest (
       val path = list[0] as String
       val outputWidth = list[1].let { if (it is Int) it.toLong() else it as Long }
       val outputHeight = list[2].let { if (it is Int) it.toLong() else it as Long }
-      return StartRequest(path, outputWidth, outputHeight)
+      val frameRate = list[3] as Double
+      val bitrate = list[4].let { if (it is Int) it.toLong() else it as Long }
+      val iFrameInterval = list[5].let { if (it is Int) it.toLong() else it as Long }
+      return StartRequest(path, outputWidth, outputHeight, frameRate, bitrate, iFrameInterval)
     }
   }
   fun toList(): List<Any?> {
@@ -64,6 +70,9 @@ data class StartRequest (
       path,
       outputWidth,
       outputHeight,
+      frameRate,
+      bitrate,
+      iFrameInterval,
     )
   }
 }

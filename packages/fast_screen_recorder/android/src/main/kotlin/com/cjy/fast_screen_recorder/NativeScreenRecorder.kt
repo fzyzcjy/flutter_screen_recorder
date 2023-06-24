@@ -6,18 +6,32 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.PixelCopy
+import java.io.File
 
 object NativeScreenRecorder {
     private var bitmap: Bitmap? = null
     private var encoder: SimpleVideoEncoder? = null
 
-    fun start(path: String, outputWidth: Int, outputHeight: Int) {
+    fun start(
+        path: String,
+        outputWidth: Int,
+        outputHeight: Int,
+        frameRate: Float,
+        bitrate: Int,
+        iFrameInterval: Int,
+    ) {
         check(bitmap == null)
         bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
 
         encoder = SimpleVideoEncoder(
             muxerConfig = MuxerConfig(
-
+                file = File(path),
+                videoWidth = outputWidth,
+                videoHeight = outputHeight,
+                frameRate = frameRate,
+                bitrate = bitrate,
+                iFrameInterval = iFrameInterval,
+                // TODO more args
             ),
         )
     }

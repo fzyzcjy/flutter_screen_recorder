@@ -88,7 +88,31 @@ class SimpleVideoEncoder(
             ) {
                 Log.i(TAG, "onOutputBufferAvailable index=$index")
 
-                TODO("Not yet implemented")
+                // TODO do not use this deprecated API?
+                val encodedData = codec.outputBuffers[index]
+                    ?: throw RuntimeException("encoderOutputBuffer  $index was null")
+                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                    // The codec config data was pulled out and fed to the muxer when we got
+                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
+                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                    bufferInfo.size = 0
+                }
+                if (bufferInfo.size != 0) {
+                    if (!frameMuxer.isStarted()) {
+                        throw RuntimeException("muxer hasn't started")
+                    }
+                    frameMuxer.muxVideoFrame(encodedData, bufferInfo)
+                    if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
+                }
+                mediaCodec.releaseOutputBuffer(index, false)
+                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                    if (!endOfStream) {
+                        Log.w(TAG, "drainCodec reached end of stream unexpectedly")
+                    } else {
+                        if (VERBOSE) Log.i(TAG, "drainCodec end of stream reached")
+                    }
+                    break // out of while
+                }
             }
 
             override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
@@ -99,9 +123,16 @@ class SimpleVideoEncoder(
             override fun onOutputFormatChanged(codec: MediaCodec, format: MediaFormat) {
                 Log.i(TAG, "onOutputFormatChanged format=$format")
 
-                TODO("Not yet implemented")
-            }
+                // should happen before receiving buffers, and should only happen once
+                if (frameMuxer.isStarted()) {
+                    throw RuntimeException("format changed twice")
+                }
+                val newFormat: MediaFormat = mediaCodec.outputFormat
+                Log.i(TAG, "drainCodec encoder output format changed: $newFormat")
 
+                // now that we have the Magic Goodies, start the muxer
+                frameMuxer.start(newFormat)
+            }
         }
     }
 
@@ -146,8 +177,6 @@ class SimpleVideoEncoder(
             mediaCodec.signalEndOfInputStream()
         }
 
-        // TODO do not use this deprecated API?
-        val encoderOutputBuffers: Array<ByteBuffer?> = mediaCodec.getOutputBuffers()
         while (true) {
             val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
             if (VERBOSE) Log.i(TAG, "drainCodec get encoderStatus=$encoderStatus")
@@ -164,43 +193,12 @@ class SimpleVideoEncoder(
                 //     // not expected for an encoder
                 //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
             } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                // should happen before receiving buffers, and should only happen once
-                if (frameMuxer.isStarted()) {
-                    throw RuntimeException("format changed twice")
-                }
-                val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.i(TAG, "drainCodec encoder output format changed: $newFormat")
-
-                // now that we have the Magic Goodies, start the muxer
-                frameMuxer.start(newFormat)
+                // MOVED
             } else if (encoderStatus < 0) {
                 Log.wtf(TAG, "drainCodec unexpected encoderStatus=$encoderStatus")
                 // let's ignore it
             } else {
-                val encodedData = encoderOutputBuffers[encoderStatus]
-                    ?: throw RuntimeException("encoderOutputBuffer  $encoderStatus was null")
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
-                    // The codec config data was pulled out and fed to the muxer when we got
-                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    bufferInfo.size = 0
-                }
-                if (bufferInfo.size != 0) {
-                    if (!frameMuxer.isStarted()) {
-                        throw RuntimeException("muxer hasn't started")
-                    }
-                    frameMuxer.muxVideoFrame(encodedData, bufferInfo)
-                    if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
-                }
-                mediaCodec.releaseOutputBuffer(encoderStatus, false)
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    if (!endOfStream) {
-                        Log.w(TAG, "drainCodec reached end of stream unexpectedly")
-                    } else {
-                        if (VERBOSE) Log.i(TAG, "drainCodec end of stream reached")
-                    }
-                    break // out of while
-                }
+                // MOVED
             }
         }
 

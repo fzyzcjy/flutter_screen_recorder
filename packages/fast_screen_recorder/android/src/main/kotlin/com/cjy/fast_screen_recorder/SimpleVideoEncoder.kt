@@ -69,7 +69,8 @@ class SimpleVideoEncoder(
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
         mediaCodec.start()
-        drainCodec(false)
+
+//        drainCodec(false)
 
         Log.i(TAG, "start() end")
     }
@@ -152,7 +153,7 @@ class SimpleVideoEncoder(
             "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
         )
 
-        drainCodec(false)
+//        drainCodec(false)
 
         Log.i(
             TAG,
@@ -161,57 +162,15 @@ class SimpleVideoEncoder(
     }
 
     /**
-     * Extracts all pending data from the encoder.
-     *
-     *
-     * If endOfStream is not set, this returns when there is no more data to drain.  If it
-     * is set, we send EOS to the encoder, and then iterate until we see EOS on the output.
-     * Calling this with endOfStream set should be done once, right before stopping the muxer.
-     *
-     * Borrows heavily from https://bigflake.com/mediacodec/EncodeAndMuxTest.java.txt
-     */
-    private fun drainCodec(endOfStream: Boolean) {
-        if (VERBOSE) Log.i(TAG, "drainCodec start endOfStream=$endOfStream")
-
-        if (endOfStream) {
-            mediaCodec.signalEndOfInputStream()
-        }
-
-        while (true) {
-            val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
-            if (VERBOSE) Log.i(TAG, "drainCodec get encoderStatus=$encoderStatus")
-
-            if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
-                // no output available yet
-                if (!endOfStream) {
-                    break // out of while
-                } else {
-                    if (VERBOSE) Log.i(TAG, "drainCodec no output available, spinning to await EOS")
-                }
-                // NOTE no need to worry about this, since deprecated after API 21
-                // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-                //     // not expected for an encoder
-                //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
-            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                // MOVED
-            } else if (encoderStatus < 0) {
-                Log.wtf(TAG, "drainCodec unexpected encoderStatus=$encoderStatus")
-                // let's ignore it
-            } else {
-                // MOVED
-            }
-        }
-
-        if (VERBOSE) Log.i(TAG, "drainCodec end")
-    }
-
-    /**
      * Releases encoder resources.  May be called after partial / failed initialization.
      */
     fun releaseVideoCodec() {
         Log.i(TAG, "releaseVideoCodec() begin")
 
-        drainCodec(true)
+//        drainCodec(true)
+        mediaCodec.signalEndOfInputStream()
+        TODO_wait
+
         mediaCodec.stop()
         mediaCodec.release()
         surface?.release()

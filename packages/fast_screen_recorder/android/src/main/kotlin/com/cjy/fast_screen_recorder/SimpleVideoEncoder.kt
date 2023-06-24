@@ -3,13 +3,11 @@ package com.cjy.fast_screen_recorder
 import android.graphics.Bitmap
 import android.media.*
 import android.media.MediaCodecList.REGULAR_CODECS
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Surface
-import androidx.annotation.RawRes
 import java.io.File
-import java.io.IOException
-import java.nio.ByteBuffer
-import java.time.Instant
 
 private const val TAG = "SimpleVideoEncoder"
 private const val VERBOSE = true
@@ -64,7 +62,7 @@ class SimpleVideoEncoder(
     fun start() {
         Log.i(TAG, "start() begin")
 
-        mediaCodec.setCallback(createMediaCodecCallback())
+        mediaCodec.setCallback(createMediaCodecCallback(), Handler(Looper.getMainLooper()))
 
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
@@ -92,12 +90,14 @@ class SimpleVideoEncoder(
                 // TODO do not use this deprecated API?
                 val encodedData = codec.outputBuffers[index]
                     ?: throw RuntimeException("encoderOutputBuffer  $index was null")
+
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
                     if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
                     bufferInfo.size = 0
                 }
+
                 if (bufferInfo.size != 0) {
                     if (!frameMuxer.isStarted()) {
                         throw RuntimeException("muxer hasn't started")
@@ -105,14 +105,12 @@ class SimpleVideoEncoder(
                     frameMuxer.muxVideoFrame(encodedData, bufferInfo)
                     if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
                 }
+
                 mediaCodec.releaseOutputBuffer(index, false)
+
                 if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    if (!endOfStream) {
-                        Log.w(TAG, "drainCodec reached end of stream unexpectedly")
-                    } else {
-                        if (VERBOSE) Log.i(TAG, "drainCodec end of stream reached")
-                    }
-                    break // out of while
+                    Log.i(TAG, "drainCodec end of stream reached")
+                    actualRelease()
                 }
             }
 
@@ -162,14 +160,19 @@ class SimpleVideoEncoder(
     }
 
     /**
-     * Releases encoder resources.  May be called after partial / failed initialization.
+     * can only *start* releasing, since it is asynchronous
      */
-    fun release() {
-        Log.i(TAG, "release() begin")
+    fun startRelease() {
+        Log.i(TAG, "startRelease() begin")
 
 //        drainCodec(true)
         mediaCodec.signalEndOfInputStream()
-        TODO_wait
+
+        Log.i(TAG, "startRelease() end")
+    }
+
+    private fun actualRelease() {
+        Log.i(TAG, "actualRelease() begin")
 
         mediaCodec.stop()
         mediaCodec.release()
@@ -177,7 +180,7 @@ class SimpleVideoEncoder(
 
         frameMuxer.release()
 
-        Log.i(TAG, "release() end")
+        Log.i(TAG, "actualRelease() end")
     }
 }
 

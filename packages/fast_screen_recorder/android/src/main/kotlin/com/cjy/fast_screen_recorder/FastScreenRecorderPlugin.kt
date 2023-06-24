@@ -1,6 +1,7 @@
 package com.cjy.fast_screen_recorder
 
 import android.app.Activity
+import android.util.Size
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -49,8 +50,7 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
     override fun start(request: StartRequest) =
         NativeScreenRecorder.start(
             path = request.path,
-            outputWidth = request.outputWidth.toInt(),
-            outputHeight = request.outputHeight.toInt(),
+            outputSize = Size(request.outputWidth.toInt(), request.outputHeight.toInt()),
             frameRate = request.frameRate.toFloat(),
             bitrate = request.bitrate.toInt(),
             iFrameInterval = request.iFrameInterval.toInt(),

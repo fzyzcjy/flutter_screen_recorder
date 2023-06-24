@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.Size
 import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
@@ -16,27 +17,28 @@ import java.time.Instant
 private const val TAG = "NativeScreenRecorder"
 
 object NativeScreenRecorder {
-    private var bitmap: Bitmap? = null
+//    private var bitmap: Bitmap? = null
     private var encoder: SimpleVideoEncoder? = null
+
+    private var outputSize: Size? = null
 
     fun start(
         path: String,
-        outputWidth: Int,
-        outputHeight: Int,
+        outputSize: Size,
         frameRate: Float,
         bitrate: Int,
         iFrameInterval: Int,
     ) {
         Log.i(TAG, "start() begin")
 
-        check(bitmap == null)
-        bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
+//        check(bitmap == null)
+//        bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
 
         encoder = SimpleVideoEncoder(
             muxerConfig = MuxerConfig(
                 file = File(path),
-                videoWidth = outputWidth,
-                videoHeight = outputHeight,
+                videoWidth = outputSize.width,
+                videoHeight = outputSize.height,
                 frameRate = frameRate,
                 bitrate = bitrate,
                 iFrameInterval = iFrameInterval,
@@ -45,14 +47,16 @@ object NativeScreenRecorder {
         )
         encoder!!.start()
 
+        this.outputSize = outputSize
+
         Log.i(TAG, "start() end")
     }
 
     fun stop() {
         Log.i(TAG, "stop() begin")
 
-        bitmap!!.recycle()
-        bitmap = null
+//        bitmap!!.recycle()
+//        bitmap = null
 
         encoder!!.releaseVideoCodec()
         encoder!!.releaseMuxer()
@@ -67,6 +71,8 @@ object NativeScreenRecorder {
     ) {
         val startTime = System.nanoTime()
         Log.i(TAG, "capture() begin time=$startTime")
+
+        val bitmap = Bitmap.createBitmap(outputSize!!.width, outputSize!!.height, Bitmap.Config.ARGB_8888)
 
         val window = activity.window
 
@@ -85,7 +91,7 @@ object NativeScreenRecorder {
 //                window,
                 flutterSurfaceView!!,
                 bitmap!!,
-                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime) },
+                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime, bitmap) },
                 Handler(Looper.getMainLooper())
             )
         } else {
@@ -93,7 +99,7 @@ object NativeScreenRecorder {
         }
     }
 
-    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit, debugStartTime: Long) {
+    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit, debugStartTime: Long, bitmap: Bitmap) {
         Log.i(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
@@ -101,8 +107,10 @@ object NativeScreenRecorder {
             return
         }
 
-        encoder!!.encode(bitmap!!)
+        encoder!!.encode(bitmap)
         callback(Result.success(Unit))
+
+        bitmap.recycle()
     }
 }
 

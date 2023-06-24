@@ -21,6 +21,8 @@ class SimpleVideoEncoder(
     private val muxerConfig: MuxerConfig,
 ) {
     private val mediaFormat: MediaFormat = run {
+        Log.d(TAG, "mediaFormat creation begin")
+
         val format = MediaFormat.createVideoFormat(
             muxerConfig.mimeType,
             muxerConfig.videoWidth,
@@ -36,12 +38,21 @@ class SimpleVideoEncoder(
         format.setInteger(MediaFormat.KEY_BIT_RATE, muxerConfig.bitrate)
         format.setFloat(MediaFormat.KEY_FRAME_RATE, muxerConfig.frameRate)
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, muxerConfig.iFrameInterval)
+
+        Log.d(TAG, "mediaFormat creation end format=$format")
+
         format
     }
 
     private val mediaCodec: MediaCodec = run {
+        Log.d(TAG, "mediaCodec creation begin")
+
         val codecs = MediaCodecList(REGULAR_CODECS)
-        MediaCodec.createByCodecName(codecs.findEncoderForFormat(mediaFormat))
+        val ans = MediaCodec.createByCodecName(codecs.findEncoderForFormat(mediaFormat))
+
+        Log.d(TAG, "mediaCodec creation end ans=$ans")
+
+        ans
     }
 
     private val bufferInfo = MediaCodec.BufferInfo()

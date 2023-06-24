@@ -127,7 +127,7 @@ class SimpleVideoEncoder(
                     throw RuntimeException("format changed twice")
                 }
                 val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.i(TAG, "drainCodec encoder output format changed: $newFormat")
+                Log.i(TAG, "encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
                 frameMuxer.start(newFormat)
@@ -146,11 +146,10 @@ class SimpleVideoEncoder(
         canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
 
-        Log.i(
-            TAG,
-            "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
-        )
-
+//        Log.i(
+//            TAG,
+//            "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
+//        )
 //        drainCodec(false)
 
         Log.i(

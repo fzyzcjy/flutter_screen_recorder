@@ -2,6 +2,8 @@
 
 Flutter screen recorder and session replay
 
+Flutter issue: https://github.com/flutter/flutter/issues/129098
+
 ### Quick benchmark
 
 | method | resolution | FPS | frame quality | experiment 0 | experiment 1 | experiment 2 | experiment 3 |

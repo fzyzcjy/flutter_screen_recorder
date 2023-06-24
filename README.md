@@ -6,12 +6,12 @@ Flutter issue: https://github.com/flutter/flutter/issues/129098
 
 ### Quick benchmark
 
-| method | resolution | FPS | frame quality | experiment 0 | experiment 1 | experiment 2 | experiment 3 |
-|---|---|---|---|---|---|---|---|
-| (which is better) | (bigger) | (bigger) | (bigger) | (smaller) | (smaller) | (smaller) | (smaller) |
-| vector based | +∞ | 60 | +∞ clear | 0.05MB | 0.12MB | 0.17MB | 0.16MB |
-| bitmap based | 720x360 | 2 (not a typo) | blur when moving | 0.46MB | 0.59MB | 1.01MB | 0.81MB |
-| android built-in | 1280x720 | 30 | clear | 15MB | 31MB | 43MB | 56MB |
+| method            | resolution | FPS            | frame quality    | show other views          | fidelity                                | experiment 0 | experiment 1 | experiment 2 | experiment 3 |
+|-------------------|------------|----------------|------------------|---------------------------|-----------------------------------------|--------------|--------------|--------------|--------------|
+| (which is better) | (bigger)   | (bigger)       | (bigger)         | (bigger)                  | (bigger)                                | (smaller)    | (smaller)    | (smaller)    | (smaller)    |
+| vector based      | +∞         | 60             | +∞ clear         | no WebView etc            | partially (ui.Image is placeholder yet) | 0.05MB       | 0.12MB       | 0.17MB       | 0.16MB       |
+| bitmap based      | 720x360    | 2 (not a typo) | blur when moving | yes                       | yes                                     | 0.46MB       | 0.59MB       | 1.01MB       | 0.81MB       |
+| android built-in  | 1280x720   | 30             | clear            | yes + views in other apps | yes                                     | 15MB         | 31MB         | 43MB         | 56MB         |
 
 Disclaimer:
 (1) The code is highly experimental and has bugs, so the size may not be accurate or even incorrect.

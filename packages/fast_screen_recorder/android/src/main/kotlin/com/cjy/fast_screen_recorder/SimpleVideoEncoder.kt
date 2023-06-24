@@ -64,12 +64,45 @@ class SimpleVideoEncoder(
     fun start() {
         Log.i(TAG, "start() begin")
 
+        mediaCodec.setCallback(createMediaCodecCallback())
+
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
         mediaCodec.start()
         drainCodec(false)
 
         Log.i(TAG, "start() end")
+    }
+
+    private fun createMediaCodecCallback(): MediaCodec.Callback {
+        return object : MediaCodec.Callback() {
+            override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
+                Log.i(TAG, "onInputBufferAvailable index=$index")
+                // nothing?
+            }
+
+            override fun onOutputBufferAvailable(
+                codec: MediaCodec,
+                index: Int,
+                info: MediaCodec.BufferInfo
+            ) {
+                Log.i(TAG, "onOutputBufferAvailable index=$index")
+
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
+                Log.e(TAG, "onError (MediaCodec.Callback)", e)
+                // TODO handle it
+            }
+
+            override fun onOutputFormatChanged(codec: MediaCodec, format: MediaFormat) {
+                Log.i(TAG, "onOutputFormatChanged format=$format")
+
+                TODO("Not yet implemented")
+            }
+
+        }
     }
 
     fun encode(image: Bitmap) {
@@ -83,11 +116,17 @@ class SimpleVideoEncoder(
         canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
 
-        Log.i(TAG, "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+        Log.i(
+            TAG,
+            "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
+        )
 
         drainCodec(false)
 
-        Log.i(TAG, "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+        Log.i(
+            TAG,
+            "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
+        )
     }
 
     /**

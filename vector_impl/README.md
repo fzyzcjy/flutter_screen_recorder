@@ -47,3 +47,7 @@ Layer 2: "Session replay" for debugging
 
 * Automatically record and save to local disk.
 * When the user detects a bug and you want to know what happens before that bug, call something like `ScreenRecorder.getRecorded(startTime, endTime)` and send to you / upload to your server.
+
+Misc
+
+* Be clear about privacy implications so that developers who use the package can communicate that to their users. Also probably add a mode to remove all text (but only remain their layout).

@@ -58,8 +58,7 @@ object NativeScreenRecorder {
 //        bitmap!!.recycle()
 //        bitmap = null
 
-        encoder!!.releaseVideoCodec()
-        encoder!!.releaseMuxer()
+        encoder!!.release()
         encoder = null
 
         Log.i(TAG, "stop() end")

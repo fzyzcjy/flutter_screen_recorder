@@ -164,8 +164,8 @@ class SimpleVideoEncoder(
     /**
      * Releases encoder resources.  May be called after partial / failed initialization.
      */
-    fun releaseVideoCodec() {
-        Log.i(TAG, "releaseVideoCodec() begin")
+    fun release() {
+        Log.i(TAG, "release() begin")
 
 //        drainCodec(true)
         mediaCodec.signalEndOfInputStream()
@@ -175,12 +175,9 @@ class SimpleVideoEncoder(
         mediaCodec.release()
         surface?.release()
 
-        Log.i(TAG, "releaseVideoCodec() end")
-    }
-
-    fun releaseMuxer() {
-        // Release MediaMuxer
         frameMuxer.release()
+
+        Log.i(TAG, "release() end")
     }
 }
 

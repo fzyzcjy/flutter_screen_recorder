@@ -37,17 +37,25 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 /// Generated class from Pigeon that represents data sent in messages.
 struct StartRequest {
   var path: String
+  var outputWidth: Int64
+  var outputHeight: Int64
 
   static func fromList(_ list: [Any?]) -> StartRequest? {
     let path = list[0] as! String
+    let outputWidth = list[1] is Int64 ? list[1] as! Int64 : Int64(list[1] as! Int32)
+    let outputHeight = list[2] is Int64 ? list[2] as! Int64 : Int64(list[2] as! Int32)
 
     return StartRequest(
-      path: path
+      path: path,
+      outputWidth: outputWidth,
+      outputHeight: outputHeight
     )
   }
   func toList() -> [Any?] {
     return [
       path,
+      outputWidth,
+      outputHeight,
     ]
   }
 }

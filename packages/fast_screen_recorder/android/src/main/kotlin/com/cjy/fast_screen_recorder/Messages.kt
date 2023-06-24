@@ -45,19 +45,25 @@ class FlutterError (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class StartRequest (
-  val path: String
+  val path: String,
+  val outputWidth: Long,
+  val outputHeight: Long
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): StartRequest {
       val path = list[0] as String
-      return StartRequest(path)
+      val outputWidth = list[1].let { if (it is Int) it.toLong() else it as Long }
+      val outputHeight = list[2].let { if (it is Int) it.toLong() else it as Long }
+      return StartRequest(path, outputWidth, outputHeight)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       path,
+      outputWidth,
+      outputHeight,
     )
   }
 }

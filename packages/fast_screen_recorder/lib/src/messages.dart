@@ -12,13 +12,21 @@ import 'package:flutter/services.dart';
 class StartRequest {
   StartRequest({
     required this.path,
+    required this.outputWidth,
+    required this.outputHeight,
   });
 
   String path;
 
+  int outputWidth;
+
+  int outputHeight;
+
   Object encode() {
     return <Object?>[
       path,
+      outputWidth,
+      outputHeight,
     ];
   }
 
@@ -26,6 +34,8 @@ class StartRequest {
     result as List<Object?>;
     return StartRequest(
       path: result[0]! as String,
+      outputWidth: result[1]! as int,
+      outputHeight: result[2]! as int,
     );
   }
 }

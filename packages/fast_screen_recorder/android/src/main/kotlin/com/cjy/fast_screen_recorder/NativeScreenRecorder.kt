@@ -8,10 +8,16 @@ import android.os.Looper
 import android.view.PixelCopy
 
 object NativeScreenRecorder {
-    private val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+    private var bitmap: Bitmap? = null
 
-    fun start(path: String) {
-        TODO()
+    fun start(path: String, outputWidth: Int, outputHeight: Int) {
+        check(bitmap == null)
+        bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
+    }
+
+    fun stop() {
+        bitmap!!.recycle()
+        bitmap = null
     }
 
     fun capture(
@@ -22,7 +28,7 @@ object NativeScreenRecorder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PixelCopy.request(
                 window,
-                bitmap,
+                bitmap!!,
                 { copyResult ->
                     if (copyResult == PixelCopy.SUCCESS) {
                         TODO()
@@ -35,9 +41,5 @@ object NativeScreenRecorder {
         } else {
             callback(Result.failure(IllegalStateException("only support >= Android O currently")))
         }
-    }
-
-    fun stop() {
-        TODO()
     }
 }

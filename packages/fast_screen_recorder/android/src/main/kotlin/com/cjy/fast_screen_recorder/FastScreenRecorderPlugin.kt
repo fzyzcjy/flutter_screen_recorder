@@ -46,10 +46,18 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
 
     // real api
 
-    override fun start(request: StartRequest) = NativeScreenRecorder.start(path = request.path)
+    override fun start(request: StartRequest) =
+        NativeScreenRecorder.start(
+            path = request.path,
+            outputWidth = request.outputWidth.toInt(),
+            outputHeight = request.outputHeight.toInt(),
+        )
 
     override fun capture(callback: (kotlin.Result<Unit>) -> Unit) =
-        NativeScreenRecorder.capture(activity = activity!!, callback = callback)
+        NativeScreenRecorder.capture(
+            activity = activity!!,
+            callback = callback,
+        )
 
     override fun stop() = NativeScreenRecorder.stop()
 }

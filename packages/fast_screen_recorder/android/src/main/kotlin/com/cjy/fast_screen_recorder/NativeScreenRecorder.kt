@@ -94,12 +94,6 @@ object NativeScreenRecorder {
             return
         }
 
-        File("/storage/emulated/0/Android/data/com.cjy.fast_screen_recorder_example/files/fast_screen_recorder_experiment/hello.png").outputStream()
-            .use { out ->
-                bitmap!!.compress(Bitmap.CompressFormat.PNG, 85, out)
-                out.flush()
-            }
-
         encoder!!.encode(bitmap!!)
         callback(Result.success(Unit))
     }

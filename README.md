@@ -2,6 +2,8 @@
 
 Flutter screen recorder and session replay
 
+Flutter issue: https://github.com/flutter/flutter/issues/129098
+
 ### Vector-based implementation
 
 Please see https://github.com/fzyzcjy/flutter_screen_recorder/tree/master/vector_impl for more details. Quote from there:

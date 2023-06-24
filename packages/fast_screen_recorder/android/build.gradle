@@ -62,8 +62,3 @@ android {
         }
     }
 }
-
-dependencies {
-    // TODO use non-full
-    implementation 'com.arthenica:ffmpeg-kit-full:5.1'
-}

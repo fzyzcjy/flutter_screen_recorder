@@ -65,31 +65,11 @@ class SimpleVideoEncoder(
     }
 
     fun encode(image: Bitmap) {
-        val canvas = createCanvas()
-        drawBitmapAndPostCanvas(image, canvas)
-    }
-
-    private fun createCanvas(): Canvas? {
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
         // says that, "Surface.lockCanvas(android.graphics.Rect) may fail or produce unexpected results."
-        return surface?.lockHardwareCanvas()
-    }
-
-    /**
-     *
-     * @param canvas acquired from createCanvas()
-     */
-    private fun drawBitmapAndPostCanvas(bitmap: Bitmap, canvas: Canvas?) {
-        canvas?.drawBitmap(bitmap, 0f, 0f, null)
-        postCanvasFrame(canvas)
-    }
-
-    /**
-     *
-     * @param canvas acquired from createCanvas()
-     */
-    private fun postCanvasFrame(canvas: Canvas?) {
+        val canvas = surface?.lockHardwareCanvas()
+        canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
         drainCodec(false)
     }
@@ -183,7 +163,6 @@ class SimpleVideoEncoder(
         // Release MediaMuxer
         frameMuxer.release()
     }
-
 }
 
 data class MuxerConfig(

@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
-import java.time.Instant
 
 private const val TAG = "NativeScreenRecorder"
 
@@ -58,8 +57,7 @@ object NativeScreenRecorder {
 //        bitmap!!.recycle()
 //        bitmap = null
 
-        encoder!!.releaseVideoCodec()
-        encoder!!.releaseMuxer()
+        encoder!!.startRelease()
         encoder = null
 
         Log.i(TAG, "stop() end")

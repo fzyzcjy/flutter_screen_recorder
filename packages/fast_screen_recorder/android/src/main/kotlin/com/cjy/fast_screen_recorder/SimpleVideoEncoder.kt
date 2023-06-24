@@ -3,13 +3,11 @@ package com.cjy.fast_screen_recorder
 import android.graphics.Bitmap
 import android.media.*
 import android.media.MediaCodecList.REGULAR_CODECS
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Surface
-import androidx.annotation.RawRes
 import java.io.File
-import java.io.IOException
-import java.nio.ByteBuffer
-import java.time.Instant
 
 private const val TAG = "SimpleVideoEncoder"
 private const val VERBOSE = true
@@ -56,7 +54,6 @@ class SimpleVideoEncoder(
         ans
     }
 
-    private val bufferInfo = MediaCodec.BufferInfo()
     private val frameMuxer = muxerConfig.frameMuxer
 
     private var surface: Surface? = null
@@ -64,12 +61,79 @@ class SimpleVideoEncoder(
     fun start() {
         Log.i(TAG, "start() begin")
 
+        mediaCodec.setCallback(createMediaCodecCallback(), Handler(Looper.getMainLooper()))
+
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         surface = mediaCodec.createInputSurface()
         mediaCodec.start()
-        drainCodec(false)
+
+//        drainCodec(false)
 
         Log.i(TAG, "start() end")
+    }
+
+    private fun createMediaCodecCallback(): MediaCodec.Callback {
+        return object : MediaCodec.Callback() {
+            override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
+                Log.i(TAG, "onInputBufferAvailable index=$index")
+                // nothing?
+            }
+
+            override fun onOutputBufferAvailable(
+                codec: MediaCodec,
+                index: Int,
+                info: MediaCodec.BufferInfo
+            ) {
+                Log.i(TAG, "onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
+
+                val encodedData = codec.getOutputBuffer(index)!!
+
+                var effectiveSize = info.size
+
+                if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                    // The codec config data was pulled out and fed to the muxer when we got
+                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
+                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                    effectiveSize = 0
+                }
+
+                if (effectiveSize != 0) {
+                    if (!frameMuxer.isStarted()) {
+                        throw RuntimeException("muxer hasn't started")
+                    }
+                    frameMuxer.muxVideoFrame(encodedData, info)
+                    if (VERBOSE) Log.i(TAG, "sent " + info.size + " bytes to muxer")
+                }
+
+                mediaCodec.releaseOutputBuffer(index, false)
+
+                if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                    Log.i(TAG, "drainCodec end of stream reached")
+                    actualRelease()
+                }
+
+                Log.i(TAG, "onOutputBufferAvailable() end")
+            }
+
+            override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
+                Log.e(TAG, "onError (MediaCodec.Callback)", e)
+                // TODO handle it
+            }
+
+            override fun onOutputFormatChanged(codec: MediaCodec, format: MediaFormat) {
+                Log.i(TAG, "onOutputFormatChanged format=$format")
+
+                // should happen before receiving buffers, and should only happen once
+                if (frameMuxer.isStarted()) {
+                    throw RuntimeException("format changed twice")
+                }
+                val newFormat: MediaFormat = mediaCodec.outputFormat
+                Log.i(TAG, "encoder output format changed: $newFormat")
+
+                // now that we have the Magic Goodies, start the muxer
+                frameMuxer.start(newFormat)
+            }
+        }
     }
 
     fun encode(image: Bitmap) {
@@ -83,108 +147,40 @@ class SimpleVideoEncoder(
         canvas?.drawBitmap(image, 0f, 0f, null)
         surface?.unlockCanvasAndPost(canvas)
 
-        Log.i(TAG, "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+//        Log.i(
+//            TAG,
+//            "encode() call drainCodec time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
+//        )
+//        drainCodec(false)
 
-        drainCodec(false)
-
-        Log.i(TAG, "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+        Log.i(
+            TAG,
+            "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
+        )
     }
 
     /**
-     * Extracts all pending data from the encoder.
-     *
-     *
-     * If endOfStream is not set, this returns when there is no more data to drain.  If it
-     * is set, we send EOS to the encoder, and then iterate until we see EOS on the output.
-     * Calling this with endOfStream set should be done once, right before stopping the muxer.
-     *
-     * Borrows heavily from https://bigflake.com/mediacodec/EncodeAndMuxTest.java.txt
+     * can only *start* releasing, since it is asynchronous
      */
-    private fun drainCodec(endOfStream: Boolean) {
-        if (VERBOSE) Log.i(TAG, "drainCodec start endOfStream=$endOfStream")
+    fun startRelease() {
+        Log.i(TAG, "startRelease() begin")
 
-        if (endOfStream) {
-            mediaCodec.signalEndOfInputStream()
-        }
+//        drainCodec(true)
+        mediaCodec.signalEndOfInputStream()
 
-        // TODO do not use this deprecated API?
-        val encoderOutputBuffers: Array<ByteBuffer?> = mediaCodec.getOutputBuffers()
-        while (true) {
-            val encoderStatus = mediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_USEC.toLong())
-            if (VERBOSE) Log.i(TAG, "drainCodec get encoderStatus=$encoderStatus")
-
-            if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
-                // no output available yet
-                if (!endOfStream) {
-                    break // out of while
-                } else {
-                    if (VERBOSE) Log.i(TAG, "drainCodec no output available, spinning to await EOS")
-                }
-                // NOTE no need to worry about this, since deprecated after API 21
-                // } else if (encoderStatus == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-                //     // not expected for an encoder
-                //     encoderOutputBuffers = mediaCodec.getOutputBuffers()
-            } else if (encoderStatus == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                // should happen before receiving buffers, and should only happen once
-                if (frameMuxer.isStarted()) {
-                    throw RuntimeException("format changed twice")
-                }
-                val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.i(TAG, "drainCodec encoder output format changed: $newFormat")
-
-                // now that we have the Magic Goodies, start the muxer
-                frameMuxer.start(newFormat)
-            } else if (encoderStatus < 0) {
-                Log.wtf(TAG, "drainCodec unexpected encoderStatus=$encoderStatus")
-                // let's ignore it
-            } else {
-                val encodedData = encoderOutputBuffers[encoderStatus]
-                    ?: throw RuntimeException("encoderOutputBuffer  $encoderStatus was null")
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
-                    // The codec config data was pulled out and fed to the muxer when we got
-                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    bufferInfo.size = 0
-                }
-                if (bufferInfo.size != 0) {
-                    if (!frameMuxer.isStarted()) {
-                        throw RuntimeException("muxer hasn't started")
-                    }
-                    frameMuxer.muxVideoFrame(encodedData, bufferInfo)
-                    if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
-                }
-                mediaCodec.releaseOutputBuffer(encoderStatus, false)
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    if (!endOfStream) {
-                        Log.w(TAG, "drainCodec reached end of stream unexpectedly")
-                    } else {
-                        if (VERBOSE) Log.i(TAG, "drainCodec end of stream reached")
-                    }
-                    break // out of while
-                }
-            }
-        }
-
-        if (VERBOSE) Log.i(TAG, "drainCodec end")
+        Log.i(TAG, "startRelease() end")
     }
 
-    /**
-     * Releases encoder resources.  May be called after partial / failed initialization.
-     */
-    fun releaseVideoCodec() {
-        Log.i(TAG, "releaseVideoCodec() begin")
+    private fun actualRelease() {
+        Log.i(TAG, "actualRelease() begin")
 
-        drainCodec(true)
         mediaCodec.stop()
         mediaCodec.release()
         surface?.release()
 
-        Log.i(TAG, "releaseVideoCodec() end")
-    }
-
-    fun releaseMuxer() {
-        // Release MediaMuxer
         frameMuxer.release()
+
+        Log.i(TAG, "actualRelease() end")
     }
 }
 

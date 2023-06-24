@@ -1,9 +1,7 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:fast_screen_recorder/fast_screen_recorder.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,10 +15,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _recorder = FastScreenRecorder.instance;
-
-  String? path;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,44 +22,13 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Column(
-          children: [
-            ListTile(
-              title: const Text('Path'),
-              subtitle: Text(path ?? 'null'),
+        body: FastScreenRecorderDemoWidget(
+          child: ListView.builder(
+            itemBuilder: (context, index) => ListTile(
+              title: Text('Item $index'),
+              subtitle: Text('Random text ${Random().nextInt(1000000000)}'),
             ),
-            ListTile(
-              title: const Text('Start'),
-              onTap: () async {
-                final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
-                await Directory(dir).create(recursive: true);
-                setState(() =>
-                    path = '$dir/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
-
-                await _recorder.start(
-                  path: File(path!),
-                  outputSize: const Size(360, 720),
-                  fps: 2,
-                  bitrate: 80 * 1000,
-                  iFrameInterval: 10,
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Stop'),
-              onTap: () async {
-                await _recorder.stop();
-              },
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) => ListTile(
-                  title: Text('Item $index'),
-                  subtitle: Text('Random text ${Random().nextInt(1000000000)}'),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

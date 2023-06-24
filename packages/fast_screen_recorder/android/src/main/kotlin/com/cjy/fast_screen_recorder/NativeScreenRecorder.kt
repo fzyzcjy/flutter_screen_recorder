@@ -5,8 +5,11 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.PixelCopy
 import java.io.File
+
+private const val TAG = "NativeScreenRecorder"
 
 object NativeScreenRecorder {
     private var bitmap: Bitmap? = null
@@ -20,6 +23,8 @@ object NativeScreenRecorder {
         bitrate: Int,
         iFrameInterval: Int,
     ) {
+        Log.d(TAG, "start() begin")
+
         check(bitmap == null)
         bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
 
@@ -34,21 +39,29 @@ object NativeScreenRecorder {
                 // TODO more args
             ),
         )
+
+        Log.d(TAG, "start() end")
     }
 
     fun stop() {
+        Log.d(TAG, "stop() begin")
+
         bitmap!!.recycle()
         bitmap = null
 
         encoder!!.releaseVideoCodec()
         encoder!!.releaseMuxer()
         encoder = null
+
+        Log.d(TAG, "stop() end")
     }
 
     fun capture(
         activity: Activity,
         callback: (Result<Unit>) -> Unit,
     ) {
+        Log.d(TAG, "capture() begin")
+
         val window = activity.window
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PixelCopy.request(
@@ -63,6 +76,8 @@ object NativeScreenRecorder {
     }
 
     private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit) {
+        Log.d(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult")
+
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))
             return

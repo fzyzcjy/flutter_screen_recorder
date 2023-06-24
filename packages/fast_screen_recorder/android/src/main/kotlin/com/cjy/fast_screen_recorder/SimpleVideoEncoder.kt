@@ -10,10 +10,10 @@ import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
 
-const val TAG = "FrameBuilder"
-const val VERBOSE: Boolean = false
-const val SECOND_IN_USEC = 1000000
-const val TIMEOUT_USEC = 10000
+private const val TAG = "FrameBuilder"
+private const val VERBOSE: Boolean = false
+private const val SECOND_IN_USEC = 1000000
+private const val TIMEOUT_USEC = 10000
 
 /**
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/FrameBuilder.kt

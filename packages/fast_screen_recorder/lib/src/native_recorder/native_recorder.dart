@@ -14,5 +14,7 @@ class NativeRecorder {
   }) async =>
       await _hostApi.start(StartRequest(path: path.path));
 
+  Future<void> capture() async => await _hostApi.capture();
+
   Future<void> stop() async => await _hostApi.stop();
 }

@@ -87,6 +87,7 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface FastScreenRecorderHostApi {
   fun start(request: StartRequest)
+  fun capture()
   fun stop()
 
   companion object {
@@ -106,6 +107,23 @@ interface FastScreenRecorderHostApi {
             var wrapped: List<Any?>
             try {
               api.start(requestArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped: List<Any?>
+            try {
+              api.capture()
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

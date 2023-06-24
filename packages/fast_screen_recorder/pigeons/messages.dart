@@ -18,6 +18,8 @@ class StartRequest {
 @HostApi()
 abstract class FastScreenRecorderHostApi {
   void start(StartRequest request);
+ 
+  void capture();
 
   void stop();
 }

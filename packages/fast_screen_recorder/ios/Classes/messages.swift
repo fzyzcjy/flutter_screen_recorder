@@ -90,6 +90,7 @@ class FastScreenRecorderHostApiCodec: FlutterStandardMessageCodec {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol FastScreenRecorderHostApi {
   func start(request: StartRequest) throws
+  func capture() throws
   func stop() throws
 }
 
@@ -113,6 +114,19 @@ class FastScreenRecorderHostApiSetup {
       }
     } else {
       startChannel.setMessageHandler(nil)
+    }
+    let captureChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      captureChannel.setMessageHandler { _, reply in
+        do {
+          try api.capture()
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      captureChannel.setMessageHandler(nil)
     }
     let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderHostApi.stop", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {

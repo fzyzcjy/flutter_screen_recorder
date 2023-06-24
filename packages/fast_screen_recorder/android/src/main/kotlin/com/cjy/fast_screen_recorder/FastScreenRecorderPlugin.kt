@@ -51,9 +51,9 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
             path = request.path,
             outputWidth = request.outputWidth.toInt(),
             outputHeight = request.outputHeight.toInt(),
-            frameRate = request.frameRate,
-            bitrate = request.bitrate,
-            iFrameInterval = request.iFrameInterval,
+            frameRate = request.frameRate.toFloat(),
+            bitrate = request.bitrate.toInt(),
+            iFrameInterval = request.iFrameInterval.toInt(),
         )
 
     override fun capture(callback: (kotlin.Result<Unit>) -> Unit) =

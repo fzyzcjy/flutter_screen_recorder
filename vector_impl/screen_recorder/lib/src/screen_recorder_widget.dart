@@ -113,8 +113,11 @@ void _compressAllAndShowSize() {
   }
 
   final nonCompressedData = builder.takeBytes();
-  final compressedData = ZLibEncoder().convert(nonCompressedData);
-  print('compressedData.length=${compressedData.length} nonCompressedData.length=${nonCompressedData.length}');
+  final defaultCompressedData = ZLibEncoder().convert(nonCompressedData);
+  final zlibHardestCompressedData = ZLibEncoder(level: 9, memLevel: 9).convert(nonCompressedData);
+  print('defaultCompressedData=${defaultCompressedData.length} '
+      'nonCompressedData=${nonCompressedData.length} '
+      'zlibHardestCompressedData=${zlibHardestCompressedData.length}');
 }
 
 enum _DisplayMode {

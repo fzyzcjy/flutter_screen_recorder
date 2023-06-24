@@ -25,6 +25,10 @@ https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/69a76027-797a-
 Video 1: Record all frames into MP4 video.
 Video 2: The MP4 video.
 
+It is 2 FPS and 360x720 resolution, because a larger FPS or resolution will make the encoded video larger. However, it can surely be customized.
+
+Again it has many rough edges (e.g. aspect ratio is wrong), just a quick demo.
+
 https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/479798f7-d0bf-43e2-a90c-e0793d65786c
 
 https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/293379b5-ad52-4c8e-b807-3e8563d6adfe

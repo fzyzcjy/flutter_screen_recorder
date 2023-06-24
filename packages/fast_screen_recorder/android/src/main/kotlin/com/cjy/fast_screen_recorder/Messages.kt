@@ -61,6 +61,7 @@ data class StartRequest (
     )
   }
 }
+
 @Suppress("UNCHECKED_CAST")
 private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
@@ -87,7 +88,7 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface FastScreenRecorderHostApi {
   fun start(request: StartRequest)
-  fun capture()
+  fun capture(callback: (Result<Unit>) -> Unit)
   fun stop()
 
   companion object {
@@ -121,14 +122,14 @@ interface FastScreenRecorderHostApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              api.capture()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
+            api.capture() { result: Result<Unit> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                reply.reply(wrapResult(null))
+              }
             }
-            reply.reply(wrapped)
           }
         } else {
           channel.setMessageHandler(null)

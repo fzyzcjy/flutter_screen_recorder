@@ -51,6 +51,7 @@ struct StartRequest {
     ]
   }
 }
+
 private class FastScreenRecorderHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -90,7 +91,7 @@ class FastScreenRecorderHostApiCodec: FlutterStandardMessageCodec {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol FastScreenRecorderHostApi {
   func start(request: StartRequest) throws
-  func capture() throws
+  func capture(completion: @escaping (Result<Void, Error>) -> Void)
   func stop() throws
 }
 
@@ -118,11 +119,13 @@ class FastScreenRecorderHostApiSetup {
     let captureChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       captureChannel.setMessageHandler { _, reply in
-        do {
-          try api.capture()
-          reply(wrapResult(nil))
-        } catch {
-          reply(wrapError(error))
+        api.capture() { result in
+          switch result {
+            case .success:
+              reply(wrapResult(nil))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
         }
       }
     } else {

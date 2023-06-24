@@ -29,17 +29,20 @@ object NativeScreenRecorder {
             PixelCopy.request(
                 window,
                 bitmap!!,
-                { copyResult ->
-                    if (copyResult == PixelCopy.SUCCESS) {
-                        TODO()
-                    } else {
-                        callback(Result.failure(IllegalStateException("PixelCopy failed (copyResult=$copyResult)")))
-                    }
-                },
+                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback) },
                 Handler(Looper.getMainLooper())
             )
         } else {
             callback(Result.failure(IllegalStateException("only support >= Android O currently")))
         }
+    }
+
+    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit) {
+        if (pixelCopyResult != PixelCopy.SUCCESS) {
+            callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))
+            return
+        }
+
+        TODO()
     }
 }

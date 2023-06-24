@@ -39,9 +39,10 @@ class _MyAppState extends State<MyApp> {
             ListTile(
               title: const Text('Start'),
               onTap: () async {
-                final dir = await getDownloadsDirectory();
-                setState(() => path =
-                    '${dir!.path}/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
+                final dir = await getApplicationDocumentsDirectory();
+                setState(() =>
+                path =
+                '${dir!.path}/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
 
                 await _recorder.start(
                   path: File(path!),
@@ -60,10 +61,11 @@ class _MyAppState extends State<MyApp> {
             ),
             Expanded(
               child: ListView.builder(
-                itemBuilder: (context, index) => ListTile(
-                  title: Text('Item $index'),
-                  subtitle: Text('Random text ${Random().nextInt(1000000000)}'),
-                ),
+                itemBuilder: (context, index) =>
+                    ListTile(
+                      title: Text('Item $index'),
+                      subtitle: Text('Random text ${Random().nextInt(1000000000)}'),
+                    ),
               ),
             ),
           ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:screen_recorder/src/render_screen_player.dart';
@@ -77,6 +79,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             child: FloatingActionButton(
               onPressed: () {
                 _setRecording(value: false);
+                _compressAllAndShowSize();
               },
               child: const Icon(Icons.stop),
             ),
@@ -100,6 +103,18 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
       ),
     );
   }
+}
+
+void _compressAllAndShowSize() {
+  // ignore: deprecated_export_use
+  final builder = BytesBuilder(copy: false);
+  for (final chunk in ScreenRecorder.instance.framePackets) {
+    builder.add(chunk);
+  }
+
+  final nonCompressedData = builder.takeBytes();
+  final compressedData = ZLibEncoder().convert(nonCompressedData);
+  print('compressedData.length=${compressedData.length} nonCompressedData.length=${nonCompressedData.length}');
 }
 
 enum _DisplayMode {

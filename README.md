@@ -8,11 +8,14 @@ Flutter issue: https://github.com/flutter/flutter/issues/129098
 
 | method | resolution | FPS | frame quality | experiment 0 | experiment 1 | experiment 2 | experiment 3 |
 |---|---|---|---|---|---|---|---|
-| vector based + naive 7z | +∞ | 60 | +∞ clear | 0.05MB | 0.12MB | 0.17MB | 0.16MB |
+| vector based | +∞ | 60 | +∞ clear | 0.05MB | 0.12MB | 0.17MB | 0.16MB |
 | bitmap based | 720x360 | 2 (not a typo) | blur when moving | 0.46MB | 0.59MB | 1.01MB | 0.81MB |
 | android built-in | 1280x720 | 30 | clear | 15MB | 31MB | 43MB | 56MB |
 
-Disclaimer: (1) The code is highly experimental and has bugs, so the size may not be accurate or even incorrect. (2) The size strongly depends on how users use the app, so I made several experiments, but it may still not reflect your own app.
+Disclaimer:
+(1) The code is highly experimental and has bugs, so the size may not be accurate or even incorrect.
+(2) The size strongly depends on how users use the app, so I made several experiments, but it may still not reflect your own app.
+(3) For "vector based", I have not written any fancy compression algorithm, e.g. not even write a diff, let alone columnar storage, etc. Only used 7z + naive encoding.
 
 ### Vector-based implementation
 

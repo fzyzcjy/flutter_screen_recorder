@@ -17,7 +17,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
   final _recorder = FastScreenRecorder.instance;
 
   String? path;
-  var scale = 1.0;
+  // var scale = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +26,30 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
       child: Stack(
         children: [
           widget.child,
-          Positioned(
-            right: 64,
-            bottom: 64 * 4,
-            child: FloatingActionButton(
-              onPressed: () => scale *= 1.2,
-              child: const Icon(Icons.add),
-            ),
-          ),
-          Positioned(
-            right: 64,
-            bottom: 64 * 3,
-            child: FloatingActionButton(
-              onPressed: () => scale /= 1.2,
-              child: const Icon(Icons.remove),
-            ),
-          ),
+          // Positioned(
+          //   right: 64,
+          //   bottom: 64 * 4,
+          //   child: FloatingActionButton(
+          //     onPressed: () => scale *= 1.2,
+          //     child: const Icon(Icons.add),
+          //   ),
+          // ),
+          // Positioned(
+          //   right: 64,
+          //   bottom: 64 * 3,
+          //   child: FloatingActionButton(
+          //     onPressed: () => scale /= 1.2,
+          //     child: const Icon(Icons.remove),
+          //   ),
+          // ),
           Positioned(
             right: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
               onPressed: () async {
-                final screenSize = MediaQuery.sizeOf(context);
-                final outputSize = screenSize * scale;
+                // final screenSize = MediaQuery.sizeOf(context);
+                // final outputSize = screenSize * scale;
+                const outputSize = Size(360, 720);
 
                 final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
                 await Directory(dir).create(recursive: true);

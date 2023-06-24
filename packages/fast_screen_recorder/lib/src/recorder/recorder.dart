@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
@@ -7,12 +8,32 @@ class FastScreenRecorder {
 
   FastScreenRecorder._();
 
+  bool get recording => _recording;
+  var _recording = false;
+
+  Timer? _timer;
+
   Future<void> start({
     required File path,
-  }) async =>
-      await NativeRecorder.instance.start(
-        path: path,
-      );
+    int fps = 2,
+  }) async {
+    if (_recording) throw ArgumentError('cannot start since already recording');
+    _recording = true;
 
-  Future<void> stop() async => await NativeRecorder.instance.stop();
+    await NativeRecorder.instance.start(path: path);
+    _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handlePeriodicCall);
+  }
+
+  Future<void> stop() async {
+    if (!_recording) throw ArgumentError('cannot start since already recording');
+    _recording = false;
+
+    await NativeRecorder.instance.stop();
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _handlePeriodicCall(Timer _) {
+    NativeRecorder.instance.capture();
+  }
 }

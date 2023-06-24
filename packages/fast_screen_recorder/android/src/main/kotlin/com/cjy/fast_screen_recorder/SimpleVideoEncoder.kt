@@ -54,7 +54,6 @@ class SimpleVideoEncoder(
         ans
     }
 
-    private val bufferInfo = MediaCodec.BufferInfo()
     private val frameMuxer = muxerConfig.frameMuxer
 
     private var surface: Surface? = null
@@ -89,24 +88,24 @@ class SimpleVideoEncoder(
 
                 val encodedData = codec.getOutputBuffer(index)!!
 
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
                     if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    bufferInfo.size = 0
+                    info.size = 0
                 }
 
-                if (bufferInfo.size != 0) {
+                if (info.size != 0) {
                     if (!frameMuxer.isStarted()) {
                         throw RuntimeException("muxer hasn't started")
                     }
-                    frameMuxer.muxVideoFrame(encodedData, bufferInfo)
-                    if (VERBOSE) Log.i(TAG, "sent " + bufferInfo.size + " bytes to muxer")
+                    frameMuxer.muxVideoFrame(encodedData, info)
+                    if (VERBOSE) Log.i(TAG, "sent " + info.size + " bytes to muxer")
                 }
 
                 mediaCodec.releaseOutputBuffer(index, false)
 
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
                     Log.i(TAG, "drainCodec end of stream reached")
                     actualRelease()
                 }

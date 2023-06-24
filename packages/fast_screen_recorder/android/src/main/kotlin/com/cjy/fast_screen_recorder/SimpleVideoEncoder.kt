@@ -24,9 +24,7 @@ const val TIMEOUT_USEC = 10000
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/FrameBuilder.kt
  */
 class SimpleVideoEncoder(
-    private val context: Context,
     private val muxerConfig: MuxerConfig,
-    @RawRes private val audioTrackResource: Int?
 ) {
     private val mediaFormat: MediaFormat = run {
         val format = MediaFormat.createVideoFormat(

@@ -9,15 +9,26 @@ import android.view.PixelCopy
 
 object NativeScreenRecorder {
     private var bitmap: Bitmap? = null
+    private var encoder: SimpleVideoEncoder? = null
 
     fun start(path: String, outputWidth: Int, outputHeight: Int) {
         check(bitmap == null)
         bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
+
+        encoder = SimpleVideoEncoder(
+            muxerConfig = MuxerConfig(
+
+            ),
+        )
     }
 
     fun stop() {
         bitmap!!.recycle()
         bitmap = null
+
+        encoder!!.releaseVideoCodec()
+        encoder!!.releaseMuxer()
+        encoder = null
     }
 
     fun capture(
@@ -43,6 +54,7 @@ object NativeScreenRecorder {
             return
         }
 
-        TODO()
+        encoder!!.encode(bitmap!!)
+        callback(Result.success(Unit))
     }
 }

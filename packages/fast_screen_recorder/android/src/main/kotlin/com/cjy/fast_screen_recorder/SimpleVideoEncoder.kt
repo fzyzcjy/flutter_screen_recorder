@@ -56,7 +56,6 @@ class SimpleVideoEncoder(
     private val frameMuxer: SimpleFrameMuxer = muxerConfig.frameMuxer
 
     private var surface: Surface? = null
-    private var rect: Rect? = null
 
     fun start() {
         mediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
@@ -74,7 +73,7 @@ class SimpleVideoEncoder(
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             surface?.lockHardwareCanvas()
         } else {
-            surface?.lockCanvas(rect)
+            surface?.lockCanvas(inOutDirty = null)
         }
     }
 

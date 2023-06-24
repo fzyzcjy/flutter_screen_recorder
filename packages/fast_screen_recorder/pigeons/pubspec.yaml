@@ -1,0 +1,13 @@
+name: dummy_package_for_pigeons
+description:
+version: 0.0.1
+homepage:
+publish_to: none
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+
+dev_dependencies:
+  pigeon: ^10.0.0

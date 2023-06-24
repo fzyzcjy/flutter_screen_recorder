@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screen_recorder/src/render_screen_player.dart';
 import 'package:screen_recorder/src/screen_recorder.dart';
 import 'package:screen_recorder/src/touch/touch_listener.dart';
@@ -79,7 +80,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
             child: FloatingActionButton(
               onPressed: () {
                 _setRecording(value: false);
-                _compressAllAndShowSize();
+                _compressionExperiment();
               },
               child: const Icon(Icons.stop),
             ),
@@ -105,7 +106,7 @@ class _ScreenRecorderWidgetState extends State<ScreenRecorderWidget> {
   }
 }
 
-void _compressAllAndShowSize() {
+Future<void> _compressionExperiment() async {
   // ignore: deprecated_export_use
   final builder = BytesBuilder(copy: false);
   for (final chunk in ScreenRecorder.instance.framePackets) {
@@ -115,6 +116,11 @@ void _compressAllAndShowSize() {
   final nonCompressedData = builder.takeBytes();
   final defaultCompressedData = ZLibEncoder().convert(nonCompressedData);
   final zlibHardestCompressedData = ZLibEncoder(level: 9, memLevel: 9).convert(nonCompressedData);
+
+  final path =
+      '${(await getTemporaryDirectory()).path}/NonCompressedBytes_${DateTime.now().toIso8601String().replaceAll(':', '').replaceAll('.', '')}.bin';
+  File(path).writeAsBytes(nonCompressedData);
+
   print('defaultCompressedData=${defaultCompressedData.length} '
       'nonCompressedData=${nonCompressedData.length} '
       'zlibHardestCompressedData=${zlibHardestCompressedData.length}');

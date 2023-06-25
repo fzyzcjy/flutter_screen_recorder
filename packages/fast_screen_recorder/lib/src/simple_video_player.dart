@@ -76,7 +76,7 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
         aspectRatio: aspectRatio,
         autoPlay: false,
         looping: false,
-        showControlsOnInitialize: true,
+        showControlsOnInitialize: false,
         customControls: const MaterialControls(),
       );
     });

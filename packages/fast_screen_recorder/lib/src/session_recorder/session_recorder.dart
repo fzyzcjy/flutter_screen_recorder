@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clock/clock.dart';
+import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:path/path.dart';
 
 class SessionRecorder {
   final Directory directory;
@@ -73,11 +75,18 @@ class SessionRecorder {
     TODO;
   }
 
-  Future<List<File>> getRecords({
+  Stream<File> getRecords({
     required DateTime startTime,
     required DateTime endTime,
-  }) async {
-    TODO;
+  }) {
+    return directory
+        .list() //
+        .where((e) => e is File)
+        .map((e) => e as File)
+        .where((path) {
+      final time = _FileNamer.tryParse(basename(path.path));
+      return time != null && time.isAfter(startTime) && time.isBefore(endTime);
+    });
   }
 }
 

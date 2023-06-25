@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
   synchronized: ^3.0.0
+  path: ^1.8.0
   path_provider: ^2.0.15
   protobuf: ^2.1.0
   video_player: ^2.6.1

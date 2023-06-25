@@ -35,7 +35,7 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
-  var systemPosition = Duration.zero;
+  var flutterTime = Duration.zero;
 
   @override
   void initState() {
@@ -52,9 +52,9 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
     assert(oldWidget.pathVideo == widget.pathVideo && oldWidget.pathMetadata == widget.pathMetadata);
   }
 
-  void _handleVideoPositionChanged(Duration videoPosition) {
+  void _handleVideoPositionChanged(Duration videoTime) {
     setState(() {
-      systemPosition = TimeConverter.videoToSystemTime(videoPosition, metadata);
+      flutterTime = TimeConverter.videoToFlutterTime(videoTime, metadata);
     });
   }
 
@@ -69,7 +69,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
         ),
         InteractionPlayer(
           pack: metadata.interaction,
-          timestamp: systemPosition,
+          timestamp: flutterTime,
         ),
       ],
     );

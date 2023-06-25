@@ -118,7 +118,7 @@ class InteractionPack extends $pb.GeneratedMessage {
 
 class PointerEvent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PointerEvent', createEmptyInstance: create)
-    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestampMicros')
+    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'flutterTimestampMicros')
     ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDx', $pb.PbFieldType.OF)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDy', $pb.PbFieldType.OF)
     ..hasRequiredFields = false
@@ -126,13 +126,13 @@ class PointerEvent extends $pb.GeneratedMessage {
 
   PointerEvent._() : super();
   factory PointerEvent({
-    $fixnum.Int64? timestampMicros,
+    $fixnum.Int64? flutterTimestampMicros,
     $core.double? positionDx,
     $core.double? positionDy,
   }) {
     final _result = create();
-    if (timestampMicros != null) {
-      _result.timestampMicros = timestampMicros;
+    if (flutterTimestampMicros != null) {
+      _result.flutterTimestampMicros = flutterTimestampMicros;
     }
     if (positionDx != null) {
       _result.positionDx = positionDx;
@@ -164,13 +164,13 @@ class PointerEvent extends $pb.GeneratedMessage {
   static PointerEvent? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get timestampMicros => $_getI64(0);
+  $fixnum.Int64 get flutterTimestampMicros => $_getI64(0);
   @$pb.TagNumber(1)
-  set timestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
+  set flutterTimestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTimestampMicros() => $_has(0);
+  $core.bool hasFlutterTimestampMicros() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTimestampMicros() => clearField(1);
+  void clearFlutterTimestampMicros() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.double get positionDx => $_getN(1);
@@ -234,17 +234,17 @@ class VideoMetadataPack extends $pb.GeneratedMessage {
 
 class VideoFrameInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'VideoFrameInfo', createEmptyInstance: create)
-    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestampMicros')
+    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'flutterTimestampMicros')
     ..hasRequiredFields = false
   ;
 
   VideoFrameInfo._() : super();
   factory VideoFrameInfo({
-    $fixnum.Int64? timestampMicros,
+    $fixnum.Int64? flutterTimestampMicros,
   }) {
     final _result = create();
-    if (timestampMicros != null) {
-      _result.timestampMicros = timestampMicros;
+    if (flutterTimestampMicros != null) {
+      _result.flutterTimestampMicros = flutterTimestampMicros;
     }
     return _result;
   }
@@ -270,12 +270,12 @@ class VideoFrameInfo extends $pb.GeneratedMessage {
   static VideoFrameInfo? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get timestampMicros => $_getI64(0);
+  $fixnum.Int64 get flutterTimestampMicros => $_getI64(0);
   @$pb.TagNumber(1)
-  set timestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
+  set flutterTimestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTimestampMicros() => $_has(0);
+  $core.bool hasFlutterTimestampMicros() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTimestampMicros() => clearField(1);
+  void clearFlutterTimestampMicros() => clearField(1);
 }
 

@@ -28,7 +28,7 @@ class InteractionRecorder {
 
   static _postprocessPack(proto.InteractionPack pack) {
     // make it sorted by time, thus easier to use
-    pack.pointerEvents.sortBy<num>((x) => x.timestampMicros.toInt());
+    pack.pointerEvents.sortBy<num>((x) => x.flutterTimestampMicros.toInt());
   }
 }
 
@@ -42,7 +42,7 @@ class InteractionRecorderWidget extends StatelessWidget {
     if (pack == null) return; // not recording
 
     pack.pointerEvents.add(proto.PointerEvent(
-      timestampMicros: Int64(e.timeStamp.inMicroseconds),
+      flutterTimestampMicros: Int64(e.timeStamp.inMicroseconds),
       positionDx: e.position.dx,
       positionDy: e.position.dy,
     ));

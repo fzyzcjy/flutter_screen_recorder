@@ -76,7 +76,7 @@ class FastScreenRecorder {
         if (!recording) return;
 
         _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
-          timestampMicros: TODO,
+          flutterTimestampMicros: TODO,
         ));
 
         await _nativeRecorder.capture();

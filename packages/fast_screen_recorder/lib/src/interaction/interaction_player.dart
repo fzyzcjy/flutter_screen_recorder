@@ -46,7 +46,7 @@ class _InteractionPainter extends CustomPainter {
       final event = pack.pointerEvents[i];
 
       painter.color = Colors.grey
-          .withOpacity(0.5 - 0.5 * (timestamp - event.timestamp).inMicroseconds / backDuration.inMicroseconds);
+          .withOpacity(0.5 - 0.5 * (timestamp - event.flutterTimestamp).inMicroseconds / backDuration.inMicroseconds);
 
       canvas.drawCircle(event.position, 20, painter);
     }
@@ -54,7 +54,7 @@ class _InteractionPainter extends CustomPainter {
 
   int _lowerBoundIndex(Duration deltaTime) {
     return pack.pointerEvents
-        .lowerBoundBy<num>(_createDummyEvent(timestamp + deltaTime), (e) => e.timestampMicros.toInt());
+        .lowerBoundBy<num>(_createDummyEvent(timestamp + deltaTime), (e) => e.flutterTimestampMicros.toInt());
   }
 
   // for simplicity, always shouldRepaint...
@@ -63,4 +63,4 @@ class _InteractionPainter extends CustomPainter {
 }
 
 proto.PointerEvent _createDummyEvent(Duration timestamp) =>
-    proto.PointerEvent(timestampMicros: Int64(timestamp.inMicroseconds));
+    proto.PointerEvent(flutterTimestampMicros: Int64(timestamp.inMicroseconds));

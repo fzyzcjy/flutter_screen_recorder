@@ -1,3 +1,7 @@
+import 'package:file/file.dart';
+import 'package:file/memory.dart';
+import 'package:flutter_test/flutter_test.dart';
+
 void main() {
   const directory = '/hello-folder';
   late MemoryFileSystem fs;
@@ -11,7 +15,7 @@ void main() {
     );
   });
 
-  void _createSeveralFiles() {
+  void createSeveralFiles() {
     fs.file(manager.getPathForTime(DateTime(2000))).writeAsStringSync('a' * 1000);
     fs.file(manager.getPathForTime(DateTime(2001))).writeAsStringSync('b' * 1000);
     fs.file(manager.getPathForTime(DateTime(2002))).writeAsStringSync('c' * 1000);
@@ -19,7 +23,7 @@ void main() {
 
   group('prune', () {
     test('when maxKeepSize big enough, should prune nothing', () async {
-      _createSeveralFiles();
+      createSeveralFiles();
       await manager.prune(maxKeepSize: 3001);
       expect(
         fs.directory(directory).listSync(),
@@ -32,7 +36,7 @@ void main() {
     });
 
     test('when maxKeepSize small enough, should prune everything', () async {
-      _createSeveralFiles();
+      createSeveralFiles();
       await manager.prune(maxKeepSize: 999);
       expect(
         fs.directory(directory).listSync(),
@@ -41,7 +45,7 @@ void main() {
     });
 
     test('when maxKeepSize median, should prune oldest content', () async {
-      _createSeveralFiles();
+      createSeveralFiles();
       await manager.prune(maxKeepSize: 2001);
       expect(
         fs.directory(directory).listSync(),
@@ -56,7 +60,7 @@ void main() {
 
   group('get', () {
     test('when no arg, should get all', () {
-      _createSeveralFiles();
+      createSeveralFiles();
       expect(
         manager.get(),
         [
@@ -68,7 +72,7 @@ void main() {
     });
 
     test('when time at middle of a file, should include that file', () {
-      _createSeveralFiles();
+      createSeveralFiles();
 
       expect(
         manager.get(

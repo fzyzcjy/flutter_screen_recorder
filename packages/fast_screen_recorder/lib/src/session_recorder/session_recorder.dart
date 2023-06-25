@@ -95,7 +95,3 @@ class _RecordingData {
     required this.videoConfig,
   });
 }
-
-extension on String {
-  String? stripSuffix(String suffix) => endsWith(suffix) ? substring(0, length - suffix.length) : null;
-}

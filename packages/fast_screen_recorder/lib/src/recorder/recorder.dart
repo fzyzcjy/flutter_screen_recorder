@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
 import 'package:synchronized/synchronized.dart';
@@ -19,7 +20,7 @@ class FastScreenRecorder {
   final _lock = Lock();
 
   final _nativeRecorder = NativeRecorder.instance;
-  final _interactionRecorder = InteractionRecorder();
+  final _interactionRecorder = InteractionRecorder.instance;
 
   Future<void> start({
     required File path,
@@ -49,7 +50,7 @@ class FastScreenRecorder {
         if (!_recording) throw ArgumentError('cannot start since already recording');
         _recording = false;
 
-        _interactionRecorder.stop();
+        final interactionPack = _interactionRecorder.stop();
 
         await _nativeRecorder.stop();
         _timer?.cancel();

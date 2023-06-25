@@ -6,7 +6,7 @@ message InteractionPack {
 
 message PointerEvent {
   int64 timestamp_micros = 1;
-  float dx = 2;
-  float dy = 3;
+  float position_dx = 2;
+  float position_dy = 3;
   // TODO more
 }

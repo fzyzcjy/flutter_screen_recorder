@@ -54,26 +54,26 @@ class InteractionPack extends $pb.GeneratedMessage {
 class PointerEvent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PointerEvent', createEmptyInstance: create)
     ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestampMicros')
-    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dx', $pb.PbFieldType.OF)
-    ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'dy', $pb.PbFieldType.OF)
+    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDx', $pb.PbFieldType.OF)
+    ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDy', $pb.PbFieldType.OF)
     ..hasRequiredFields = false
   ;
 
   PointerEvent._() : super();
   factory PointerEvent({
     $fixnum.Int64? timestampMicros,
-    $core.double? dx,
-    $core.double? dy,
+    $core.double? positionDx,
+    $core.double? positionDy,
   }) {
     final _result = create();
     if (timestampMicros != null) {
       _result.timestampMicros = timestampMicros;
     }
-    if (dx != null) {
-      _result.dx = dx;
+    if (positionDx != null) {
+      _result.positionDx = positionDx;
     }
-    if (dy != null) {
-      _result.dy = dy;
+    if (positionDy != null) {
+      _result.positionDy = positionDy;
     }
     return _result;
   }
@@ -108,21 +108,21 @@ class PointerEvent extends $pb.GeneratedMessage {
   void clearTimestampMicros() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.double get dx => $_getN(1);
+  $core.double get positionDx => $_getN(1);
   @$pb.TagNumber(2)
-  set dx($core.double v) { $_setFloat(1, v); }
+  set positionDx($core.double v) { $_setFloat(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasDx() => $_has(1);
+  $core.bool hasPositionDx() => $_has(1);
   @$pb.TagNumber(2)
-  void clearDx() => clearField(2);
+  void clearPositionDx() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.double get dy => $_getN(2);
+  $core.double get positionDy => $_getN(2);
   @$pb.TagNumber(3)
-  set dy($core.double v) { $_setFloat(2, v); }
+  set positionDy($core.double v) { $_setFloat(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasDy() => $_has(2);
+  $core.bool hasPositionDy() => $_has(2);
   @$pb.TagNumber(3)
-  void clearDy() => clearField(3);
+  void clearPositionDy() => clearField(3);
 }
 

@@ -23,10 +23,10 @@ const PointerEvent$json = const {
   '1': 'PointerEvent',
   '2': const [
     const {'1': 'timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'timestampMicros'},
-    const {'1': 'dx', '3': 2, '4': 1, '5': 2, '10': 'dx'},
-    const {'1': 'dy', '3': 3, '4': 1, '5': 2, '10': 'dy'},
+    const {'1': 'position_dx', '3': 2, '4': 1, '5': 2, '10': 'positionDx'},
+    const {'1': 'position_dy', '3': 3, '4': 1, '5': 2, '10': 'positionDy'},
   ],
 };
 
 /// Descriptor for `PointerEvent`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSKQoQdGltZXN0YW1wX21pY3JvcxgBIAEoA1IPdGltZXN0YW1wTWljcm9zEg4KAmR4GAIgASgCUgJkeBIOCgJkeRgDIAEoAlICZHk=');
+final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSKQoQdGltZXN0YW1wX21pY3JvcxgBIAEoA1IPdGltZXN0YW1wTWljcm9zEh8KC3Bvc2l0aW9uX2R4GAIgASgCUgpwb3NpdGlvbkR4Eh8KC3Bvc2l0aW9uX2R5GAMgASgCUgpwb3NpdGlvbkR5');

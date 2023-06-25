@@ -19,9 +19,7 @@ class SessionRecorder {
   Future<void> start({
     required Directory directory,
     Size outputSize = const Size(360, 720),
-    int fps = 2,
-    int bitrate = 80 * 1000,
-    int iFrameInterval = 10,
+    VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
         if (recording) throw ArgumentError('cannot start since already recording');
@@ -31,10 +29,7 @@ class SessionRecorder {
         await _recorder.start(
           pathVideo: pathVideo,
           pathMetadata: pathMetadata,
-          outputSize: outputSize,
-          fps: fps,
-          bitrate: bitrate,
-          iFrameInterval: iFrameInterval,
+          videoConfig: videoConfig,
         );
 
         _recordingData = _RecordingData(

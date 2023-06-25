@@ -4,6 +4,7 @@ import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
+import 'package:fast_screen_recorder/src/time_converter.dart';
 import 'package:flutter/material.dart';
 
 class FastScreenPlayerWidget extends StatelessWidget {
@@ -34,6 +35,7 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
+  var systemPosition = Duration.zero;
 
   @override
   void initState() {
@@ -51,7 +53,9 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
   }
 
   void _handleVideoPositionChanged(Duration videoPosition) {
-    TODO;
+    setState(() {
+      systemPosition = TimeConverter.videoToSystemTime(videoPosition, metadata);
+    });
   }
 
   @override
@@ -65,7 +69,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
         ),
         InteractionPlayer(
           pack: metadata.interaction,
-          timestamp: TODO,
+          timestamp: systemPosition,
         ),
       ],
     );

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message RecorderMetadataPack {
+  InteractionPack interaction = 1;
+}
+
+message InteractionPack {
+  repeated PointerEvent pointer_events = 1;
+}
+
+message PointerEvent {
+  int64 timestamp_micros = 1;
+  float position_dx = 2;
+  float position_dy = 3;
+  // TODO more
+}

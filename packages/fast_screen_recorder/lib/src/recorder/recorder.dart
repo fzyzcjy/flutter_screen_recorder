@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
+import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
+import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:synchronized/synchronized.dart';
 
 class FastScreenRecorder {
@@ -11,49 +14,75 @@ class FastScreenRecorder {
 
   FastScreenRecorder._();
 
-  bool get recording => _recording;
-  var _recording = false;
-
-  Timer? _timer;
+  bool get recording => _recordingData != null;
+  _RecordingData? _recordingData;
 
   final _lock = Lock();
 
+  final _nativeRecorder = NativeRecorder.instance;
+  final _interactionRecorder = InteractionRecorder.instance;
+
   Future<void> start({
-    required File path,
+    required String pathVideo,
+    required String pathMetadata,
     required Size outputSize,
     required int fps,
     required int bitrate,
     required int iFrameInterval,
   }) async =>
       await _lock.synchronized(() async {
-        if (_recording) throw ArgumentError('cannot start since already recording');
-        _recording = true;
+        if (recording) throw ArgumentError('cannot start since already recording');
 
-        await NativeRecorder.instance.start(StartRequest(
-          path: path.path,
+        await _nativeRecorder.start(StartRequest(
+          path: pathVideo,
           outputWidth: outputSize.width.round(),
           outputHeight: outputSize.height.round(),
           frameRate: fps.toDouble(),
           bitrate: bitrate,
           iFrameInterval: iFrameInterval,
         ));
-        _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handlePeriodicCall);
+
+        _recordingData = _RecordingData(
+          captureTimer: Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall),
+          pathMetadata: pathMetadata,
+        );
+
+        _interactionRecorder.start();
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
-        if (!_recording) throw ArgumentError('cannot start since already recording');
-        _recording = false;
+        if (!recording) throw ArgumentError('cannot start since already recording');
 
-        await NativeRecorder.instance.stop();
-        _timer?.cancel();
-        _timer = null;
+        final recordingData = _recordingData!;
+        _recordingData = null;
+
+        await _nativeRecorder.stop();
+        recordingData.captureTimer.cancel();
+
+        final interactionPack = _interactionRecorder.stop();
+
+        final metadataPack = proto.RecorderMetadataPack(
+          interaction: interactionPack,
+        );
+
+        await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
       });
 
-  void _handlePeriodicCall(Timer _) async => await _lock.synchronized(() async {
+  void _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
         // this can happen because lock delays execution
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
-        if (!_recording) return;
+        if (!recording) return;
 
-        await NativeRecorder.instance.capture();
+        await _nativeRecorder.capture();
       });
+}
+
+class _RecordingData {
+  final Timer captureTimer;
+  final String pathMetadata;
+
+  const _RecordingData({
+    required this.captureTimer,
+    required this.pathMetadata,
+  });
 }

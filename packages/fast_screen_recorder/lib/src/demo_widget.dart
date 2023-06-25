@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fast_screen_recorder/src/fast_screen_recorder_widget.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,8 +17,6 @@ class FastScreenRecorderDemoWidget extends StatefulWidget {
 class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWidget> {
   final _recorder = FastScreenRecorder.instance;
 
-  String? path;
-
   // var scale = 1.0;
 
   @override
@@ -26,7 +25,9 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          widget.child,
+          FastScreenRecorderWidget(
+            child: widget.child,
+          ),
           // Positioned(
           //   left: 64,
           //   bottom: 64 * 4,
@@ -54,13 +55,15 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
 
                 final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
                 await Directory(dir).create(recursive: true);
-                setState(() =>
-                    path = '$dir/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}.mp4');
+                final stem = '$dir/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}';
+                final pathVideo = '$stem.mp4';
+                final pathMetadata = '$stem.meta';
 
-                print('record to path=$path outputSize=$outputSize');
+                print('record to pathVideo=$pathVideo outputSize=$outputSize');
 
                 await _recorder.start(
-                  path: File(path!),
+                  pathVideo: pathVideo,
+                  pathMetadata: pathMetadata,
                   outputSize: outputSize,
                   fps: 2,
                   bitrate: 80 * 1000,

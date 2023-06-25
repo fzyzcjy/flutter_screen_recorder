@@ -30,11 +30,11 @@ class SessionRecorder {
         await _recorder.start(
           pathVideo: pathVideo,
           pathMetadata: pathMetadata,
-          sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
           videoConfig: videoConfig,
         );
 
         _recordingData = _RecordingData(
+          sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
           directory: directory,
           videoConfig: videoConfig,
         );
@@ -52,9 +52,14 @@ class SessionRecorder {
         await _recorder.stop();
       });
 
-  void _handleSectionize(Timer _) {
-    TODO;
-  }
+  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
+        await _recorder.stop();
+        await _recorder.start(
+          pathVideo: pathVideo,
+          pathMetadata: pathMetadata,
+          videoConfig: _recordingData!.videoConfig,
+        );
+      });
 
   Future<List<File>> getRecords({
     required DateTime startTime,

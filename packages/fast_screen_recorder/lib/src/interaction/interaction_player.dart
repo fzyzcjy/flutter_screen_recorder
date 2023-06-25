@@ -38,9 +38,9 @@ class _InteractionPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const backDuration = Duration(milliseconds: 100);
     final startIndex = _lowerBoundIndex(-backDuration).clamp(0, pack.pointerEvents.length - 1);
-    final endIndex = _lowerBoundIndex(Duration.zero).clamp(0, pack.pointerEvents.length - 1);
-    // print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
-    //     'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');
+    final endIndex = _lowerBoundIndex(Duration.zero).clamp(0, pack.pointerEvents.length);
+    print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
+        'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');
 
     final painter = Paint()..style = PaintingStyle.fill;
 
@@ -61,6 +61,7 @@ class _InteractionPainter extends CustomPainter {
   }
 
   int _lowerBoundIndex(Duration deltaTime) {
+    assert(pack.pointerEvents.isSortedBy<num>((e) => e.wallclockTimestampMicros.toInt()));
     return pack.pointerEvents.lowerBoundBy<num>(
         _createDummyEvent(wallclockTimestamp + deltaTime), (e) => e.wallclockTimestampMicros.toInt());
   }

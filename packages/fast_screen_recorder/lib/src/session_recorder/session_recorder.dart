@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
+import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:synchronized/synchronized.dart';
@@ -37,7 +37,8 @@ class SessionRecorder {
         await _startInnerRecorder();
       });
 
-  Future<void> stop() async => await _lock.synchronized(() async {
+  Future<void> stop() async =>
+      await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -47,14 +48,15 @@ class SessionRecorder {
         await _stopInnerRecorder();
       });
 
-  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
+  Future<void> _handleSectionize(Timer _) async =>
+      await _lock.synchronized(() async {
         await _stopInnerRecorder();
         await _startInnerRecorder();
       });
 
   Future<void> _startInnerRecorder() async {
     await _recorder.start(
-      path: TODO,
+      path: _FileNamer.create(clock.now()),
       videoConfig: _recordingData!.videoConfig,
     );
   }

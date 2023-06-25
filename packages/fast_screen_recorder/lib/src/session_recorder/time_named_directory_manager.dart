@@ -1,7 +1,10 @@
 class TimeNamedDirectoryManager {
+  final FileSystem fileSystem;
+
   final _FileNamer _fileNamer;
 
   TimeNamedDirectoryManager({
+    this.fileSystem = const LocalFileSystem(),
     required String extension,
   }) : _fileNamer = _FileNamer(suffix: '.$extension');
 

@@ -72,7 +72,6 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
               onPressed: () async {
                 // final screenSize = MediaQuery.sizeOf(context);
                 // final outputSize = screenSize * scale;
-                const outputSize = Size(360, 720);
 
                 final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
                 await Directory(dir).create(recursive: true);
@@ -80,15 +79,11 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
                 lastPathVideo = '$stem.mp4';
                 lastPathMetadata = '$stem.meta';
 
-                print('record to pathVideo=$lastPathVideo outputSize=$outputSize');
+                print('record to pathVideo=$lastPathVideo');
 
                 await _recorder.start(
                   pathVideo: lastPathVideo!,
                   pathMetadata: lastPathMetadata!,
-                  outputSize: outputSize,
-                  fps: 2,
-                  bitrate: 80 * 1000,
-                  iFrameInterval: 10,
                 );
               },
               child: const Icon(Icons.fiber_manual_record_outlined),

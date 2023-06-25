@@ -27,29 +27,26 @@ class FastScreenRecorder {
   Future<void> start({
     required String pathVideo,
     required String pathMetadata,
-    required Size outputSize,
-    required int fps,
-    required int bitrate,
-    required int iFrameInterval,
+    VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
         if (recording) throw ArgumentError('cannot start since already recording');
 
         await _nativeRecorder.start(StartRequest(
           path: pathVideo,
-          outputWidth: outputSize.width.round(),
-          outputHeight: outputSize.height.round(),
-          frameRate: fps.toDouble(),
-          bitrate: bitrate,
-          iFrameInterval: iFrameInterval,
+          outputWidth: videoConfig.outputSize.width.round(),
+          outputHeight: videoConfig.outputSize.height.round(),
+          frameRate: videoConfig.fps.toDouble(),
+          bitrate: videoConfig.bitrate,
+          iFrameInterval: videoConfig.iFrameInterval,
         ));
 
         _recordingData = _RecordingData(
-          captureTimer: Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall),
+          captureTimer: Timer.periodic(Duration(milliseconds: 1000 ~/ videoConfig.fps), _handleCaptureCall),
           videoMetadataPack: proto.VideoMetadataPack(),
           // static info
           pathMetadata: pathMetadata,
-          fps: fps,
+          fps: videoConfig.fps,
         );
 
         _interactionRecorder.start();
@@ -61,8 +58,8 @@ class FastScreenRecorder {
         final recordingData = _recordingData!;
         _recordingData = null;
 
-        await _nativeRecorder.stop();
         recordingData.captureTimer.cancel();
+        await _nativeRecorder.stop();
 
         final interactionPack = _interactionRecorder.stop();
 
@@ -103,5 +100,19 @@ class _RecordingData {
     required this.pathMetadata,
     required this.videoMetadataPack,
     required this.fps,
+  });
+}
+
+class VideoConfig {
+  final Size outputSize;
+  final int fps;
+  final int bitrate;
+  final int iFrameInterval;
+
+  const VideoConfig({
+    this.outputSize = const Size(360, 720),
+    this.fps = 2,
+    this.bitrate = 80 * 1000,
+    this.iFrameInterval = 10,
   });
 }

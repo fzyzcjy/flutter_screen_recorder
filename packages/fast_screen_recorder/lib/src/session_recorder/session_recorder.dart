@@ -34,12 +34,14 @@ class SessionRecorder {
 
         _recordingData = _RecordingData(
           directory: directory,
+          videoConfig: videoConfig,
         );
 
         TODO_auto_stop_start;
       });
 
-  Future<void> stop() async => await _lock.synchronized(() async {
+  Future<void> stop() async =>
+      await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         _recordingData = null;
@@ -57,8 +59,10 @@ class SessionRecorder {
 
 class _RecordingData {
   final Directory directory;
+  final VideoConfig videoConfig;
 
   _RecordingData({
     required this.directory,
+    required this.videoConfig,
   });
 }

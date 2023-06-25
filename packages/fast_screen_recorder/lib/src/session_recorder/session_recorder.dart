@@ -39,7 +39,7 @@ class SessionRecorder {
 
         await _startInnerRecorder();
 
-        await _cleanupOldContent();
+        await _prune();
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
@@ -51,14 +51,14 @@ class SessionRecorder {
         recordingData.sectionizeTimer.cancel();
         await _stopInnerRecorder();
 
-        await _cleanupOldContent();
+        await _prune();
       });
 
   Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
         await _stopInnerRecorder();
         await _startInnerRecorder();
 
-        await _cleanupOldContent();
+        await _prune();
       });
 
   Future<void> _startInnerRecorder() async {
@@ -72,7 +72,7 @@ class SessionRecorder {
     await _recorder.stop();
   }
 
-  Future<void> _cleanupOldContent() async {
+  Future<void> _prune() async {
     TODO;
   }
 

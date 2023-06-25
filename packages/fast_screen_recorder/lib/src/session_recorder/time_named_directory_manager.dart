@@ -1,18 +1,25 @@
 class TimeNamedDirectoryManager {
   final FileSystem fileSystem;
+  final String directory;
 
   final _FileNamer _fileNamer;
 
   TimeNamedDirectoryManager({
     this.fileSystem = const LocalFileSystem(),
+    required this.directory,
     required String extension,
   }) : _fileNamer = _FileNamer(suffix: '.$extension');
+
+  String getPathForTime(DateTime time) => TODO;
 
   Future<void> prune({
     required int maxKeepSize,
   }) async {
     final rawFileNames = (await getRecords().toList()).map((e) => basename(e.path)).toList();
-    final sortedFileNames = rawFileNames.sortedBy<num>((e) => -(_FileNamer.tryParse(e)?.microsecondsSinceEpoch ?? 0));
+    final sortedFileNames = rawFileNames.sortedBy<num>((e) =>
+    -(_FileNamer
+        .tryParse(e)
+        ?.microsecondsSinceEpoch ?? 0));
 
     var cumSize = 0;
     for (final filename in sortedFileNames) {

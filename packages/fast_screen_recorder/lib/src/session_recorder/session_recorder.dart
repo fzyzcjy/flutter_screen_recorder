@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clock/clock.dart';
+import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:path/path.dart';
@@ -73,20 +74,29 @@ class SessionRecorder {
   }
 
   Future<void> _prune() async {
-    TODO;
+    final rawFileNames = (await getRecords().toList()).map((e) => basename(e.path)).toList();
+    final sortedFileNames = rawFileNames.sortedBy<num>((e) => -(_FileNamer.tryParse(e)?.microsecondsSinceEpoch ?? 0));
+
+    var cumSize = 0;
+    for (final filename in sortedFileNames) {
+      final file = File('$directory/$filename');
+      cumSize += await file.length();
+      if (cumSize >= maxKeepSize) {
+        await file.delete();
+      }
+    }
   }
 
-  Stream<File> getRecords({
-    required DateTime startTime,
-    required DateTime endTime,
-  }) {
+  Stream<File> getRecords({DateTime? startTime, DateTime? endTime}) {
     return directory
         .list() //
         .where((e) => e is File)
         .map((e) => e as File)
         .where((path) {
       final time = _FileNamer.tryParse(basename(path.path));
-      return time != null && time.isAfter(startTime) && time.isBefore(endTime);
+      return time != null &&
+          (startTime == null || time.isAfter(startTime)) &&
+          (endTime == null || time.isBefore(endTime));
     });
   }
 }

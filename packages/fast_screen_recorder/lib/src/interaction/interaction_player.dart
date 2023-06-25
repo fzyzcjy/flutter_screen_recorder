@@ -36,8 +36,8 @@ class _InteractionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const backDuration = Duration(milliseconds: -1000);
-    final startIndex = _lowerBoundIndex(backDuration).clamp(0, pack.pointerEvents.length - 1);
+    const backDuration = Duration(milliseconds: 1000);
+    final startIndex = _lowerBoundIndex(-backDuration).clamp(0, pack.pointerEvents.length - 1);
     final endIndex = _lowerBoundIndex(const Duration(milliseconds: 1)).clamp(0, pack.pointerEvents.length - 1);
     // print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
     //     'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');

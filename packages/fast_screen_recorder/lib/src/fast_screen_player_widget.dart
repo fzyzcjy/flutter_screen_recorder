@@ -7,6 +7,7 @@ import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
 import 'package:fast_screen_recorder/src/time_converter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:video_player/video_player.dart';
 
 class FastScreenPlayerWidget extends StatelessWidget {
@@ -121,11 +122,38 @@ class _TimeInterpolationWidget extends StatefulWidget {
   State<_TimeInterpolationWidget> createState() => _TimeInterpolationWidgetState();
 }
 
-class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> {
+class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(_handleTick);
+    _updateTickerState();
+  }
+
+  @override
+  void didUpdateWidget(covariant _TimeInterpolationWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _updateTickerState();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
+  void _updateTickerState() {
+    if (widget.playing && !_ticker.isActive) _ticker.start();
+    if (!widget.playing && _ticker.isActive) _ticker.stop();
+  }
+
+  void _handleTick(Duration _) => setState(() {});
+
   @override
   Widget build(BuildContext context) {
-    TODO_refresh;
-
     return widget.builder(
       context,
       widget.time.recordWallclockTime +

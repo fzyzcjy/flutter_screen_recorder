@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,18 @@ class InteractionRecorder {
 
   proto.InteractionPack stop() {
     assert(_pack != null);
-    final ans = _pack;
+
+    final ans = _pack!;
     _pack = null;
-    return ans!;
+
+    _postprocessPack(ans);
+
+    return ans;
+  }
+
+  static _postprocessPack(proto.InteractionPack pack) {
+    // make it sorted by time, thus easier to use
+    pack.pointerEvents.sortBy<num>((x) => x.timestampMicros.toInt());
   }
 }
 

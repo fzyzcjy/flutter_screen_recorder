@@ -20,7 +20,7 @@ class SessionRecorder {
 
   Future<void> start({
     required Directory directory,
-    Duration sectionDuration = const Duration(seconds: 30),
+    Duration sectionDuration = const Duration(seconds: 60),
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
@@ -28,37 +28,40 @@ class SessionRecorder {
 
         if (!await directory.exists()) throw ArgumentError('Please ensure directory=$directory exists');
 
-        await _recorder.start(
-          path: TODO,
-          videoConfig: videoConfig,
-        );
-
         _recordingData = _RecordingData(
           sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
           directory: directory,
           videoConfig: videoConfig,
         );
+
+        await _startInnerRecorder();
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
         _recordingData = null;
 
         recordingData.sectionizeTimer.cancel();
-        await _recorder.stop();
+        await _stopInnerRecorder();
       });
 
-  Future<void> _handleSectionize(Timer _) async =>
-      await _lock.synchronized(() async {
-        await _recorder.stop();
-        await _recorder.start(
-          path: TODO,
-          videoConfig: _recordingData!.videoConfig,
-        );
+  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
+        await _stopInnerRecorder();
+        await _startInnerRecorder();
       });
+
+  Future<void> _startInnerRecorder() async {
+    await _recorder.start(
+      path: TODO,
+      videoConfig: _recordingData!.videoConfig,
+    );
+  }
+
+  Future<void> _stopInnerRecorder() async {
+    await _recorder.stop();
+  }
 
   Future<List<File>> getRecords({
     required DateTime startTime,

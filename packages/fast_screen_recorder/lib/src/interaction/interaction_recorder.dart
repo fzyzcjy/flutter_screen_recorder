@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fixnum/fixnum.dart';
@@ -43,6 +44,7 @@ class InteractionRecorderWidget extends StatelessWidget {
 
     pack.pointerEvents.add(proto.PointerEvent(
       flutterTimestampMicros: Int64(e.timeStamp.inMicroseconds),
+      wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
       positionDx: e.position.dx,
       positionDy: e.position.dy,
     ));

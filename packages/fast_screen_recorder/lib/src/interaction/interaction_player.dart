@@ -39,9 +39,10 @@ class _InteractionPainter extends CustomPainter {
     const backDuration = Duration(milliseconds: -1000);
     final startIndex = _lowerBoundIndex(backDuration).clamp(0, pack.pointerEvents.length - 1);
     final endIndex = _lowerBoundIndex(const Duration(milliseconds: 1)).clamp(0, pack.pointerEvents.length - 1);
+    // print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
+    //     'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');
 
-    final painter = Paint()
-      ..style = PaintingStyle.fill;
+    final painter = Paint()..style = PaintingStyle.fill;
 
     for (var i = startIndex; i <= endIndex; ++i) {
       final event = pack.pointerEvents[i];
@@ -55,8 +56,8 @@ class _InteractionPainter extends CustomPainter {
   }
 
   int _lowerBoundIndex(Duration deltaTime) {
-    return pack.pointerEvents
-        .lowerBoundBy<num>(_createDummyEvent(wallclockTimestamp + deltaTime), (e) => e.flutterTimestampMicros.toInt());
+    return pack.pointerEvents.lowerBoundBy<num>(
+        _createDummyEvent(wallclockTimestamp + deltaTime), (e) => e.wallclockTimestampMicros.toInt());
   }
 
   // for simplicity, always shouldRepaint...
@@ -65,4 +66,4 @@ class _InteractionPainter extends CustomPainter {
 }
 
 proto.PointerEvent _createDummyEvent(Duration wallclockTimestamp) =>
-    proto.PointerEvent(flutterTimestampMicros: Int64(wallclockTimestamp.inMicroseconds));
+    proto.PointerEvent(wallclockTimestampMicros: Int64(wallclockTimestamp.inMicroseconds));

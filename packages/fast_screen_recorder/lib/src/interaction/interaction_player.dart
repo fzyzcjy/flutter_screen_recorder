@@ -37,8 +37,8 @@ class _InteractionPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const backDuration = Duration(milliseconds: -1000);
-    final startIndex = 1 + _lowerBoundIndex(backDuration);
-    final endIndex = 1 + _lowerBoundIndex(const Duration(milliseconds: 1));
+    final startIndex = _lowerBoundIndex(backDuration);
+    final endIndex = _lowerBoundIndex(const Duration(milliseconds: 1));
 
     final painter = Paint()..style = PaintingStyle.fill;
 

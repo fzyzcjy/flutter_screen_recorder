@@ -72,10 +72,10 @@ class VideoAndMetadataPacker {
     final videoBytes = await File(inputPathVideo).readAsBytes();
 
     // ignore: deprecated_export_use
-    final builder = BytesBuilder(copy: false);
-    builder.add((ByteData(8)..setInt64(0, metadataBytes.length)).buffer.asUint8List());
-    builder.add(metadataBytes);
-    builder.add(videoBytes);
+    final builder = BytesBuilder(copy: false)
+      ..add((ByteData(8)..setInt64(0, metadataBytes.length)).buffer.asUint8List())
+      ..add(metadataBytes)
+      ..add(videoBytes);
 
     await File(outputPathPack).writeAsBytes(builder.takeBytes());
   }

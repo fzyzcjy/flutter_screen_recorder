@@ -15,7 +15,7 @@ class FastScreenRecorder {
   bool get recording => _recording;
   var _recording = false;
 
-  Timer? _timer;
+  Timer? _captureTimer;
 
   final _lock = Lock();
 
@@ -41,7 +41,7 @@ class FastScreenRecorder {
           bitrate: bitrate,
           iFrameInterval: iFrameInterval,
         ));
-        _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall);
+        _captureTimer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall);
 
         _interactionRecorder.start();
       });
@@ -53,8 +53,8 @@ class FastScreenRecorder {
         final interactionPack = _interactionRecorder.stop();
 
         await _nativeRecorder.stop();
-        _timer?.cancel();
-        _timer = null;
+        _captureTimer?.cancel();
+        _captureTimer = null;
       });
 
   void _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {

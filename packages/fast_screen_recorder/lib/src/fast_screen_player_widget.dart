@@ -60,18 +60,20 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SimpleVideoPlayer(
-          key: ValueKey(widget.pathVideo),
-          pathVideo: widget.pathVideo,
-          onPositionChanged: _handleVideoPositionChanged,
-        ),
-        InteractionPlayer(
-          pack: metadata.interaction,
-          wallclockTimestamp: wallclockTime,
-        ),
-      ],
+    return Material(
+      child: Stack(
+        children: [
+          SimpleVideoPlayer(
+            key: ValueKey(widget.pathVideo),
+            pathVideo: widget.pathVideo,
+            onPositionChanged: _handleVideoPositionChanged,
+          ),
+          InteractionPlayer(
+            pack: metadata.interaction,
+            wallclockTimestamp: wallclockTime,
+          ),
+        ],
+      ),
     );
   }
 }

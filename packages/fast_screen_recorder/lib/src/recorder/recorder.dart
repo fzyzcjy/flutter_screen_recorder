@@ -18,6 +18,9 @@ class FastScreenRecorder {
 
   final _lock = Lock();
 
+  final _nativeRecorder = NativeRecorder.instance;
+  final _interactionRecorder = InteractionRecorder();
+
   Future<void> start({
     required File path,
     required Size outputSize,
@@ -29,7 +32,7 @@ class FastScreenRecorder {
         if (_recording) throw ArgumentError('cannot start since already recording');
         _recording = true;
 
-        await NativeRecorder.instance.start(StartRequest(
+        await _nativeRecorder.start(StartRequest(
           path: path.path,
           outputWidth: outputSize.width.round(),
           outputHeight: outputSize.height.round(),
@@ -37,23 +40,27 @@ class FastScreenRecorder {
           bitrate: bitrate,
           iFrameInterval: iFrameInterval,
         ));
-        _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handlePeriodicCall);
+        _timer = Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall);
+
+        _interactionRecorder.start();
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
         if (!_recording) throw ArgumentError('cannot start since already recording');
         _recording = false;
 
-        await NativeRecorder.instance.stop();
+        _interactionRecorder.stop();
+
+        await _nativeRecorder.stop();
         _timer?.cancel();
         _timer = null;
       });
 
-  void _handlePeriodicCall(Timer _) async => await _lock.synchronized(() async {
+  void _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
         // this can happen because lock delays execution
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
         if (!_recording) return;
 
-        await NativeRecorder.instance.capture();
+        await _nativeRecorder.capture();
       });
 }

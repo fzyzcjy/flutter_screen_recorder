@@ -35,10 +35,11 @@ class SessionRecorder {
         );
 
         await _startInnerRecorder();
+
+        await _cleanupOldContent();
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -46,12 +47,15 @@ class SessionRecorder {
 
         recordingData.sectionizeTimer.cancel();
         await _stopInnerRecorder();
+
+        await _cleanupOldContent();
       });
 
-  Future<void> _handleSectionize(Timer _) async =>
-      await _lock.synchronized(() async {
+  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
         await _stopInnerRecorder();
         await _startInnerRecorder();
+
+        await _cleanupOldContent();
       });
 
   Future<void> _startInnerRecorder() async {
@@ -63,6 +67,10 @@ class SessionRecorder {
 
   Future<void> _stopInnerRecorder() async {
     await _recorder.stop();
+  }
+
+  Future<void> _cleanupOldContent() async {
+    TODO;
   }
 
   Future<List<File>> getRecords({

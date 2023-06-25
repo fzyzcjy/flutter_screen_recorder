@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
 import 'package:fast_screen_recorder/src/time_converter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:video_player/video_player.dart';
 
 class FastScreenPlayerWidget extends StatelessWidget {
   final String pathVideo;
@@ -35,7 +38,9 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
-  var wallclockTime = Duration.zero;
+
+  var time = _RecordAndReplayWallclockTime.dummy();
+  var playing = false;
 
   @override
   void initState() {
@@ -52,26 +57,107 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
     assert(oldWidget.pathVideo == widget.pathVideo && oldWidget.pathMetadata == widget.pathMetadata);
   }
 
-  void _handleVideoPositionChanged(Duration videoTime) {
+  void _handleVideoPlayerEvent(VideoPlayerValue e) {
     setState(() {
-      wallclockTime = TimeConverter.videoToWallclockTime(videoTime, metadata);
+      time = _RecordAndReplayWallclockTime(
+        recordWallclockTime: TimeConverter.videoToWallclockTime(e.position, metadata),
+        replayWallclockTime: clock.now(),
+      );
+      playing = e.isPlaying;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SimpleVideoPlayer(
-          key: ValueKey(widget.pathVideo),
-          pathVideo: widget.pathVideo,
-          onPositionChanged: _handleVideoPositionChanged,
-        ),
-        InteractionPlayer(
-          pack: metadata.interaction,
-          wallclockTimestamp: wallclockTime,
-        ),
-      ],
+    return Material(
+      child: Stack(
+        children: [
+          SimpleVideoPlayer(
+            key: ValueKey(widget.pathVideo),
+            pathVideo: widget.pathVideo,
+            onVideoPlayerEvent: _handleVideoPlayerEvent,
+          ),
+          _TimeInterpolationWidget(
+            time: time,
+            playing: playing,
+            builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
+              pack: metadata.interaction,
+              wallclockTimestamp: interpolatedWallclockTimestamp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _RecordAndReplayWallclockTime {
+  final Duration recordWallclockTime;
+  final DateTime replayWallclockTime;
+
+  const _RecordAndReplayWallclockTime({
+    required this.recordWallclockTime,
+    required this.replayWallclockTime,
+  });
+
+  factory _RecordAndReplayWallclockTime.dummy() => _RecordAndReplayWallclockTime(
+        recordWallclockTime: Duration.zero,
+        replayWallclockTime: clock.now(),
+      );
+}
+
+class _TimeInterpolationWidget extends StatefulWidget {
+  final _RecordAndReplayWallclockTime time;
+  final bool playing;
+
+  final Widget Function(BuildContext, Duration) builder;
+
+  const _TimeInterpolationWidget({
+    required this.time,
+    required this.playing,
+    required this.builder,
+  });
+
+  @override
+  State<_TimeInterpolationWidget> createState() => _TimeInterpolationWidgetState();
+}
+
+class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = createTicker(_handleTick);
+    _updateTickerState();
+  }
+
+  @override
+  void didUpdateWidget(covariant _TimeInterpolationWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _updateTickerState();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
+  void _updateTickerState() {
+    if (widget.playing && !_ticker.isActive) _ticker.start();
+    if (!widget.playing && _ticker.isActive) _ticker.stop();
+  }
+
+  void _handleTick(Duration _) => setState(() {});
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(
+      context,
+      widget.time.recordWallclockTime +
+          (widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
     );
   }
 }

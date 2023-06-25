@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,12 @@ import 'package:video_player/video_player.dart';
 
 class SimpleVideoPlayer extends StatefulWidget {
   final String pathVideo;
-  final void Function(Duration) onPositionChanged;
+  final void Function(VideoPlayerValue) onVideoPlayerEvent;
 
   const SimpleVideoPlayer({
     super.key,
     required this.pathVideo,
-    required this.onPositionChanged,
+    required this.onVideoPlayerEvent,
   });
 
   @override
@@ -77,14 +76,14 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
         aspectRatio: aspectRatio,
         autoPlay: false,
         looping: false,
-        showControlsOnInitialize: true,
+        showControlsOnInitialize: false,
         customControls: const MaterialControls(),
       );
     });
   }
 
   void _handleVideoPlayerEvent() {
-    widget.onPositionChanged(_videoPlayerController!.value.position);
+    widget.onVideoPlayerEvent(_videoPlayerController!.value);
   }
 
   static const kPlaceholderHeight = 200.0;
@@ -120,17 +119,8 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
       );
     }
 
-    return ColoredBox(
-      color: Theme.of(context).colorScheme.onBackground,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: AspectRatio(
-          aspectRatio: max(videoPlayerController.value.aspectRatio, 1 / 1),
-          child: Chewie(
-            controller: _chewieController!,
-          ),
-        ),
-      ),
+    return Chewie(
+      controller: _chewieController!,
     );
   }
 

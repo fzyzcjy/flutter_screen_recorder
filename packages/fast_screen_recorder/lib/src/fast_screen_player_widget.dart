@@ -76,9 +76,13 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
             pathVideo: widget.pathVideo,
             onVideoPlayerEvent: _handleVideoPlayerEvent,
           ),
-          InteractionPlayer(
-            pack: metadata.interaction,
-            wallclockTimestamp: time.recordWallclockTime,
+          _TimeInterpolationWidget(
+            time: time,
+            playing: playing,
+            builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
+              pack: metadata.interaction,
+              wallclockTimestamp: interpolatedWallclockTimestamp,
+            ),
           ),
         ],
       ),
@@ -99,4 +103,27 @@ class _RecordAndReplayWallclockTime {
     recordWallclockTime: Duration.zero,
     replayWallclockTime: Duration.zero,
   );
+}
+
+class _TimeInterpolationWidget extends StatefulWidget {
+  final _RecordAndReplayWallclockTime time;
+  final bool playing;
+
+  final Widget Function(BuildContext, Duration) builder;
+
+  const _TimeInterpolationWidget({
+    required this.time,
+    required this.playing,
+    required this.builder,
+  });
+
+  @override
+  State<_TimeInterpolationWidget> createState() => _TimeInterpolationWidgetState();
+}
+
+class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(context, widget.playing ? TODO : widget.time.recordWallclockTime);
+  }
 }

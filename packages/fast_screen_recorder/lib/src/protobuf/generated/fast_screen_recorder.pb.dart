@@ -13,16 +13,21 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class RecorderMetadataPack extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RecorderMetadataPack', createEmptyInstance: create)
     ..aOM<InteractionPack>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'interaction', subBuilder: InteractionPack.create)
+    ..aOM<VideoMetadataPack>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'video', subBuilder: VideoMetadataPack.create)
     ..hasRequiredFields = false
   ;
 
   RecorderMetadataPack._() : super();
   factory RecorderMetadataPack({
     InteractionPack? interaction,
+    VideoMetadataPack? video,
   }) {
     final _result = create();
     if (interaction != null) {
       _result.interaction = interaction;
+    }
+    if (video != null) {
+      _result.video = video;
     }
     return _result;
   }
@@ -57,6 +62,17 @@ class RecorderMetadataPack extends $pb.GeneratedMessage {
   void clearInteraction() => clearField(1);
   @$pb.TagNumber(1)
   InteractionPack ensureInteraction() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  VideoMetadataPack get video => $_getN(1);
+  @$pb.TagNumber(2)
+  set video(VideoMetadataPack v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVideo() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVideo() => clearField(2);
+  @$pb.TagNumber(2)
+  VideoMetadataPack ensureVideo() => $_ensure(1);
 }
 
 class InteractionPack extends $pb.GeneratedMessage {
@@ -102,27 +118,32 @@ class InteractionPack extends $pb.GeneratedMessage {
 
 class PointerEvent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PointerEvent', createEmptyInstance: create)
-    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestampMicros')
+    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'flutterTimestampMicros')
     ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDx', $pb.PbFieldType.OF)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDy', $pb.PbFieldType.OF)
+    ..aInt64(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wallclockTimestampMicros')
     ..hasRequiredFields = false
   ;
 
   PointerEvent._() : super();
   factory PointerEvent({
-    $fixnum.Int64? timestampMicros,
+    $fixnum.Int64? flutterTimestampMicros,
     $core.double? positionDx,
     $core.double? positionDy,
+    $fixnum.Int64? wallclockTimestampMicros,
   }) {
     final _result = create();
-    if (timestampMicros != null) {
-      _result.timestampMicros = timestampMicros;
+    if (flutterTimestampMicros != null) {
+      _result.flutterTimestampMicros = flutterTimestampMicros;
     }
     if (positionDx != null) {
       _result.positionDx = positionDx;
     }
     if (positionDy != null) {
       _result.positionDy = positionDy;
+    }
+    if (wallclockTimestampMicros != null) {
+      _result.wallclockTimestampMicros = wallclockTimestampMicros;
     }
     return _result;
   }
@@ -148,13 +169,13 @@ class PointerEvent extends $pb.GeneratedMessage {
   static PointerEvent? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get timestampMicros => $_getI64(0);
+  $fixnum.Int64 get flutterTimestampMicros => $_getI64(0);
   @$pb.TagNumber(1)
-  set timestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
+  set flutterTimestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTimestampMicros() => $_has(0);
+  $core.bool hasFlutterTimestampMicros() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTimestampMicros() => clearField(1);
+  void clearFlutterTimestampMicros() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.double get positionDx => $_getN(1);
@@ -173,5 +194,116 @@ class PointerEvent extends $pb.GeneratedMessage {
   $core.bool hasPositionDy() => $_has(2);
   @$pb.TagNumber(3)
   void clearPositionDy() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get wallclockTimestampMicros => $_getI64(3);
+  @$pb.TagNumber(4)
+  set wallclockTimestampMicros($fixnum.Int64 v) { $_setInt64(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasWallclockTimestampMicros() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearWallclockTimestampMicros() => clearField(4);
+}
+
+class VideoMetadataPack extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'VideoMetadataPack', createEmptyInstance: create)
+    ..pc<VideoFrameInfo>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'frameInfos', $pb.PbFieldType.PM, subBuilder: VideoFrameInfo.create)
+    ..hasRequiredFields = false
+  ;
+
+  VideoMetadataPack._() : super();
+  factory VideoMetadataPack({
+    $core.Iterable<VideoFrameInfo>? frameInfos,
+  }) {
+    final _result = create();
+    if (frameInfos != null) {
+      _result.frameInfos.addAll(frameInfos);
+    }
+    return _result;
+  }
+  factory VideoMetadataPack.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VideoMetadataPack.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  VideoMetadataPack clone() => VideoMetadataPack()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  VideoMetadataPack copyWith(void Function(VideoMetadataPack) updates) => super.copyWith((message) => updates(message as VideoMetadataPack)) as VideoMetadataPack; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VideoMetadataPack create() => VideoMetadataPack._();
+  VideoMetadataPack createEmptyInstance() => create();
+  static $pb.PbList<VideoMetadataPack> createRepeated() => $pb.PbList<VideoMetadataPack>();
+  @$core.pragma('dart2js:noInline')
+  static VideoMetadataPack getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VideoMetadataPack>(create);
+  static VideoMetadataPack? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<VideoFrameInfo> get frameInfos => $_getList(0);
+}
+
+class VideoFrameInfo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'VideoFrameInfo', createEmptyInstance: create)
+    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wallclockTimestampMicros')
+    ..aInt64(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'videoTimestampMicros')
+    ..hasRequiredFields = false
+  ;
+
+  VideoFrameInfo._() : super();
+  factory VideoFrameInfo({
+    $fixnum.Int64? wallclockTimestampMicros,
+    $fixnum.Int64? videoTimestampMicros,
+  }) {
+    final _result = create();
+    if (wallclockTimestampMicros != null) {
+      _result.wallclockTimestampMicros = wallclockTimestampMicros;
+    }
+    if (videoTimestampMicros != null) {
+      _result.videoTimestampMicros = videoTimestampMicros;
+    }
+    return _result;
+  }
+  factory VideoFrameInfo.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory VideoFrameInfo.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  VideoFrameInfo clone() => VideoFrameInfo()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  VideoFrameInfo copyWith(void Function(VideoFrameInfo) updates) => super.copyWith((message) => updates(message as VideoFrameInfo)) as VideoFrameInfo; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static VideoFrameInfo create() => VideoFrameInfo._();
+  VideoFrameInfo createEmptyInstance() => create();
+  static $pb.PbList<VideoFrameInfo> createRepeated() => $pb.PbList<VideoFrameInfo>();
+  @$core.pragma('dart2js:noInline')
+  static VideoFrameInfo getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<VideoFrameInfo>(create);
+  static VideoFrameInfo? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get wallclockTimestampMicros => $_getI64(0);
+  @$pb.TagNumber(1)
+  set wallclockTimestampMicros($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasWallclockTimestampMicros() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearWallclockTimestampMicros() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get videoTimestampMicros => $_getI64(1);
+  @$pb.TagNumber(2)
+  set videoTimestampMicros($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVideoTimestampMicros() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVideoTimestampMicros() => clearField(2);
 }
 

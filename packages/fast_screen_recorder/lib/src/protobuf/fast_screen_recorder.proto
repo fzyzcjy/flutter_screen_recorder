@@ -2,6 +2,7 @@ syntax = "proto3";
 
 message RecorderMetadataPack {
   InteractionPack interaction = 1;
+  VideoMetadataPack video = 2;
 }
 
 message InteractionPack {
@@ -9,8 +10,18 @@ message InteractionPack {
 }
 
 message PointerEvent {
-  int64 timestamp_micros = 1;
+  int64 flutter_timestamp_micros = 1;
+  int64 wallclock_timestamp_micros = 4;
   float position_dx = 2;
   float position_dy = 3;
   // TODO more
+}
+
+message VideoMetadataPack {
+  repeated VideoFrameInfo frame_infos = 1;
+}
+
+message VideoFrameInfo {
+  int64 wallclock_timestamp_micros = 1;
+  int64 video_timestamp_micros = 2;
 }

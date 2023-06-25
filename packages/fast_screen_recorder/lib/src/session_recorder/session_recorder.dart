@@ -82,3 +82,26 @@ class _RecordingData {
     required this.videoConfig,
   });
 }
+
+class _FileNamer {
+  static const _kSuffix = '.bin';
+
+  static String create(DateTime time) {
+    return time.microsecondsSinceEpoch.toString() + _kSuffix;
+  }
+
+  // need to "try", since if somehow the folder is corrupted with weird files, it should not crash
+  static DateTime? tryParse(String name) {
+    final timeString = name.stripSuffix(_kSuffix);
+    if (timeString == null) return null;
+
+    final timeInt = int.tryParse(timeString);
+    if (timeInt == null) return null;
+
+    return DateTime.fromMicrosecondsSinceEpoch(timeInt);
+  }
+}
+
+extension on String {
+  String? stripSuffix(String suffix) => endsWith(suffix) ? substring(0, length - suffix.length) : null;
+}

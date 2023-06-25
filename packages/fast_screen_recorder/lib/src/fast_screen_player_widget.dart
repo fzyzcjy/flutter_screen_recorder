@@ -7,6 +7,7 @@ import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
 import 'package:fast_screen_recorder/src/time_converter.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class FastScreenPlayerWidget extends StatelessWidget {
   final String pathVideo;
@@ -36,7 +37,9 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
+
   var time = _RecordAndReplayWallclockTime.zero;
+  var playing = false;
 
   @override
   void initState() {
@@ -53,12 +56,13 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
     assert(oldWidget.pathVideo == widget.pathVideo && oldWidget.pathMetadata == widget.pathMetadata);
   }
 
-  void _handleVideoPositionChanged(Duration videoTime) {
+  void _handleVideoPlayerEvent(VideoPlayerValue e) {
     setState(() {
       time = _RecordAndReplayWallclockTime(
-        recordWallclockTime: TimeConverter.videoToWallclockTime(videoTime, metadata),
-        replayWallclockTime: replayWallclockTime,
+        recordWallclockTime: TimeConverter.videoToWallclockTime(e.position, metadata),
+        replayWallclockTime: Duration(microseconds: clock.now().microsecondsSinceEpoch),
       );
+      playing = e.isPlaying;
     });
   }
 
@@ -70,11 +74,11 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
           SimpleVideoPlayer(
             key: ValueKey(widget.pathVideo),
             pathVideo: widget.pathVideo,
-            onPositionChanged: _handleVideoPositionChanged,
+            onVideoPlayerEvent: _handleVideoPlayerEvent,
           ),
           InteractionPlayer(
             pack: metadata.interaction,
-            wallclockTimestamp: Duration(microseconds: clock.now().microsecondsSinceEpoch),
+            wallclockTimestamp: time.recordWallclockTime,
           ),
         ],
       ),

@@ -7,12 +7,12 @@ import 'package:video_player/video_player.dart';
 
 class SimpleVideoPlayer extends StatefulWidget {
   final String pathVideo;
-  final void Function(Duration) onPositionChanged;
+  final void Function(VideoPlayerValue) onVideoPlayerEvent;
 
   const SimpleVideoPlayer({
     super.key,
     required this.pathVideo,
-    required this.onPositionChanged,
+    required this.onVideoPlayerEvent,
   });
 
   @override
@@ -83,7 +83,7 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
   }
 
   void _handleVideoPlayerEvent() {
-    widget.onPositionChanged(_videoPlayerController!.value.position);
+    widget.onVideoPlayerEvent(_videoPlayerController!.value);
   }
 
   static const kPlaceholderHeight = 200.0;

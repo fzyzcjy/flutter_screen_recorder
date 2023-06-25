@@ -7,9 +7,11 @@ import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
-  static final instance = SessionRecorder._();
+  final Directory directory;
 
-  SessionRecorder._();
+  SessionRecorder({
+    required this.directory,
+  });
 
   bool get recording => _recordingData != null;
   _RecordingData? _recordingData;
@@ -19,7 +21,6 @@ class SessionRecorder {
   final _recorder = FastPackedScreenRecorder.instance;
 
   Future<void> start({
-    required Directory directory,
     Duration sectionDuration = const Duration(seconds: 60),
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
@@ -30,7 +31,6 @@ class SessionRecorder {
 
         _recordingData = _RecordingData(
           sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
-          directory: directory,
           videoConfig: videoConfig,
         );
 
@@ -83,12 +83,10 @@ class SessionRecorder {
 
 class _RecordingData {
   final Timer sectionizeTimer;
-  final Directory directory;
   final VideoConfig videoConfig;
 
   _RecordingData({
     required this.sectionizeTimer,
-    required this.directory,
     required this.videoConfig,
   });
 }

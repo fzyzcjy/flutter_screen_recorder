@@ -37,6 +37,10 @@ class _FastScreenPlayerWidgetState extends State<FastScreenPlayerWidget> {
     setState(() => metadata = metadataPackCodec.decode(bytes));
   }
 
+  void _handleVideoPositionChanged(Duration position) {
+    TODO;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -44,6 +48,7 @@ class _FastScreenPlayerWidgetState extends State<FastScreenPlayerWidget> {
         SimpleVideoPlayer(
           key: ValueKey(widget.pathVideo),
           pathVideo: widget.pathVideo,
+          onPositionChanged: _handleVideoPositionChanged,
         ),
         InteractionPlayer(
           pack: metadata.interaction,

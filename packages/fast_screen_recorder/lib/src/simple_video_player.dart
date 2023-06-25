@@ -8,10 +8,12 @@ import 'package:video_player/video_player.dart';
 
 class SimpleVideoPlayer extends StatefulWidget {
   final String pathVideo;
+  final void Function(Duration) onPositionChanged;
 
   const SimpleVideoPlayer({
     super.key,
     required this.pathVideo,
+    required this.onPositionChanged,
   });
 
   @override
@@ -38,6 +40,7 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
   @override
   void dispose() {
     _chewieController?.dispose();
+    _videoPlayerController?.removeListener(_handleVideoPlayerEvent);
     unawaited(_videoPlayerController?.dispose());
     super.dispose();
   }
@@ -58,6 +61,8 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
     if (!mounted) return;
     setState(() => _videoPlayerController = createdController);
 
+    _videoPlayerController!.addListener(_handleVideoPlayerEvent);
+
     // https://github.com/brianegan/chewie/issues/174#issuecomment-519102765
     await _videoPlayerController!.initialize();
 
@@ -76,6 +81,10 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
         customControls: const MaterialControls(),
       );
     });
+  }
+
+  void _handleVideoPlayerEvent() {
+    widget.onPositionChanged(_videoPlayerController!.value.position);
   }
 
   static const kPlaceholderHeight = 200.0;

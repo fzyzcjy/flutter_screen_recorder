@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fast_screen_recorder/src/fast_screen_player_widget.dart';
 import 'package:fast_screen_recorder/src/fast_screen_recorder_widget.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,11 @@ class FastScreenRecorderDemoWidget extends StatefulWidget {
 
 class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWidget> {
   final _recorder = FastScreenRecorder.instance;
+  var _modePlay = false;
+
+  String? lastPathVideo;
+
+  String? lastPathMetadata;
 
   // var scale = 1.0;
 
@@ -25,9 +31,14 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          FastScreenRecorderWidget(
-            child: widget.child,
-          ),
+          _modePlay
+              ? FastScreenPlayerWidget(
+                  pathVideo: lastPathVideo!,
+                  pathMetadata: lastPathMetadata!,
+                )
+              : FastScreenRecorderWidget(
+                  child: widget.child,
+                ),
           // Positioned(
           //   left: 64,
           //   bottom: 64 * 4,
@@ -46,6 +57,16 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
           // ),
           Positioned(
             left: 64,
+            bottom: 64 * 3,
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() => _modePlay = !_modePlay);
+              },
+              child: const Icon(Icons.tv_outlined),
+            ),
+          ),
+          Positioned(
+            left: 64,
             bottom: 64 * 2,
             child: FloatingActionButton(
               onPressed: () async {
@@ -56,14 +77,14 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
                 final dir = '${(await getExternalStorageDirectory())!.path}/fast_screen_recorder_experiment';
                 await Directory(dir).create(recursive: true);
                 final stem = '$dir/${DateTime.now().toIso8601String().replaceAll(".", "").replaceAll(":", "")}';
-                final pathVideo = '$stem.mp4';
-                final pathMetadata = '$stem.meta';
+                lastPathVideo = '$stem.mp4';
+                lastPathMetadata = '$stem.meta';
 
-                print('record to pathVideo=$pathVideo outputSize=$outputSize');
+                print('record to pathVideo=$lastPathVideo outputSize=$outputSize');
 
                 await _recorder.start(
-                  pathVideo: pathVideo,
-                  pathMetadata: pathMetadata,
+                  pathVideo: lastPathVideo!,
+                  pathMetadata: lastPathMetadata!,
                   outputSize: outputSize,
                   fps: 2,
                   bitrate: 80 * 1000,

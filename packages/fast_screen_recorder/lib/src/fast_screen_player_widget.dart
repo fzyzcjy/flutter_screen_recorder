@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
-
 import 'package:flutter/material.dart';
 
 class FastScreenPlayerWidget extends StatefulWidget {
@@ -38,6 +38,14 @@ class _FastScreenPlayerWidgetState extends State<FastScreenPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TODO;
+    return Stack(
+      children: [
+        TODO_video_player,
+        InteractionPlayer(
+          pack: metadata.interaction,
+          timestamp: TODO,
+        ),
+      ],
+    );
   }
 }

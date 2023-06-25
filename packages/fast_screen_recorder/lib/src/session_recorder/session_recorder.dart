@@ -2,17 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clock/clock.dart';
-import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
-import 'package:synchronized/synchronized.dart';
 import 'package:path/path.dart';
+import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
   final Directory directory;
+  final int maxKeepSize;
 
   SessionRecorder({
     required this.directory,
+    this.maxKeepSize = 50 * 1000 * 1000,
   });
 
   bool get recording => _recordingData != null;

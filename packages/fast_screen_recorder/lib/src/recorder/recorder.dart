@@ -6,6 +6,7 @@ import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
+import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:synchronized/synchronized.dart';
 
 class FastScreenRecorder {
@@ -43,6 +44,7 @@ class FastScreenRecorder {
 
         _recordingData = _RecordingData(
           captureTimer: Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall),
+          pathMetadata: pathMetadata,
         );
 
         _interactionRecorder.start();
@@ -62,6 +64,8 @@ class FastScreenRecorder {
         final metadataPack = proto.RecorderMetadataPack(
           interaction: interactionPack,
         );
+
+        await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
       });
 
   void _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
@@ -75,8 +79,10 @@ class FastScreenRecorder {
 
 class _RecordingData {
   final Timer captureTimer;
+  final String pathMetadata;
 
   const _RecordingData({
     required this.captureTimer,
+    required this.pathMetadata,
   });
 }

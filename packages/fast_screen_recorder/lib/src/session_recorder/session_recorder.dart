@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -18,7 +19,7 @@ class SessionRecorder {
 
   Future<void> start({
     required Directory directory,
-    Size outputSize = const Size(360, 720),
+    Duration sectionDuration = const Duration(seconds: 30),
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
@@ -29,6 +30,7 @@ class SessionRecorder {
         await _recorder.start(
           pathVideo: pathVideo,
           pathMetadata: pathMetadata,
+          sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
           videoConfig: videoConfig,
         );
 
@@ -40,14 +42,19 @@ class SessionRecorder {
         TODO_auto_stop_start;
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
+        final recordingData = _recordingData!;
         _recordingData = null;
 
+        recordingData.sectionizeTimer.cancel();
         await _recorder.stop();
       });
+
+  void _handleSectionize(Timer _) {
+    TODO;
+  }
 
   Future<List<File>> getRecords({
     required DateTime startTime,
@@ -58,10 +65,12 @@ class SessionRecorder {
 }
 
 class _RecordingData {
+  final Timer sectionizeTimer;
   final Directory directory;
   final VideoConfig videoConfig;
 
   _RecordingData({
+    required this.sectionizeTimer,
     required this.directory,
     required this.videoConfig,
   });

@@ -58,8 +58,8 @@ class FastScreenRecorder {
         final recordingData = _recordingData!;
         _recordingData = null;
 
-        await _nativeRecorder.stop();
         recordingData.captureTimer.cancel();
+        await _nativeRecorder.stop();
 
         final interactionPack = _interactionRecorder.stop();
 

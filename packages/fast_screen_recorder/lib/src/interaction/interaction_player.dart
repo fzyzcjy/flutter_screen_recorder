@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 class InteractionPlayer extends StatelessWidget {
   final proto.InteractionPack pack;
-  final Duration timestamp;
+  final Duration wallclockTimestamp;
 
   const InteractionPlayer({
     super.key,
     required this.pack,
-    required this.timestamp,
+    required this.wallclockTimestamp,
   });
 
   @override
@@ -19,7 +19,7 @@ class InteractionPlayer extends StatelessWidget {
     return CustomPaint(
       painter: _InteractionPainter(
         pack: pack,
-        timestamp: timestamp,
+        wallclockTimestamp: wallclockTimestamp,
       ),
     );
   }
@@ -27,11 +27,11 @@ class InteractionPlayer extends StatelessWidget {
 
 class _InteractionPainter extends CustomPainter {
   final proto.InteractionPack pack;
-  final Duration timestamp;
+  final Duration wallclockTimestamp;
 
   _InteractionPainter({
     required this.pack,
-    required this.timestamp,
+    required this.wallclockTimestamp,
   });
 
   @override
@@ -45,8 +45,8 @@ class _InteractionPainter extends CustomPainter {
     for (var i = startIndex; i <= endIndex; ++i) {
       final event = pack.pointerEvents[i];
 
-      painter.color = Colors.grey
-          .withOpacity(0.5 - 0.5 * (timestamp - event.flutterTimestamp).inMicroseconds / backDuration.inMicroseconds);
+      painter.color = Colors.grey.withOpacity(
+          0.5 - 0.5 * (wallclockTimestamp - event.wallclockTimestamp).inMicroseconds / backDuration.inMicroseconds);
 
       canvas.drawCircle(event.position, 20, painter);
     }
@@ -54,7 +54,7 @@ class _InteractionPainter extends CustomPainter {
 
   int _lowerBoundIndex(Duration deltaTime) {
     return pack.pointerEvents
-        .lowerBoundBy<num>(_createDummyEvent(timestamp + deltaTime), (e) => e.flutterTimestampMicros.toInt());
+        .lowerBoundBy<num>(_createDummyEvent(wallclockTimestamp + deltaTime), (e) => e.flutterTimestampMicros.toInt());
   }
 
   // for simplicity, always shouldRepaint...
@@ -62,5 +62,5 @@ class _InteractionPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
 
-proto.PointerEvent _createDummyEvent(Duration timestamp) =>
-    proto.PointerEvent(flutterTimestampMicros: Int64(timestamp.inMicroseconds));
+proto.PointerEvent _createDummyEvent(Duration wallclockTimestamp) =>
+    proto.PointerEvent(flutterTimestampMicros: Int64(wallclockTimestamp.inMicroseconds));

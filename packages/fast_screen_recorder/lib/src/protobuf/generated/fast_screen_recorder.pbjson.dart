@@ -34,13 +34,14 @@ const PointerEvent$json = const {
   '1': 'PointerEvent',
   '2': const [
     const {'1': 'flutter_timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'flutterTimestampMicros'},
+    const {'1': 'wallclock_timestamp_micros', '3': 4, '4': 1, '5': 3, '10': 'wallclockTimestampMicros'},
     const {'1': 'position_dx', '3': 2, '4': 1, '5': 2, '10': 'positionDx'},
     const {'1': 'position_dy', '3': 3, '4': 1, '5': 2, '10': 'positionDy'},
   ],
 };
 
 /// Descriptor for `PointerEvent`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSOAoYZmx1dHRlcl90aW1lc3RhbXBfbWljcm9zGAEgASgDUhZmbHV0dGVyVGltZXN0YW1wTWljcm9zEh8KC3Bvc2l0aW9uX2R4GAIgASgCUgpwb3NpdGlvbkR4Eh8KC3Bvc2l0aW9uX2R5GAMgASgCUgpwb3NpdGlvbkR5');
+final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSOAoYZmx1dHRlcl90aW1lc3RhbXBfbWljcm9zGAEgASgDUhZmbHV0dGVyVGltZXN0YW1wTWljcm9zEjwKGndhbGxjbG9ja190aW1lc3RhbXBfbWljcm9zGAQgASgDUhh3YWxsY2xvY2tUaW1lc3RhbXBNaWNyb3MSHwoLcG9zaXRpb25fZHgYAiABKAJSCnBvc2l0aW9uRHgSHwoLcG9zaXRpb25fZHkYAyABKAJSCnBvc2l0aW9uRHk=');
 @$core.Deprecated('Use videoMetadataPackDescriptor instead')
 const VideoMetadataPack$json = const {
   '1': 'VideoMetadataPack',
@@ -55,10 +56,10 @@ final $typed_data.Uint8List videoMetadataPackDescriptor = $convert.base64Decode(
 const VideoFrameInfo$json = const {
   '1': 'VideoFrameInfo',
   '2': const [
-    const {'1': 'flutter_timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'flutterTimestampMicros'},
+    const {'1': 'wallclock_timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'wallclockTimestampMicros'},
     const {'1': 'video_timestamp_micros', '3': 2, '4': 1, '5': 3, '10': 'videoTimestampMicros'},
   ],
 };
 
 /// Descriptor for `VideoFrameInfo`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxI4ChhmbHV0dGVyX3RpbWVzdGFtcF9taWNyb3MYASABKANSFmZsdXR0ZXJUaW1lc3RhbXBNaWNyb3MSNAoWdmlkZW9fdGltZXN0YW1wX21pY3JvcxgCIAEoA1IUdmlkZW9UaW1lc3RhbXBNaWNyb3M=');
+final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxI8Chp3YWxsY2xvY2tfdGltZXN0YW1wX21pY3JvcxgBIAEoA1IYd2FsbGNsb2NrVGltZXN0YW1wTWljcm9zEjQKFnZpZGVvX3RpbWVzdGFtcF9taWNyb3MYAiABKANSFHZpZGVvVGltZXN0YW1wTWljcm9z');

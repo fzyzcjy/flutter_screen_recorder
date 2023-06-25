@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
@@ -81,7 +82,7 @@ class FastScreenRecorder {
         final currCaptureIndex = _recordingData!.captureIndex++;
 
         _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
-          flutterTimestampMicros: TODO,
+          wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
           videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
         ));
 

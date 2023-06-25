@@ -11,6 +11,7 @@ message InteractionPack {
 
 message PointerEvent {
   int64 flutter_timestamp_micros = 1;
+  int64 wallclock_timestamp_micros = 4;
   float position_dx = 2;
   float position_dy = 3;
   // TODO more
@@ -21,6 +22,6 @@ message VideoMetadataPack {
 }
 
 message VideoFrameInfo {
-  int64 flutter_timestamp_micros = 1;
+  int64 wallclock_timestamp_micros = 1;
   int64 video_timestamp_micros = 2;
 }

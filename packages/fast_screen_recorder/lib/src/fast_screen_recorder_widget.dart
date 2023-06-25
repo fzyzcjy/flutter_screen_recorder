@@ -1,11 +1,15 @@
+import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
+import 'package:flutter/material.dart';
+
 class FastScreenRecorderWidget extends StatelessWidget {
   final Widget child;
 
-  const FastScreenRecorderWidget({Key? key}) : super(key: key);
+  const FastScreenRecorderWidget({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    // TODO
-    return child;
+    return InteractionRecorderWidget(
+      child: child,
+    );
   }
 }

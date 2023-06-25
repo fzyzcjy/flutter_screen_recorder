@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fast_screen_recorder/src/fast_screen_recorder_widget.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +25,9 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
-          widget.child,
+          FastScreenRecorderWidget(
+            child: widget.child,
+          ),
           // Positioned(
           //   left: 64,
           //   bottom: 64 * 4,

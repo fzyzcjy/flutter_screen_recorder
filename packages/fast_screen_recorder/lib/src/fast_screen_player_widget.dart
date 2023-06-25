@@ -38,7 +38,7 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
 
-  var time = _RecordAndReplayWallclockTime.zero;
+  var time = _RecordAndReplayWallclockTime.dummy();
   var playing = false;
 
   @override
@@ -60,7 +60,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
     setState(() {
       time = _RecordAndReplayWallclockTime(
         recordWallclockTime: TimeConverter.videoToWallclockTime(e.position, metadata),
-        replayWallclockTime: Duration(microseconds: clock.now().microsecondsSinceEpoch),
+        replayWallclockTime: clock.now(),
       );
       playing = e.isPlaying;
     });
@@ -92,17 +92,17 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 
 class _RecordAndReplayWallclockTime {
   final Duration recordWallclockTime;
-  final Duration replayWallclockTime;
+  final DateTime replayWallclockTime;
 
   const _RecordAndReplayWallclockTime({
     required this.recordWallclockTime,
     required this.replayWallclockTime,
   });
 
-  static const zero = _RecordAndReplayWallclockTime(
-    recordWallclockTime: Duration.zero,
-    replayWallclockTime: Duration.zero,
-  );
+  factory _RecordAndReplayWallclockTime.dummy() => _RecordAndReplayWallclockTime(
+        recordWallclockTime: Duration.zero,
+        replayWallclockTime: clock.now(),
+      );
 }
 
 class _TimeInterpolationWidget extends StatefulWidget {
@@ -124,6 +124,12 @@ class _TimeInterpolationWidget extends StatefulWidget {
 class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> {
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.playing ? TODO : widget.time.recordWallclockTime);
+    TODO_refresh;
+
+    return widget.builder(
+      context,
+      widget.time.recordWallclockTime +
+          (widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
+    );
   }
 }

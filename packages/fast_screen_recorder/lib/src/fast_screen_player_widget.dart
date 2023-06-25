@@ -6,35 +6,48 @@ import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
 import 'package:flutter/material.dart';
 
-class FastScreenPlayerWidget extends StatefulWidget {
+class FastScreenPlayerWidget extends StatelessWidget {
   final String pathVideo;
   final String pathMetadata;
 
   const FastScreenPlayerWidget({super.key, required this.pathVideo, required this.pathMetadata});
 
   @override
-  State<FastScreenPlayerWidget> createState() => _FastScreenPlayerWidgetState();
+  Widget build(BuildContext context) {
+    return _FastScreenPlayerInnerWidget(
+      key: ValueKey((pathVideo, pathMetadata)),
+      pathVideo: pathVideo,
+      pathMetadata: pathMetadata,
+    );
+  }
 }
 
-class _FastScreenPlayerWidgetState extends State<FastScreenPlayerWidget> {
+class _FastScreenPlayerInnerWidget extends StatefulWidget {
+  final String pathVideo;
+  final String pathMetadata;
+
+  const _FastScreenPlayerInnerWidget({super.key, required this.pathVideo, required this.pathMetadata});
+
+  @override
+  State<_FastScreenPlayerInnerWidget> createState() => __FastScreenPlayerInnerWidgetState();
+}
+
+class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
 
   @override
   void initState() {
     super.initState();
-    _readMetadata();
-  }
 
-  @override
-  void didUpdateWidget(covariant FastScreenPlayerWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.pathMetadata != widget.pathMetadata) _readMetadata();
-  }
-
-  void _readMetadata() {
     // for simplicity, read by sync, not async, since the only users of the widget is us developers ;)
     final bytes = File(widget.pathMetadata).readAsBytesSync();
     setState(() => metadata = metadataPackCodec.decode(bytes));
+  }
+
+  @override
+  void didUpdateWidget(covariant _FastScreenPlayerInnerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    assert(oldWidget.pathVideo == widget.pathVideo && oldWidget.pathMetadata == widget.pathMetadata);
   }
 
   void _handleVideoPositionChanged(Duration position) {

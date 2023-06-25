@@ -47,7 +47,8 @@ class _InteractionPainter extends CustomPainter {
       final event = pack.pointerEvents[i];
 
       painter.color = Colors.grey.withOpacity(
-          0.5 - 0.5 * (wallclockTimestamp - event.wallclockTimestamp).inMicroseconds / backDuration.inMicroseconds);
+          (0.5 - 0.5 * (wallclockTimestamp - event.wallclockTimestamp).inMicroseconds / backDuration.inMicroseconds)
+              .clamp(0, 1));
 
       canvas.drawCircle(event.position, 20, painter);
     }

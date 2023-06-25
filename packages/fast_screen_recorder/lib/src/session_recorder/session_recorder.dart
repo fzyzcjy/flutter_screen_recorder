@@ -55,8 +55,9 @@ class SessionRecorder {
   Future<List<File>> getRecords({
     required DateTime startTime,
     required DateTime endTime,
-  }) async =>
-      throw UnimplementedError();
+  }) async {
+    TODO;
+  }
 }
 
 class _RecordingData {

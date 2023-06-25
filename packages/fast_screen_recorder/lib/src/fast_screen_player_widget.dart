@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
@@ -35,7 +36,7 @@ class _FastScreenPlayerInnerWidget extends StatefulWidget {
 
 class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWidget> {
   late proto.RecorderMetadataPack metadata;
-  var wallclockTime = Duration.zero;
+  var time = _RecordAndReplayWallclockTime.zero;
 
   @override
   void initState() {
@@ -54,7 +55,10 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 
   void _handleVideoPositionChanged(Duration videoTime) {
     setState(() {
-      wallclockTime = TimeConverter.videoToWallclockTime(videoTime, metadata);
+      time = _RecordAndReplayWallclockTime(
+        recordWallclockTime: TimeConverter.videoToWallclockTime(videoTime, metadata),
+        replayWallclockTime: replayWallclockTime,
+      );
     });
   }
 
@@ -70,10 +74,25 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
           ),
           InteractionPlayer(
             pack: metadata.interaction,
-            wallclockTimestamp: wallclockTime,
+            wallclockTimestamp: Duration(microseconds: clock.now().microsecondsSinceEpoch),
           ),
         ],
       ),
     );
   }
+}
+
+class _RecordAndReplayWallclockTime {
+  final Duration recordWallclockTime;
+  final Duration replayWallclockTime;
+
+  const _RecordAndReplayWallclockTime({
+    required this.recordWallclockTime,
+    required this.replayWallclockTime,
+  });
+
+  static const zero = _RecordAndReplayWallclockTime(
+    recordWallclockTime: Duration.zero,
+    replayWallclockTime: Duration.zero,
+  );
 }

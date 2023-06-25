@@ -49,3 +49,7 @@ https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/479798f7-d0bf-
 
 https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/293379b5-ad52-4c8e-b807-3e8563d6adfe
 
+Quick update: It supports pointer events now
+
+https://github.com/fzyzcjy/flutter_screen_recorder/assets/5236035/8f7ef062-2ee6-451c-8874-20a816422623
+

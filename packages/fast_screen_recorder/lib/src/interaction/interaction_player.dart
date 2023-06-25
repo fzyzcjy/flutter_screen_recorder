@@ -1,4 +1,7 @@
+import 'package:collection/collection.dart';
+import 'package:fast_screen_recorder/src/protobuf/extensions.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
 class InteractionPlayer extends StatelessWidget {
@@ -33,16 +36,31 @@ class _InteractionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final painter = Paint()
-      ..color = Colors.grey.withAlpha(100)
-      ..style = PaintingStyle.fill;
+    const backDuration = Duration(milliseconds: -1000);
+    final startIndex = 1 + _lowerBoundIndex(backDuration);
+    final endIndex = 1 + _lowerBoundIndex(const Duration(milliseconds: 1));
 
-    for (final position in framePacket.touch.positions) {
-      canvas.drawCircle(position, 20, painter);
+    final painter = Paint()..style = PaintingStyle.fill;
+
+    for (var i = startIndex; i <= endIndex; ++i) {
+      final event = pack.pointerEvents[i];
+
+      painter.color = Colors.grey
+          .withOpacity(0.5 - 0.5 * (timestamp - event.timestamp).inMicroseconds / backDuration.inMicroseconds);
+
+      canvas.drawCircle(event.position, 20, painter);
     }
+  }
+
+  int _lowerBoundIndex(Duration deltaTime) {
+    return pack.pointerEvents
+        .lowerBoundBy<num>(_createDummyEvent(timestamp + deltaTime), (e) => e.timestampMicros.toInt());
   }
 
   // for simplicity, always shouldRepaint...
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
+
+proto.PointerEvent _createDummyEvent(Duration timestamp) =>
+    proto.PointerEvent(timestampMicros: Int64(timestamp.inMicroseconds));

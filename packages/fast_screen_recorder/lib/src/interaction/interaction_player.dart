@@ -44,7 +44,7 @@ class _InteractionPainter extends CustomPainter {
 
     final painter = Paint()..style = PaintingStyle.fill;
 
-    for (var i = startIndex; i <= endIndex; ++i) {
+    for (var i = startIndex; i < endIndex; ++i) {
       final event = pack.pointerEvents[i];
       assert(event.wallclockTimestamp <= wallclockTimestamp,
           'i=$i wallclockTimestamp=${wallclockTimestamp.inMicroseconds} event=$event');

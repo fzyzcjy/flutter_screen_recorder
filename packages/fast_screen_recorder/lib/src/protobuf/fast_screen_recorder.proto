@@ -22,4 +22,5 @@ message VideoMetadataPack {
 
 message VideoFrameInfo {
   int64 flutter_timestamp_micros = 1;
+  int64 video_timestamp_micros = 2;
 }

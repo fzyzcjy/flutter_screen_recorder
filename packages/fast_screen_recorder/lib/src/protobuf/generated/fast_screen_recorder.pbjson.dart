@@ -56,8 +56,9 @@ const VideoFrameInfo$json = const {
   '1': 'VideoFrameInfo',
   '2': const [
     const {'1': 'flutter_timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'flutterTimestampMicros'},
+    const {'1': 'video_timestamp_micros', '3': 2, '4': 1, '5': 3, '10': 'videoTimestampMicros'},
   ],
 };
 
 /// Descriptor for `VideoFrameInfo`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxI4ChhmbHV0dGVyX3RpbWVzdGFtcF9taWNyb3MYASABKANSFmZsdXR0ZXJUaW1lc3RhbXBNaWNyb3M=');
+final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxI4ChhmbHV0dGVyX3RpbWVzdGFtcF9taWNyb3MYASABKANSFmZsdXR0ZXJUaW1lc3RhbXBNaWNyb3MSNAoWdmlkZW9fdGltZXN0YW1wX21pY3JvcxgCIAEoA1IUdmlkZW9UaW1lc3RhbXBNaWNyb3M=');

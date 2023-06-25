@@ -235,16 +235,21 @@ class VideoMetadataPack extends $pb.GeneratedMessage {
 class VideoFrameInfo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'VideoFrameInfo', createEmptyInstance: create)
     ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'flutterTimestampMicros')
+    ..aInt64(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'videoTimestampMicros')
     ..hasRequiredFields = false
   ;
 
   VideoFrameInfo._() : super();
   factory VideoFrameInfo({
     $fixnum.Int64? flutterTimestampMicros,
+    $fixnum.Int64? videoTimestampMicros,
   }) {
     final _result = create();
     if (flutterTimestampMicros != null) {
       _result.flutterTimestampMicros = flutterTimestampMicros;
+    }
+    if (videoTimestampMicros != null) {
+      _result.videoTimestampMicros = videoTimestampMicros;
     }
     return _result;
   }
@@ -277,5 +282,14 @@ class VideoFrameInfo extends $pb.GeneratedMessage {
   $core.bool hasFlutterTimestampMicros() => $_has(0);
   @$pb.TagNumber(1)
   void clearFlutterTimestampMicros() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get videoTimestampMicros => $_getI64(1);
+  @$pb.TagNumber(2)
+  set videoTimestampMicros($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasVideoTimestampMicros() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearVideoTimestampMicros() => clearField(2);
 }
 

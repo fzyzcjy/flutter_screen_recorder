@@ -45,6 +45,7 @@ class FastScreenRecorder {
         _recordingData = _RecordingData(
           captureTimer: Timer.periodic(Duration(milliseconds: 1000 ~/ fps), _handleCaptureCall),
           pathMetadata: pathMetadata,
+          videoMetadataPack: proto.VideoMetadataPack(),
         );
 
         _interactionRecorder.start();
@@ -63,6 +64,7 @@ class FastScreenRecorder {
 
         final metadataPack = proto.RecorderMetadataPack(
           interaction: interactionPack,
+          video: recordingData.videoMetadataPack,
         );
 
         await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
@@ -73,6 +75,10 @@ class FastScreenRecorder {
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
         if (!recording) return;
 
+        _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
+          timestampMicros: TODO,
+        ));
+
         await _nativeRecorder.capture();
       });
 }
@@ -80,9 +86,11 @@ class FastScreenRecorder {
 class _RecordingData {
   final Timer captureTimer;
   final String pathMetadata;
+  final proto.VideoMetadataPack videoMetadataPack;
 
   const _RecordingData({
     required this.captureTimer,
     required this.pathMetadata,
+    required this.videoMetadataPack,
   });
 }

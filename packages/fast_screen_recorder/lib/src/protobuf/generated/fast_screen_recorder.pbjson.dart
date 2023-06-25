@@ -13,11 +13,12 @@ const RecorderMetadataPack$json = const {
   '1': 'RecorderMetadataPack',
   '2': const [
     const {'1': 'interaction', '3': 1, '4': 1, '5': 11, '6': '.InteractionPack', '10': 'interaction'},
+    const {'1': 'video', '3': 2, '4': 1, '5': 11, '6': '.VideoMetadataPack', '10': 'video'},
   ],
 };
 
 /// Descriptor for `RecorderMetadataPack`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List recorderMetadataPackDescriptor = $convert.base64Decode('ChRSZWNvcmRlck1ldGFkYXRhUGFjaxIyCgtpbnRlcmFjdGlvbhgBIAEoCzIQLkludGVyYWN0aW9uUGFja1ILaW50ZXJhY3Rpb24=');
+final $typed_data.Uint8List recorderMetadataPackDescriptor = $convert.base64Decode('ChRSZWNvcmRlck1ldGFkYXRhUGFjaxIyCgtpbnRlcmFjdGlvbhgBIAEoCzIQLkludGVyYWN0aW9uUGFja1ILaW50ZXJhY3Rpb24SKAoFdmlkZW8YAiABKAsyEi5WaWRlb01ldGFkYXRhUGFja1IFdmlkZW8=');
 @$core.Deprecated('Use interactionPackDescriptor instead')
 const InteractionPack$json = const {
   '1': 'InteractionPack',
@@ -40,3 +41,23 @@ const PointerEvent$json = const {
 
 /// Descriptor for `PointerEvent`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSKQoQdGltZXN0YW1wX21pY3JvcxgBIAEoA1IPdGltZXN0YW1wTWljcm9zEh8KC3Bvc2l0aW9uX2R4GAIgASgCUgpwb3NpdGlvbkR4Eh8KC3Bvc2l0aW9uX2R5GAMgASgCUgpwb3NpdGlvbkR5');
+@$core.Deprecated('Use videoMetadataPackDescriptor instead')
+const VideoMetadataPack$json = const {
+  '1': 'VideoMetadataPack',
+  '2': const [
+    const {'1': 'frame_infos', '3': 1, '4': 3, '5': 11, '6': '.VideoFrameInfo', '10': 'frameInfos'},
+  ],
+};
+
+/// Descriptor for `VideoMetadataPack`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List videoMetadataPackDescriptor = $convert.base64Decode('ChFWaWRlb01ldGFkYXRhUGFjaxIwCgtmcmFtZV9pbmZvcxgBIAMoCzIPLlZpZGVvRnJhbWVJbmZvUgpmcmFtZUluZm9z');
+@$core.Deprecated('Use videoFrameInfoDescriptor instead')
+const VideoFrameInfo$json = const {
+  '1': 'VideoFrameInfo',
+  '2': const [
+    const {'1': 'timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'timestampMicros'},
+  ],
+};
+
+/// Descriptor for `VideoFrameInfo`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxIpChB0aW1lc3RhbXBfbWljcm9zGAEgASgDUg90aW1lc3RhbXBNaWNyb3M=');

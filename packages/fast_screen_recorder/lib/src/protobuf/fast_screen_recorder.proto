@@ -2,6 +2,7 @@ syntax = "proto3";
 
 message RecorderMetadataPack {
   InteractionPack interaction = 1;
+  VideoMetadataPack video = 2;
 }
 
 message InteractionPack {
@@ -13,4 +14,12 @@ message PointerEvent {
   float position_dx = 2;
   float position_dy = 3;
   // TODO more
+}
+
+message VideoMetadataPack {
+  repeated VideoFrameInfo frame_infos = 1;
+}
+
+message VideoFrameInfo {
+  int64 timestamp_micros = 1;
 }

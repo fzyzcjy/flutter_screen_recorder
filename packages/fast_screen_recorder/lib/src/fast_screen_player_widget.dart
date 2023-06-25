@@ -50,7 +50,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
     assert(oldWidget.pathVideo == widget.pathVideo && oldWidget.pathMetadata == widget.pathMetadata);
   }
 
-  void _handleVideoPositionChanged(Duration position) {
+  void _handleVideoPositionChanged(Duration videoPosition) {
     TODO;
   }
 

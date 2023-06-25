@@ -7,3 +7,9 @@ extension ExtPointerEvent on proto.PointerEvent {
 
   Offset get position => Offset(positionDx, positionDy);
 }
+
+extension ExtVideoFrameInfo on proto.VideoFrameInfo {
+  Duration get flutterTimestamp => Duration(microseconds: flutterTimestampMicros.toInt());
+
+  Duration get videoTimestamp => Duration(microseconds: videoTimestampMicros.toInt());
+}

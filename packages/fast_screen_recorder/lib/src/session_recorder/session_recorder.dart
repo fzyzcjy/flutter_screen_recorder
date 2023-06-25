@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -15,7 +16,7 @@ class SessionRecorder {
 
   final _lock = Lock();
 
-  final _recorder = FastScreenRecorder.instance;
+  final _recorder = FastPackedScreenRecorder.instance;
 
   Future<void> start({
     required Directory directory,
@@ -28,8 +29,7 @@ class SessionRecorder {
         if (!await directory.exists()) throw ArgumentError('Please ensure directory=$directory exists');
 
         await _recorder.start(
-          pathVideo: pathVideo,
-          pathMetadata: pathMetadata,
+          path: TODO,
           videoConfig: videoConfig,
         );
 
@@ -38,11 +38,10 @@ class SessionRecorder {
           directory: directory,
           videoConfig: videoConfig,
         );
-
-        TODO_auto_stop_start;
       });
 
-  Future<void> stop() async => await _lock.synchronized(() async {
+  Future<void> stop() async =>
+      await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -52,11 +51,11 @@ class SessionRecorder {
         await _recorder.stop();
       });
 
-  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
+  Future<void> _handleSectionize(Timer _) async =>
+      await _lock.synchronized(() async {
         await _recorder.stop();
         await _recorder.start(
-          pathVideo: pathVideo,
-          pathMetadata: pathMetadata,
+          path: TODO,
           videoConfig: _recordingData!.videoConfig,
         );
       });

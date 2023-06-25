@@ -36,11 +36,11 @@ class _InteractionPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const backDuration = Duration(milliseconds: 100);
+    const backDuration = Duration(milliseconds: 400);
     final startIndex = _lowerBoundIndex(-backDuration).clamp(0, pack.pointerEvents.length - 1);
     final endIndex = _lowerBoundIndex(Duration.zero).clamp(0, pack.pointerEvents.length);
-    print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
-        'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');
+    // print('hi startIndex=$startIndex endIndex=$endIndex wallclockTimestamp=${wallclockTimestamp.inMicroseconds} '
+    //     'firstEvent=${pack.pointerEvents.first} lastEvent=${pack.pointerEvents.last}');
 
     final painter = Paint()..style = PaintingStyle.fill;
 
@@ -54,7 +54,7 @@ class _InteractionPainter extends CustomPainter {
               .clamp(0, 1);
       painter.color = Colors.grey.withOpacity(opacity);
 
-      print('i=$i opacity=$opacity');
+      // print('i=$i opacity=$opacity');
 
       canvas.drawCircle(event.position, 20, painter);
     }

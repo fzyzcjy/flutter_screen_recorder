@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:path_provider/path_provider.dart';
@@ -38,7 +40,7 @@ class FastPackedScreenRecorder {
         final recordingData = _recordingData!;
         _recordingData = null;
 
-        VideoAndMetadataPacker.pack(
+        await VideoAndMetadataPacker.pack(
           inputPathVideo: recordingData.pathVideo,
           inputPathMetadata: recordingData.pathMetadata,
           outputPathPack: recordingData.pathPack,
@@ -59,19 +61,36 @@ class _RecordingData {
 }
 
 class VideoAndMetadataPacker {
+  // TODO may improve it by streaming instead of reading to memory, but since everything <1MB, it looks ok
+  // thus we keep this file-based signature to allow future optimization
   static Future<void> pack({
-    required String inputPathVideo,
     required String inputPathMetadata,
+    required String inputPathVideo,
     required String outputPathPack,
   }) async {
-    TODO;
+    final metadataBytes = await File(inputPathMetadata).readAsBytes();
+    final videoBytes = await File(inputPathVideo).readAsBytes();
+
+    // ignore: deprecated_export_use
+    final builder = BytesBuilder(copy: false);
+    builder.add((ByteData(8)..setInt64(0, metadataBytes.length)).buffer.asUint8List());
+    builder.add(metadataBytes);
+    builder.add(videoBytes);
+
+    await File(outputPathPack).writeAsBytes(builder.takeBytes());
   }
 
   static Future<void> unpack({
     required String inputPathPack,
-    required String outputPathVideo,
     required String outputPathMetadata,
+    required String outputPathVideo,
   }) async {
-    TODO;
+    final bytes = await File(inputPathPack).readAsBytes();
+
+    const headerLength = 8;
+    final metadataBytesLength = ByteData.view(bytes.buffer).getInt64(0);
+
+    await File(outputPathMetadata).writeAsBytes(bytes.sublist(headerLength, headerLength + metadataBytesLength));
+    await File(outputPathVideo).writeAsBytes(bytes.sublist(headerLength + metadataBytesLength));
   }
 }

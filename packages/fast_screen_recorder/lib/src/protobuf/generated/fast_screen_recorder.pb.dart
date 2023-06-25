@@ -10,6 +10,55 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class RecorderMetadataPack extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RecorderMetadataPack', createEmptyInstance: create)
+    ..aOM<InteractionPack>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'interaction', subBuilder: InteractionPack.create)
+    ..hasRequiredFields = false
+  ;
+
+  RecorderMetadataPack._() : super();
+  factory RecorderMetadataPack({
+    InteractionPack? interaction,
+  }) {
+    final _result = create();
+    if (interaction != null) {
+      _result.interaction = interaction;
+    }
+    return _result;
+  }
+  factory RecorderMetadataPack.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RecorderMetadataPack.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RecorderMetadataPack clone() => RecorderMetadataPack()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RecorderMetadataPack copyWith(void Function(RecorderMetadataPack) updates) => super.copyWith((message) => updates(message as RecorderMetadataPack)) as RecorderMetadataPack; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static RecorderMetadataPack create() => RecorderMetadataPack._();
+  RecorderMetadataPack createEmptyInstance() => create();
+  static $pb.PbList<RecorderMetadataPack> createRepeated() => $pb.PbList<RecorderMetadataPack>();
+  @$core.pragma('dart2js:noInline')
+  static RecorderMetadataPack getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RecorderMetadataPack>(create);
+  static RecorderMetadataPack? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  InteractionPack get interaction => $_getN(0);
+  @$pb.TagNumber(1)
+  set interaction(InteractionPack v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasInteraction() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearInteraction() => clearField(1);
+  @$pb.TagNumber(1)
+  InteractionPack ensureInteraction() => $_ensure(0);
+}
+
 class InteractionPack extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'InteractionPack', createEmptyInstance: create)
     ..pc<PointerEvent>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pointerEvents', $pb.PbFieldType.PM, subBuilder: PointerEvent.create)

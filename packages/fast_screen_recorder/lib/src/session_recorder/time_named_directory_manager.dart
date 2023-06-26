@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:file/file.dart';
 import 'package:file/local.dart';
@@ -48,8 +50,9 @@ class TimeNamedDirectoryManager {
   Future<List<FileAndTimeInfo>> getRange({required DateTime startTime, required DateTime endTime}) async {
     final allFileInfos = await getAllOrdered();
 
-    final startIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time);
+    final startIndex = max(0, -1 + allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time));
     final endIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), endTime), (e) => e.time);
+    // print('hi getRange allFileInfos=$allFileInfos startIndex=$startIndex endIndex=$endIndex');
 
     return allFileInfos.sublist(startIndex, endIndex);
   }
@@ -60,6 +63,9 @@ class FileAndTimeInfo {
   final DateTime time;
 
   const FileAndTimeInfo(this.file, this.time);
+
+  @override
+  String toString() => 'FileAndTimeInfo($file, $time)';
 }
 
 class _FileNamer {

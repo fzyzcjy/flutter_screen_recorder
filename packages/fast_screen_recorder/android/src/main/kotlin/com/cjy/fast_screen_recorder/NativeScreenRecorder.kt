@@ -82,6 +82,14 @@ object NativeScreenRecorder {
             return
         }
 
+        // ref: How `PixelCopy.request` converts SurfaceView into Surface
+        val surface = flutterSurfaceView.holder.surface
+        // #9703 sees this, e.g. when app in background
+        if (surface.isValid) {
+            callback(Result.failure(IllegalStateException("surface.isValid==false")))
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             PixelCopy.request(
 //                window,

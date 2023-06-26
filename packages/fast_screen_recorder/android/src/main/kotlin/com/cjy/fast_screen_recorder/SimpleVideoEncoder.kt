@@ -48,11 +48,12 @@ class SimpleVideoEncoder(
         log.log("mediaCodec creation begin")
 
         val codecs = MediaCodecList(REGULAR_CODECS)
-        val ans = MediaCodec.createByCodecName(codecs.findEncoderForFormat(mediaFormat))
+        val codecName = codecs.findEncoderForFormat(mediaFormat)
+        val codec = MediaCodec.createByCodecName(codecName)
 
-        log.log("mediaCodec creation end ans=$ans")
+        log.log("mediaCodec creation end codecName=$codecName codec=$codec")
 
-        ans
+        codec
     }
 
     private val frameMuxer = muxerConfig.frameMuxer

@@ -2,15 +2,9 @@ package com.cjy.fast_screen_recorder
 
 import android.app.Activity
 import android.util.Size
-import androidx.annotation.NonNull
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 /** FastScreenRecorderPlugin */
 class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, ActivityAware {
@@ -19,10 +13,12 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         FastScreenRecorderHostApi.setUp(flutterPluginBinding.binaryMessenger, this)
+        flutterApi = FastScreenRecorderFlutterApi(flutterPluginBinding.binaryMessenger)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         FastScreenRecorderHostApi.setUp(binding.binaryMessenger, null)
+        flutterApi = null
     }
 
     // activity related
@@ -63,4 +59,9 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
         )
 
     override fun stop() = NativeScreenRecorder.stop()
+
+    companion object {
+        var flutterApi: FastScreenRecorderFlutterApi? = null
+            private set
+    }
 }

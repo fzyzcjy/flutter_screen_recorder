@@ -82,13 +82,15 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
               pathVideo: widget.pathVideo,
               onVideoPlayerEvent: _handleVideoPlayerEvent,
             ),
-            _TimeInterpolationWidget(
-              time: time,
-              playing: playing,
-              builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
-                pack: metadata.interaction,
-                wallclockTimestamp: interpolatedWallclockTimestamp,
-                displayScale: displayScale,
+            IgnorePointer(
+              child: _TimeInterpolationWidget(
+                time: time,
+                playing: playing,
+                builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
+                  pack: metadata.interaction,
+                  wallclockTimestamp: interpolatedWallclockTimestamp,
+                  displayScale: displayScale,
+                ),
               ),
             ),
           ],

@@ -20,35 +20,46 @@ class TimeNamedDirectoryManager {
   Future<void> prune({
     required int maxKeepSize,
   }) async {
-    final rawFileNames = (await get().toList()).map((e) => basename(e.path)).toList();
-    final sortedFileNames = rawFileNames.sortedBy<num>((e) =>
-    -(_fileNamer
-        .tryParse(e)
-        ?.microsecondsSinceEpoch ?? 0));
-
     var cumSize = 0;
-    for (final filename in sortedFileNames) {
-      final file = fs.file('$directory/$filename');
-      cumSize += await file.length();
+    for (final fileInfo in (await getAllOrdered()).reversed) {
+      cumSize += await fileInfo.file.length();
       if (cumSize >= maxKeepSize) {
-        await file.delete();
+        await fileInfo.file.delete();
       }
     }
   }
 
-  Stream<File> get({DateTime? startTime, DateTime? endTime}) {
-    return fs
-        .directory(directory)
-        .list() //
-        .where((e) => e is File)
-        .map((e) => e as File)
-        .where((path) {
+  Future<List<FileAndTimeInfo>> getAllOrdered({DateTime? startTime, DateTime? endTime}) async {
+    final fileInfos = (await fs.directory(directory).list().toList())
+        .whereType<File>()
+        .map((path) {
       final time = _fileNamer.tryParse(basename(path.path));
-      return time != null &&
-          (startTime == null || time.isAfter(startTime)) &&
-          (endTime == null || time.isBefore(endTime));
-    });
+      if (time == null) return null;
+      return FileAndTimeInfo(path, time);
+    })
+        .whereNotNull()
+        .toList();
+
+    fileInfos.sortBy<num>((e) => e.time.microsecondsSinceEpoch);
+
+    return fileInfos;
   }
+
+  Future<List<FileAndTimeInfo>> getRange({required DateTime startTime, required DateTime endTime}) async {
+    final allFileInfos = await getAllOrdered();
+
+    final startIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time);
+    final endIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), endTime), (e) => e.time);
+
+    return allFileInfos.sublist(startIndex, endIndex);
+  }
+}
+
+class FileAndTimeInfo {
+  final File file;
+  final DateTime time;
+
+  const FileAndTimeInfo(this.file, this.time);
 }
 
 class _FileNamer {

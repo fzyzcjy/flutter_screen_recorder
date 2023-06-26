@@ -71,7 +71,7 @@ class FastScreenRecorder {
         await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
       });
 
-  void _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
+  Future<void> _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
         // this can happen because lock delays execution
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
         if (!recording) return;

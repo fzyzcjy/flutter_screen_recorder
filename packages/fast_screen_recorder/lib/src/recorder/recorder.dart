@@ -99,7 +99,11 @@ class FastScreenRecorder {
 
           final nowAtStart = clock.now();
 
-          await _nativeRecorder.capture();
+          final status = await _nativeRecorder.capture();
+          if (status == CaptureStatus.skipped) {
+            // p.s. not only status==skipped, but also when `capture` throws, it should halt
+            return;
+          }
 
           // NOTE update metadata *after* native capture, including `captureIndex++`,
           // because native `capture` can fail. when it fails, the frame is not captured,

@@ -5,6 +5,7 @@ import 'package:fast_screen_recorder/src/session_recorder/session_recorder_inner
 import 'package:fast_screen_recorder/src/utils/app_lifecycle_state_observer.dart';
 import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
+import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
   final SessionRecorderInner _inner;
@@ -12,6 +13,8 @@ class SessionRecorder {
   var _callerSpecifiedRecording = false;
 
   late final _appLifecycleListener = AppLifecycleStateListener();
+
+  final _lock = Lock();
 
   SessionRecorder({
     required String directory,
@@ -35,39 +38,41 @@ class SessionRecorder {
   Future<void> start({
     Duration sectionDuration = const Duration(seconds: 60),
     VideoConfig videoConfig = const VideoConfig(),
-  }) async {
-    _callerSpecifiedRecording = true;
-    await _inner.start(
-      sectionDuration: sectionDuration,
-      videoConfig: videoConfig,
-    );
-  }
+  }) async =>
+      await _lock.synchronized(() async {
+        _callerSpecifiedRecording = true;
+        await _inner.start(
+          sectionDuration: sectionDuration,
+          videoConfig: videoConfig,
+        );
+      });
 
-  Future<void> stop() async {
-    _callerSpecifiedRecording = false;
-    await _inner.stop();
-  }
+  Future<void> stop() async => await _lock.synchronized(() async {
+        _callerSpecifiedRecording = false;
+        await _inner.stop();
+      });
 
-  Future<void> flush() async => await _inner.flush();
+  Future<void> flush() async => await _lock.synchronized(() async {
+        await _inner.flush();
+      });
 
   Future<List<FileAndTimeInfo>> getRecords({
     required DateTime startTime,
     required DateTime endTime,
     int? roughMaxSize,
   }) async =>
-      _inner.getRecords(
-        startTime: startTime,
-        endTime: endTime,
-        roughMaxSize: roughMaxSize,
-      );
+      await _lock.synchronized(() async {
+        return _inner.getRecords(
+          startTime: startTime,
+          endTime: endTime,
+          roughMaxSize: roughMaxSize,
+        );
+      });
 
-  Future<void> _handleAppLifecycleChanged() async {
-    await withCaptureException(() async {
-      if (_appLifecycleListener.value == AppLifecycleState.resumed) {
-        TODO;
-      } else {
-        TODO;
-      }
-    });
-  }
+  Future<void> _handleAppLifecycleChanged() async => await _lock.synchronized(() async {
+        await withCaptureException(() async {
+          final appActive = _appLifecycleListener.value == AppLifecycleState.resumed;
+          TODO;
+        });
+      });
 }

@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
+import 'package:fast_screen_recorder/src/protobuf/extensions.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
@@ -71,27 +73,25 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
   Widget build(BuildContext context) {
     return _PlayerSizeDeterminator(
       deviceMetadata: metadata.device,
-      builder: (_, displaySize, displayScale) =>
-          Material(
-            child: Stack(
-              children: [
-                SimpleVideoPlayer(
-                  key: ValueKey(widget.pathVideo),
-                  pathVideo: widget.pathVideo,
-                  onVideoPlayerEvent: _handleVideoPlayerEvent,
-                ),
-                _TimeInterpolationWidget(
-                  time: time,
-                  playing: playing,
-                  builder: (_, interpolatedWallclockTimestamp) =>
-                      InteractionPlayer(
-                        pack: metadata.interaction,
-                        wallclockTimestamp: interpolatedWallclockTimestamp,
-                      ),
-                ),
-              ],
+      builder: (_, displaySize, displayScale) => Material(
+        child: Stack(
+          children: [
+            SimpleVideoPlayer(
+              key: ValueKey(widget.pathVideo),
+              pathVideo: widget.pathVideo,
+              onVideoPlayerEvent: _handleVideoPlayerEvent,
             ),
-          ),
+            _TimeInterpolationWidget(
+              time: time,
+              playing: playing,
+              builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
+                pack: metadata.interaction,
+                wallclockTimestamp: interpolatedWallclockTimestamp,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -105,8 +105,7 @@ class _RecordAndReplayWallclockTime {
     required this.replayWallclockTime,
   });
 
-  factory _RecordAndReplayWallclockTime.dummy() =>
-      _RecordAndReplayWallclockTime(
+  factory _RecordAndReplayWallclockTime.dummy() => _RecordAndReplayWallclockTime(
         recordWallclockTime: Duration.zero,
         replayWallclockTime: clock.now(),
       );
@@ -177,7 +176,20 @@ class _PlayerSizeDeterminator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (_, constraints) {
-      return builder(context, TODO, TODO);
+      assert(constraints.biggest.isFinite);
+
+      final aspectRatio = deviceMetadata.size.aspectRatio;
+      final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
+      final chosenHeight = min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
+      final chosenSize = Size(chosenWidth, chosenHeight);
+      assert(constraints.isSatisfiedBy(chosenSize));
+
+      final chosenScale = chosenSize.width / deviceMetadata.size.width;
+
+      return SizedBox.fromSize(
+        size: chosenSize,
+        child: builder(context, chosenSize, chosenScale),
+      );
     });
   }
 }

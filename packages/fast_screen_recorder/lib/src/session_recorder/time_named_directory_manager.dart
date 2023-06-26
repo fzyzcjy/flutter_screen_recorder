@@ -5,6 +5,9 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:path/path.dart';
 
+// ====================================================================================
+// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
+// ====================================================================================
 class TimeNamedDirectoryManager {
   final FileSystem fs;
   final String directory;

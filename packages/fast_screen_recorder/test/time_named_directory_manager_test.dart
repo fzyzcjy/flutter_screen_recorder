@@ -3,6 +3,9 @@ import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// ====================================================================================
+// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
+// ====================================================================================
 void main() {
   const directory = '/hello-folder';
   late MemoryFileSystem fs;
@@ -42,7 +45,7 @@ void main() {
       await manager.prune(maxKeepSize: 999);
       expect(
         fs.directory(directory).listSync().toPathList(),
-        [],
+        <Object?>[],
       );
     });
 

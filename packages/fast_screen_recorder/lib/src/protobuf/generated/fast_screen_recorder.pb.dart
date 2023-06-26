@@ -14,6 +14,7 @@ class RecorderMetadataPack extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RecorderMetadataPack', createEmptyInstance: create)
     ..aOM<InteractionPack>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'interaction', subBuilder: InteractionPack.create)
     ..aOM<VideoMetadataPack>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'video', subBuilder: VideoMetadataPack.create)
+    ..aOM<DeviceMetadata>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'device', subBuilder: DeviceMetadata.create)
     ..hasRequiredFields = false
   ;
 
@@ -21,6 +22,7 @@ class RecorderMetadataPack extends $pb.GeneratedMessage {
   factory RecorderMetadataPack({
     InteractionPack? interaction,
     VideoMetadataPack? video,
+    DeviceMetadata? device,
   }) {
     final _result = create();
     if (interaction != null) {
@@ -28,6 +30,9 @@ class RecorderMetadataPack extends $pb.GeneratedMessage {
     }
     if (video != null) {
       _result.video = video;
+    }
+    if (device != null) {
+      _result.device = device;
     }
     return _result;
   }
@@ -73,6 +78,17 @@ class RecorderMetadataPack extends $pb.GeneratedMessage {
   void clearVideo() => clearField(2);
   @$pb.TagNumber(2)
   VideoMetadataPack ensureVideo() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  DeviceMetadata get device => $_getN(2);
+  @$pb.TagNumber(3)
+  set device(DeviceMetadata v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDevice() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDevice() => clearField(3);
+  @$pb.TagNumber(3)
+  DeviceMetadata ensureDevice() => $_ensure(2);
 }
 
 class InteractionPack extends $pb.GeneratedMessage {
@@ -305,5 +321,80 @@ class VideoFrameInfo extends $pb.GeneratedMessage {
   $core.bool hasVideoTimestampMicros() => $_has(1);
   @$pb.TagNumber(2)
   void clearVideoTimestampMicros() => clearField(2);
+}
+
+class DeviceMetadata extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'DeviceMetadata', createEmptyInstance: create)
+    ..a<$core.double>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'screenWidth', $pb.PbFieldType.OF)
+    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'screenHeight', $pb.PbFieldType.OF)
+    ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'devicePixelRatio', $pb.PbFieldType.OF)
+    ..hasRequiredFields = false
+  ;
+
+  DeviceMetadata._() : super();
+  factory DeviceMetadata({
+    $core.double? screenWidth,
+    $core.double? screenHeight,
+    $core.double? devicePixelRatio,
+  }) {
+    final _result = create();
+    if (screenWidth != null) {
+      _result.screenWidth = screenWidth;
+    }
+    if (screenHeight != null) {
+      _result.screenHeight = screenHeight;
+    }
+    if (devicePixelRatio != null) {
+      _result.devicePixelRatio = devicePixelRatio;
+    }
+    return _result;
+  }
+  factory DeviceMetadata.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory DeviceMetadata.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  DeviceMetadata clone() => DeviceMetadata()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  DeviceMetadata copyWith(void Function(DeviceMetadata) updates) => super.copyWith((message) => updates(message as DeviceMetadata)) as DeviceMetadata; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static DeviceMetadata create() => DeviceMetadata._();
+  DeviceMetadata createEmptyInstance() => create();
+  static $pb.PbList<DeviceMetadata> createRepeated() => $pb.PbList<DeviceMetadata>();
+  @$core.pragma('dart2js:noInline')
+  static DeviceMetadata getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeviceMetadata>(create);
+  static DeviceMetadata? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.double get screenWidth => $_getN(0);
+  @$pb.TagNumber(1)
+  set screenWidth($core.double v) { $_setFloat(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasScreenWidth() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearScreenWidth() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.double get screenHeight => $_getN(1);
+  @$pb.TagNumber(2)
+  set screenHeight($core.double v) { $_setFloat(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasScreenHeight() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearScreenHeight() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get devicePixelRatio => $_getN(2);
+  @$pb.TagNumber(3)
+  set devicePixelRatio($core.double v) { $_setFloat(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDevicePixelRatio() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDevicePixelRatio() => clearField(3);
 }
 

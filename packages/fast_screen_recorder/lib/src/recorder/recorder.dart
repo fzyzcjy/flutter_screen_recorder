@@ -76,6 +76,7 @@ class FastScreenRecorder {
         final metadataPack = proto.RecorderMetadataPack(
           interaction: interactionPack,
           video: recordingData.videoMetadataPack,
+          device: _createDeviceMetadata(),
         );
 
         await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
@@ -100,6 +101,14 @@ class FastScreenRecorder {
           await _nativeRecorder.capture();
         });
       });
+
+  static proto.DeviceMetadata _createDeviceMetadata() {
+    return proto.DeviceMetadata(
+      screenWidth: TODO,
+      screenHeight: TODO,
+      devicePixelRatio: TODO,
+    );
+  }
 }
 
 class _RecordingData {

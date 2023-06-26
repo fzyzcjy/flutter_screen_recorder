@@ -3,6 +3,7 @@ syntax = "proto3";
 message RecorderMetadataPack {
   InteractionPack interaction = 1;
   VideoMetadataPack video = 2;
+  DeviceMetadata device = 3;
 }
 
 message InteractionPack {
@@ -24,4 +25,10 @@ message VideoMetadataPack {
 message VideoFrameInfo {
   int64 wallclock_timestamp_micros = 1;
   int64 video_timestamp_micros = 2;
+}
+
+message DeviceMetadata {
+  float screen_width = 1;
+  float screen_height = 2;
+  float device_pixel_ratio = 3;
 }

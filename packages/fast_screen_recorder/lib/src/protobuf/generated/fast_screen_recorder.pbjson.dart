@@ -14,11 +14,12 @@ const RecorderMetadataPack$json = const {
   '2': const [
     const {'1': 'interaction', '3': 1, '4': 1, '5': 11, '6': '.InteractionPack', '10': 'interaction'},
     const {'1': 'video', '3': 2, '4': 1, '5': 11, '6': '.VideoMetadataPack', '10': 'video'},
+    const {'1': 'device', '3': 3, '4': 1, '5': 11, '6': '.DeviceMetadata', '10': 'device'},
   ],
 };
 
 /// Descriptor for `RecorderMetadataPack`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List recorderMetadataPackDescriptor = $convert.base64Decode('ChRSZWNvcmRlck1ldGFkYXRhUGFjaxIyCgtpbnRlcmFjdGlvbhgBIAEoCzIQLkludGVyYWN0aW9uUGFja1ILaW50ZXJhY3Rpb24SKAoFdmlkZW8YAiABKAsyEi5WaWRlb01ldGFkYXRhUGFja1IFdmlkZW8=');
+final $typed_data.Uint8List recorderMetadataPackDescriptor = $convert.base64Decode('ChRSZWNvcmRlck1ldGFkYXRhUGFjaxIyCgtpbnRlcmFjdGlvbhgBIAEoCzIQLkludGVyYWN0aW9uUGFja1ILaW50ZXJhY3Rpb24SKAoFdmlkZW8YAiABKAsyEi5WaWRlb01ldGFkYXRhUGFja1IFdmlkZW8SJwoGZGV2aWNlGAMgASgLMg8uRGV2aWNlTWV0YWRhdGFSBmRldmljZQ==');
 @$core.Deprecated('Use interactionPackDescriptor instead')
 const InteractionPack$json = const {
   '1': 'InteractionPack',
@@ -63,3 +64,15 @@ const VideoFrameInfo$json = const {
 
 /// Descriptor for `VideoFrameInfo`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg5WaWRlb0ZyYW1lSW5mbxI8Chp3YWxsY2xvY2tfdGltZXN0YW1wX21pY3JvcxgBIAEoA1IYd2FsbGNsb2NrVGltZXN0YW1wTWljcm9zEjQKFnZpZGVvX3RpbWVzdGFtcF9taWNyb3MYAiABKANSFHZpZGVvVGltZXN0YW1wTWljcm9z');
+@$core.Deprecated('Use deviceMetadataDescriptor instead')
+const DeviceMetadata$json = const {
+  '1': 'DeviceMetadata',
+  '2': const [
+    const {'1': 'screen_width', '3': 1, '4': 1, '5': 2, '10': 'screenWidth'},
+    const {'1': 'screen_height', '3': 2, '4': 1, '5': 2, '10': 'screenHeight'},
+    const {'1': 'device_pixel_ratio', '3': 3, '4': 1, '5': 2, '10': 'devicePixelRatio'},
+  ],
+};
+
+/// Descriptor for `DeviceMetadata`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List deviceMetadataDescriptor = $convert.base64Decode('Cg5EZXZpY2VNZXRhZGF0YRIhCgxzY3JlZW5fd2lkdGgYASABKAJSC3NjcmVlbldpZHRoEiMKDXNjcmVlbl9oZWlnaHQYAiABKAJSDHNjcmVlbkhlaWdodBIsChJkZXZpY2VfcGl4ZWxfcmF0aW8YAyABKAJSEGRldmljZVBpeGVsUmF0aW8=');

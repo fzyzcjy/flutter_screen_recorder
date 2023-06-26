@@ -28,7 +28,7 @@ message VideoFrameInfo {
 }
 
 message DeviceMetadata {
-  float screen_width = 1;
-  float screen_height = 2;
+  float physical_width = 1;
+  float physical_height = 2;
   float device_pixel_ratio = 3;
 }

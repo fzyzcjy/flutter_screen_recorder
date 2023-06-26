@@ -325,24 +325,24 @@ class VideoFrameInfo extends $pb.GeneratedMessage {
 
 class DeviceMetadata extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'DeviceMetadata', createEmptyInstance: create)
-    ..a<$core.double>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'screenWidth', $pb.PbFieldType.OF)
-    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'screenHeight', $pb.PbFieldType.OF)
+    ..a<$core.double>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'physicalWidth', $pb.PbFieldType.OF)
+    ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'physicalHeight', $pb.PbFieldType.OF)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'devicePixelRatio', $pb.PbFieldType.OF)
     ..hasRequiredFields = false
   ;
 
   DeviceMetadata._() : super();
   factory DeviceMetadata({
-    $core.double? screenWidth,
-    $core.double? screenHeight,
+    $core.double? physicalWidth,
+    $core.double? physicalHeight,
     $core.double? devicePixelRatio,
   }) {
     final _result = create();
-    if (screenWidth != null) {
-      _result.screenWidth = screenWidth;
+    if (physicalWidth != null) {
+      _result.physicalWidth = physicalWidth;
     }
-    if (screenHeight != null) {
-      _result.screenHeight = screenHeight;
+    if (physicalHeight != null) {
+      _result.physicalHeight = physicalHeight;
     }
     if (devicePixelRatio != null) {
       _result.devicePixelRatio = devicePixelRatio;
@@ -371,22 +371,22 @@ class DeviceMetadata extends $pb.GeneratedMessage {
   static DeviceMetadata? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.double get screenWidth => $_getN(0);
+  $core.double get physicalWidth => $_getN(0);
   @$pb.TagNumber(1)
-  set screenWidth($core.double v) { $_setFloat(0, v); }
+  set physicalWidth($core.double v) { $_setFloat(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasScreenWidth() => $_has(0);
+  $core.bool hasPhysicalWidth() => $_has(0);
   @$pb.TagNumber(1)
-  void clearScreenWidth() => clearField(1);
+  void clearPhysicalWidth() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.double get screenHeight => $_getN(1);
+  $core.double get physicalHeight => $_getN(1);
   @$pb.TagNumber(2)
-  set screenHeight($core.double v) { $_setFloat(1, v); }
+  set physicalHeight($core.double v) { $_setFloat(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasScreenHeight() => $_has(1);
+  $core.bool hasPhysicalHeight() => $_has(1);
   @$pb.TagNumber(2)
-  void clearScreenHeight() => clearField(2);
+  void clearPhysicalHeight() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.double get devicePixelRatio => $_getN(2);

@@ -68,11 +68,11 @@ final $typed_data.Uint8List videoFrameInfoDescriptor = $convert.base64Decode('Cg
 const DeviceMetadata$json = const {
   '1': 'DeviceMetadata',
   '2': const [
-    const {'1': 'screen_width', '3': 1, '4': 1, '5': 2, '10': 'screenWidth'},
-    const {'1': 'screen_height', '3': 2, '4': 1, '5': 2, '10': 'screenHeight'},
+    const {'1': 'physical_width', '3': 1, '4': 1, '5': 2, '10': 'physicalWidth'},
+    const {'1': 'physical_height', '3': 2, '4': 1, '5': 2, '10': 'physicalHeight'},
     const {'1': 'device_pixel_ratio', '3': 3, '4': 1, '5': 2, '10': 'devicePixelRatio'},
   ],
 };
 
 /// Descriptor for `DeviceMetadata`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List deviceMetadataDescriptor = $convert.base64Decode('Cg5EZXZpY2VNZXRhZGF0YRIhCgxzY3JlZW5fd2lkdGgYASABKAJSC3NjcmVlbldpZHRoEiMKDXNjcmVlbl9oZWlnaHQYAiABKAJSDHNjcmVlbkhlaWdodBIsChJkZXZpY2VfcGl4ZWxfcmF0aW8YAyABKAJSEGRldmljZVBpeGVsUmF0aW8=');
+final $typed_data.Uint8List deviceMetadataDescriptor = $convert.base64Decode('Cg5EZXZpY2VNZXRhZGF0YRIlCg5waHlzaWNhbF93aWR0aBgBIAEoAlINcGh5c2ljYWxXaWR0aBInCg9waHlzaWNhbF9oZWlnaHQYAiABKAJSDnBoeXNpY2FsSGVpZ2h0EiwKEmRldmljZV9waXhlbF9yYXRpbxgDIAEoAlIQZGV2aWNlUGl4ZWxSYXRpbw==');

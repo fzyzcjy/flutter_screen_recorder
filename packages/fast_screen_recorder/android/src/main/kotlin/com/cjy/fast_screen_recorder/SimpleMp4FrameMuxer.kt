@@ -1,10 +1,8 @@
 package com.cjy.fast_screen_recorder
 
 import android.media.MediaCodec
-import android.media.MediaExtractor
 import android.media.MediaFormat
 import android.media.MediaMuxer
-import android.util.Log
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
@@ -12,9 +10,7 @@ import java.util.concurrent.TimeUnit
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/Mp4FrameMuxer.kt
  */
 class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMuxer {
-    companion object {
-        private val TAG: String = SimpleMp4FrameMuxer::class.java.simpleName
-    }
+    private val log by logger("SimpleMp4FrameMuxer")
 
     private val frameUsec: Long = (TimeUnit.SECONDS.toMicros(1L) / fps).toLong()
 
@@ -29,7 +25,7 @@ class SimpleMp4FrameMuxer(path: String, private val fps: Float) : SimpleFrameMux
 
     override fun start(videoFormat: MediaFormat) {
         videoTrackIndex = muxer.addTrack(videoFormat)
-        Log.i(TAG, "start() videoFormat=$videoFormat videoTrackIndex=$videoTrackIndex")
+        log.log("start() videoFormat=$videoFormat videoTrackIndex=$videoTrackIndex")
         muxer.start()
         started = true
     }

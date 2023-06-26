@@ -72,6 +72,36 @@ struct StartRequest {
   }
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct LogArg {
+  var tag: String? = nil
+  var message: String? = nil
+  var throwable: String? = nil
+  var time: String? = nil
+
+  static func fromList(_ list: [Any?]) -> LogArg? {
+    let tag: String? = nilOrValue(list[0])
+    let message: String? = nilOrValue(list[1])
+    let throwable: String? = nilOrValue(list[2])
+    let time: String? = nilOrValue(list[3])
+
+    return LogArg(
+      tag: tag,
+      message: message,
+      throwable: throwable,
+      time: time
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      tag,
+      message,
+      throwable,
+      time,
+    ]
+  }
+}
+
 private class FastScreenRecorderHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
@@ -163,6 +193,58 @@ class FastScreenRecorderHostApiSetup {
       }
     } else {
       stopChannel.setMessageHandler(nil)
+    }
+  }
+}
+private class FastScreenRecorderFlutterApiCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+      case 128:
+        return LogArg.fromList(self.readValue() as! [Any?])
+      default:
+        return super.readValue(ofType: type)
+    }
+  }
+}
+
+private class FastScreenRecorderFlutterApiCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? LogArg {
+      super.writeByte(128)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
+}
+
+private class FastScreenRecorderFlutterApiCodecReaderWriter: FlutterStandardReaderWriter {
+  override func reader(with data: Data) -> FlutterStandardReader {
+    return FastScreenRecorderFlutterApiCodecReader(data: data)
+  }
+
+  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
+    return FastScreenRecorderFlutterApiCodecWriter(data: data)
+  }
+}
+
+class FastScreenRecorderFlutterApiCodec: FlutterStandardMessageCodec {
+  static let shared = FastScreenRecorderFlutterApiCodec(readerWriter: FastScreenRecorderFlutterApiCodecReaderWriter())
+}
+
+/// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
+class FastScreenRecorderFlutterApi {
+  private let binaryMessenger: FlutterBinaryMessenger
+  init(binaryMessenger: FlutterBinaryMessenger){
+    self.binaryMessenger = binaryMessenger
+  }
+  var codec: FlutterStandardMessageCodec {
+    return FastScreenRecorderFlutterApiCodec.shared
+  }
+  func log(arg argArg: LogArg, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.FastScreenRecorderFlutterApi.log", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([argArg] as [Any?]) { _ in
+      completion()
     }
   }
 }

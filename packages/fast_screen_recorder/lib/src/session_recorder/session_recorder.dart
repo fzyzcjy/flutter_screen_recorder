@@ -78,8 +78,8 @@ class SessionRecorder {
     await _recorder.stop();
   }
 
-  Future<List<File>> getRecords({required DateTime startTime, required DateTime endTime}) {
-    return _directoryManager.getRange(startTime: startTime, endTime: endTime).map((e) => e.file).toList();
+  Future<List<File>> getRecords({required DateTime startTime, required DateTime endTime}) async {
+    return (await _directoryManager.getRange(startTime: startTime, endTime: endTime)).map((e) => e.file).toList();
   }
 }
 

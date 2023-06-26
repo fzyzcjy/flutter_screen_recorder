@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
@@ -24,14 +23,7 @@ class SessionRecorder {
     // should not be too much, because when NativeRecorder is fake implementation, the result "video" is tiny
     // thus maxKeepSize will not cause any pruning
     this.maxKeepNumFile = 100,
-  }) {
-    _appLifecycleListener.addListener(_handleAppLifecycleChanged);
-  }
-
-  void dispose() {
-    _appLifecycleListener.removeListener(_handleAppLifecycleChanged);
-    _appLifecycleListener.dispose();
-  }
+  });
 
   bool get recording => _recordingData != null;
   _RecordingData? _recordingData;
@@ -41,8 +33,6 @@ class SessionRecorder {
   final _recorder = FastPackedScreenRecorder.instance;
 
   late final _directoryManager = TimeNamedDirectoryManager(extension: 'bin', directory: directory);
-
-  late final _appLifecycleListener = AppLifecycleStateListener();
 
   Future<void> start({
     Duration sectionDuration = const Duration(seconds: 60),
@@ -94,16 +84,6 @@ class SessionRecorder {
         // catch exception to avoid having uncaught exceptions, because this is called by Timer, not by user code
         await withCaptureException(() async {
           await _sectionize();
-        });
-      });
-
-  Future<void> _handleAppLifecycleChanged() async => await _lock.synchronized(() async {
-        await withCaptureException(() async {
-          if (_appLifecycleListener.value == AppLifecycleState.resumed) {
-            TODO;
-          } else {
-            TODO;
-          }
         });
       });
 

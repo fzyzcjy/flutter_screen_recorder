@@ -9,6 +9,7 @@ import android.util.Size
 import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
 
@@ -64,7 +65,7 @@ object NativeScreenRecorder {
 
     fun capture(
         activity: Activity,
-        callback: (Result<Unit>) -> Unit,
+        callback: (Result<CaptureResponse>) -> Unit,
     ) {
         val startTime = System.nanoTime()
         if (FastScreenRecorderPlugin.verbose) log.log("capture() begin time=$startTime")
@@ -74,20 +75,28 @@ object NativeScreenRecorder {
 
         val window = activity.window
 
-        var flutterSurfaceView: FlutterSurfaceView? = null
-        traverseView(window.decorView) { v ->
-            if (v is FlutterSurfaceView) flutterSurfaceView = v
-        }
+        val flutterSurfaceView = getFlutterSurfaceView(window)
 
         if (flutterSurfaceView == null) {
             callback(Result.failure(IllegalStateException("failed to find FlutterSurfaceView")))
             return
         }
 
+        // ref: How `PixelCopy.request` converts SurfaceView into Surface
+        val surface = flutterSurfaceView.holder.surface
+        // #9703 this will happen (for example) when app in background
+        // to avoid race condition like https://github.com/fzyzcjy/yplusplus/issues/9713#issuecomment-1607441134
+        // we mark it as "skipped" instead of throwing an error
+        if (!surface.isValid) {
+            log.log("capture() skipped since !surface.isValid")
+            callback(Result.success(CaptureResponse(succeedOrSkipped = false)))
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             PixelCopy.request(
 //                window,
-                flutterSurfaceView!!,
+                flutterSurfaceView,
                 bitmap!!,
                 { pixelCopyResult ->
                     // need to catch, since this is from PixelCopy callback, so there are no
@@ -103,9 +112,17 @@ object NativeScreenRecorder {
         }
     }
 
+    private fun getFlutterSurfaceView(window: Window): FlutterSurfaceView? {
+        var flutterSurfaceView: FlutterSurfaceView? = null
+        traverseView(window.decorView) { v ->
+            if (v is FlutterSurfaceView) flutterSurfaceView = v
+        }
+        return flutterSurfaceView
+    }
+
     private fun handlePixelCopyResult(
         pixelCopyResult: Int,
-        callback: (Result<Unit>) -> Unit,
+        callback: (Result<CaptureResponse>) -> Unit,
         debugStartTime: Long,
         bitmap: Bitmap
     ) {
@@ -117,7 +134,7 @@ object NativeScreenRecorder {
         }
 
         encoder!!.encode(bitmap)
-        callback(Result.success(Unit))
+        callback(Result.success(CaptureResponse(succeedOrSkipped = true)))
 
         bitmap.recycle()
     }

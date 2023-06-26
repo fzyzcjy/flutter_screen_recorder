@@ -38,7 +38,10 @@ class FastScreenRecorder {
       await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'start() begin');
 
-        if (_recording) throw ArgumentError('cannot start since already recording');
+        if (_recording) {
+          FastScreenRecorderLogger.log(_kTag, 'start() skip since already recording');
+          return;
+        }
 
         await _nativeRecorder.start(StartRequest(
           path: pathVideo,
@@ -63,7 +66,10 @@ class FastScreenRecorder {
   Future<void> stop() async => await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'stop() begin');
 
-        if (!_recording) throw ArgumentError('cannot start since already recording');
+        if (!_recording) {
+          FastScreenRecorderLogger.log(_kTag, 'stop() skip since already not recording');
+          return;
+        }
 
         final recordingData = _recordingData!;
         _recordingData = null;
@@ -91,14 +97,22 @@ class FastScreenRecorder {
           // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
           if (!_recording) return;
 
-          final currCaptureIndex = _recordingData!.captureIndex++;
+          final nowAtStart = clock.now();
 
+          final status = await _nativeRecorder.capture();
+          if (status == CaptureStatus.skipped) {
+            // p.s. not only status==skipped, but also when `capture` throws, it should halt
+            return;
+          }
+
+          // NOTE update metadata *after* native capture, including `captureIndex++`,
+          // because native `capture` can fail. when it fails, the frame is not captured,
+          // thus we should not save any metadata
+          final currCaptureIndex = _recordingData!.captureIndex++;
           _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
-            wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
+            wallclockTimestampMicros: Int64(nowAtStart.microsecondsSinceEpoch),
             videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
           ));
-
-          await _nativeRecorder.capture();
         });
       });
 

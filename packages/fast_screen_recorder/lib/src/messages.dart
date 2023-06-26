@@ -55,6 +55,27 @@ class StartRequest {
   }
 }
 
+class CaptureResponse {
+  CaptureResponse({
+    required this.succeedOrSkipped,
+  });
+
+  bool succeedOrSkipped;
+
+  Object encode() {
+    return <Object?>[
+      succeedOrSkipped,
+    ];
+  }
+
+  static CaptureResponse decode(Object result) {
+    result as List<Object?>;
+    return CaptureResponse(
+      succeedOrSkipped: result[0]! as bool,
+    );
+  }
+}
+
 class LogArg {
   LogArg({
     this.tag,
@@ -95,8 +116,11 @@ class _FastScreenRecorderHostApiCodec extends StandardMessageCodec {
   const _FastScreenRecorderHostApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is StartRequest) {
+    if (value is CaptureResponse) {
       buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else if (value is StartRequest) {
+      buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -107,6 +131,8 @@ class _FastScreenRecorderHostApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
+        return CaptureResponse.decode(readValue(buffer)!);
+      case 129: 
         return StartRequest.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -146,7 +172,7 @@ class FastScreenRecorderHostApi {
     }
   }
 
-  Future<void> capture() async {
+  Future<CaptureResponse> capture() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.FastScreenRecorderHostApi.capture', codec,
         binaryMessenger: _binaryMessenger);
@@ -163,8 +189,13 @@ class FastScreenRecorderHostApi {
         message: replyList[1] as String?,
         details: replyList[2],
       );
+    } else if (replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
     } else {
-      return;
+      return (replyList[0] as CaptureResponse?)!;
     }
   }
 

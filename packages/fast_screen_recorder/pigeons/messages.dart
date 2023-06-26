@@ -20,12 +20,16 @@ class StartRequest {
   late int iFrameInterval;
 }
 
+class CaptureResponse {
+  late bool succeededOrSkipped;
+}
+
 @HostApi()
 abstract class FastScreenRecorderHostApi {
   void start(StartRequest request);
 
   @async
-  void capture();
+  CaptureResponse capture();
 
   void stop();
 }

@@ -2,6 +2,7 @@ import 'package:clock/clock.dart';
 import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class InteractionRecorder {
@@ -43,6 +44,8 @@ class InteractionRecorderWidget extends StatelessWidget {
     if (pack == null) return; // not recording
 
     pack.pointerEvents.add(proto.PointerEvent(
+      type: e.type,
+      pointer: e.pointer,
       flutterTimestampMicros: Int64(e.timeStamp.inMicroseconds),
       wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
       positionDx: e.position.dx,
@@ -55,7 +58,33 @@ class InteractionRecorderWidget extends StatelessWidget {
     return Listener(
       onPointerDown: _handlePointer,
       onPointerMove: _handlePointer,
+      onPointerUp: _handlePointer,
+      onPointerHover: _handlePointer,
+      onPointerCancel: _handlePointer,
+      onPointerPanZoomStart: _handlePointer,
+      onPointerPanZoomUpdate: _handlePointer,
+      onPointerPanZoomEnd: _handlePointer,
+      onPointerSignal: _handlePointer,
       child: child,
     );
+  }
+}
+
+extension on PointerEvent {
+  proto.PointerEventType get type {
+    final event = this;
+
+    // ref: PointerPanZoomStartEvent
+    if (event is PointerDownEvent) return proto.PointerEventType.DOWN;
+    if (event is PointerMoveEvent) return proto.PointerEventType.MOVE;
+    if (event is PointerUpEvent) return proto.PointerEventType.UP;
+    if (event is PointerHoverEvent) return proto.PointerEventType.HOVER;
+    if (event is PointerCancelEvent) return proto.PointerEventType.CANCEL;
+    if (event is PointerPanZoomStartEvent) return proto.PointerEventType.PAN_ZOOM_START;
+    if (event is PointerPanZoomUpdateEvent) return proto.PointerEventType.PAN_ZOOM_UPDATE;
+    if (event is PointerPanZoomEndEvent) return proto.PointerEventType.PAN_ZOOM_END;
+    if (event is PointerSignalEvent) return proto.PointerEventType.SIGNAL;
+
+    return proto.PointerEventType.UNKNOWN;
   }
 }

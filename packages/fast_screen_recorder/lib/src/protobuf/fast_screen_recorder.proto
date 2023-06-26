@@ -11,11 +11,25 @@ message InteractionPack {
 }
 
 message PointerEvent {
+  PointerEventType type = 6;
+  int32 pointer = 5;
   int64 flutter_timestamp_micros = 1;
   int64 wallclock_timestamp_micros = 4;
   float position_dx = 2;
   float position_dy = 3;
-  // TODO more
+}
+
+enum PointerEventType {
+  UNKNOWN = 0;
+  DOWN = 1;
+  MOVE = 2;
+  UP = 3;
+  HOVER = 4;
+  CANCEL = 5;
+  PAN_ZOOM_START = 6;
+  PAN_ZOOM_UPDATE = 7;
+  PAN_ZOOM_END = 8;
+  SIGNAL = 9;
 }
 
 message VideoMetadataPack {

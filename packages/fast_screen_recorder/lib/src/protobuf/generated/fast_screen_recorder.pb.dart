@@ -10,6 +10,10 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'fast_screen_recorder.pbenum.dart';
+
+export 'fast_screen_recorder.pbenum.dart';
+
 class RecorderMetadataPack extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RecorderMetadataPack', createEmptyInstance: create)
     ..aOM<InteractionPack>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'interaction', subBuilder: InteractionPack.create)
@@ -138,6 +142,8 @@ class PointerEvent extends $pb.GeneratedMessage {
     ..a<$core.double>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDx', $pb.PbFieldType.OF)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'positionDy', $pb.PbFieldType.OF)
     ..aInt64(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'wallclockTimestampMicros')
+    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pointer', $pb.PbFieldType.O3)
+    ..e<PointerEventType>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: PointerEventType.UNKNOWN, valueOf: PointerEventType.valueOf, enumValues: PointerEventType.values)
     ..hasRequiredFields = false
   ;
 
@@ -147,6 +153,8 @@ class PointerEvent extends $pb.GeneratedMessage {
     $core.double? positionDx,
     $core.double? positionDy,
     $fixnum.Int64? wallclockTimestampMicros,
+    $core.int? pointer,
+    PointerEventType? type,
   }) {
     final _result = create();
     if (flutterTimestampMicros != null) {
@@ -160,6 +168,12 @@ class PointerEvent extends $pb.GeneratedMessage {
     }
     if (wallclockTimestampMicros != null) {
       _result.wallclockTimestampMicros = wallclockTimestampMicros;
+    }
+    if (pointer != null) {
+      _result.pointer = pointer;
+    }
+    if (type != null) {
+      _result.type = type;
     }
     return _result;
   }
@@ -219,6 +233,24 @@ class PointerEvent extends $pb.GeneratedMessage {
   $core.bool hasWallclockTimestampMicros() => $_has(3);
   @$pb.TagNumber(4)
   void clearWallclockTimestampMicros() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.int get pointer => $_getIZ(4);
+  @$pb.TagNumber(5)
+  set pointer($core.int v) { $_setSignedInt32(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasPointer() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearPointer() => clearField(5);
+
+  @$pb.TagNumber(6)
+  PointerEventType get type => $_getN(5);
+  @$pb.TagNumber(6)
+  set type(PointerEventType v) { setField(6, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasType() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearType() => clearField(6);
 }
 
 class VideoMetadataPack extends $pb.GeneratedMessage {

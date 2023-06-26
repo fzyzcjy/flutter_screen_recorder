@@ -8,6 +8,25 @@
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
 import 'dart:typed_data' as $typed_data;
+@$core.Deprecated('Use pointerEventTypeDescriptor instead')
+const PointerEventType$json = const {
+  '1': 'PointerEventType',
+  '2': const [
+    const {'1': 'UNKNOWN', '2': 0},
+    const {'1': 'DOWN', '2': 1},
+    const {'1': 'MOVE', '2': 2},
+    const {'1': 'UP', '2': 3},
+    const {'1': 'HOVER', '2': 4},
+    const {'1': 'CANCEL', '2': 5},
+    const {'1': 'PAN_ZOOM_START', '2': 6},
+    const {'1': 'PAN_ZOOM_UPDATE', '2': 7},
+    const {'1': 'PAN_ZOOM_END', '2': 8},
+    const {'1': 'SIGNAL', '2': 9},
+  ],
+};
+
+/// Descriptor for `PointerEventType`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List pointerEventTypeDescriptor = $convert.base64Decode('ChBQb2ludGVyRXZlbnRUeXBlEgsKB1VOS05PV04QABIICgRET1dOEAESCAoETU9WRRACEgYKAlVQEAMSCQoFSE9WRVIQBBIKCgZDQU5DRUwQBRISCg5QQU5fWk9PTV9TVEFSVBAGEhMKD1BBTl9aT09NX1VQREFURRAHEhAKDFBBTl9aT09NX0VORBAIEgoKBlNJR05BTBAJ');
 @$core.Deprecated('Use recorderMetadataPackDescriptor instead')
 const RecorderMetadataPack$json = const {
   '1': 'RecorderMetadataPack',
@@ -34,6 +53,8 @@ final $typed_data.Uint8List interactionPackDescriptor = $convert.base64Decode('C
 const PointerEvent$json = const {
   '1': 'PointerEvent',
   '2': const [
+    const {'1': 'type', '3': 6, '4': 1, '5': 14, '6': '.PointerEventType', '10': 'type'},
+    const {'1': 'pointer', '3': 5, '4': 1, '5': 5, '10': 'pointer'},
     const {'1': 'flutter_timestamp_micros', '3': 1, '4': 1, '5': 3, '10': 'flutterTimestampMicros'},
     const {'1': 'wallclock_timestamp_micros', '3': 4, '4': 1, '5': 3, '10': 'wallclockTimestampMicros'},
     const {'1': 'position_dx', '3': 2, '4': 1, '5': 2, '10': 'positionDx'},
@@ -42,7 +63,7 @@ const PointerEvent$json = const {
 };
 
 /// Descriptor for `PointerEvent`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSOAoYZmx1dHRlcl90aW1lc3RhbXBfbWljcm9zGAEgASgDUhZmbHV0dGVyVGltZXN0YW1wTWljcm9zEjwKGndhbGxjbG9ja190aW1lc3RhbXBfbWljcm9zGAQgASgDUhh3YWxsY2xvY2tUaW1lc3RhbXBNaWNyb3MSHwoLcG9zaXRpb25fZHgYAiABKAJSCnBvc2l0aW9uRHgSHwoLcG9zaXRpb25fZHkYAyABKAJSCnBvc2l0aW9uRHk=');
+final $typed_data.Uint8List pointerEventDescriptor = $convert.base64Decode('CgxQb2ludGVyRXZlbnQSJQoEdHlwZRgGIAEoDjIRLlBvaW50ZXJFdmVudFR5cGVSBHR5cGUSGAoHcG9pbnRlchgFIAEoBVIHcG9pbnRlchI4ChhmbHV0dGVyX3RpbWVzdGFtcF9taWNyb3MYASABKANSFmZsdXR0ZXJUaW1lc3RhbXBNaWNyb3MSPAoad2FsbGNsb2NrX3RpbWVzdGFtcF9taWNyb3MYBCABKANSGHdhbGxjbG9ja1RpbWVzdGFtcE1pY3JvcxIfCgtwb3NpdGlvbl9keBgCIAEoAlIKcG9zaXRpb25EeBIfCgtwb3NpdGlvbl9keRgDIAEoAlIKcG9zaXRpb25EeQ==');
 @$core.Deprecated('Use videoMetadataPackDescriptor instead')
 const VideoMetadataPack$json = const {
   '1': 'VideoMetadataPack',

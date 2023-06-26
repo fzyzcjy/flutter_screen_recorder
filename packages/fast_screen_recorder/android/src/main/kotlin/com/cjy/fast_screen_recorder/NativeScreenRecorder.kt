@@ -30,6 +30,11 @@ object NativeScreenRecorder {
     ) {
         log.log("start() begin")
 
+        if (encoder != null) {
+            log.log("start() but already has encoder thus skip")
+            return
+        }
+
 //        check(bitmap == null)
 //        bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
 
@@ -53,6 +58,11 @@ object NativeScreenRecorder {
 
     fun stop() {
         log.log("stop() begin")
+
+        if (encoder == null) {
+            log.log("stop() but already not have encoder thus skip")
+            return
+        }
 
 //        bitmap!!.recycle()
 //        bitmap = null
@@ -130,6 +140,12 @@ object NativeScreenRecorder {
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))
+            return
+        }
+
+        if (encoder == null) {
+            log.log("handlePixelCopyResult() but already not have encoder thus skip")
+            callback(Result.success(CaptureResponse(succeedOrSkipped = false)))
             return
         }
 

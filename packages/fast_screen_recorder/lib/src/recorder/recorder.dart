@@ -38,7 +38,10 @@ class FastScreenRecorder {
       await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'start() begin');
 
-        if (_recording) throw ArgumentError('cannot start since already recording');
+        if (_recording) {
+          FastScreenRecorderLogger.log(_kTag, 'start() skip since already recording');
+          return;
+        }
 
         await _nativeRecorder.start(StartRequest(
           path: pathVideo,
@@ -63,7 +66,10 @@ class FastScreenRecorder {
   Future<void> stop() async => await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'stop() begin');
 
-        if (!_recording) throw ArgumentError('cannot start since already recording');
+        if (!_recording) {
+          FastScreenRecorderLogger.log(_kTag, 'stop() skip since already not recording');
+          return;
+        }
 
         final recordingData = _recordingData!;
         _recordingData = null;

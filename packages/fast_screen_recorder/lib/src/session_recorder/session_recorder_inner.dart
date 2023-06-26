@@ -38,7 +38,10 @@ class SessionRecorderInner {
       await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'start() begin');
 
-        if (recording) throw ArgumentError('cannot start since already recording');
+        if (recording) {
+          FastScreenRecorderLogger.log(_kTag, 'start() skip since already recording');
+          return;
+        }
 
         if (!await Directory(directory).exists()) throw ArgumentError('Please ensure directory=$directory exists');
 
@@ -55,7 +58,10 @@ class SessionRecorderInner {
   Future<void> stop() async => await _lock.synchronized(() async {
         FastScreenRecorderLogger.log(_kTag, 'stop() begin');
 
-        if (!recording) throw ArgumentError('cannot stop since already not recording');
+        if (!recording) {
+          FastScreenRecorderLogger.log(_kTag, 'stop() skip since already not recording');
+          return;
+        }
 
         final recordingData = _recordingData!;
         _recordingData = null;
@@ -67,7 +73,7 @@ class SessionRecorderInner {
       });
 
   Future<void> flush() async => await _lock.synchronized(() async {
-        FastScreenRecorderLogger.log(_kTag, 'flush() begin');
+        FastScreenRecorderLogger.log(_kTag, 'flush() begin (recording=$recording)');
 
         if (!recording) {
           // no need to flush anything
@@ -85,6 +91,8 @@ class SessionRecorderInner {
       });
 
   Future<void> _sectionize() async {
+    FastScreenRecorderLogger.log(_kTag, 'sectionize() begin');
+
     await _stopInnerRecorder();
     await _startInnerRecorder();
 

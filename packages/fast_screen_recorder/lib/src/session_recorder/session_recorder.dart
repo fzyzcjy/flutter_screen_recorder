@@ -1,9 +1,17 @@
+import 'dart:ui';
+
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:fast_screen_recorder/src/session_recorder/session_recorder_inner.dart';
+import 'package:fast_screen_recorder/src/utils/app_lifecycle_state_observer.dart';
+import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 
 class SessionRecorder {
   final SessionRecorderInner _inner;
+
+  var _callerSpecifiedRecording = false;
+
+  late final _appLifecycleListener = AppLifecycleStateListener();
 
   SessionRecorder({
     required String directory,
@@ -15,18 +23,30 @@ class SessionRecorder {
           directory: directory,
           maxKeepSize: maxKeepSize,
           maxKeepNumFile: maxKeepNumFile,
-        );
+        ) {
+    _appLifecycleListener.addListener(_handleAppLifecycleChanged);
+  }
+
+  void dispose() {
+    _appLifecycleListener.removeListener(_handleAppLifecycleChanged);
+    _appLifecycleListener.dispose();
+  }
 
   Future<void> start({
     Duration sectionDuration = const Duration(seconds: 60),
     VideoConfig videoConfig = const VideoConfig(),
-  }) async =>
-      await _inner.start(
-        sectionDuration: sectionDuration,
-        videoConfig: videoConfig,
-      );
+  }) async {
+    _callerSpecifiedRecording = true;
+    await _inner.start(
+      sectionDuration: sectionDuration,
+      videoConfig: videoConfig,
+    );
+  }
 
-  Future<void> stop() async => await _inner.stop();
+  Future<void> stop() async {
+    _callerSpecifiedRecording = false;
+    await _inner.stop();
+  }
 
   Future<void> flush() async => await _inner.flush();
 
@@ -40,4 +60,14 @@ class SessionRecorder {
         endTime: endTime,
         roughMaxSize: roughMaxSize,
       );
+
+  Future<void> _handleAppLifecycleChanged() async {
+    await withCaptureException(() async {
+      if (_appLifecycleListener.value == AppLifecycleState.resumed) {
+        TODO;
+      } else {
+        TODO;
+      }
+    });
+  }
 }

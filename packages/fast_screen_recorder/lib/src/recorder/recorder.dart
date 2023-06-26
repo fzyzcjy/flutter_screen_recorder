@@ -16,7 +16,7 @@ class FastScreenRecorder {
 
   FastScreenRecorder._();
 
-  bool get recording => _recordingData != null;
+  bool get _recording => _recordingData != null;
   _RecordingData? _recordingData;
 
   final _lock = Lock();
@@ -30,7 +30,7 @@ class FastScreenRecorder {
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
-        if (recording) throw ArgumentError('cannot start since already recording');
+        if (_recording) throw ArgumentError('cannot start since already recording');
 
         await _nativeRecorder.start(StartRequest(
           path: pathVideo,
@@ -53,7 +53,7 @@ class FastScreenRecorder {
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
-        if (!recording) throw ArgumentError('cannot start since already recording');
+        if (!_recording) throw ArgumentError('cannot start since already recording');
 
         final recordingData = _recordingData!;
         _recordingData = null;
@@ -74,7 +74,7 @@ class FastScreenRecorder {
   Future<void> _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
         // this can happen because lock delays execution
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
-        if (!recording) return;
+        if (!_recording) return;
 
         final currCaptureIndex = _recordingData!.captureIndex++;
 

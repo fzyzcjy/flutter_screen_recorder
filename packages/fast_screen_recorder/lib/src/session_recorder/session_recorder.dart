@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clock/clock.dart';
-import 'package:collection/collection.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
-import 'package:path/path.dart';
+import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
-  final Directory directory;
+  final String directory;
   final int maxKeepSize;
 
   SessionRecorder({
@@ -24,7 +23,7 @@ class SessionRecorder {
 
   final _recorder = FastPackedScreenRecorder.instance;
 
-  final _directoryManager = TimeNamedDirectoryManager(extension: 'bin');
+  late final _directoryManager = TimeNamedDirectoryManager(extension: 'bin', directory: directory);
 
   Future<void> start({
     Duration sectionDuration = const Duration(seconds: 60),
@@ -33,7 +32,7 @@ class SessionRecorder {
       await _lock.synchronized(() async {
         if (recording) throw ArgumentError('cannot start since already recording');
 
-        if (!await directory.exists()) throw ArgumentError('Please ensure directory=$directory exists');
+        if (!await Directory(directory).exists()) throw ArgumentError('Please ensure directory=$directory exists');
 
         _recordingData = _RecordingData(
           sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
@@ -45,8 +44,7 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -58,8 +56,7 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> _handleSectionize(Timer _) async =>
-      await _lock.synchronized(() async {
+  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
         await _stopInnerRecorder();
         await _startInnerRecorder();
 
@@ -72,7 +69,7 @@ class SessionRecorder {
 
   Future<void> _startInnerRecorder() async {
     await _recorder.start(
-      path: _FileNamer.create(clock.now()),
+      path: _directoryManager.getPathForTime(clock.now()),
       videoConfig: _recordingData!.videoConfig,
     );
   }

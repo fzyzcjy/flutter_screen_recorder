@@ -1,4 +1,4 @@
-import 'package:file/file.dart';
+import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -9,7 +9,7 @@ void main() {
   setUp(() {
     fs = MemoryFileSystem();
     manager = TimeNamedDirectoryManager(
-      fileSystem: fs,
+      fs: fs,
       directory: directory,
       extension: 'bin',
     );

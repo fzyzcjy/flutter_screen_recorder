@@ -3,19 +3,34 @@ import 'dart:io';
 import 'package:fast_screen_recorder/fast_screen_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 
-class NativeRecorder {
+abstract class NativeRecorder {
   static final instance = NativeRecorder._();
 
+  factory NativeRecorder._() {
+    return TODO ? _NativeRecorderReal._() : _NativeRecorderFake();
+  }
+
+  Future<void> start(StartRequest request);
+
+  Future<void> capture();
+
+  Future<void> stop();
+}
+
+class _NativeRecorderReal implements NativeRecorder {
   final _hostApi = FastScreenRecorderHostApi();
 
-  NativeRecorder._() {
+  _NativeRecorderReal._() {
     _FlutterApiHandler.init();
   }
 
+  @override
   Future<void> start(StartRequest request) async => await _hostApi.start(request);
 
+  @override
   Future<void> capture() async => await _hostApi.capture();
 
+  @override
   Future<void> stop() async => await _hostApi.stop();
 }
 
@@ -41,10 +56,7 @@ class _FlutterApiHandler implements FastScreenRecorderFlutterApi {
   }
 }
 
-class NativeRecorderFake implements NativeRecorder {
-  @override
-  FastScreenRecorderHostApi get _hostApi => throw UnimplementedError();
-
+class _NativeRecorderFake implements NativeRecorder {
   @override
   Future<void> start(StartRequest request) async {
     await File(request.path).writeAsString('FAKE_CONTENT');

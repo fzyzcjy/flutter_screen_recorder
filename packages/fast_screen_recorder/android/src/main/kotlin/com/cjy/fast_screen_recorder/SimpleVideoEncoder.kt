@@ -11,7 +11,6 @@ import android.os.Looper
 import android.view.Surface
 import java.io.File
 
-private const val VERBOSE = true
 
 /**
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/FrameBuilder.kt
@@ -91,7 +90,7 @@ class SimpleVideoEncoder(
                 // need to catch, since this is from callback, so there are no
                 // things like pigeon auto-catch
                 catchExceptionToLog {
-                    log.log("onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
+                    if (FastScreenRecorderPlugin.verbose) log.log("onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
 
                     val encodedData = codec.getOutputBuffer(index)!!
 
@@ -100,7 +99,7 @@ class SimpleVideoEncoder(
                     if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                         // The codec config data was pulled out and fed to the muxer when we got
                         // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                        if (VERBOSE) log.log("drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                        if (FastScreenRecorderPlugin.verbose) log.log("drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
                         effectiveSize = 0
                     }
 
@@ -109,7 +108,7 @@ class SimpleVideoEncoder(
                             throw RuntimeException("muxer hasn't started")
                         }
                         frameMuxer.muxVideoFrame(encodedData, info)
-                        if (VERBOSE) log.log("sent " + info.size + " bytes to muxer")
+                        if (FastScreenRecorderPlugin.verbose) log.log("sent " + info.size + " bytes to muxer")
                     }
 
                     mediaCodec.releaseOutputBuffer(index, false)
@@ -119,7 +118,7 @@ class SimpleVideoEncoder(
                         actualRelease()
                     }
 
-                    log.log("onOutputBufferAvailable() end")
+                    if (FastScreenRecorderPlugin.verbose) log.log("onOutputBufferAvailable() end")
                 }
             }
 
@@ -149,7 +148,7 @@ class SimpleVideoEncoder(
 
     fun encode(image: Bitmap) {
         val startTime = System.nanoTime()
-        log.log("encode() begin time=$startTime")
+        if (FastScreenRecorderPlugin.verbose) log.log("encode() begin time=$startTime")
 
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
@@ -164,7 +163,7 @@ class SimpleVideoEncoder(
 //        )
 //        drainCodec(false)
 
-        log.log("encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
+        if (FastScreenRecorderPlugin.verbose) log.log("encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
     }
 
     /**

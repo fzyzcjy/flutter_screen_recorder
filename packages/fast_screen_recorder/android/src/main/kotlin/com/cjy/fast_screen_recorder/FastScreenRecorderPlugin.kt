@@ -67,5 +67,8 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
     companion object {
         var flutterApi: FastScreenRecorderFlutterApi? = null
             private set
+
+        // TODO add modifier to this flag
+        var verbose: Boolean = false
     }
 }

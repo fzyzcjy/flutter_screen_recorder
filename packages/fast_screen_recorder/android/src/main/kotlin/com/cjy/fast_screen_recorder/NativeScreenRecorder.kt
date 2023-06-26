@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.util.Size
 import android.view.PixelCopy
 import android.view.View
@@ -15,8 +14,8 @@ import java.io.File
 
 object NativeScreenRecorder {
     private val log by logger("NativeScreenRecorder")
-    
-//    private var bitmap: Bitmap? = null
+
+    //    private var bitmap: Bitmap? = null
     private var encoder: SimpleVideoEncoder? = null
 
     private var outputSize: Size? = null
@@ -68,9 +67,10 @@ object NativeScreenRecorder {
         callback: (Result<Unit>) -> Unit,
     ) {
         val startTime = System.nanoTime()
-        log.log("capture() begin time=$startTime")
+        if (FastScreenRecorderPlugin.verbose) log.log("capture() begin time=$startTime")
 
-        val bitmap = Bitmap.createBitmap(outputSize!!.width, outputSize!!.height, Bitmap.Config.ARGB_8888)
+        val bitmap =
+            Bitmap.createBitmap(outputSize!!.width, outputSize!!.height, Bitmap.Config.ARGB_8888)
 
         val window = activity.window
 
@@ -93,7 +93,7 @@ object NativeScreenRecorder {
                     // need to catch, since this is from PixelCopy callback, so there are no
                     // things like pigeon auto-catch
                     catchExceptionToLog {
-                        handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime, bitmap)
+                        handlePixelCopyResult(pixelCopyResult, callback, startTime, bitmap)
                     }
                 },
                 Handler(Looper.getMainLooper())
@@ -103,8 +103,13 @@ object NativeScreenRecorder {
         }
     }
 
-    private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit, debugStartTime: Long, bitmap: Bitmap) {
-        log.log("handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
+    private fun handlePixelCopyResult(
+        pixelCopyResult: Int,
+        callback: (Result<Unit>) -> Unit,
+        debugStartTime: Long,
+        bitmap: Bitmap
+    ) {
+        if (FastScreenRecorderPlugin.verbose) log.log("handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))

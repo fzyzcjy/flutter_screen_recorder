@@ -20,6 +20,8 @@ class FastScreenRecorder {
 
   FastScreenRecorder._();
 
+  static var verbose = false;
+
   bool get _recording => _recordingData != null;
   _RecordingData? _recordingData;
 
@@ -82,7 +84,7 @@ class FastScreenRecorder {
   Future<void> _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
         // catch exception to avoid having uncaught exceptions, because this is called by Timer, not by user code
         await withCaptureException(() async {
-          FastScreenRecorderLogger.log(_kTag, 'handleCaptureCall() begin');
+          if (verbose) FastScreenRecorderLogger.log(_kTag, 'handleCaptureCall() begin');
 
           // this can happen because lock delays execution
           // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418

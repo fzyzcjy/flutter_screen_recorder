@@ -91,14 +91,18 @@ class FastScreenRecorder {
           // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
           if (!_recording) return;
 
-          final currCaptureIndex = _recordingData!.captureIndex++;
-
-          _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
-            wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
-            videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
-          ));
+          final nowAtStart = clock.now();
 
           await _nativeRecorder.capture();
+
+          // NOTE update metadata *after* native capture, including `captureIndex++`,
+          // because native `capture` can fail. when it fails, the frame is not captured,
+          // thus we should not save any metadata
+          final currCaptureIndex = _recordingData!.captureIndex++;
+          _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
+            wallclockTimestampMicros: Int64(nowAtStart.microsecondsSinceEpoch),
+            videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
+          ));
         });
       });
 

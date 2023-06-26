@@ -4,6 +4,17 @@ Flutter screen recorder and session replay
 
 Flutter issue: https://github.com/flutter/flutter/issues/129098
 
+### Quickstart
+
+[TODO]
+
+### Privacy
+
+The recorder itself only saves data on user's phone locally, thus it does not have any privacy problem.
+However, if you are going to get the records out of the local storage (e.g. upload the records to your server),
+please explicitly ask the user for permission, and promise to only use the records to debug your app.
+This is a part of the license of this library.
+
 ### Quick benchmark
 
 | method            | resolution | FPS            | frame quality    | show other views          | fidelity                                | experiment 0 | experiment 1 | experiment 2 | experiment 3 |

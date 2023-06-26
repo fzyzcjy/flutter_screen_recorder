@@ -89,7 +89,13 @@ object NativeScreenRecorder {
 //                window,
                 flutterSurfaceView!!,
                 bitmap!!,
-                { pixelCopyResult -> handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime, bitmap) },
+                { pixelCopyResult ->
+                    // need to catch, since this is from PixelCopy callback, so there are no
+                    // things like pigeon auto-catch
+                    catchExceptionToLog {
+                        handlePixelCopyResult(pixelCopyResult, callback, debugStartTime = startTime, bitmap)
+                    }
+                },
                 Handler(Looper.getMainLooper())
             )
         } else {

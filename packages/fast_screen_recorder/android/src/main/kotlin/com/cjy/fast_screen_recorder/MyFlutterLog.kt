@@ -25,12 +25,14 @@ object MyFlutterLog {
         }
 
         Handler(Looper.getMainLooper()).post {
-            FastScreenRecorderPlugin.flutterApi?.log(LogArg(
-                tag = tag,
-                message = message,
-                time = time,
-                throwable = throwable?.let { exceptionToString(it) },
-            )) {}
+            FastScreenRecorderPlugin.flutterApi?.log(
+                LogArg(
+                    tag = tag,
+                    message = message,
+                    time = time,
+                    throwable = throwable?.let { exceptionToString(it) },
+                )
+            ) {}
         }
     }
 }
@@ -61,3 +63,11 @@ private fun exceptionToString(e: Throwable): String {
 
 // https://stackoverflow.com/questions/13515168/android-time-in-iso-8601
 private val SDF_ISO8601 = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.UK)
+
+fun catchExceptionToLog(callback: () -> Unit) {
+    try {
+        callback()
+    } catch (e: Throwable) {
+        MyFlutterLog.log("E2L", "captureExceptionToLog see exception", e)
+    }
+}

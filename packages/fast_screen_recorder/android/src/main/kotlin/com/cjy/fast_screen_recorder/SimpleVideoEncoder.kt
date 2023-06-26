@@ -77,8 +77,10 @@ class SimpleVideoEncoder(
     private fun createMediaCodecCallback(): MediaCodec.Callback {
         return object : MediaCodec.Callback() {
             override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
-                log.log("onInputBufferAvailable index=$index")
-                // nothing?
+                catchExceptionToLog {
+                    log.log("onInputBufferAvailable index=$index")
+                    // nothing?
+                }
             }
 
             override fun onOutputBufferAvailable(
@@ -86,53 +88,61 @@ class SimpleVideoEncoder(
                 index: Int,
                 info: MediaCodec.BufferInfo
             ) {
-                log.log("onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
+                // need to catch, since this is from callback, so there are no
+                // things like pigeon auto-catch
+                catchExceptionToLog {
+                    log.log("onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
 
-                val encodedData = codec.getOutputBuffer(index)!!
+                    val encodedData = codec.getOutputBuffer(index)!!
 
-                var effectiveSize = info.size
+                    var effectiveSize = info.size
 
-                if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
-                    // The codec config data was pulled out and fed to the muxer when we got
-                    // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) log.log("drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
-                    effectiveSize = 0
-                }
-
-                if (effectiveSize != 0) {
-                    if (!frameMuxer.isStarted()) {
-                        throw RuntimeException("muxer hasn't started")
+                    if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
+                        // The codec config data was pulled out and fed to the muxer when we got
+                        // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
+                        if (VERBOSE) log.log("drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                        effectiveSize = 0
                     }
-                    frameMuxer.muxVideoFrame(encodedData, info)
-                    if (VERBOSE) log.log("sent " + info.size + " bytes to muxer")
+
+                    if (effectiveSize != 0) {
+                        if (!frameMuxer.isStarted()) {
+                            throw RuntimeException("muxer hasn't started")
+                        }
+                        frameMuxer.muxVideoFrame(encodedData, info)
+                        if (VERBOSE) log.log("sent " + info.size + " bytes to muxer")
+                    }
+
+                    mediaCodec.releaseOutputBuffer(index, false)
+
+                    if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                        log.log("drainCodec end of stream reached")
+                        actualRelease()
+                    }
+
+                    log.log("onOutputBufferAvailable() end")
                 }
-
-                mediaCodec.releaseOutputBuffer(index, false)
-
-                if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    log.log("drainCodec end of stream reached")
-                    actualRelease()
-                }
-
-                log.log("onOutputBufferAvailable() end")
             }
 
             override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-                log.log("onError (MediaCodec.Callback)", e)
+                catchExceptionToLog {
+                    log.log("onError (MediaCodec.Callback)", e)
+                }
             }
 
             override fun onOutputFormatChanged(codec: MediaCodec, format: MediaFormat) {
-                log.log("onOutputFormatChanged format=$format")
+                catchExceptionToLog {
+                    log.log("onOutputFormatChanged format=$format")
 
-                // should happen before receiving buffers, and should only happen once
-                if (frameMuxer.isStarted()) {
-                    throw RuntimeException("format changed twice")
+                    // should happen before receiving buffers, and should only happen once
+                    if (frameMuxer.isStarted()) {
+                        throw RuntimeException("format changed twice")
+                    }
+                    val newFormat: MediaFormat = mediaCodec.outputFormat
+                    log.log("encoder output format changed: $newFormat")
+
+                    // now that we have the Magic Goodies, start the muxer
+                    frameMuxer.start(newFormat)
                 }
-                val newFormat: MediaFormat = mediaCodec.outputFormat
-                log.log("encoder output format changed: $newFormat")
-
-                // now that we have the Magic Goodies, start the muxer
-                frameMuxer.start(newFormat)
             }
         }
     }

@@ -9,6 +9,7 @@ import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
+import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -79,20 +80,23 @@ class FastScreenRecorder {
       });
 
   Future<void> _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
-        FastScreenRecorderLogger.log(_kTag, 'handleCaptureCall() begin');
+        // catch exception to avoid having uncaught exceptions, because this is called by Timer, not by user code
+        await withCaptureException(() async {
+          FastScreenRecorderLogger.log(_kTag, 'handleCaptureCall() begin');
 
-        // this can happen because lock delays execution
-        // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
-        if (!_recording) return;
+          // this can happen because lock delays execution
+          // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
+          if (!_recording) return;
 
-        final currCaptureIndex = _recordingData!.captureIndex++;
+          final currCaptureIndex = _recordingData!.captureIndex++;
 
-        _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
-          wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
-          videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
-        ));
+          _recordingData!.videoMetadataPack.frameInfos.add(proto.VideoFrameInfo(
+            wallclockTimestampMicros: Int64(clock.now().microsecondsSinceEpoch),
+            videoTimestampMicros: Int64(1000000 ~/ _recordingData!.fps * currCaptureIndex),
+          ));
 
-        await _nativeRecorder.capture();
+          await _nativeRecorder.capture();
+        });
       });
 }
 

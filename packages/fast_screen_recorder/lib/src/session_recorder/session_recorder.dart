@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
+import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fast_screen_recorder/src/utils/logger.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 import 'package:synchronized/synchronized.dart';
@@ -75,7 +76,10 @@ class SessionRecorder {
       });
 
   Future<void> _handleSectionizeTimerCall(Timer _) async => await _lock.synchronized(() async {
-        await _sectionize();
+        // catch exception to avoid having uncaught exceptions, because this is called by Timer, not by user code
+        await withCaptureException(() async {
+          await _sectionize();
+        });
       });
 
   Future<void> _sectionize() async {

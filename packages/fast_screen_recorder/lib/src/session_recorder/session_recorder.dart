@@ -14,10 +14,14 @@ class SessionRecorder {
 
   final String directory;
   final int maxKeepSize;
+  final int maxKeepNumFile;
 
   SessionRecorder({
     required this.directory,
     this.maxKeepSize = 50 * 1000 * 1000,
+    // should not be too much, because when NativeRecorder is fake implementation, the result "video" is tiny
+    // thus maxKeepSize will not cause any pruning
+    this.maxKeepNumFile = 100,
   });
 
   bool get recording => _recordingData != null;
@@ -90,7 +94,7 @@ class SessionRecorder {
   }
 
   Future<void> _pruneDirectory() async {
-    await _directoryManager.prune(maxKeepSize: maxKeepSize);
+    await _directoryManager.prune(maxKeepSize: maxKeepSize, maxKeepNumFile: maxKeepNumFile);
   }
 
   Future<void> _startInnerRecorder() async {

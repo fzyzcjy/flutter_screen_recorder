@@ -13,3 +13,9 @@ extension ExtVideoFrameInfo on proto.VideoFrameInfo {
 
   Duration get videoTimestamp => Duration(microseconds: videoTimestampMicros.toInt());
 }
+
+extension ExtDeviceMetadata on proto.DeviceMetadata {
+  Size get physicalSize => Size(physicalWidth, physicalHeight);
+
+  Size get size => physicalSize / devicePixelRatio;
+}

@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
+import 'package:fast_screen_recorder/src/protobuf/extensions.dart';
 import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder.pb.dart' as proto;
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/simple_video_player.dart';
@@ -69,23 +71,31 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          SimpleVideoPlayer(
-            key: ValueKey(widget.pathVideo),
-            pathVideo: widget.pathVideo,
-            onVideoPlayerEvent: _handleVideoPlayerEvent,
-          ),
-          _TimeInterpolationWidget(
-            time: time,
-            playing: playing,
-            builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
-              pack: metadata.interaction,
-              wallclockTimestamp: interpolatedWallclockTimestamp,
+    return _PlayerSizeDeterminator(
+      deviceMetadata: metadata.device,
+      builder: (_, displayScale) => Material(
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            SimpleVideoPlayer(
+              key: ValueKey(widget.pathVideo),
+              pathVideo: widget.pathVideo,
+              onVideoPlayerEvent: _handleVideoPlayerEvent,
+              aspectRatio: metadata.device.size.aspectRatio,
             ),
-          ),
-        ],
+            IgnorePointer(
+              child: _TimeInterpolationWidget(
+                time: time,
+                playing: playing,
+                builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
+                  pack: metadata.interaction,
+                  wallclockTimestamp: interpolatedWallclockTimestamp,
+                  displayScale: displayScale,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -158,6 +168,36 @@ class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with
       context,
       widget.time.recordWallclockTime +
           (widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
+    );
+  }
+}
+
+class _PlayerSizeDeterminator extends StatelessWidget {
+  final proto.DeviceMetadata deviceMetadata;
+  final Widget Function(BuildContext context, double displayScale) builder;
+
+  const _PlayerSizeDeterminator({required this.deviceMetadata, required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: LayoutBuilder(builder: (_, constraints) {
+        assert(constraints.biggest.isFinite);
+
+        final aspectRatio = deviceMetadata.size.aspectRatio;
+        final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
+        final chosenHeight =
+            min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
+        final chosenSize = Size(chosenWidth, chosenHeight);
+        assert(constraints.isSatisfiedBy(chosenSize), 'constraints=$constraints chosenSize=$chosenSize');
+
+        final chosenScale = chosenSize.width / deviceMetadata.size.width;
+
+        return SizedBox.fromSize(
+          size: chosenSize,
+          child: builder(context, chosenScale),
+        );
+      }),
     );
   }
 }

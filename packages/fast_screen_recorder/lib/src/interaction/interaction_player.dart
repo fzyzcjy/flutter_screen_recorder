@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class InteractionPlayer extends StatelessWidget {
   final proto.InteractionPack pack;
   final Duration wallclockTimestamp;
+  final double displayScale;
 
   const InteractionPlayer({
     super.key,
     required this.pack,
     required this.wallclockTimestamp,
+    required this.displayScale,
   });
 
   @override
@@ -20,6 +22,7 @@ class InteractionPlayer extends StatelessWidget {
       painter: _InteractionPainter(
         pack: pack,
         wallclockTimestamp: wallclockTimestamp,
+        displayScale: displayScale,
       ),
     );
   }
@@ -28,10 +31,12 @@ class InteractionPlayer extends StatelessWidget {
 class _InteractionPainter extends CustomPainter {
   final proto.InteractionPack pack;
   final Duration wallclockTimestamp;
+  final double displayScale;
 
   _InteractionPainter({
     required this.pack,
     required this.wallclockTimestamp,
+    required this.displayScale,
   });
 
   @override
@@ -56,7 +61,7 @@ class _InteractionPainter extends CustomPainter {
 
       // print('i=$i opacity=$opacity');
 
-      canvas.drawCircle(event.position, 20, painter);
+      canvas.drawCircle(event.position * displayScale, 20, painter);
     }
   }
 

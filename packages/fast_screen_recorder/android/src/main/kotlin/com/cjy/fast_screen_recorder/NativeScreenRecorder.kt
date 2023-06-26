@@ -65,7 +65,7 @@ object NativeScreenRecorder {
 
     fun capture(
         activity: Activity,
-        callback: (Result<Unit>) -> Unit,
+        callback: (Result<CaptureResponse>) -> Unit,
     ) {
         val startTime = System.nanoTime()
         if (FastScreenRecorderPlugin.verbose) log.log("capture() begin time=$startTime")
@@ -119,7 +119,7 @@ object NativeScreenRecorder {
 
     private fun handlePixelCopyResult(
         pixelCopyResult: Int,
-        callback: (Result<Unit>) -> Unit,
+        callback: (Result<CaptureResponse>) -> Unit,
         debugStartTime: Long,
         bitmap: Bitmap
     ) {
@@ -131,7 +131,7 @@ object NativeScreenRecorder {
         }
 
         encoder!!.encode(bitmap)
-        callback(Result.success(Unit))
+        callback(Result.success(CaptureResponse(succeedOrSkipped = true)))
 
         bitmap.recycle()
     }

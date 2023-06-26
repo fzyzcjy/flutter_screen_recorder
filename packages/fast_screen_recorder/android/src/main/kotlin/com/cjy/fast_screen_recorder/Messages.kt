@@ -78,6 +78,25 @@ data class StartRequest (
 }
 
 /** Generated class from Pigeon that represents data sent in messages. */
+data class CaptureResponse (
+  val succeedOrSkipped: Boolean
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): CaptureResponse {
+      val succeedOrSkipped = list[0] as Boolean
+      return CaptureResponse(succeedOrSkipped)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      succeedOrSkipped,
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
 data class LogArg (
   val tag: String? = null,
   val message: String? = null,
@@ -111,6 +130,11 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
     return when (type) {
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
+          CaptureResponse.fromList(it)
+        }
+      }
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
           StartRequest.fromList(it)
         }
       }
@@ -119,8 +143,12 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is StartRequest -> {
+      is CaptureResponse -> {
         stream.write(128)
+        writeValue(stream, value.toList())
+      }
+      is StartRequest -> {
+        stream.write(129)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -131,7 +159,7 @@ private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface FastScreenRecorderHostApi {
   fun start(request: StartRequest)
-  fun capture(callback: (Result<Unit>) -> Unit)
+  fun capture(callback: (Result<CaptureResponse>) -> Unit)
   fun stop()
 
   companion object {
@@ -165,12 +193,13 @@ interface FastScreenRecorderHostApi {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.FastScreenRecorderHostApi.capture", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            api.capture() { result: Result<Unit> ->
+            api.capture() { result: Result<CaptureResponse> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(wrapError(error))
               } else {
-                reply.reply(wrapResult(null))
+                val data = result.getOrNull()
+                reply.reply(wrapResult(data))
               }
             }
           }

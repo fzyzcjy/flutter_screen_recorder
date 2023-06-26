@@ -73,6 +73,24 @@ struct StartRequest {
 }
 
 /// Generated class from Pigeon that represents data sent in messages.
+struct CaptureResponse {
+  var succeedOrSkipped: Bool
+
+  static func fromList(_ list: [Any?]) -> CaptureResponse? {
+    let succeedOrSkipped = list[0] as! Bool
+
+    return CaptureResponse(
+      succeedOrSkipped: succeedOrSkipped
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      succeedOrSkipped,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
 struct LogArg {
   var tag: String? = nil
   var message: String? = nil
@@ -106,6 +124,8 @@ private class FastScreenRecorderHostApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
+        return CaptureResponse.fromList(self.readValue() as! [Any?])
+      case 129:
         return StartRequest.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -115,8 +135,11 @@ private class FastScreenRecorderHostApiCodecReader: FlutterStandardReader {
 
 private class FastScreenRecorderHostApiCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? StartRequest {
+    if let value = value as? CaptureResponse {
       super.writeByte(128)
+      super.writeValue(value.toList())
+    } else if let value = value as? StartRequest {
+      super.writeByte(129)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -141,7 +164,7 @@ class FastScreenRecorderHostApiCodec: FlutterStandardMessageCodec {
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol FastScreenRecorderHostApi {
   func start(request: StartRequest) throws
-  func capture(completion: @escaping (Result<Void, Error>) -> Void)
+  func capture(completion: @escaping (Result<CaptureResponse, Error>) -> Void)
   func stop() throws
 }
 
@@ -171,8 +194,8 @@ class FastScreenRecorderHostApiSetup {
       captureChannel.setMessageHandler { _, reply in
         api.capture() { result in
           switch result {
-            case .success:
-              reply(wrapResult(nil))
+            case .success(let res):
+              reply(wrapResult(res))
             case .failure(let error):
               reply(wrapError(error))
           }

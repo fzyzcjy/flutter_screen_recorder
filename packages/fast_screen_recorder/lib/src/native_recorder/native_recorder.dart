@@ -3,6 +3,14 @@ import 'dart:io';
 import 'package:fast_screen_recorder/fast_screen_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 
+enum CaptureStatus {
+  succeeded,
+
+  /// The capture is skipped, but it is (mostly) expected.
+  /// If it is an unexpected error, an Exception will be thrown instead.
+  skipped,
+}
+
 abstract class NativeRecorder {
   static final instance = NativeRecorder._();
 
@@ -16,7 +24,7 @@ abstract class NativeRecorder {
 
   Future<void> start(StartRequest request);
 
-  Future<void> capture();
+  Future<CaptureStatus> capture();
 
   Future<void> stop();
 }
@@ -32,7 +40,10 @@ class _NativeRecorderReal implements NativeRecorder {
   Future<void> start(StartRequest request) async => await _hostApi.start(request);
 
   @override
-  Future<void> capture() async => await _hostApi.capture();
+  Future<CaptureStatus> capture() async {
+    final response = await _hostApi.capture();
+    return response.succeedOrSkipped ? CaptureStatus.succeeded : CaptureStatus.skipped;
+  }
 
   @override
   Future<void> stop() async => await _hostApi.stop();
@@ -67,7 +78,7 @@ class _NativeRecorderFake implements NativeRecorder {
   }
 
   @override
-  Future<void> capture() async {}
+  Future<CaptureStatus> capture() async => CaptureStatus.skipped;
 
   @override
   Future<void> stop() async {}

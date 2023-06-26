@@ -52,7 +52,7 @@ class FastScreenRecorderPlugin : FlutterPlugin, FastScreenRecorderHostApi, Activ
             iFrameInterval = request.iFrameInterval.toInt(),
         )
 
-    override fun capture(callback: (Result<Unit>) -> Unit) {
+    override fun capture(callback: (Result<CaptureResponse>) -> Unit) {
         // need to catch for this *async* function, since Pigeon does not catch it
         catchExceptionToLog {
             NativeScreenRecorder.capture(

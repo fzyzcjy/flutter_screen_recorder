@@ -79,6 +79,7 @@ class _FastScreenRecorderDemoWidgetState extends State<FastScreenRecorderDemoWid
                 lastPathVideo = '$stem.mp4';
                 lastPathMetadata = '$stem.meta';
 
+                // ignore: avoid_print
                 print('record to pathVideo=$lastPathVideo');
 
                 await _recorder.start(

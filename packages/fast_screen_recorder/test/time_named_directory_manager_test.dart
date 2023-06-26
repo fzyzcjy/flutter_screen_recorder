@@ -28,39 +28,78 @@ void main() {
   }
 
   group('prune', () {
-    test('when maxKeepSize big enough, should prune nothing', () async {
-      createSeveralFiles();
-      await manager.prune(maxKeepSize: 3001);
-      expect(
-        fs.directory(directory).listSync().toPathList(),
-        [
-          manager.getPathForTime(DateTime(2000)),
-          manager.getPathForTime(DateTime(2001)),
-          manager.getPathForTime(DateTime(2002)),
-        ],
-      );
+    group('maxKeepSize', () {
+      test('when maxKeepSize big enough, should prune nothing', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepSize: 3001, maxKeepNumFile: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          [
+            manager.getPathForTime(DateTime(2000)),
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+      });
+
+      test('when maxKeepSize small enough, should prune everything', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepSize: 999, maxKeepNumFile: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          <Object?>[],
+        );
+      });
+
+      test('when maxKeepSize median, should prune oldest content', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepSize: 2001, maxKeepNumFile: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          [
+            // oldest content is removed
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+      });
     });
 
-    test('when maxKeepSize small enough, should prune everything', () async {
-      createSeveralFiles();
-      await manager.prune(maxKeepSize: 999);
-      expect(
-        fs.directory(directory).listSync().toPathList(),
-        <Object?>[],
-      );
-    });
+    group('maxKeepNumFile', () {
+      test('when maxKeepNumFile big enough, should prune nothing', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepNumFile: 100, maxKeepSize: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          [
+            manager.getPathForTime(DateTime(2000)),
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+      });
 
-    test('when maxKeepSize median, should prune oldest content', () async {
-      createSeveralFiles();
-      await manager.prune(maxKeepSize: 2001);
-      expect(
-        fs.directory(directory).listSync().toPathList(),
-        [
-          // oldest content is removed
-          manager.getPathForTime(DateTime(2001)),
-          manager.getPathForTime(DateTime(2002)),
-        ],
-      );
+      test('when maxKeepNumFile small enough, should prune everything', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepNumFile: 0, maxKeepSize: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          <Object?>[],
+        );
+      });
+
+      test('when maxKeepNumFile median, should prune oldest content', () async {
+        createSeveralFiles();
+        await manager.prune(maxKeepNumFile: 2, maxKeepSize: 1000000);
+        expect(
+          fs.directory(directory).listSync().toPathList(),
+          [
+            // oldest content is removed
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+      });
     });
   });
 

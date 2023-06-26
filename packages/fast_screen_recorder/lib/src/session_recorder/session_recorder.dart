@@ -35,7 +35,7 @@ class SessionRecorder {
         if (!await Directory(directory).exists()) throw ArgumentError('Please ensure directory=$directory exists');
 
         _recordingData = _RecordingData(
-          sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionize),
+          sectionizeTimer: Timer.periodic(sectionDuration, _handleSectionizeTimerCall),
           videoConfig: videoConfig,
         );
 
@@ -44,7 +44,8 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> stop() async => await _lock.synchronized(() async {
+  Future<void> stop() async =>
+      await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -56,12 +57,27 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> _handleSectionize(Timer _) async => await _lock.synchronized(() async {
-        await _stopInnerRecorder();
-        await _startInnerRecorder();
+  Future<void> flush() async =>
+      await _lock.synchronized(() async {
+        if (!recording) {
+          // no need to flush anything
+          return;
+        }
 
-        await _pruneDirectory();
+        await _sectionize();
       });
+
+  Future<void> _handleSectionizeTimerCall(Timer _) async =>
+      await _lock.synchronized(() async {
+        await _sectionize();
+      });
+
+  Future<void> _sectionize() async {
+    await _stopInnerRecorder();
+    await _startInnerRecorder();
+
+    await _pruneDirectory();
+  }
 
   Future<void> _pruneDirectory() async {
     await _directoryManager.prune(maxKeepSize: maxKeepSize);

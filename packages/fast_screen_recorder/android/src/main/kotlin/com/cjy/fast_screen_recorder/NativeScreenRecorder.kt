@@ -9,6 +9,7 @@ import android.util.Size
 import android.view.PixelCopy
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
 
@@ -74,10 +75,7 @@ object NativeScreenRecorder {
 
         val window = activity.window
 
-        var flutterSurfaceView: FlutterSurfaceView? = null
-        traverseView(window.decorView) { v ->
-            if (v is FlutterSurfaceView) flutterSurfaceView = v
-        }
+        val flutterSurfaceView = getFlutterSurfaceView(window)
 
         if (flutterSurfaceView == null) {
             callback(Result.failure(IllegalStateException("failed to find FlutterSurfaceView")))
@@ -87,7 +85,7 @@ object NativeScreenRecorder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             PixelCopy.request(
 //                window,
-                flutterSurfaceView!!,
+                flutterSurfaceView,
                 bitmap!!,
                 { pixelCopyResult ->
                     // need to catch, since this is from PixelCopy callback, so there are no
@@ -101,6 +99,14 @@ object NativeScreenRecorder {
         } else {
             callback(Result.failure(IllegalStateException("only support >= Android O currently")))
         }
+    }
+
+    private fun getFlutterSurfaceView(window: Window): FlutterSurfaceView? {
+        var flutterSurfaceView: FlutterSurfaceView? = null
+        traverseView(window.decorView) { v ->
+            if (v is FlutterSurfaceView) flutterSurfaceView = v
+        }
+        return flutterSurfaceView
     }
 
     private fun handlePixelCopyResult(

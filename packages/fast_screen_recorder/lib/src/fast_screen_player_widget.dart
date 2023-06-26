@@ -177,21 +177,24 @@ class _PlayerSizeDeterminator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (_, constraints) {
-      assert(constraints.biggest.isFinite);
+    return Center(
+      child: LayoutBuilder(builder: (_, constraints) {
+        assert(constraints.biggest.isFinite);
 
-      final aspectRatio = deviceMetadata.size.aspectRatio;
-      final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
-      final chosenHeight = min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
-      final chosenSize = Size(chosenWidth, chosenHeight);
-      assert(constraints.isSatisfiedBy(chosenSize));
+        final aspectRatio = deviceMetadata.size.aspectRatio;
+        final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
+        final chosenHeight =
+            min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
+        final chosenSize = Size(chosenWidth, chosenHeight);
+        assert(constraints.isSatisfiedBy(chosenSize), 'constraints=$constraints chosenSize=$chosenSize');
 
-      final chosenScale = chosenSize.width / deviceMetadata.size.width;
+        final chosenScale = chosenSize.width / deviceMetadata.size.width;
 
-      return SizedBox.fromSize(
-        size: chosenSize,
-        child: builder(context, chosenScale),
-      );
-    });
+        return SizedBox.fromSize(
+          size: chosenSize,
+          child: builder(context, chosenScale),
+        );
+      }),
+    );
   }
 }

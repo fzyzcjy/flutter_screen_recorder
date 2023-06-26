@@ -18,10 +18,14 @@ class FastScreenPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _FastScreenPlayerInnerWidget(
-      key: ValueKey((pathVideo, pathMetadata)),
-      pathVideo: pathVideo,
-      pathMetadata: pathMetadata,
+    return _PlayerSizeDeterminator(
+      builder: (_, displaySize, displayScale) => _FastScreenPlayerInnerWidget(
+        key: ValueKey((pathVideo, pathMetadata)),
+        pathVideo: pathVideo,
+        pathMetadata: pathMetadata,
+        displaySize: displaySize,
+        displayScale: displayScale,
+      ),
     );
   }
 }
@@ -159,5 +163,16 @@ class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with
       widget.time.recordWallclockTime +
           (widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
     );
+  }
+}
+
+class _PlayerSizeDeterminator extends StatelessWidget {
+  final Widget Function(BuildContext context, Size displaySize, double displayScale) builder;
+
+  const _PlayerSizeDeterminator({required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return builder(context, TODO, TODO);
   }
 }

@@ -87,7 +87,7 @@ object NativeScreenRecorder {
         // #9703 this will happen (for example) when app in background
         // to avoid race condition like https://github.com/fzyzcjy/yplusplus/issues/9713#issuecomment-1607441134
         // we mark it as "skipped" instead of throwing an error
-        if (surface.isValid) {
+        if (!surface.isValid) {
             log.log("capture() skipped since !surface.isValid")
             callback(Result.success(CaptureResponse(succeedOrSkipped = false)))
             return

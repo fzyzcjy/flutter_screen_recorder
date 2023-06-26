@@ -73,8 +73,9 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
   Widget build(BuildContext context) {
     return _PlayerSizeDeterminator(
       deviceMetadata: metadata.device,
-      builder: (_, displaySize, displayScale) => Material(
+      builder: (_, displayScale) => Material(
         child: Stack(
+          fit: StackFit.passthrough,
           children: [
             SimpleVideoPlayer(
               key: ValueKey(widget.pathVideo),
@@ -87,6 +88,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
               builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
                 pack: metadata.interaction,
                 wallclockTimestamp: interpolatedWallclockTimestamp,
+                displayScale: displayScale,
               ),
             ),
           ],
@@ -169,7 +171,7 @@ class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with
 
 class _PlayerSizeDeterminator extends StatelessWidget {
   final proto.DeviceMetadata deviceMetadata;
-  final Widget Function(BuildContext context, Size displaySize, double displayScale) builder;
+  final Widget Function(BuildContext context, double displayScale) builder;
 
   const _PlayerSizeDeterminator({required this.deviceMetadata, required this.builder});
 
@@ -188,7 +190,7 @@ class _PlayerSizeDeterminator extends StatelessWidget {
 
       return SizedBox.fromSize(
         size: chosenSize,
-        child: builder(context, chosenSize, chosenScale),
+        child: builder(context, chosenScale),
       );
     });
   }

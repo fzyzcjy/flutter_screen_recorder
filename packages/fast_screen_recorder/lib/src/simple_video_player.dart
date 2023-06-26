@@ -72,8 +72,9 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
     setState(() {
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController!,
-        // NOTE aspectRatio
-        aspectRatio: aspectRatio,
+        // do not provide aspectRatio, since want to fit given space
+        // // NOTE aspectRatio
+        // aspectRatio: aspectRatio,
         autoPlay: false,
         looping: false,
         showControlsOnInitialize: false,

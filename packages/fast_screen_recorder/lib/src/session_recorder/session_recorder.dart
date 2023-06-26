@@ -78,12 +78,16 @@ class SessionRecorder {
     await _recorder.stop();
   }
 
-  Future<List<File>> getRecords({
+  Future<List<FileAndTimeInfo>> getRecords({
     required DateTime startTime,
     required DateTime endTime,
     int? roughMaxSize,
   }) async {
-    return (await _directoryManager.getRange(startTime: startTime, endTime: endTime)).map((e) => e.file).toList();
+    return await _directoryManager.getRange(
+      startTime: startTime,
+      endTime: endTime,
+      roughMaxSize: roughMaxSize,
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
+import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,6 +17,7 @@ void main() {
   });
 
   void createSeveralFiles() {
+    fs.directory(directory).createSync();
     fs.file(manager.getPathForTime(DateTime(2000))).writeAsStringSync('a' * 1000);
     fs.file(manager.getPathForTime(DateTime(2001))).writeAsStringSync('b' * 1000);
     fs.file(manager.getPathForTime(DateTime(2002))).writeAsStringSync('c' * 1000);
@@ -26,7 +28,7 @@ void main() {
       createSeveralFiles();
       await manager.prune(maxKeepSize: 3001);
       expect(
-        fs.directory(directory).listSync(),
+        fs.directory(directory).listSync().toPathList(),
         [
           manager.getPathForTime(DateTime(2000)),
           manager.getPathForTime(DateTime(2001)),
@@ -39,7 +41,7 @@ void main() {
       createSeveralFiles();
       await manager.prune(maxKeepSize: 999);
       expect(
-        fs.directory(directory).listSync(),
+        fs.directory(directory).listSync().toPathList(),
         [],
       );
     });
@@ -48,7 +50,7 @@ void main() {
       createSeveralFiles();
       await manager.prune(maxKeepSize: 2001);
       expect(
-        fs.directory(directory).listSync(),
+        fs.directory(directory).listSync().toPathList(),
         [
           // oldest content is removed
           manager.getPathForTime(DateTime(2001)),
@@ -59,10 +61,10 @@ void main() {
   });
 
   group('get', () {
-    test('when no arg, should get all', () {
+    test('when no arg, should get all', () async {
       createSeveralFiles();
       expect(
-        manager.get(),
+        (await manager.get().toList()).toPathList(),
         [
           manager.getPathForTime(DateTime(2000)),
           manager.getPathForTime(DateTime(2001)),
@@ -71,14 +73,17 @@ void main() {
       );
     });
 
-    test('when time at middle of a file, should include that file', () {
+    test('when time at middle of a file, should include that file', () async {
       createSeveralFiles();
 
       expect(
-        manager.get(
-          startTime: DateTime(2000, 7, 1),
-          endTime: DateTime(2002, 7, 1),
-        ),
+        (await manager
+                .get(
+                  startTime: DateTime(2000, 7, 1),
+                  endTime: DateTime(2002, 7, 1),
+                )
+                .toList())
+            .toPathList(),
         [
           manager.getPathForTime(DateTime(2000)),
           manager.getPathForTime(DateTime(2001)),
@@ -87,14 +92,21 @@ void main() {
       );
 
       expect(
-        manager.get(
-          startTime: DateTime(2001, 7, 1),
-          endTime: DateTime(2001, 7, 2),
-        ),
+        (await manager
+                .get(
+                  startTime: DateTime(2001, 7, 1),
+                  endTime: DateTime(2001, 7, 2),
+                )
+                .toList())
+            .toPathList(),
         [
           manager.getPathForTime(DateTime(2001)),
         ],
       );
     });
   });
+}
+
+extension on List<FileSystemEntity> {
+  List<String> toPathList() => map((e) => e.path).toList();
 }

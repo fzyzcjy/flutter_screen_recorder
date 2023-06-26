@@ -29,3 +29,17 @@ abstract class FastScreenRecorderHostApi {
 
   void stop();
 }
+
+class LogArg {
+  String? tag;
+  String? message;
+  String? throwable;
+
+  // NOTE need to know time of *native* log
+  String? time;
+}
+
+@FlutterApi()
+abstract class FastScreenRecorderFlutterApi {
+  void log(LogArg arg);
+}

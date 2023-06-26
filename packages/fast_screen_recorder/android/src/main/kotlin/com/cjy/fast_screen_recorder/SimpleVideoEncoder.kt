@@ -1,17 +1,17 @@
 package com.cjy.fast_screen_recorder
 
 import android.graphics.Bitmap
-import android.media.*
+import android.media.MediaCodec
+import android.media.MediaCodecInfo
+import android.media.MediaCodecList
 import android.media.MediaCodecList.REGULAR_CODECS
+import android.media.MediaFormat
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.Surface
 import java.io.File
 
-private const val TAG = "SimpleVideoEncoder"
 private const val VERBOSE = true
-private const val TIMEOUT_USEC = 10000
 
 /**
  * modified from https://github.com/israel-fl/bitmap2video/blob/develop/library/src/main/java/com/homesoft/encoder/FrameBuilder.kt
@@ -19,8 +19,10 @@ private const val TIMEOUT_USEC = 10000
 class SimpleVideoEncoder(
     private val muxerConfig: MuxerConfig,
 ) {
+    private val log by logger("SimpleVideoEncoder")
+
     private val mediaFormat: MediaFormat = run {
-        Log.i(TAG, "mediaFormat creation begin")
+        log.log("mediaFormat creation begin")
 
         val format = MediaFormat.createVideoFormat(
             muxerConfig.mimeType,
@@ -38,18 +40,18 @@ class SimpleVideoEncoder(
         format.setFloat(MediaFormat.KEY_FRAME_RATE, muxerConfig.frameRate)
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, muxerConfig.iFrameInterval)
 
-        Log.i(TAG, "mediaFormat creation end format=$format")
+        log.log("mediaFormat creation end format=$format")
 
         format
     }
 
     private val mediaCodec: MediaCodec = run {
-        Log.i(TAG, "mediaCodec creation begin")
+        log.log("mediaCodec creation begin")
 
         val codecs = MediaCodecList(REGULAR_CODECS)
         val ans = MediaCodec.createByCodecName(codecs.findEncoderForFormat(mediaFormat))
 
-        Log.i(TAG, "mediaCodec creation end ans=$ans")
+        log.log("mediaCodec creation end ans=$ans")
 
         ans
     }
@@ -59,7 +61,7 @@ class SimpleVideoEncoder(
     private var surface: Surface? = null
 
     fun start() {
-        Log.i(TAG, "start() begin")
+        log.log("start() begin")
 
         mediaCodec.setCallback(createMediaCodecCallback(), Handler(Looper.getMainLooper()))
 
@@ -69,13 +71,13 @@ class SimpleVideoEncoder(
 
 //        drainCodec(false)
 
-        Log.i(TAG, "start() end")
+        log.log("start() end")
     }
 
     private fun createMediaCodecCallback(): MediaCodec.Callback {
         return object : MediaCodec.Callback() {
             override fun onInputBufferAvailable(codec: MediaCodec, index: Int) {
-                Log.i(TAG, "onInputBufferAvailable index=$index")
+                log.log("onInputBufferAvailable index=$index")
                 // nothing?
             }
 
@@ -84,7 +86,7 @@ class SimpleVideoEncoder(
                 index: Int,
                 info: MediaCodec.BufferInfo
             ) {
-                Log.i(TAG, "onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
+                log.log("onOutputBufferAvailable() start index=$index time=${System.nanoTime()}")
 
                 val encodedData = codec.getOutputBuffer(index)!!
 
@@ -93,7 +95,7 @@ class SimpleVideoEncoder(
                 if (info.flags and MediaCodec.BUFFER_FLAG_CODEC_CONFIG != 0) {
                     // The codec config data was pulled out and fed to the muxer when we got
                     // the INFO_OUTPUT_FORMAT_CHANGED status.  Ignore it.
-                    if (VERBOSE) Log.i(TAG, "drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
+                    if (VERBOSE) log.log("drainCodec ignoring BUFFER_FLAG_CODEC_CONFIG")
                     effectiveSize = 0
                 }
 
@@ -102,33 +104,32 @@ class SimpleVideoEncoder(
                         throw RuntimeException("muxer hasn't started")
                     }
                     frameMuxer.muxVideoFrame(encodedData, info)
-                    if (VERBOSE) Log.i(TAG, "sent " + info.size + " bytes to muxer")
+                    if (VERBOSE) log.log("sent " + info.size + " bytes to muxer")
                 }
 
                 mediaCodec.releaseOutputBuffer(index, false)
 
                 if (info.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    Log.i(TAG, "drainCodec end of stream reached")
+                    log.log("drainCodec end of stream reached")
                     actualRelease()
                 }
 
-                Log.i(TAG, "onOutputBufferAvailable() end")
+                log.log("onOutputBufferAvailable() end")
             }
 
             override fun onError(codec: MediaCodec, e: MediaCodec.CodecException) {
-                Log.e(TAG, "onError (MediaCodec.Callback)", e)
-                // TODO handle it
+                log.log("onError (MediaCodec.Callback)", e)
             }
 
             override fun onOutputFormatChanged(codec: MediaCodec, format: MediaFormat) {
-                Log.i(TAG, "onOutputFormatChanged format=$format")
+                log.log("onOutputFormatChanged format=$format")
 
                 // should happen before receiving buffers, and should only happen once
                 if (frameMuxer.isStarted()) {
                     throw RuntimeException("format changed twice")
                 }
                 val newFormat: MediaFormat = mediaCodec.outputFormat
-                Log.i(TAG, "encoder output format changed: $newFormat")
+                log.log("encoder output format changed: $newFormat")
 
                 // now that we have the Magic Goodies, start the muxer
                 frameMuxer.start(newFormat)
@@ -138,7 +139,7 @@ class SimpleVideoEncoder(
 
     fun encode(image: Bitmap) {
         val startTime = System.nanoTime()
-        Log.i(TAG, "encode() begin time=$startTime")
+        log.log("encode() begin time=$startTime")
 
         // NOTE do not use `lockCanvas` like what is done in bitmap2video
         // This is because https://developer.android.com/reference/android/media/MediaCodec#createInputSurface()
@@ -153,26 +154,23 @@ class SimpleVideoEncoder(
 //        )
 //        drainCodec(false)
 
-        Log.i(
-            TAG,
-            "encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}"
-        )
+        log.log("encode() end time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - startTime) / 1000000.0}")
     }
 
     /**
      * can only *start* releasing, since it is asynchronous
      */
     fun startRelease() {
-        Log.i(TAG, "startRelease() begin")
+        log.log("startRelease() begin")
 
 //        drainCodec(true)
         mediaCodec.signalEndOfInputStream()
 
-        Log.i(TAG, "startRelease() end")
+        log.log("startRelease() end")
     }
 
     private fun actualRelease() {
-        Log.i(TAG, "actualRelease() begin")
+        log.log("actualRelease() begin")
 
         mediaCodec.stop()
         mediaCodec.release()
@@ -180,7 +178,7 @@ class SimpleVideoEncoder(
 
         frameMuxer.release()
 
-        Log.i(TAG, "actualRelease() end")
+        log.log("actualRelease() end")
     }
 }
 

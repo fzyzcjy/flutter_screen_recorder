@@ -55,6 +55,42 @@ class StartRequest {
   }
 }
 
+class LogArg {
+  LogArg({
+    this.tag,
+    this.message,
+    this.throwable,
+    this.time,
+  });
+
+  String? tag;
+
+  String? message;
+
+  String? throwable;
+
+  String? time;
+
+  Object encode() {
+    return <Object?>[
+      tag,
+      message,
+      throwable,
+      time,
+    ];
+  }
+
+  static LogArg decode(Object result) {
+    result as List<Object?>;
+    return LogArg(
+      tag: result[0] as String?,
+      message: result[1] as String?,
+      throwable: result[2] as String?,
+      time: result[3] as String?,
+    );
+  }
+}
+
 class _FastScreenRecorderHostApiCodec extends StandardMessageCodec {
   const _FastScreenRecorderHostApiCodec();
   @override
@@ -151,6 +187,57 @@ class FastScreenRecorderHostApi {
       );
     } else {
       return;
+    }
+  }
+}
+
+class _FastScreenRecorderFlutterApiCodec extends StandardMessageCodec {
+  const _FastScreenRecorderFlutterApiCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is LogArg) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else {
+      super.writeValue(buffer, value);
+    }
+  }
+
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128: 
+        return LogArg.decode(readValue(buffer)!);
+      default:
+        return super.readValueOfType(type, buffer);
+    }
+  }
+}
+
+abstract class FastScreenRecorderFlutterApi {
+  static const MessageCodec<Object?> codec = _FastScreenRecorderFlutterApiCodec();
+
+  void log(LogArg arg);
+
+  static void setup(FastScreenRecorderFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.FastScreenRecorderFlutterApi.log', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.FastScreenRecorderFlutterApi.log was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final LogArg? arg_arg = (args[0] as LogArg?);
+          assert(arg_arg != null,
+              'Argument for dev.flutter.pigeon.FastScreenRecorderFlutterApi.log was null, expected non-null LogArg.');
+          api.log(arg_arg!);
+          return;
+        });
+      }
     }
   }
 }

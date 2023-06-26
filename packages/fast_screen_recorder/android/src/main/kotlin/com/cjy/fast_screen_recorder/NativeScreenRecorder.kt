@@ -13,9 +13,9 @@ import android.view.ViewGroup
 import io.flutter.embedding.android.FlutterSurfaceView
 import java.io.File
 
-private const val TAG = "NativeScreenRecorder"
-
 object NativeScreenRecorder {
+    private val log by logger("NativeScreenRecorder")
+    
 //    private var bitmap: Bitmap? = null
     private var encoder: SimpleVideoEncoder? = null
 
@@ -28,7 +28,7 @@ object NativeScreenRecorder {
         bitrate: Int,
         iFrameInterval: Int,
     ) {
-        Log.i(TAG, "start() begin")
+        log.log("start() begin")
 
 //        check(bitmap == null)
 //        bitmap = Bitmap.createBitmap(outputWidth, outputHeight, Bitmap.Config.ARGB_8888)
@@ -48,11 +48,11 @@ object NativeScreenRecorder {
 
         this.outputSize = outputSize
 
-        Log.i(TAG, "start() end")
+        log.log("start() end")
     }
 
     fun stop() {
-        Log.i(TAG, "stop() begin")
+        log.log("stop() begin")
 
 //        bitmap!!.recycle()
 //        bitmap = null
@@ -60,7 +60,7 @@ object NativeScreenRecorder {
         encoder!!.startRelease()
         encoder = null
 
-        Log.i(TAG, "stop() end")
+        log.log("stop() end")
     }
 
     fun capture(
@@ -68,7 +68,7 @@ object NativeScreenRecorder {
         callback: (Result<Unit>) -> Unit,
     ) {
         val startTime = System.nanoTime()
-        Log.i(TAG, "capture() begin time=$startTime")
+        log.log("capture() begin time=$startTime")
 
         val bitmap = Bitmap.createBitmap(outputSize!!.width, outputSize!!.height, Bitmap.Config.ARGB_8888)
 
@@ -98,7 +98,7 @@ object NativeScreenRecorder {
     }
 
     private fun handlePixelCopyResult(pixelCopyResult: Int, callback: (Result<Unit>) -> Unit, debugStartTime: Long, bitmap: Bitmap) {
-        Log.i(TAG, "handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
+        log.log("handlePixelCopyResult() begin pixelCopyResult=$pixelCopyResult time=${System.nanoTime()} delta(ms)=${(System.nanoTime() - debugStartTime) / 1000000.0}")
 
         if (pixelCopyResult != PixelCopy.SUCCESS) {
             callback(Result.failure(IllegalStateException("PixelCopy failed (pixelCopyResult=$pixelCopyResult)")))

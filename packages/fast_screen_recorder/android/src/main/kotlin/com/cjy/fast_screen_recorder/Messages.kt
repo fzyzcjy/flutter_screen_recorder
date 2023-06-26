@@ -77,6 +77,34 @@ data class StartRequest (
   }
 }
 
+/** Generated class from Pigeon that represents data sent in messages. */
+data class LogArg (
+  val tag: String? = null,
+  val message: String? = null,
+  val throwable: String? = null,
+  val time: String? = null
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): LogArg {
+      val tag = list[0] as String?
+      val message = list[1] as String?
+      val throwable = list[2] as String?
+      val time = list[3] as String?
+      return LogArg(tag, message, throwable, time)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      tag,
+      message,
+      throwable,
+      time,
+    )
+  }
+}
+
 @Suppress("UNCHECKED_CAST")
 private object FastScreenRecorderHostApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
@@ -167,6 +195,45 @@ interface FastScreenRecorderHostApi {
           channel.setMessageHandler(null)
         }
       }
+    }
+  }
+}
+@Suppress("UNCHECKED_CAST")
+private object FastScreenRecorderFlutterApiCodec : StandardMessageCodec() {
+  override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
+    return when (type) {
+      128.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          LogArg.fromList(it)
+        }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
+  }
+  override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
+    when (value) {
+      is LogArg -> {
+        stream.write(128)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
+  }
+}
+
+/** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
+@Suppress("UNCHECKED_CAST")
+class FastScreenRecorderFlutterApi(private val binaryMessenger: BinaryMessenger) {
+  companion object {
+    /** The codec used by FastScreenRecorderFlutterApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      FastScreenRecorderFlutterApiCodec
+    }
+  }
+  fun log(argArg: LogArg, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.FastScreenRecorderFlutterApi.log", codec)
+    channel.send(listOf(argArg)) {
+      callback()
     }
   }
 }

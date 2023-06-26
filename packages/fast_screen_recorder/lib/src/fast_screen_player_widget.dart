@@ -81,6 +81,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
               key: ValueKey(widget.pathVideo),
               pathVideo: widget.pathVideo,
               onVideoPlayerEvent: _handleVideoPlayerEvent,
+              aspectRatio: metadata.device.size.aspectRatio,
             ),
             IgnorePointer(
               child: _TimeInterpolationWidget(

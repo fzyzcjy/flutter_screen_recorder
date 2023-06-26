@@ -8,11 +8,13 @@ import 'package:video_player/video_player.dart';
 class SimpleVideoPlayer extends StatefulWidget {
   final String pathVideo;
   final void Function(VideoPlayerValue) onVideoPlayerEvent;
+  final double aspectRatio;
 
   const SimpleVideoPlayer({
     super.key,
     required this.pathVideo,
     required this.onVideoPlayerEvent,
+    required this.aspectRatio,
   });
 
   @override
@@ -65,16 +67,11 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
     // https://github.com/brianegan/chewie/issues/174#issuecomment-519102765
     await _videoPlayerController!.initialize();
 
-    final aspectRatio = _videoPlayerController!.value.aspectRatio;
-    debugPrint('aspectRatio=$aspectRatio');
-
     if (!mounted) return;
     setState(() {
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController!,
-        // do not provide aspectRatio, since want to fit given space
-        // // NOTE aspectRatio
-        // aspectRatio: aspectRatio,
+        aspectRatio: widget.aspectRatio,
         autoPlay: true,
         looping: false,
         showControlsOnInitialize: false,

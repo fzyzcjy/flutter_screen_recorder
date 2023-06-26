@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_player.dart';
@@ -91,6 +92,17 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
                   pack: metadata.interaction,
                   wallclockTimestamp: interpolatedWallclockTimestamp,
                   displayScale: displayScale,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 8,
+              top: 8,
+              child: Text(
+                '${time.recordWallclockTime}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontFeatures: [FontFeature.tabularFigures()],
                 ),
               ),
             ),

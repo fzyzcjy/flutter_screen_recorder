@@ -61,10 +61,10 @@ void main() {
   });
 
   group('get', () {
-    test('when no arg, should get all', () async {
+    test('simple', () async {
       createSeveralFiles();
       expect(
-        (await manager.get().toList()).toPathList(),
+        (await manager.getAllOrdered()).toPathList(),
         [
           manager.getPathForTime(DateTime(2000)),
           manager.getPathForTime(DateTime(2001)),
@@ -72,17 +72,17 @@ void main() {
         ],
       );
     });
+  });
 
+  group('getRange', () {
     test('when time at middle of a file, should include that file', () async {
       createSeveralFiles();
 
       expect(
-        (await manager
-                .get(
-                  startTime: DateTime(2000, 7, 1),
-                  endTime: DateTime(2002, 7, 1),
-                )
-                .toList())
+        (await manager.getRange(
+          startTime: DateTime(2000, 7, 1),
+          endTime: DateTime(2002, 7, 1),
+        ))
             .toPathList(),
         [
           manager.getPathForTime(DateTime(2000)),
@@ -92,12 +92,10 @@ void main() {
       );
 
       expect(
-        (await manager
-                .get(
-                  startTime: DateTime(2001, 7, 1),
-                  endTime: DateTime(2001, 7, 2),
-                )
-                .toList())
+        (await manager.getRange(
+          startTime: DateTime(2001, 7, 1),
+          endTime: DateTime(2001, 7, 2),
+        ))
             .toPathList(),
         [
           manager.getPathForTime(DateTime(2001)),
@@ -107,6 +105,10 @@ void main() {
   });
 }
 
-extension on List<FileSystemEntity> {
+extension on Iterable<FileSystemEntity> {
   List<String> toPathList() => map((e) => e.path).toList();
+}
+
+extension on Iterable<FileAndTimeInfo> {
+  List<String> toPathList() => map((e) => e.file).toPathList();
 }

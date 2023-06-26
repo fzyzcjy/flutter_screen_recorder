@@ -1,3 +1,7 @@
+// ====================================================================================
+// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
+// ====================================================================================
+
 import 'dart:math';
 
 import 'package:collection/collection.dart';
@@ -5,9 +9,6 @@ import 'package:file/file.dart';
 import 'package:file/local.dart';
 import 'package:path/path.dart';
 
-// ====================================================================================
-// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
-// ====================================================================================
 class TimeNamedDirectoryManager {
   final FileSystem fs;
   final String directory;
@@ -50,12 +51,27 @@ class TimeNamedDirectoryManager {
     return fileInfos;
   }
 
-  Future<List<FileAndTimeInfo>> getRange({required DateTime startTime, required DateTime endTime}) async {
+  Future<List<FileAndTimeInfo>> getRange({
+    required DateTime startTime,
+    required DateTime endTime,
+    int? roughMaxSize,
+  }) async {
     final allFileInfos = await getAllOrdered();
 
-    final startIndex = max(0, -1 + allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time));
+    final startIndexByStartTime =
+    max(0, -1 + allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time));
     final endIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), endTime), (e) => e.time);
-    // print('hi getRange allFileInfos=$allFileInfos startIndex=$startIndex endIndex=$endIndex');
+
+    final startIndex = roughMaxSize == null
+        ? startIndexByStartTime
+        : await () async {
+      var cumSize = 0;
+      for (var i = endIndex - 1; i >= startIndexByStartTime; --i) {
+        cumSize += await allFileInfos[i].file.length();
+        if (cumSize >= roughMaxSize) return i;
+      }
+      return startIndexByStartTime;
+    }();
 
     return allFileInfos.sublist(startIndex, endIndex);
   }

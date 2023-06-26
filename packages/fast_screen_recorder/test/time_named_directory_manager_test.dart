@@ -1,11 +1,12 @@
+// ====================================================================================
+// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
+// ====================================================================================
+
 import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// ====================================================================================
-// NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
-// ====================================================================================
 void main() {
   const directory = '/hello-folder';
   late MemoryFileSystem fs;
@@ -104,6 +105,84 @@ void main() {
           manager.getPathForTime(DateTime(2001)),
         ],
       );
+    });
+
+    group('roughMaxSize', () {
+      test('when roughMaxSize super large, should not filter anything', () async {
+        createSeveralFiles();
+
+        expect(
+          (await manager.getRange(
+            startTime: DateTime(2000, 7, 1),
+            endTime: DateTime(2002, 7, 1),
+            roughMaxSize: 100000000,
+          ))
+              .toPathList(),
+          [
+            manager.getPathForTime(DateTime(2000)),
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+
+        expect(
+          (await manager.getRange(
+            startTime: DateTime(2001, 7, 1),
+            endTime: DateTime(2001, 7, 2),
+            roughMaxSize: 100000000,
+          ))
+              .toPathList(),
+          [
+            manager.getPathForTime(DateTime(2001)),
+          ],
+        );
+      });
+
+      test('when roughMaxSize median size, should filter out oldest files', () async {
+        createSeveralFiles();
+
+        expect(
+          (await manager.getRange(
+            startTime: DateTime(2000, 7, 1),
+            endTime: DateTime(2002, 7, 1),
+            roughMaxSize: 1500,
+          ))
+              .toPathList(),
+          [
+            // filter out oldest
+            manager.getPathForTime(DateTime(2001)),
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+      });
+
+      test('when roughMaxSize super small, should at least pick one file', () async {
+        createSeveralFiles();
+
+        expect(
+          (await manager.getRange(
+            startTime: DateTime(2000, 7, 1),
+            endTime: DateTime(2002, 7, 1),
+            roughMaxSize: 1,
+          ))
+              .toPathList(),
+          [
+            manager.getPathForTime(DateTime(2002)),
+          ],
+        );
+
+        expect(
+          (await manager.getRange(
+            startTime: DateTime(2001, 7, 1),
+            endTime: DateTime(2001, 7, 2),
+            roughMaxSize: 1,
+          ))
+              .toPathList(),
+          [
+            manager.getPathForTime(DateTime(2001)),
+          ],
+        );
+      });
     });
   });
 }

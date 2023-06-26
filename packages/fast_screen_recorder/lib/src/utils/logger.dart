@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 
-typedef FastScreenRecorderLogger = void Function(String tag, String message, Object? error, Object? stackTrace);
+abstract class FastScreenRecorderLogger {
+  static var log = _defaultLog;
+  static var error = _defaultError;
 
-var fastScreenRecorderLogger = _defaultLogger;
+  static void _defaultLog(String tag, String message) => debugPrint('[$tag] $message');
 
-void _defaultLogger(String tag, String message, Object? error, Object? stackTrace) {
-  debugPrint('[$tag] $message');
-  if (error != null) debugPrint('ERROR: $error $stackTrace');
+  static void _defaultError(Object error, Object? stackTrace) => debugPrint('ERROR: $error $stackTrace');
 }

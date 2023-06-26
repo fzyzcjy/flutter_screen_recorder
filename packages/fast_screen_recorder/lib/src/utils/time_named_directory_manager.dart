@@ -25,11 +25,14 @@ class TimeNamedDirectoryManager {
 
   Future<void> prune({
     required int maxKeepSize,
+    required int maxKeepNumFile,
   }) async {
     var cumSize = 0;
+    var count = 0;
     for (final fileInfo in (await getAllOrdered()).reversed) {
       cumSize += await fileInfo.file.length();
-      if (cumSize >= maxKeepSize) {
+      count++;
+      if (cumSize >= maxKeepSize || count > maxKeepNumFile) {
         await fileInfo.file.delete();
       }
     }
@@ -39,10 +42,10 @@ class TimeNamedDirectoryManager {
     final fileInfos = (await fs.directory(directory).list().toList())
         .whereType<File>()
         .map((path) {
-      final time = _fileNamer.tryParse(basename(path.path));
-      if (time == null) return null;
-      return FileAndTimeInfo(path, time);
-    })
+          final time = _fileNamer.tryParse(basename(path.path));
+          if (time == null) return null;
+          return FileAndTimeInfo(path, time);
+        })
         .whereNotNull()
         .toList();
 
@@ -59,19 +62,19 @@ class TimeNamedDirectoryManager {
     final allFileInfos = await getAllOrdered();
 
     final startIndexByStartTime =
-    max(0, -1 + allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time));
+        max(0, -1 + allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), startTime), (e) => e.time));
     final endIndex = allFileInfos.lowerBoundBy(FileAndTimeInfo(fs.file(''), endTime), (e) => e.time);
 
     final startIndex = roughMaxSize == null
         ? startIndexByStartTime
         : await () async {
-      var cumSize = 0;
-      for (var i = endIndex - 1; i >= startIndexByStartTime; --i) {
-        cumSize += await allFileInfos[i].file.length();
-        if (cumSize >= roughMaxSize) return i;
-      }
-      return startIndexByStartTime;
-    }();
+            var cumSize = 0;
+            for (var i = endIndex - 1; i >= startIndexByStartTime; --i) {
+              cumSize += await allFileInfos[i].file.length();
+              if (cumSize >= roughMaxSize) return i;
+            }
+            return startIndexByStartTime;
+          }();
 
     return allFileInfos.sublist(startIndex, endIndex);
   }

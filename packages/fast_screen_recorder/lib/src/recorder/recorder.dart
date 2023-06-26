@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/fast_screen_recorder.dart';
@@ -11,6 +10,7 @@ import 'package:fast_screen_recorder/src/protobuf/generated/fast_screen_recorder
 import 'package:fast_screen_recorder/src/recorder/metadata_pack_codec.dart';
 import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
 
 class FastScreenRecorder {
@@ -76,6 +76,7 @@ class FastScreenRecorder {
         final metadataPack = proto.RecorderMetadataPack(
           interaction: interactionPack,
           video: recordingData.videoMetadataPack,
+          device: _createDeviceMetadata(),
         );
 
         await File(recordingData.pathMetadata).writeAsBytes(metadataPackCodec.encode(metadataPack));
@@ -100,6 +101,16 @@ class FastScreenRecorder {
           await _nativeRecorder.capture();
         });
       });
+
+  static proto.DeviceMetadata _createDeviceMetadata() {
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+
+    return proto.DeviceMetadata(
+      physicalWidth: view.physicalSize.width,
+      physicalHeight: view.physicalSize.height,
+      devicePixelRatio: view.devicePixelRatio,
+    );
+  }
 }
 
 class _RecordingData {

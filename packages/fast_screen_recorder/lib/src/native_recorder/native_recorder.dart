@@ -6,8 +6,12 @@ import 'package:fast_screen_recorder/src/messages.dart';
 abstract class NativeRecorder {
   static final instance = NativeRecorder._();
 
+  // ignore: avoid-global-state
+  static bool? debugDisableNativeRecorder;
+
   factory NativeRecorder._() {
-    return TODO ? _NativeRecorderReal._() : _NativeRecorderFake();
+    if (Platform.isAndroid && debugDisableNativeRecorder != true) return _NativeRecorderReal._();
+    return _NativeRecorderFake();
   }
 
   Future<void> start(StartRequest request);

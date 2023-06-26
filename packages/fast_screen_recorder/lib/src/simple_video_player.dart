@@ -75,7 +75,7 @@ class _SimpleVideoPlayerState extends State<SimpleVideoPlayer> {
         // do not provide aspectRatio, since want to fit given space
         // // NOTE aspectRatio
         // aspectRatio: aspectRatio,
-        autoPlay: false,
+        autoPlay: true,
         looping: false,
         showControlsOnInitialize: false,
         customControls: const MaterialControls(),

@@ -68,6 +68,6 @@ fun catchExceptionToLog(callback: () -> Unit) {
     try {
         callback()
     } catch (e: Throwable) {
-        MyFlutterLog.log("E2L", "captureExceptionToLog see exception", e)
+        MyFlutterLog.log("E2L", "captureExceptionToLog see exception", self = null, throwable = e)
     }
 }

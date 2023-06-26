@@ -185,9 +185,15 @@ class _PlayerSizeDeterminator extends StatelessWidget {
         assert(constraints.biggest.isFinite);
 
         final aspectRatio = deviceMetadata.size.aspectRatio;
+
         final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
         final chosenHeight =
             min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
+      
+        // normally should not happen, may be caused by legacy data (no aspect ratio)
+        // https://github.com/fzyzcjy/yplusplus/issues/9716#issuecomment-1607498904
+        if (chosenWidth.isNaN || chosenHeight.isNaN) return const Text('invalid chosen size (nan)');
+
         final chosenSize = Size(chosenWidth, chosenHeight);
         assert(constraints.isSatisfiedBy(chosenSize), 'constraints=$constraints chosenSize=$chosenSize');
 

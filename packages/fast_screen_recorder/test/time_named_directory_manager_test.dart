@@ -2,7 +2,7 @@
 // NOTE: COPIED FROM INTERNAL LIBRARY front_log, PLEASE KEEP IN SYNC
 // ====================================================================================
 
-import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
+import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
-import 'package:fast_screen_recorder/src/session_recorder/time_named_directory_manager.dart';
+import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
@@ -44,8 +44,7 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> stop() async =>
-      await _lock.synchronized(() async {
+  Future<void> stop() async => await _lock.synchronized(() async {
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -57,8 +56,7 @@ class SessionRecorder {
         await _pruneDirectory();
       });
 
-  Future<void> flush() async =>
-      await _lock.synchronized(() async {
+  Future<void> flush() async => await _lock.synchronized(() async {
         if (!recording) {
           // no need to flush anything
           return;
@@ -67,8 +65,7 @@ class SessionRecorder {
         await _sectionize();
       });
 
-  Future<void> _handleSectionizeTimerCall(Timer _) async =>
-      await _lock.synchronized(() async {
+  Future<void> _handleSectionizeTimerCall(Timer _) async => await _lock.synchronized(() async {
         await _sectionize();
       });
 

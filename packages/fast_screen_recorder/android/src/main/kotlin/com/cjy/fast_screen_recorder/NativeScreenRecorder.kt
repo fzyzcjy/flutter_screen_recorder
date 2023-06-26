@@ -84,9 +84,12 @@ object NativeScreenRecorder {
 
         // ref: How `PixelCopy.request` converts SurfaceView into Surface
         val surface = flutterSurfaceView.holder.surface
-        // #9703 sees this, e.g. when app in background
+        // #9703 this will happen (for example) when app in background
+        // to avoid race condition like https://github.com/fzyzcjy/yplusplus/issues/9713#issuecomment-1607441134
+        // we mark it as "skipped" instead of throwing an error
         if (surface.isValid) {
-            callback(Result.failure(IllegalStateException("surface.isValid==false")))
+            log.log("capture() skipped since !surface.isValid")
+            callback(Result.success(CaptureResponse(succeedOrSkipped = false)))
             return
         }
 

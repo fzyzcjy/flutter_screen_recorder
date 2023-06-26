@@ -27,7 +27,7 @@ class InteractionRecorder {
     return ans;
   }
 
-  static _postprocessPack(proto.InteractionPack pack) {
+  static void _postprocessPack(proto.InteractionPack pack) {
     // make it sorted by time, thus easier to use
     pack.pointerEvents.sortBy<num>((x) => x.flutterTimestampMicros.toInt());
   }

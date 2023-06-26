@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:clock/clock.dart';
+import 'package:fast_screen_recorder/fast_screen_recorder.dart';
 import 'package:fast_screen_recorder/src/interaction/interaction_recorder.dart';
 import 'package:fast_screen_recorder/src/messages.dart';
 import 'package:fast_screen_recorder/src/native_recorder/native_recorder.dart';
@@ -12,6 +13,8 @@ import 'package:fixnum/fixnum.dart';
 import 'package:synchronized/synchronized.dart';
 
 class FastScreenRecorder {
+  static const _kTag = 'FastScreenRecorder';
+
   static final instance = FastScreenRecorder._();
 
   FastScreenRecorder._();
@@ -30,6 +33,8 @@ class FastScreenRecorder {
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'start() begin');
+
         if (_recording) throw ArgumentError('cannot start since already recording');
 
         await _nativeRecorder.start(StartRequest(
@@ -53,6 +58,8 @@ class FastScreenRecorder {
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'stop() begin');
+
         if (!_recording) throw ArgumentError('cannot start since already recording');
 
         final recordingData = _recordingData!;
@@ -72,6 +79,8 @@ class FastScreenRecorder {
       });
 
   Future<void> _handleCaptureCall(Timer _) async => await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'handleCaptureCall() begin');
+
         // this can happen because lock delays execution
         // https://github.com/fzyzcjy/yplusplus/issues/9664#issuecomment-1605290418
         if (!_recording) return;

@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
+import 'package:fast_screen_recorder/src/utils/logger.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
+  static const _kTag = 'SessionRecorder';
+
   final String directory;
   final int maxKeepSize;
 
@@ -30,6 +33,8 @@ class SessionRecorder {
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'start() begin');
+
         if (recording) throw ArgumentError('cannot start since already recording');
 
         if (!await Directory(directory).exists()) throw ArgumentError('Please ensure directory=$directory exists');
@@ -45,6 +50,8 @@ class SessionRecorder {
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'stop() begin');
+
         if (!recording) throw ArgumentError('cannot stop since already not recording');
 
         final recordingData = _recordingData!;
@@ -57,6 +64,8 @@ class SessionRecorder {
       });
 
   Future<void> flush() async => await _lock.synchronized(() async {
+        FastScreenRecorderLogger.log(_kTag, 'flush() begin');
+
         if (!recording) {
           // no need to flush anything
           return;

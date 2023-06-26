@@ -13,7 +13,8 @@ class SessionRecorder {
 
   final SessionRecorderInner _inner;
 
-  var _callerSpecifiedRecording = false;
+  bool get _callerSpecifiedRecording => _recordingData != null;
+  _RecordingData? _recordingData;
 
   late final _appLifecycleListener = AppLifecycleStateListener();
 
@@ -43,15 +44,12 @@ class SessionRecorder {
     VideoConfig videoConfig = const VideoConfig(),
   }) async =>
       await _lock.synchronized(() async {
-        _callerSpecifiedRecording = true;
-        await _inner.start(
-          sectionDuration: sectionDuration,
-          videoConfig: videoConfig,
-        );
+        _recordingData = _RecordingData(sectionDuration: sectionDuration, videoConfig: videoConfig);
+        await _inner.start(sectionDuration: sectionDuration, videoConfig: videoConfig);
       });
 
   Future<void> stop() async => await _lock.synchronized(() async {
-        _callerSpecifiedRecording = false;
+        _recordingData = null;
         await _inner.stop();
       });
 
@@ -88,8 +86,21 @@ class SessionRecorder {
 
           if (appActive && !_inner.recording && _callerSpecifiedRecording) {
             FastScreenRecorderLogger.log(_kTag, 'handleAppLifecycleChanged() start inner');
-            await _inner.start();
+            await _inner.start(
+              sectionDuration: _recordingData!.sectionDuration,
+              videoConfig: _recordingData!.videoConfig,
+            );
           }
         });
       });
+}
+
+class _RecordingData {
+  final Duration sectionDuration;
+  final VideoConfig videoConfig;
+
+  _RecordingData({
+    required this.sectionDuration,
+    required this.videoConfig,
+  });
 }

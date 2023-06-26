@@ -102,7 +102,7 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 }
 
 class _RecordAndReplayWallclockTime {
-  final Duration recordWallclockTime;
+  final DateTime recordWallclockTime;
   final DateTime replayWallclockTime;
 
   const _RecordAndReplayWallclockTime({
@@ -111,7 +111,7 @@ class _RecordAndReplayWallclockTime {
   });
 
   factory _RecordAndReplayWallclockTime.dummy() => _RecordAndReplayWallclockTime(
-        recordWallclockTime: Duration.zero,
+        recordWallclockTime: clock.now(),
         replayWallclockTime: clock.now(),
       );
 }
@@ -120,7 +120,7 @@ class _TimeInterpolationWidget extends StatefulWidget {
   final _RecordAndReplayWallclockTime time;
   final bool playing;
 
-  final Widget Function(BuildContext, Duration) builder;
+  final Widget Function(BuildContext, DateTime) builder;
 
   const _TimeInterpolationWidget({
     required this.time,
@@ -166,8 +166,8 @@ class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with
   Widget build(BuildContext context) {
     return widget.builder(
       context,
-      widget.time.recordWallclockTime +
-          (widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
+      widget.time.recordWallclockTime
+          .add(widget.playing ? clock.now().difference(widget.time.replayWallclockTime) : Duration.zero),
     );
   }
 }
@@ -189,7 +189,7 @@ class _PlayerSizeDeterminator extends StatelessWidget {
         final chosenWidth = min(constraints.biggest.width, constraints.biggest.height * aspectRatio);
         final chosenHeight =
             min(constraints.biggest.height, chosenWidth / aspectRatio); // clamp to avoid rounding error
-      
+
         // normally should not happen, may be caused by legacy data (no aspect ratio)
         // https://github.com/fzyzcjy/yplusplus/issues/9716#issuecomment-1607498904
         if (chosenWidth.isNaN || chosenHeight.isNaN) return const Text('invalid chosen size (nan)');

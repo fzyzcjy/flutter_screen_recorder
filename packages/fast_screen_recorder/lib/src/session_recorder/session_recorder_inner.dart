@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:clock/clock.dart';
 import 'package:fast_screen_recorder/src/recorder/packed_recorder.dart';
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
+import 'package:fast_screen_recorder/src/session_recorder/session_recorder.dart';
 import 'package:fast_screen_recorder/src/utils/errors.dart';
 import 'package:fast_screen_recorder/src/utils/logger.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
@@ -124,6 +125,12 @@ class SessionRecorderInner {
       endTime: endTime,
       roughMaxSize: roughMaxSize,
     );
+  }
+
+  /// See [SessionRecorder.disposeForTests] for doc
+  void disposeForTests() {
+    _recordingData?.sectionizeTimer.cancel();
+    _recorder.disposeForTests();
   }
 }
 

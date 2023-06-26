@@ -39,6 +39,13 @@ class SessionRecorder {
     _appLifecycleListener.dispose();
   }
 
+  /// Synchronously dispose things that will make test fails, e.g. pending Timers
+  /// However, this should only be used in tests, since it can make states inconsistent
+  void disposeForTests() {
+    dispose();
+    _inner.disposeForTests();
+  }
+
   Future<void> start({
     Duration sectionDuration = const Duration(seconds: 60),
     VideoConfig videoConfig = const VideoConfig(),

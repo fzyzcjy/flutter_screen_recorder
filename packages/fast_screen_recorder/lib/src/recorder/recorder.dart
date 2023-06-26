@@ -125,6 +125,11 @@ class FastScreenRecorder {
       devicePixelRatio: view.devicePixelRatio,
     );
   }
+
+  /// See [SessionRecorder.disposeForTests] for doc
+  void disposeForTests() {
+    _recordingData?.captureTimer.cancel();
+  }
 }
 
 class _RecordingData {

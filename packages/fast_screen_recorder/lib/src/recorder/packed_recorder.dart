@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fast_screen_recorder/src/recorder/recorder.dart';
+import 'package:fast_screen_recorder/src/session_recorder/session_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -46,6 +47,11 @@ class FastPackedScreenRecorder {
           outputPathPack: recordingData.pathPack,
         );
       });
+
+  /// See [SessionRecorder.disposeForTests] for doc
+  void disposeForTests() {
+    _recorder.disposeForTests();
+  }
 }
 
 class _RecordingData {

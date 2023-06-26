@@ -18,14 +18,10 @@ class FastScreenPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _PlayerSizeDeterminator(
-      builder: (_, displaySize, displayScale) => _FastScreenPlayerInnerWidget(
-        key: ValueKey((pathVideo, pathMetadata)),
-        pathVideo: pathVideo,
-        pathMetadata: pathMetadata,
-        displaySize: displaySize,
-        displayScale: displayScale,
-      ),
+    return _FastScreenPlayerInnerWidget(
+      key: ValueKey((pathVideo, pathMetadata)),
+      pathVideo: pathVideo,
+      pathMetadata: pathMetadata,
     );
   }
 }
@@ -73,24 +69,29 @@ class __FastScreenPlayerInnerWidgetState extends State<_FastScreenPlayerInnerWid
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
-        children: [
-          SimpleVideoPlayer(
-            key: ValueKey(widget.pathVideo),
-            pathVideo: widget.pathVideo,
-            onVideoPlayerEvent: _handleVideoPlayerEvent,
-          ),
-          _TimeInterpolationWidget(
-            time: time,
-            playing: playing,
-            builder: (_, interpolatedWallclockTimestamp) => InteractionPlayer(
-              pack: metadata.interaction,
-              wallclockTimestamp: interpolatedWallclockTimestamp,
+    return _PlayerSizeDeterminator(
+      deviceMetadata: metadata.device,
+      builder: (_, displaySize, displayScale) =>
+          Material(
+            child: Stack(
+              children: [
+                SimpleVideoPlayer(
+                  key: ValueKey(widget.pathVideo),
+                  pathVideo: widget.pathVideo,
+                  onVideoPlayerEvent: _handleVideoPlayerEvent,
+                ),
+                _TimeInterpolationWidget(
+                  time: time,
+                  playing: playing,
+                  builder: (_, interpolatedWallclockTimestamp) =>
+                      InteractionPlayer(
+                        pack: metadata.interaction,
+                        wallclockTimestamp: interpolatedWallclockTimestamp,
+                      ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
     );
   }
 }
@@ -104,7 +105,8 @@ class _RecordAndReplayWallclockTime {
     required this.replayWallclockTime,
   });
 
-  factory _RecordAndReplayWallclockTime.dummy() => _RecordAndReplayWallclockTime(
+  factory _RecordAndReplayWallclockTime.dummy() =>
+      _RecordAndReplayWallclockTime(
         recordWallclockTime: Duration.zero,
         replayWallclockTime: clock.now(),
       );
@@ -167,12 +169,15 @@ class _TimeInterpolationWidgetState extends State<_TimeInterpolationWidget> with
 }
 
 class _PlayerSizeDeterminator extends StatelessWidget {
+  final proto.DeviceMetadata deviceMetadata;
   final Widget Function(BuildContext context, Size displaySize, double displayScale) builder;
 
-  const _PlayerSizeDeterminator({required this.builder});
+  const _PlayerSizeDeterminator({required this.deviceMetadata, required this.builder});
 
   @override
   Widget build(BuildContext context) {
-    return builder(context, TODO, TODO);
+    return LayoutBuilder(builder: (_, constraints) {
+      return builder(context, TODO, TODO);
+    });
   }
 }

@@ -4,10 +4,13 @@ import 'package:fast_screen_recorder/src/recorder/recorder.dart';
 import 'package:fast_screen_recorder/src/session_recorder/session_recorder_inner.dart';
 import 'package:fast_screen_recorder/src/utils/app_lifecycle_state_observer.dart';
 import 'package:fast_screen_recorder/src/utils/errors.dart';
+import 'package:fast_screen_recorder/src/utils/logger.dart';
 import 'package:fast_screen_recorder/src/utils/time_named_directory_manager.dart';
 import 'package:synchronized/synchronized.dart';
 
 class SessionRecorder {
+  static const _kTag = 'SessionRecorder';
+
   final SessionRecorderInner _inner;
 
   var _callerSpecifiedRecording = false;
@@ -72,7 +75,21 @@ class SessionRecorder {
   Future<void> _handleAppLifecycleChanged() async => await _lock.synchronized(() async {
         await withCaptureException(() async {
           final appActive = _appLifecycleListener.value == AppLifecycleState.resumed;
-          TODO;
+
+          FastScreenRecorderLogger.log(
+              _kTag,
+              'handleAppLifecycleChanged() begin '
+              'appActive=$appActive recording=${_inner.recording}');
+
+          if (!appActive && _inner.recording) {
+            FastScreenRecorderLogger.log(_kTag, 'handleAppLifecycleChanged() stop inner');
+            await _inner.stop();
+          }
+
+          if (appActive && !_inner.recording && _callerSpecifiedRecording) {
+            FastScreenRecorderLogger.log(_kTag, 'handleAppLifecycleChanged() start inner');
+            await _inner.start();
+          }
         });
       });
 }

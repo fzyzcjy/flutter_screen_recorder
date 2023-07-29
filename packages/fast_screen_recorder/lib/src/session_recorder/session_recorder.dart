@@ -20,6 +20,8 @@ class SessionRecorder {
 
   final _lock = Lock();
 
+  String get directory => _inner.directory;
+
   SessionRecorder({
     required String directory,
     int maxKeepSize = 50 * 1000 * 1000,

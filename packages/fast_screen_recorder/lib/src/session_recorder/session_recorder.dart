@@ -17,6 +17,7 @@ class SessionRecorder {
   _RecordingData? _recordingData;
 
   late final _appLifecycleListener = AppLifecycleStateListener();
+  var _disposed = false;
 
   final _lock = Lock();
 
@@ -37,6 +38,12 @@ class SessionRecorder {
   }
 
   void dispose() {
+    if (_disposed) {
+      FastScreenRecorderLogger.log(_kTag, 'dispose() skip since already disposed');
+      return;
+    }
+
+    _disposed = true;
     _appLifecycleListener.removeListener(_handleAppLifecycleChanged);
     _appLifecycleListener.dispose();
   }
